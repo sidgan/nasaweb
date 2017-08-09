@@ -13,6 +13,7 @@
 </head>
 
 <body>
+
     <div class="container">
 
         <p><link rel="stylesheet" type="text/css" href="maps.css"></p>
@@ -92,7 +93,12 @@
 .popup {
     position: absolute;
     z-index: 100;
-    background-color: red;
+    height: 30px;
+    font-size: 16pt;
+    width: 60px;
+    border: 2px solid white;
+    border-radius: 12px;
+    background-color: white;
 }
 </style>
 
@@ -109,8 +115,9 @@
 
 //    d3.json('json/LOCAMS/' + yyyy + '-' + mm + '-' + dd + '.json', function(error, data) {
 //    d3.json('json/LOCAMS/2017-05-03.json', function(error, data) {
+
     queue()
-        .defer(d3.json, "lambda_beta.json")
+        .defer(d3.json, "json/LOCAMS/hyg2017-05-03.json")
         .defer(d3.json, "json/LOCAMS/2017-05-03.json")
         .await(function(error, stars, meteors) {
                 if(error) {
@@ -126,15 +133,15 @@
                             .attr('height', height);
 
                     //Store the current rotation
-                    var rotate = {x: 0, y: 90};
+                    var rotate = {x:289, y:0};
 
                     //Create and configure an instance of the orthographic projection
-                    console.log(d3);
+//                    console.log(d3);
                     var projection = d3.geo.orthographic()
                         .scale(1.5 * height / Math.PI)
                         .translate([width / 2, height / 2])
                         .clipAngle(90)
-                        .rotate([rotate.x / 2, -rotate.y / 2]);
+                        .rotate([rotate.x / 1, -rotate.y / 1]);
 
                     // Overlay
                     var overlay = svg.selectAll('circle').data([rotate])
@@ -170,15 +177,17 @@
 
                     // Get color info
                     var color_scale = d3.scale
-                          .linear()
-                          .domain([0, 10, 15, 22, 34, 46, 57, 67, 120])
-                          .range(['rgb(200,200,200)', 'rgb(160,32,240)', 'rgb(0,0,255)', 'rgb(0,255,255)', 'rgb(0,255,0)', 'rgb(255,255,0)', 'rgb(255,165,0)', 'rgb(255,0,0)']);
+
+                       .linear()
+                       .domain([0, 7, 17, 27, 37, 47, 57, 67, 120])
+                       .range(['rgb(255,255,255)', 'rgb(160,32,240)', 'rgb(0,0,255)', 'rgb(0,165,255)', 'rgb(0,255,0)', 'rgb(255,255,0)', 'rgb(255,165,0)', 'rgb(255,0,0)']);
 
                     // Size of symbol
                     var rScale = d3.scale
                         .linear()
                         .domain(d3.extent(stars.features, function(d) { return d.properties.mag; }))
-                        .range([3, 1]);
+                        .range([1.5, 1]);
+
 
                     // Compute the radius for the point features
                     // METEOR
@@ -194,8 +203,8 @@
                     //handle meteor mouse hover event
                     var handleMouseOver = function(d) {
 
-                        console.log("hovered", d3.event, d3.event, d);
-                        var popup = '<div class="popup" style="top:' + d3.event.clientY + 'px;left:' + d3.event.clientX + 'px">' + d.properties.name + '</div>';
+//                        console.log("hovered", d3.event, d3.event, d);
+                        var popup = '<div class="popup" style="top:' + d3.event.clientY + 'px;left:' + d3.event.clientX + 'px">' + '<a> &nbsp </a>' + d.properties.name + '</div>';
                         $('body').append(popup);
                     }
 
@@ -209,6 +218,7 @@
                         .enter().append('path')
                         .attr('class', 'star')
                         .style('fill', function(d) {
+//                            return color_scale(d.properties.color) })
                             return color_scale(d.properties.velocg) })
                         .attr('d', meteorPath)
                         .on("mouseover", function(d){
@@ -222,7 +232,7 @@
                     var starsDataPoint = svg.selectAll('path.star1').data(stars.features)
                         .enter().append('path')
                         .attr('class', 'star1')
-            //            .style('fill', '#dd0dd0')
+//                         .style('fill', '#dd0dd0')
                         .attr('d', starPath);
 
                     
@@ -235,10 +245,10 @@
                     function drag(d) {
                          
                         if(!d3.event || !rotationComplete) {
-                            d3.event = {'x' : 5*d.x, 'y':90}
+                            d3.event = {'x' : 5*d.x, 'y':0}
                         }
-                        console.log(d, d3.event);
-                        projection.rotate([(d.x = d3.event.x) / 2, -(d.y = d3.event.y) / 2]);
+//                        console.log(d, d3.event);
+                        projection.rotate([(d.x = d3.event.x), -(d.y = d3.event.y) ]);
                         // METEOR
                         meteorsDataPoint.attr('d', function(u) {
                             var p = meteorPath(u);
@@ -257,26 +267,23 @@
                     
 
                     overlay.call(dragBehavior);
-                    var i = 15;
+                    var i = 20;
 
                     var globeRotationInterval = setInterval(function() {
-                        drag({'x':5*(i-1), 'y':90});
+                        drag({'x':1*(i-1)+270, 'y':0});
                         i--;
                         if(i === 0) {
                             rotationComplete = true;
                             clearInterval(globeRotationInterval);
                         }
-                      }, 100);
+                      }, 30);
                     d3.select(window).on("load", globeRotationInterval);
 
                       // }   
                 }
     });
+
 </script>
-
-
-
-
 
 
 <P><B><size=+2>Today's date:
