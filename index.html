@@ -89,6 +89,11 @@
      stroke-width: 1px;
      stroke-opacity: 0.5;
 }
+.popup {
+    position: absolute;
+    z-index: 100;
+    background-color: red;
+}
 </style>
 
 <!-- sphere ---------------------------------------------------------->
@@ -130,6 +135,14 @@
                         .translate([width / 2, height / 2])
                         .clipAngle(90)
                         .rotate([rotate.x / 2, -rotate.y / 2]);
+
+                    // Overlay
+                    var overlay = svg.selectAll('circle').data([rotate])
+                        .enter().append('circle')
+                        .attr('r', height / 2)
+                        .attr('transform', 'translate(' + [width / 2, height / 2] + ')')
+                        .attr('class', 'overlay')
+                        .attr('fill-opacity', 0);
 
                     // METEOR Create and configure the geographic path generator
                     var meteorPath = d3.geo.path().projection(projection);
@@ -178,6 +191,18 @@
                         return d.properties ? rScale(d.properties.mag) : 1;
                     })
 
+                    //handle meteor mouse hover event
+                    var handleMouseOver = function(d) {
+
+                        console.log("hovered", d3.event, d3.event, d);
+                        var popup = '<div class="popup" style="top:' + d3.event.clientY + 'px;left:' + d3.event.clientX + 'px">' + d.properties.name + '</div>';
+                        $('body').append(popup);
+                    }
+
+                     var handleMouseOut = function() {
+                        $('.popup').remove();
+                    }
+
                     // Data points meteors
                     // METEOR
                     var meteorsDataPoint = svg.selectAll('path.star').data(meteors.features)
@@ -185,7 +210,12 @@
                         .attr('class', 'star')
                         .style('fill', function(d) {
                             return color_scale(d.properties.velocg) })
-                        .attr('d', meteorPath);
+                        .attr('d', meteorPath)
+                        .on("mouseover", function(d){
+                            handleMouseOver(d);})
+                        .on('mouseout', handleMouseOut);
+
+
 
                     // Data points stars
                     // STAR 
@@ -195,22 +225,17 @@
             //            .style('fill', '#dd0dd0')
                         .attr('d', starPath);
 
-                    // Overlay
-                    var overlay = svg.selectAll('circle').data([rotate])
-                        .enter().append('circle')
-                        .attr('r', height / 2)
-                        .attr('transform', 'translate(' + [width / 2, height / 2] + ')')
-                        .attr('class', 'overlay')
-                        .attr('fill-opacity', 0);
+                    
 
                     var dragBehavior = d3.behavior.drag()
                         .origin(Object)
                         .on('drag', drag);
+                    var rotationComplete = false;
 
                     function drag(d) {
-                        
-                        if(!d3.event) {
-                            d3.event = {'x' : 90, 'y':20}
+                         
+                        if(!d3.event || !rotationComplete) {
+                            d3.event = {'x' : 5*d.x, 'y':90}
                         }
                         console.log(d, d3.event);
                         projection.rotate([(d.x = d3.event.x) / 2, -(d.y = d3.event.y) / 2]);
@@ -232,12 +257,13 @@
                     
 
                     overlay.call(dragBehavior);
-                    var i = 100;
+                    var i = 15;
 
                     var globeRotationInterval = setInterval(function() {
-                        drag({'x':i, 'y':100/i});
+                        drag({'x':5*(i-1), 'y':90});
                         i--;
                         if(i === 0) {
+                            rotationComplete = true;
                             clearInterval(globeRotationInterval);
                         }
                       }, 100);
