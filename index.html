@@ -12,10 +12,6 @@
 </head>
 
 <body>
-
-
-
-
     <div class="container">
 
         <p><link rel="stylesheet" type="text/css" href="maps.css"></p>
@@ -61,9 +57,15 @@
 }
 
 .star {
-     fill: #DDDDDD;
-     fill-opacity: 0.9;
+     fill: #FFFFFF;
+     fill-opacity: 1.0;
 }
+
+.star1 {
+     fill: #FFFFFF;
+     fill-opacity: 0.5;
+}
+
 
 .star-label {
      text-transform: uppercase;
@@ -100,113 +102,10 @@
     if(mm<10) {     mm = '0'+mm } 
 
 //    d3.json('json/LOCAMS/' + yyyy + '-' + mm + '-' + dd + '.json', function(error, data) {
-    d3.json('json/LOCAMS/2017-05-03.json', function(error, data) {
-
-        if (error) { console.error(error); }
-
-        // Create SVG Canvas
-        var width = 500,
-            height = 500;
-
-        // Select the container div and append the SVG element
-        var div = d3.select('#orthographic'),
-            svg = div.append('svg')
-                .attr('width', width)
-
-                .attr('height', height);
-
-        //Store the current rotation
-        var rotate = {x: 0, y: 90};
-
-        //Create and configure an instance of the orthographic projection
-        var projection = d3.geo.orthographic()
-            .scale(1.5 * height / Math.PI)
-            .translate([width / 2, height / 2])
-            .clipAngle(90)
-            .rotate([rotate.x / 2, -rotate.y / 2]);
-
-        // Create and configure the geographic path generator
-        var path = d3.geo.path().projection(projection);
-
-        svg.append('path').datum({type: 'Sphere'})
-            .attr('class', 'cellestial-globe')
-            .attr('d', path);
-
-        var graticule = d3.geo.graticule();
-
-        // Draw graticule lines
-        var lines = svg.selectAll('path.graticule').data([graticule()])
-            .enter().append('path')
-            .attr('class', 'graticule')
-            .attr('d', path);
-
-        // Get color info
-        var color_scale = d3.scale
-              .linear()
-              .domain([0, 10, 15, 22, 34, 46, 57, 67, 120])
-              .range(['rgb(200,200,200)', 'rgb(160,32,240)', 'rgb(0,0,255)', 'rgb(0,255,255)', 'rgb(0,255,0)', 'rgb(255,255,0)', 'rgb(255,165,0)', 'rgb(255,0,0)']);
-
-
-        // Size of symbol
-        var rScale = d3.scale
-            .linear()
-            .domain(d3.extent(data.features, function(d) { return d.properties.mag; }))
-            .range([3, 1]);
-
-        // Compute the radius for the point features
-        path.pointRadius(function(d) {
-            return d.properties ? rScale(d.properties.mag) : 1;
-        });
-
-        // Data points
-        var stars = svg.selectAll('path.star').data(data.features)
-            .enter().append('path')
-            .attr('class', 'star')
-            .style('fill', function(d) {
-                return color_scale(d.properties.velocg) })
-            .attr('d', path);
-
-        // Overlay
-        var overlay = svg.selectAll('circle').data([rotate])
-            .enter().append('circle')
-            .attr('r', height / 2)
-            .attr('transform', 'translate(' + [width / 2, height / 2] + ')')
-            .attr('class', 'overlay')
-            .attr('fill-opacity', 0);
-
-        var dragBehavior = d3.behavior.drag()
-            .origin(Object)
-            .on('drag', drag);
-
-        function drag(d) {
-            projection.rotate([(d.x = d3.event.x) / 2, -(d.y = d3.event.y) / 2]);
-            stars.attr('d', function(u) {
-                var p = path(u);
-                return p ? p : 'M 10 10';
-            });
-            lines.attr('d', path);
-        }
-
-        overlay.call(dragBehavior);
-
-    });  // d3.json
-
-</script>
-
-
-
-
-<script>
-    var today = new Date(); 
-    var dd = today.getDate(); 
-    var mm = today.getMonth()+1; //January is 0! 
-    var yyyy = today.getFullYear(); 
-    if(dd<10) {     dd = '0'+dd } 
-    if(mm<10) {     mm = '0'+mm } 
-
-//    d3.json('json/LOCAMS/' + yyyy + '-' + mm + '-' + dd + '.json', function(error, data) {
+//    d3.json('json/LOCAMS/2017-05-03.json', function(error, data) {
     d3.json('lambda_beta.json', function(error, data) {
 
+
         if (error) { console.error(error); }
 
         // Create SVG Canvas
@@ -217,25 +116,34 @@
         var div = d3.select('#orthographic'),
             svg = div.append('svg')
                 .attr('width', width)
-
                 .attr('height', height);
 
         //Store the current rotation
         var rotate = {x: 0, y: 90};
 
         //Create and configure an instance of the orthographic projection
+        console.log(d3);
         var projection = d3.geo.orthographic()
             .scale(1.5 * height / Math.PI)
             .translate([width / 2, height / 2])
             .clipAngle(90)
             .rotate([rotate.x / 2, -rotate.y / 2]);
 
-        // Create and configure the geographic path generator
+        // METEOR Create and configure the geographic path generator
         var path = d3.geo.path().projection(projection);
 
+        // STAR 
+        var newPath = d3.geo.path().projection(projection);
+
+        // METEOR
         svg.append('path').datum({type: 'Sphere'})
             .attr('class', 'cellestial-globe')
             .attr('d', path);
+
+            // STAR 
+        svg.append('path').datum({type: 'Sphere'})
+            .attr('class', 'cellestial-globe')
+            .attr('d', newPath);
 
         var graticule = d3.geo.graticule();
 
@@ -251,7 +159,6 @@
               .domain([0, 10, 15, 22, 34, 46, 57, 67, 120])
               .range(['rgb(200,200,200)', 'rgb(160,32,240)', 'rgb(0,0,255)', 'rgb(0,255,255)', 'rgb(0,255,0)', 'rgb(255,255,0)', 'rgb(255,165,0)', 'rgb(255,0,0)']);
 
-
         // Size of symbol
         var rScale = d3.scale
             .linear()
@@ -259,17 +166,32 @@
             .range([3, 1]);
 
         // Compute the radius for the point features
+        // METEOR
         path.pointRadius(function(d) {
             return d.properties ? rScale(d.properties.mag) : 1;
         });
 
-        // Data points
+        // STAR 
+        newPath.pointRadius(function(d) {
+            return d.properties ? rScale(d.properties.mag) : 1;
+        })
+
+        // Data points meteors
+        // METEOR
         var stars = svg.selectAll('path.star').data(data.features)
             .enter().append('path')
             .attr('class', 'star')
             .style('fill', function(d) {
                 return color_scale(d.properties.velocg) })
             .attr('d', path);
+
+        // Data points stars
+        // STAR 
+        var newStars = svg.selectAll('path.star1').data(data.features)
+            .enter().append('path')
+            .attr('class', 'star1')
+//            .style('fill', '#dd0dd0')
+            .attr('d', newPath);
 
         // Overlay
         var overlay = svg.selectAll('circle').data([rotate])
@@ -285,11 +207,20 @@
 
         function drag(d) {
             projection.rotate([(d.x = d3.event.x) / 2, -(d.y = d3.event.y) / 2]);
+            // METEOR
             stars.attr('d', function(u) {
                 var p = path(u);
                 return p ? p : 'M 10 10';
             });
+            // STAR 
+            newStars.attr('d', function(u) {
+                var p = newPath(u);
+                return p ? p : 'M 10 10';
+            });
+            // METEOR
             lines.attr('d', path);
+            // STAR 
+            lines.attr('d', newPath);
         }
 
         overlay.call(dragBehavior);
@@ -352,7 +283,8 @@ alink="#CC0000">
 
         <div class="footer"></div>
     </div>
-    <script src="assets/js/lib/jquery.min.js"></script>
-    <script src="assets/js/lib/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="assets/js/lib/twinkle.js"></script>
 </body>
 </html>

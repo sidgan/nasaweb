@@ -18,8 +18,9 @@ function [lambda,beta] = equat2eclip(alpha,delta)
 if nargin ~= 2
     error('You must input both Declination and Right Ascension.');
 end
-delta = delta(:);
 alpha = alpha(:);
+delta = delta(:);
+
 if length(delta) ~= length(alpha)
     error('Inputs must be the same length.');
 end
@@ -28,14 +29,19 @@ end
 epsilon = (23 + 26/60 + 21.448/3600)*pi/180; %radians
 
 %calculate trigonometric combinations of coordinates
-sb = sin(delta)*cos(epsilon) - cos(delta)*sin(epsilon).*sin(alpha);
-cbcl = cos(delta).*cos(alpha);
-cbsl = sin(delta)*sin(epsilon) + cos(delta)*cos(epsilon).*sin(alpha);
+%sb = sin(delta)*cos(epsilon) - cos(delta)*sin(epsilon).*sin(alpha);
+%cbcl = cos(delta).*cos(alpha);
+%cbsl = sin(delta)*sin(epsilon) + cos(delta)*cos(epsilon).*sin(alpha);
+
+sb = sin(delta)*cos(epsilon) - cos(delta)*sin(epsilon)*sin(alpha);
+ch1 = (cos(delta) * cos(alpha) ) /cos(asin(sb)) ; %cos 
+ch2 = (cos(delta)*sin(alpha)*cos(epsilon) + sin(delta)*sin(epsilon))/cos(asin(sb)); %sin
+
 
 %calculate coordinates
-lambda = atan2(cbsl,cbcl);
-r = sqrt(cbsl.^2 + cbcl.^2);
-beta = atan2(sb,r);
+lambda = atan2(ch2,ch1)
+%r = sqrt(ch1.^2 + cbcl.^2);
+beta = asin(sb)
 %r2 = sqrt(sb.^2+r.^2);
 
 %sanity check: r2 should be 1
