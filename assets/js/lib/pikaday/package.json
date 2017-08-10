@@ -1,0 +1,100 @@
+{
+  "_args": [
+    [
+      "pikaday",
+      "C:\\"
+    ]
+  ],
+  "_from": "pikaday@latest",
+  "_id": "pikaday@1.6.1",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/pikaday",
+  "_nodeVersion": "8.0.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/pikaday-1.6.1.tgz_1497429429870_0.33511388557963073"
+  },
+  "_npmUser": {
+    "email": "rrikkert@gmail.com",
+    "name": "rikkert"
+  },
+  "_npmVersion": "5.0.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "pikaday",
+    "raw": "pikaday",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/pikaday/-/pikaday-1.6.1.tgz",
+  "_shasum": "b91bcb9b8539cedd8d6d08e4e7465e12095671b0",
+  "_shrinkwrap": null,
+  "_spec": "pikaday",
+  "_where": "C:\\",
+  "bugs": {
+    "url": "https://github.com/dbushell/Pikaday/issues"
+  },
+  "dependencies": {
+    "moment": "2.x"
+  },
+  "description": "A refreshing JavaScript Datepicker — lightweight, no dependencies, modular CSS",
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "jshint": "^2.9",
+    "mocha": "~1.18.2",
+    "testling": "^1.7"
+  },
+  "directories": {},
+  "dist": {
+    "integrity": "sha512-B+pxVcSGuzLblMe4dnhCF3dnI2zkyj5GAqanGX9cVcOk90fp2ULo1OZFUPRXQXUE5tmcimnk1tPOFs8tUHQetQ==",
+    "shasum": "b91bcb9b8539cedd8d6d08e4e7465e12095671b0",
+    "tarball": "https://registry.npmjs.org/pikaday/-/pikaday-1.6.1.tgz"
+  },
+  "gitHead": "2216628502e986368362af7420f9afee9cc30d1c",
+  "homepage": "http://dbushell.github.io/Pikaday/",
+  "keywords": [
+    "datepicker",
+    "calendar",
+    "date"
+  ],
+  "license": "(0BSD OR MIT)",
+  "main": "pikaday.js",
+  "maintainers": [
+    {
+      "email": "rrikkert@gmail.com",
+      "name": "rikkert"
+    }
+  ],
+  "name": "pikaday",
+  "optionalDependencies": {
+    "moment": "2.x"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dbushell/Pikaday.git"
+  },
+  "scripts": {
+    "lint": "jshint *.js plugins/*.js tests/*.js",
+    "test": "testling"
+  },
+  "testling": {
+    "browsers": [
+      "ie/7..latest",
+      "chrome/latest",
+      "firefox/3.6",
+      "firefox/latest",
+      "safari/latest",
+      "opera/latest"
+    ],
+    "files": "tests/*.js",
+    "harness": "mocha"
+  },
+  "version": "1.6.1"
+}

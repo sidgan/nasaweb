@@ -8,6 +8,8 @@
 
     <link href="assets/css/book.css" rel="stylesheet">
     <script src="assets/js/lib/d3.min.js"></script>
+    <script src="assets/js/lib/pikaday/pikaday.js"></script>
+    <link href="assets/js/lib/pikaday/css/pikaday.css" rel="stylesheet">
     <script src="http://d3js.org/queue.v1.min.js"></script>
 
 </head>
@@ -51,6 +53,9 @@
 
 
 <div id="orthographic"></div>
+
+<br>
+<input type="text" id="datepicker" placeholder="Pick a date">
 
 <style>
 .cellestial-globe {
@@ -106,23 +111,75 @@
 
 
 <script>
-    var today = new Date(); 
-    var dd = today.getDate(); 
-    var mm = today.getMonth()+1; //January is 0! 
-    var yyyy = today.getFullYear(); 
-    if(dd<10) {     dd = '0'+dd } 
-    if(mm<10) {     mm = '0'+mm } 
+    function addZ(n){return n<10? '0'+n:''+n;}
+    function getToday(){
+        var today = new Date(); 
+        var dd = today.getDate(); 
+        var mm = today.getMonth()+1; //January is 0! 
+        var yyyy = today.getFullYear(); 
+        return `${yyyy}-${addZ(mm)}-${addZ(dd)}`;
+    }
 
-//    d3.json('json/LOCAMS/' + yyyy + '-' + mm + '-' + dd + '.json', function(error, data) {
-//    d3.json('json/LOCAMS/2017-05-03.json', function(error, data) {
+    var picker = new Pikaday({ 
+        field: document.getElementById('datepicker'),
+        toString(date, format) {
+        
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            return `${year}-${addZ(month)}-${addZ(day)}`;
+        },
+        onSelect: function () {
+            selectDate();
+        },
+        defaultDate: getToday()
+     });
 
-    queue()
-        .defer(d3.json, "json/LOCAMS/hyg2017-05-03.json")
-        .defer(d3.json, "json/LOCAMS/2017-05-03.json")
-        .await(function(error, stars, meteors) {
-                if(error) {
-                    console.log("Not able to read files");
-                }else {
+    
+    
+
+
+
+    //initial queue, to load first data
+    var q = queue();
+    q.defer(d3.json, "json/LOCAMS/hyg2017-05-03.json");
+    q.defer(d3.json, "json/LOCAMS/2017-05-03.json");
+
+    /********** SWITCH TO THIS TO GET THE DATA FOR TODAY ****************
+
+    q.defer(d3.json, "json/LOCAMS/hyg"+getToday()+".json");
+    q.defer(d3.json, "json/LOCAMS/"+getToday()+".json");
+
+    *********************************************************************/
+
+    q.await(function(error, stars, meteors){
+        if(error){
+            console.log("[q]could not read data");
+        } else{
+            console.log("[q]loaded data")
+            createD3(stars, meteors);
+        }
+    });
+
+    function selectDate(){
+        var newQ = queue();
+        console.log(picker.toString('YYYY-MM-DD'));
+        newQ.defer(d3.json, "json/LOCAMS/hyg"+picker.toString('YYYY-MM-DD')+".json");
+        newQ.defer(d3.json, "json/LOCAMS/"+picker.toString('YYYY-MM-DD')+".json");
+        newQ.await(function(error, stars, meteors){
+            if(error){
+                console.log("[nq]could not read data");
+            } else{
+                console.log("[nq]loaded data")
+                createD3(stars, meteors);
+            }
+    });
+    }
+
+    function createD3(stars, meteors){
+                    console.log("[d3] Got data.")
+                    d3.select('#orthographic').select("svg").remove()
+
                     var width = 500,
                         height = 500;
 
@@ -281,17 +338,18 @@
 
                       // }   
                 }
-    });
+    
 
 </script>
 
 
 <P><B><size=+2>Today's date:
 <script>
-today = yyyy + '-' + mm + '-' + dd; 
+today = getToday(); 
 document.write(today);
 </script>
 </size></B>
+
 
 <P>
   Most meteors today: 
