@@ -7,56 +7,117 @@
     <title>Global meteor shower activity: LOCAMS network</title>
 
     <link href="assets/css/book.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="maps.css">
     <script src="assets/js/lib/d3.min.js"></script>
     <script src="assets/js/lib/pikaday/pikaday.js"></script>
     <link href="assets/js/lib/pikaday/css/pikaday.css" rel="stylesheet">
     <script src="http://d3js.org/queue.v1.min.js"></script>
+    <link href="assets/css/custom.css" rel="stylesheet">
 
 </head>
 
 <body>
 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 menu-col">
+            <div class="row menu-logo">
+                <a href="http://www.frontierdevelopmentlab.org/"><img src="images/NASA_logo.jpg" alt="NASA" border="0" class="img-responsive center-block"></a>
+                <a href="http://cams.seti.org"><img src="images/CAMSbanner.jpg" alt="CAMS" border="0" class="img-responsive center-block"></a>
+            </div>
+            <div class="row network-nav">
+                <ul>
+                    <li class="active-link"><a  href="./index.html">All networks</a></li>
+                    <li><a  href="./index-BeNeLux.html">BeNeLux</a></li>
+                    <li><a href="./index-cams.html">Californias</a></li>
+                    <li><a href="./index-EXOSS.html">EXOSS</a></li>
+                    <li><a href="./index-FL.html">Florida</a></li>
+                    <li><a href="./index-LOCAMS.html">LOCAMS</a></li>
+                    <li><a href="./index-MA.html">Mid-Atlantic</a></li>
+                    <li><a href="./index-NZ.html">New Zealand</a></li>
+                    <li><a href="./index-SA.html">South Africa</a></li>
+                    <li><a href="./index-UACN.html">UACN</a></li>
+                </ul>
+            </div>
+            <div class="row contact">
+                <a class="center-block" href="mailto:Petrus.M.Jenniskens@nasa.gov">Start a new network?
+                <BR>Contact us.</a>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="col-md-10 col-md-offset-2">
+            <div class="row title-row">
+                Global meteor shower activity: LOCAMS network  |  [NO REAL DATA YET: SITE IS UNDER CONSTRUCTION]
+            </div>
+            <div class="row">
+                <center>
+                <div id="orthographic" class="center-block"></div>
+                </center>
+            </div>
+            <div class="row">
+                <P class="today-date"><B><size=+2>Today's date:
+                    <script>
+                    function addZ(n){return n<10? '0'+n:''+n;}
+    function getToday(){
+        var today = new Date(); 
+        var dd = today.getDate(); 
+        var mm = today.getMonth()+1; //January is 0! 
+        var yyyy = today.getFullYear(); 
+        return `${yyyy}-${addZ(mm)}-${addZ(dd)}`;
+    }
+                    today = getToday(); 
+                    document.write(today);
+                    </script>
+</size></B>
+                <input type="text" id="datepicker" placeholder="Pick a date" class="center-block">
+            </div>
+            <div class="row" id="footer">
+                <div class="col-md-3">
+                      <font size="-1">
+    Hosted by: <a href="http://www.seti.org">The SETI Institute</a>
+<BR>Curator: <a href="mailto:petrus.m.jenniskens@nasa.gov">Peter Jenniskens</a>
+<BR>Responsible NASA Official: Lindley Johnson &nbsp;
+<P>Updates provided daily    
+</font>
+                    
+                    
+                </div>
+             <!--    <div class="col-md-1">
+                <img src="images/SETI_white.png" alt="SETI Institute logo" class="img-responsive center-block"/>
+                    
+                </div>
+                <div class="col-md-1">
+                  <img src="images/comets_badge.png" alt="SETI Institute logo"  class="img-responsive center-block"/>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div id="footer">
     <div class="container">
-
-        <p><link rel="stylesheet" type="text/css" href="maps.css"></p>
-
-<table width="700">
-<tr>
-<td valign="top" width="200"> 
-<!-- side bar ------------------------------------------------------>
-<center>
-    <a href="http://www.frontierdevelopmentlab.org/"><img src="images/NASA_logo.jpg" alt="NASA" width="100" border="0"></a>
-<BR><a href="http://cams.seti.org"><img src="images/CAMSbanner.jpg" alt="CAMS" width="200" border="0"></a>
-<P><BR></P>
-<P><a style="color:black; text-decoration:none" href="./index.html"><B>All Networks:</b></a></p>
-<P><a style="color:black; text-decoration:none" href="./index-BeNeLux.html">BeNeLux</a></p>
-<P><a style="color:black; text-decoration:none" href="./index-cams.html">California</a></p>
-<P><a style="color:black; text-decoration:none" href="./index-EXOSS.html">EXOSS</a></p>
-<P><a style="color:black; text-decoration:none" href="./index-FL.html">Florida</a></p>
-<P><a style="color:black; text-decoration:none" href="./index-LOCAMS.html">LOCAMS</a></p>
-<P><a style="color:black; text-decoration:none" href="./index-MA.html">Mid-Atlantic</a></p>
-<P><a style="color:black; text-decoration:none" href="./index-NZ.html">New Zealand</a></p>
-<P><a style="color:black; text-decoration:none" href="./index-SA.html">South Africa</a></p>
-<P><a style="color:black; text-decoration:none" href="./index-UACN.html">UACN</a></p>
-
-<P><BR></P>
-<P><BR></P>
-<a href="mailto:Petrus.M.Jenniskens@nasa.gov">Start a new network?
-<BR>Contact us.</a>
-
-</center>
-</td>
-<td valign="top" width="500"> 
-<!-- main page ------------------------------------------------------>
-<center>
-[NO REAL DATA YET: SITE IS UNDER CONSTRUCTION]
+        <div class="row">
+             <div class="col-md-2">
+                    
+                    <img src="images/comets_badge.png" alt="SETI Institute logo"  class="img-responsive center-block"/>
+                    
+                </div>
+                <div class="col-md-2">
+                <img src="images/SETI_white.png" alt="SETI Institute logo" class="img-responsive center-block"/>
+                    
+                </div>
+        </div>
+    </div>
+</div> -->
 
 
-<div id="orthographic"></div>
 
-<br>
-<input type="text" id="datepicker" placeholder="Pick a date">
 
+    
 <style>
 .cellestial-globe {
      fill: #030031;
@@ -179,9 +240,9 @@
     function createD3(stars, meteors){
                     console.log("[d3] Got data.")
                     d3.select('#orthographic').select("svg").remove()
-
-                    var width = 500,
-                        height = 500;
+                    //dynamic size
+                    var width =  ($( "#orthographic" ).width()*0.45),
+                        height = ($( "#orthographic" ).width()*0.45);
 
                     // Select the container div and append the SVG element
                     var div = d3.select('#orthographic'),
@@ -343,56 +404,6 @@
 </script>
 
 
-<P><B><size=+2>Today's date:
-<script>
-today = getToday(); 
-document.write(today);
-</script>
-</size></B>
-
-
-<P>
-  Most meteors today: 
-  <BR>Last submission by: 
-</center>
-<P><BR></P>
-<P><BR></P>
-<P><BR></P>
-</td>
-</tr>
-</table>
-
-<!-- footer --------------------------------------------------------------->
-
-<table border="0" cellspacing="0" cellpadding="10" summary="footer" align="center" width=700>
-<tr bgcolor="#D5D5D5" link="#0099FF" vlink="#0055AA" text="#FFFFCC"
-alink="#CC0000">
-
-<td valign="top" width="200">
-<img src="images/SETIInstitutelogo.jpg" alt="SETI Institute logo" align="left" height="100">
-</td>
-
-<td>
-<font size="-1">
-    Hosted by: <a href="http://www.seti.org">The SETI Institute</a>
-<BR>Curator: <a href="mailto:petrus.m.jenniskens@nasa.gov">Peter Jenniskens</a>
-<BR>Responsible NASA Official: Lindley Johnson &nbsp;
-<P>Updates provided daily    
-</font>
-</td>
-
-<td valign="top" width="200">
-<img src="images/FDL_comet.jpg" alt="FDL logo" align="left" height="111">
-</td>
-
-
-</tr>
-</table>
-
-<!-- end footer ---------------------------------------------------------->
-
-        <div class="footer"></div>
-    </div>
     <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="assets/js/lib/twinkle.js"></script>
