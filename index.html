@@ -7,120 +7,96 @@
     <title>Global meteor shower activity: LOCAMS network</title>
 
     <link href="assets/css/book.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="maps.css">
-    <script src="assets/js/lib/d3.min.js"></script>
+    <script src="assets/js/lib/d3.min.js?v=3.2.8"></script>
     <script src="assets/js/lib/pikaday/pikaday.js"></script>
     <link href="assets/js/lib/pikaday/css/pikaday.css" rel="stylesheet">
     <script src="http://d3js.org/queue.v1.min.js"></script>
-    <link href="assets/css/custom.css" rel="stylesheet">
 
 </head>
 
 <body>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2 menu-col">
-            <div class="row menu-logo">
-                <a href="http://www.frontierdevelopmentlab.org/"><img src="images/NASA_logo.jpg" alt="NASA" border="0" class="img-responsive center-block"></a>
-                <a href="http://cams.seti.org"><img src="images/CAMSbanner.jpg" alt="CAMS" border="0" class="img-responsive center-block"></a>
-            </div>
-            <div class="row network-nav">
-                <ul>
-                    <li class="active-link"><a  href="./index.html">All networks</a></li>
-                    <li><a  href="./index-BeNeLux.html">BeNeLux</a></li>
-                    <li><a href="./index-cams.html">Californias</a></li>
-                    <li><a href="./index-EXOSS.html">EXOSS</a></li>
-                    <li><a href="./index-FL.html">Florida</a></li>
-                    <li><a href="./index-LOCAMS.html">LOCAMS</a></li>
-                    <li><a href="./index-MA.html">Mid-Atlantic</a></li>
-                    <li><a href="./index-NZ.html">New Zealand</a></li>
-                    <li><a href="./index-SA.html">South Africa</a></li>
-                    <li><a href="./index-UACN.html">UACN</a></li>
-                </ul>
-            </div>
-            <div class="row contact">
-                <a class="center-block" href="mailto:Petrus.M.Jenniskens@nasa.gov">Start a new network?
-                <BR>Contact us.</a>
-            </div>
-        </div>
-
-
-
-
-
-        <div class="col-md-10 col-md-offset-2">
-            <div class="row title-row">
-                Global meteor shower activity: LOCAMS network  |  [NO REAL DATA YET: SITE IS UNDER CONSTRUCTION]
-            </div>
-            <div class="row">
-                <center>
-                <div id="orthographic" class="center-block"></div>
-                </center>
-            </div>
-            <div class="row">
-                <P class="today-date"><B><size=+2>Today's date:
-                    <script>
-                    function addZ(n){return n<10? '0'+n:''+n;}
-    function getToday(){
-        var today = new Date(); 
-        var dd = today.getDate(); 
-        var mm = today.getMonth()+1; //January is 0! 
-        var yyyy = today.getFullYear(); 
-        return `${yyyy}-${addZ(mm)}-${addZ(dd)}`;
-    }
-                    today = getToday(); 
-                    document.write(today);
-                    </script>
-</size></B>
-                <input type="text" id="datepicker" placeholder="Pick a date" class="center-block">
-            </div>
-            <div class="row" id="footer">
-                <div class="col-md-3">
-                      <font size="-1">
-    Hosted by: <a href="http://www.seti.org">The SETI Institute</a>
-<BR>Curator: <a href="mailto:petrus.m.jenniskens@nasa.gov">Peter Jenniskens</a>
-<BR>Responsible NASA Official: Lindley Johnson &nbsp;
-<P>Updates provided daily    
-</font>
-                    
-                    
-                </div>
-             <!--    <div class="col-md-1">
-                <img src="images/SETI_white.png" alt="SETI Institute logo" class="img-responsive center-block"/>
-                    
-                </div>
-                <div class="col-md-1">
-                  <img src="images/comets_badge.png" alt="SETI Institute logo"  class="img-responsive center-block"/>
-                </div> -->
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- <div id="footer">
     <div class="container">
-        <div class="row">
-             <div class="col-md-2">
-                    
-                    <img src="images/comets_badge.png" alt="SETI Institute logo"  class="img-responsive center-block"/>
-                    
-                </div>
-                <div class="col-md-2">
-                <img src="images/SETI_white.png" alt="SETI Institute logo" class="img-responsive center-block"/>
-                    
-                </div>
-        </div>
-    </div>
-</div> -->
 
+        <p><link rel="stylesheet" type="text/css" href="maps.css"></p>
 
+<!-- pagetable --------------------------------------------------->
+<table border="0" cellspacing="0" cellpadding="0" align="center" width="700">
+<tr>
+<td valign="top"> 
 
+<!-- header ------------------------------------------------------>
+<table border="0" cellspacing="1" cellpadding="0" valign="top" align="center" width="700">
+<tr>
+<td valign="top" width="150">
+<center><P> <img src="images/NASA_logo.jpg" alt="NASA" width="100" border="0">
+</td></P>
+<P></center>
+<td width="200">
+<center><a href="http://cams.seti.org"><img src="images/CAMSbanner.jpg" alt="CAMS" width="200" border="0"></a>
+</center>
+</td>
+<td>
+<center>
+<P><BR></P>
+<input type="text" id="datepicker" placeholder="Pick a date">
+<P><BR></P>
 
-    
+</td>
+</tr>
+</table>
+
+</tr>
+</td>
+<P>
+<tr>
+<td>
+<!-- main page ------------------------------------------------------>
+<table border="0" cellspacing="1" cellpadding="0" valign="top" align="center" width="700">
+<tr bgcolor="#DDDDDD" valign="top">
+
+    <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="150"><font size = "-1"><B>ALL Networks</B></font></td>
+
+    <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="68">
+<font size = "-1"><a href="http://cams.seti.org/FDL/index-LOCAMS.html">Arizona</a></font></td>
+
+  <td valign="top" style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="68">
+<font size = "-1"><a href="http://cams.seti.org/FDL/index-BeNeLux.html">BeNeLux</a></font></td>
+
+    <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="68"><font size = "-1"> <a href="http://cams.seti.org/FDL/index-EXOSS.html">Brazil</a></font></td>
+
+    <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="68"><font size = "-1"><a href="http://cams.seti.org/FDL/index-cams.html" >California</a></font></td>
+
+    <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="68">
+<font size = "-1"><a href="http://cams.seti.org/FDL/index-FL.html">Florida</a></font></td>
+
+    <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="68">
+<font size = "-1"><a href="http://cams.seti.org/FDL/index-MA.html">Maryland</a></font></td>
+
+    <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="68">
+<font size = "-1"><a href="http://cams.seti.org/FDL/index-NZ.html">New Zealand</a></font></td>
+
+    <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="68">
+<font size = "-1"><a href="http://cams.seti.org/FDL/index-SA.html">South Africa</a></font></td>
+
+    <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="68">
+<font size = "-1"><a href="http://cams.seti.org/FDL/index-UACN.html">U.A.E.</a></font></td>
+
+</TR>
+</TABLE>
+
+</td>
+</tr>
+<tr>
+<td>
+<!-------sphere---------------------------------------------------->
+<div id="orthographic"></div>
+
 <style>
 .cellestial-globe {
-     fill: #030031;
+//     fill: #030031;
+     fill: #050231;
+//     fill: #DDDDEF;
      pointer-events: none;
 }
 
@@ -130,10 +106,9 @@
 }
 
 .star1 {
-     fill: #FFFFFF;
+     fill: #DDDDDD;
      fill-opacity: 0.5;
 }
-
 
 .star-label {
      text-transform: uppercase;
@@ -146,7 +121,7 @@
      fill: none;
      stroke: #aaa;
      stroke-width: 1px;
-     stroke-opacity: 0.5;
+     stroke-opacity: 0.3;
      pointer-events: none;
 }
 
@@ -166,52 +141,49 @@
     border-radius: 12px;
     background-color: white;
 }
+.info {
+    position: absolute;
+    z-index: 100;
+    height: 30px;
+    font-size: 16pt;
+    width: 30px;
+    border: 2px solid red;
+    border-radius: 12px;
+    background-color: white;
+}
+
 </style>
-
-<!-- sphere ---------------------------------------------------------->
-
 
 <script>
     function addZ(n){return n<10? '0'+n:''+n;}
     function getToday(){
-        var today = new Date(); 
-        var dd = today.getDate(); 
-        var mm = today.getMonth()+1; //January is 0! 
-        var yyyy = today.getFullYear(); 
-        return `${yyyy}-${addZ(mm)}-${addZ(dd)}`;
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0
+        var yyyy = today.getFullYear();
+        return `${yyyy}_${addZ(mm)}_${addZ(dd)}`;
     }
+    
 
     var picker = new Pikaday({ 
         field: document.getElementById('datepicker'),
         toString(date, format) {
-        
             const day = date.getDate();
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
-            return `${year}-${addZ(month)}-${addZ(day)}`;
+            return `${year}_${addZ(month)}_${addZ(day)}`;
         },
         onSelect: function () {
             selectDate();
         },
         defaultDate: getToday()
-     });
-
+    });
     
     
-
-
-
     //initial queue, to load first data
     var q = queue();
-    q.defer(d3.json, "json/LOCAMS/hyg2017-05-03.json");
-    q.defer(d3.json, "json/LOCAMS/2017-05-03.json");
-
-    /********** SWITCH TO THIS TO GET THE DATA FOR TODAY ****************
-
-    q.defer(d3.json, "json/LOCAMS/hyg"+getToday()+".json");
-    q.defer(d3.json, "json/LOCAMS/"+getToday()+".json");
-
-    *********************************************************************/
+    q.defer(d3.json, "json/LOCAMS/hyg"+getToday()+"_00_00_00.json");
+    q.defer(d3.json, "json/LOCAMS/"+getToday()+"_00_00_00.json");
 
     q.await(function(error, stars, meteors){
         if(error){
@@ -224,9 +196,9 @@
 
     function selectDate(){
         var newQ = queue();
-        console.log(picker.toString('YYYY-MM-DD'));
-        newQ.defer(d3.json, "json/LOCAMS/hyg"+picker.toString('YYYY-MM-DD')+".json");
-        newQ.defer(d3.json, "json/LOCAMS/"+picker.toString('YYYY-MM-DD')+".json");
+        console.log(picker.toString('yyyy_mm_dd'));
+        newQ.defer(d3.json, "json/LOCAMS/hyg"+picker.toString('yyyy_mm_dd')+"_00_00_00.json");
+        newQ.defer(d3.json, "json/LOCAMS/"+picker.toString('yyyy_mm_dd')+"_00_00_00.json");
         newQ.await(function(error, stars, meteors){
             if(error){
                 console.log("[nq]could not read data");
@@ -240,9 +212,10 @@
     function createD3(stars, meteors){
                     console.log("[d3] Got data.")
                     d3.select('#orthographic').select("svg").remove()
-                    //dynamic size
-                    var width =  ($( "#orthographic" ).width()*0.45),
-                        height = ($( "#orthographic" ).width()*0.45);
+
+                    var width = 690,
+                        height = 690;
+
 
                     // Select the container div and append the SVG element
                     var div = d3.select('#orthographic'),
@@ -295,17 +268,22 @@
 
                     // Get color info
                     var color_scale = d3.scale
-
                        .linear()
                        .domain([0, 7, 17, 27, 37, 47, 57, 67, 120])
                        .range(['rgb(255,255,255)', 'rgb(160,32,240)', 'rgb(0,0,255)', 'rgb(0,165,255)', 'rgb(0,255,0)', 'rgb(255,255,0)', 'rgb(255,165,0)', 'rgb(255,0,0)']);
 
                     // Size of symbol
+                    // METEOR
+                    var rScale = d3.scale
+                        .linear()
+                        .domain(d3.extent(meteors.features, function(d) { return d.properties.mag; }))
+                        .range([0, 3]);
+
+                    // STAR
                     var rScale = d3.scale
                         .linear()
                         .domain(d3.extent(stars.features, function(d) { return d.properties.mag; }))
-                        .range([1.5, 1]);
-
+                        .range([3, 1]);
 
                     // Compute the radius for the point features
                     // METEOR
@@ -321,40 +299,49 @@
                     //handle meteor mouse hover event
                     var handleMouseOver = function(d) {
 
-//                        console.log("hovered", d3.event, d3.event, d);
                         var popup = '<div class="popup" style="top:' + d3.event.clientY + 'px;left:' + d3.event.clientX + 'px">' + '<a> &nbsp </a>' + d.properties.name + '</div>';
+
+                        var info = '<div class="info" style="top:200px;left:200px">' + '<a> kkkk </a>' + d.properties.name + '</div>';
+
+
                         $('body').append(popup);
+                        //$('body').append(info);
                     }
 
-                     var handleMouseOut = function() {
+                    var handleMouseOut = function() {
                         $('.popup').remove();
+                        //$('.info').remove();
+
                     }
 
-                    // Data points meteors
+                    var handleMouseClick = function(d) {
+                        window.open('https://www.meteorshowers.org/view/iau-' + d.properties.name); 
+                    }
+
+                    // Data points
                     // METEOR
                     var meteorsDataPoint = svg.selectAll('path.star').data(meteors.features)
+
                         .enter().append('path')
                         .attr('class', 'star')
                         .style('fill', function(d) {
-//                            return color_scale(d.properties.color) })
-                            return color_scale(d.properties.velocg) })
+                            return color_scale(d.properties.color) })
                         .attr('d', meteorPath)
+                        .on("click", function(d){
+                            handleMouseClick(d);})
                         .on("mouseover", function(d){
                             handleMouseOver(d);})
                         .on('mouseout', handleMouseOut);
 
-
-
-                    // Data points stars
-                    // STAR 
+                    // Data points
+                    // STAR
                     var starsDataPoint = svg.selectAll('path.star1').data(stars.features)
                         .enter().append('path')
                         .attr('class', 'star1')
-//                         .style('fill', '#dd0dd0')
-                        .attr('d', starPath);
-
+                        .attr('d', starPath)
+                        .attr('stroke', 'black')
+                        .attr('stroke-width', '1');
                     
-
                     var dragBehavior = d3.behavior.drag()
                         .origin(Object)
                         .on('drag', drag);
@@ -365,7 +352,6 @@
                         if(!d3.event || !rotationComplete) {
                             d3.event = {'x' : 5*d.x, 'y':0}
                         }
-//                        console.log(d, d3.event);
                         projection.rotate([(d.x = d3.event.x), -(d.y = d3.event.y) ]);
                         // METEOR
                         meteorsDataPoint.attr('d', function(u) {
@@ -398,12 +384,148 @@
                     d3.select(window).on("load", globeRotationInterval);
 
                       // }   
+
+d3.text("json/LOCAMS/Name-Total_"+picker.toString('yyyy_mm_dd')+"_00_00_00.csv", function(data) {
+    var parsedCSV = d3.csv.parseRows(data);
+    d3.select('#table2').select("table").remove();
+    var div = d3.select('#table2')
+    svg = div.append('table')
+        .attr('width', '690')
+        .attr('height', '50')
+        .style('border-collapse', 'collapse')
+        .style('border', '2px black solid')
+
+        .selectAll("tr")
+            .data(parsedCSV).enter()
+            .append("tr")
+
+        .selectAll("td")
+            .data(function(d) { return d; }).enter()
+            .append("td")
+            .style("border", "1px black solid")
+            .style("padding", "5px")
+            .text(function(d) { return d; })
+            .style("font-size", "12px");
+});
+
+
+d3.text("json/LOCAMS/Cam-Total_"+picker.toString('yyyy_mm_dd')+"_00_00_00.csv", function(data) {
+    var parsedCSV = d3.csv.parseRows(data).sort();
+    var header=parsedCSV.pop();
+    parsedCSV.unshift(header);
+
+    d3.select('#tables').select("table").remove();
+    var div = d3.select('#tables')
+
+    svg = div.append('table')
+        .attr('width', '690')
+        .attr('height', '200')
+        .style('border-collapse', 'collapse')
+        .style('border', '2px black solid')
+
+        .selectAll("tr")
+            .data(parsedCSV).enter()
+            .append("tr")
+
+        .selectAll("td")
+            .data(function(d) { return d; }).enter()
+            .append("td")
+            .style("border", "1px black solid")
+            .style("padding", "5px")
+            .text(function(d) { return d; })
+            .style("font-size", "12px");
+});
+
                 }
-    
 
 </script>
 
+</center>
+</td>
+</tr>
+<tr>
+<td valign="top"> 
 
+<!----Number of captured meteors -------------------------------->
+<table width="700">
+<tr>
+<td>
+<div id="table2"></div>
+<P>
+<div id="tables"></div>
+
+</td>
+</tr>
+</table>
+
+
+</td>
+</tr>
+<tr>
+<td>
+<P>
+</td>
+</tr>
+<tr>
+<td>
+<!-- footer --------------------------------------------------------------->
+<table border="0" cellspacing="0" cellpadding="0" align="center" width="700">
+<tr bgcolor="#D9DFED" link="#0099FF" vlink="#0055AA" text="#FFFFCC"
+alink="#CC0000">
+<td valign="top" width="700">
+<P><B>GLOBAL METEOR SHOWER ACTIVITY</B>
+<P><B>Instructions: </B> The celestial sphere shows stars in gray and meteors in colors (showers: red = fast, blue = slow) or white (non-showers). New showers will show up as groupings of white dots. </P>
+
+<P><B>Site useage:</B> Select a date for which data are available from one of the CAMS meteor video surveillance networks (2017_08_09 to present). Rotate sphere with cursor. Hover to get the IAU stream number. Click to bring up new window to see shower in space.</P>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<P>
+</td>
+</tr>
+<tr>
+<td>
+<!-- footer --------------------------------------------------------------->
+<table border="0" cellspacing="0" cellpadding="10" align="center" width="700">
+<tr bgcolor="#D5D5D5" link="#0099FF" vlink="#0055AA" text="#FFFFCC"
+alink="#CC0000">
+
+<td valign="top" width="220">
+<img src="images/SETIInstitutelogo.jpg" alt="SETI Institute logo" align="left" height="100" width="200">
+</td>
+
+<td valign="top" width="280">
+<font size="-1">
+    Hosted by: <a href="http://www.seti.org">The SETI Institute</a>
+<BR>Curator: <a href="mailto:petrus.m.jenniskens@nasa.gov">Peter Jenniskens</a>
+<BR>Responsible NASA Official: Lindley Johnson &nbsp;
+<P>Updates provided daily    
+
+<P><a href="mailto:Petrus.M.Jenniskens@nasa.gov">Start a new network?
+Contact us.</a>
+
+</font>
+</td>
+
+<td valign="top" width="200">
+<a href="http://www.frontierdevelopmentlab.org/"><img src="images/FDL_comet.jpg" alt="FDL logo" align="left" height="111" border="0"></a>
+</td>
+
+</tr>
+</table>
+<!-- end footer ------------------------------------------------------>
+
+</td>
+</tr>
+</table>
+<!-- end pagetable --------------------------------------------------->
+
+        <div class="footer"></div>
+    </div>
     <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="assets/js/lib/twinkle.js"></script>
