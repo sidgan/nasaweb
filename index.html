@@ -29,7 +29,7 @@
 <table border="0" cellspacing="1" cellpadding="0" valign="top" align="center" width="700">
 <tr>
 <td valign="top" width="150">
-<center><P> <img src="images/NASA_logo.jpg" alt="NASA" width="100" border="0">
+<center><P> <a href="https://www.nasa.gov/planetarydefense/overview"><img src="images/NASA_logo.jpg" alt="NASA" width="100" border="0"></a>
 </td></P>
 <P></center>
 <td width="200">
@@ -55,10 +55,10 @@
 <table border="0" cellspacing="1" cellpadding="0" valign="top" align="center" width="700">
 <tr bgcolor="#DDDDDD" valign="top">
 
-    <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="150"><font size = "-1"><B>ALL Networks</B></font></td>
+    <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="150"><font size = "-1"> <B>ALL Networks</B></font></td>
 
     <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="68">
-<font size = "-1"><a href="http://cams.seti.org/FDL/index-LOCAMS.html">Arizona</a></font></td>
+<font size = "-1"> <a href="http://cams.seti.org/FDL/index-LOCAMS.html">LOCAMS</a></font></td>
 
   <td valign="top" style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="68">
 <font size = "-1"><a href="http://cams.seti.org/FDL/index-BeNeLux.html">BeNeLux</a></font></td>
@@ -74,10 +74,10 @@
 <font size = "-1"><a href="http://cams.seti.org/FDL/index-MA.html">Maryland</a></font></td>
 
     <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="68">
-<font size = "-1"><a href="http://cams.seti.org/FDL/index-NZ.html">New Zealand</a></font></td>
+<font size = "-1"><a href="http://cams.seti.org/FDL/index-NZ.html">Nw Zeal.</a></font></td>
 
     <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="68">
-<font size = "-1"><a href="http://cams.seti.org/FDL/index-SA.html">South Africa</a></font></td>
+<font size = "-1"><a href="http://cams.seti.org/FDL/index-SA.html">S. Africa</a></font></td>
 
     <td style="background-color:#D9DFED; border-left: 1px solid #808090; border-top: 1px solid #808090; border-right: 1px solid #000000; border-bottom: 1px solid #000000; padding-left: 0px;" align=center height=7 width="68">
 <font size = "-1"><a href="http://cams.seti.org/FDL/index-UACN.html">U.A.E.</a></font></td>
@@ -100,14 +100,19 @@
      pointer-events: none;
 }
 
-.star {
+.meteor {
      fill: #FFFFFF;
      fill-opacity: 1.0;
 }
 
-.star1 {
+.star {
      fill: #DDDDDD;
      fill-opacity: 0.5;
+}
+
+.sun {
+     fill: #FFFFFF;
+     fill-opacity: 1.0;
 }
 
 .star-label {
@@ -144,11 +149,11 @@
 .info {
     position: absolute;
     z-index: 100;
-    height: 30px;
-    font-size: 16pt;
-    width: 30px;
-    border: 2px solid red;
-    border-radius: 12px;
+    height: 80px;
+    font-size: 10pt;
+    width: 80px;
+    border: 2px solid black;
+    border-radius: 3px;
     background-color: white;
 }
 
@@ -182,40 +187,43 @@
     
     //initial queue, to load first data
     var q = queue();
-    q.defer(d3.json, "json/LOCAMS/hyg"+getToday()+"_00_00_00.json");
-    q.defer(d3.json, "json/LOCAMS/"+getToday()+"_00_00_00.json");
+    q.defer(d3.json, "json/ALL/sun.json");
+    q.defer(d3.json, "json/ALL/hyg"+getToday()+"_00_00_00.json");
+    q.defer(d3.json, "json/ALL/ALL"+getToday()+"_00_00_00.json");
 
-    q.await(function(error, stars, meteors){
+    q.await(function(error, sun, stars, meteors){
         if(error){
             console.log("[q]could not read data");
         } else{
             console.log("[q]loaded data")
-            createD3(stars, meteors);
+            createD3(sun, stars, meteors);
         }
     });
 
+    //queue, to load selected data
     function selectDate(){
         var newQ = queue();
         console.log(picker.toString('yyyy_mm_dd'));
-        newQ.defer(d3.json, "json/LOCAMS/hyg"+picker.toString('yyyy_mm_dd')+"_00_00_00.json");
-        newQ.defer(d3.json, "json/LOCAMS/"+picker.toString('yyyy_mm_dd')+"_00_00_00.json");
-        newQ.await(function(error, stars, meteors){
+        newQ.defer(d3.json, "json/ALL/sun.json");
+        newQ.defer(d3.json, "json/ALL/hyg"+picker.toString('yyyy_mm_dd')+"_00_00_00.json");
+        newQ.defer(d3.json, "json/ALL/ALL"+picker.toString('yyyy_mm_dd')+"_00_00_00.json");
+        newQ.await(function(error, sun, stars, meteors){
             if(error){
                 console.log("[nq]could not read data");
             } else{
                 console.log("[nq]loaded data")
-                createD3(stars, meteors);
+                createD3(sun, stars, meteors);
             }
     });
     }
 
-    function createD3(stars, meteors){
+
+    function createD3(sun, stars, meteors){
                     console.log("[d3] Got data.")
                     d3.select('#orthographic').select("svg").remove()
 
                     var width = 690,
                         height = 690;
-
 
                     // Select the container div and append the SVG element
                     var div = d3.select('#orthographic'),
@@ -226,8 +234,7 @@
                     //Store the current rotation
                     var rotate = {x:289, y:0};
 
-                    //Create and configure an instance of the orthographic projection
-//                    console.log(d3);
+                    //Create and configure an instance of the orthographic proj.
                     var projection = d3.geo.orthographic()
                         .scale(1.5 * height / Math.PI)
                         .translate([width / 2, height / 2])
@@ -242,21 +249,42 @@
                         .attr('class', 'overlay')
                         .attr('fill-opacity', 0);
 
-                    // METEOR Create and configure the geographic path generator
+                    // Create and configure the geographic path generator
+                    // METEOR
                     var meteorPath = d3.geo.path().projection(projection);
-
-                    // STAR 
+                    // STAR
                     var starPath = d3.geo.path().projection(projection);
+                    // SUN
+                    var sunPath = d3.geo.path().projection(projection);
 
+                    // Append data
                     // METEOR
                     svg.append('path').datum({type: 'Sphere'})
                         .attr('class', 'cellestial-globe')
                         .attr('d', meteorPath);
-
-                    // STAR 
+                    // STAR
                     svg.append('path').datum({type: 'Sphere'})
                         .attr('class', 'cellestial-globe')
                         .attr('d', starPath);
+
+
+                    // SUN
+                    svg.append('path').datum({type: 'Sphere'})
+                        .attr('class', 'cellestial-globe')
+                        .attr('d', sunPath);
+
+
+
+                    var img = svg.append("svg:image")
+                            .attr( "daylight.jpg")
+                            .attr("width", 200)
+                            .attr("height", 200)
+                            .attr("x", 228)
+                            .attr("y",53)
+                            .style("opacity", 1);
+
+
+
 
                     var graticule = d3.geo.graticule();
 
@@ -285,33 +313,34 @@
                         .domain(d3.extent(stars.features, function(d) { return d.properties.mag; }))
                         .range([3, 1]);
 
+
                     // Compute the radius for the point features
                     // METEOR
                     meteorPath.pointRadius(function(d) {
                         return d.properties ? rScale(d.properties.mag) : 1;
                     });
-
-                    // STAR 
+                    // STAR
                     starPath.pointRadius(function(d) {
+                        return d.properties ? rScale(d.properties.mag) : 1;
+                    })
+                    // SUN
+                    sunPath.pointRadius(function(d) {
                         return d.properties ? rScale(d.properties.mag) : 1;
                     })
 
                     //handle meteor mouse hover event
                     var handleMouseOver = function(d) {
-
                         var popup = '<div class="popup" style="top:' + d3.event.clientY + 'px;left:' + d3.event.clientX + 'px">' + '<a> &nbsp </a>' + d.properties.name + '</div>';
 
-                        var info = '<div class="info" style="top:200px;left:200px">' + '<a> kkkk </a>' + d.properties.name + '</div>';
-
+                        var info = '<div class="info" style="top:200px;left:150px">' +   '<a> <span>sl : '  +   parseFloat(d.properties.sol).toFixed(3)   + '<br>&lambda; : ' +  parseFloat(d.geometry.coordinates[0]).toFixed(2) + ' <br>&beta; : ' +   parseFloat(d.geometry.coordinates[1]).toFixed(2) + ' <br>Vg : ' + parseFloat(d.properties.velocg).toFixed(2)  + '</span></a>'   +    '</div>';
 
                         $('body').append(popup);
-                        //$('body').append(info);
+                        $('body').append(info);
                     }
 
                     var handleMouseOut = function() {
                         $('.popup').remove();
-                        //$('.info').remove();
-
+                        $('.info').remove();
                     }
 
                     var handleMouseClick = function(d) {
@@ -320,10 +349,9 @@
 
                     // Data points
                     // METEOR
-                    var meteorsDataPoint = svg.selectAll('path.star').data(meteors.features)
-
+                    var meteorsDataPoint = svg.selectAll('path.meteor').data(meteors.features)
                         .enter().append('path')
-                        .attr('class', 'star')
+                        .attr('class', 'meteor')
                         .style('fill', function(d) {
                             return color_scale(d.properties.color) })
                         .attr('d', meteorPath)
@@ -333,15 +361,27 @@
                             handleMouseOver(d);})
                         .on('mouseout', handleMouseOut);
 
-                    // Data points
+
                     // STAR
-                    var starsDataPoint = svg.selectAll('path.star1').data(stars.features)
+                    var starsDataPoint = svg.selectAll('path.star').data(stars.features)
                         .enter().append('path')
-                        .attr('class', 'star1')
-                        .attr('d', starPath)
+                        .attr('class', 'star')
+.attr('d', starPath)
                         .attr('stroke', 'black')
                         .attr('stroke-width', '1');
-                    
+                    // SUN
+                    var sunDataPoint = svg.selectAll('path.sun').data(sun.features)
+                        .enter().append('path')
+                        .attr('class', 'sun')
+
+
+                        .style('fill', function(d) {
+                            return color_scale(d.properties.color) })
+                        .attr('d', sunPath)
+                        .attr('stroke', 'black')
+                        .attr('stroke-width', '1');
+
+                    // Drag behavior
                     var dragBehavior = d3.behavior.drag()
                         .origin(Object)
                         .on('drag', drag);
@@ -358,15 +398,22 @@
                             var p = meteorPath(u);
                             return p ? p : 'M 10 10';
                         });
-                        // STAR 
+                        // STAR
                         starsDataPoint.attr('d', function(u) {
                             var p = starPath(u);
                             return p ? p : 'M 10 10';
                         });
+                        // SUN
+                        sunDataPoint.attr('d', function(u) {
+                            var p = sunPath(u);
+                            return p ? p : 'M 10 10';
+                        });
                         // METEOR
                         lines.attr('d', meteorPath);
-                        // STAR 
+                        // STAR
                         lines.attr('d', starPath);
+                        // SUN
+                        lines.attr('d', sunPath);
                     }
                     
 
@@ -385,57 +432,6 @@
 
                       // }   
 
-d3.text("json/LOCAMS/Name-Total_"+picker.toString('yyyy_mm_dd')+"_00_00_00.csv", function(data) {
-    var parsedCSV = d3.csv.parseRows(data);
-    d3.select('#table2').select("table").remove();
-    var div = d3.select('#table2')
-    svg = div.append('table')
-        .attr('width', '690')
-        .attr('height', '50')
-        .style('border-collapse', 'collapse')
-        .style('border', '2px black solid')
-
-        .selectAll("tr")
-            .data(parsedCSV).enter()
-            .append("tr")
-
-        .selectAll("td")
-            .data(function(d) { return d; }).enter()
-            .append("td")
-            .style("border", "1px black solid")
-            .style("padding", "5px")
-            .text(function(d) { return d; })
-            .style("font-size", "12px");
-});
-
-
-d3.text("json/LOCAMS/Cam-Total_"+picker.toString('yyyy_mm_dd')+"_00_00_00.csv", function(data) {
-    var parsedCSV = d3.csv.parseRows(data).sort();
-    var header=parsedCSV.pop();
-    parsedCSV.unshift(header);
-
-    d3.select('#tables').select("table").remove();
-    var div = d3.select('#tables')
-
-    svg = div.append('table')
-        .attr('width', '690')
-        .attr('height', '200')
-        .style('border-collapse', 'collapse')
-        .style('border', '2px black solid')
-
-        .selectAll("tr")
-            .data(parsedCSV).enter()
-            .append("tr")
-
-        .selectAll("td")
-            .data(function(d) { return d; }).enter()
-            .append("td")
-            .style("border", "1px black solid")
-            .style("padding", "5px")
-            .text(function(d) { return d; })
-            .style("font-size", "12px");
-});
-
                 }
 
 </script>
@@ -450,13 +446,15 @@ d3.text("json/LOCAMS/Cam-Total_"+picker.toString('yyyy_mm_dd')+"_00_00_00.csv", 
 <table width="700">
 <tr>
 <td>
-<div id="table2"></div>
-<P>
-<div id="tables"></div>
+
+<P><center><img src="./images/ALLLogo.jpg" alt="CAMS Banner" width="700"></center>
+<P><a href="http://cams.seti.org">CAMS Project Website</a>
+
 
 </td>
 </tr>
 </table>
+
 
 
 </td>
@@ -474,14 +472,16 @@ d3.text("json/LOCAMS/Cam-Total_"+picker.toString('yyyy_mm_dd')+"_00_00_00.csv", 
 alink="#CC0000">
 <td valign="top" width="700">
 <P><B>GLOBAL METEOR SHOWER ACTIVITY</B>
-<P><B>Instructions: </B> The celestial sphere shows stars in gray and meteors in colors (showers: red = fast, blue = slow) or white (non-showers). New showers will show up as groupings of white dots. </P>
+<P><B>Site useage:</B> Requires HTML5 compatable browser. Place cursor in "Pick a date" window. From pop-up calendar, select a past date for which data are available from one of the CAMS meteor video surveillance networks (currently 2017_08_01 to present). </P>
 
-<P><B>Site useage:</B> Select a date for which data are available from one of the CAMS meteor video surveillance networks (2017_08_09 to present). Rotate sphere with cursor. Hover to get the IAU stream number. Click to bring up new window to see shower in space.</P>
+<P><B>Explanation: </B> The celestial sphere shows stars in gray and meteors in colors (showers: red = fast, blue = slow) or white (non-showers). New showers will show up as groupings of white dots. Rotate sphere with cursor. Hover to get the IAU stream number. Click to bring up new window to see shower in space. Data are projected in sun-centered ecliptic coordinates.</P>
+
 </td>
 </tr>
 </table>
 </td>
 </tr>
+
 <tr>
 <td>
 <P>
@@ -495,7 +495,7 @@ alink="#CC0000">
 alink="#CC0000">
 
 <td valign="top" width="220">
-<img src="images/SETIInstitutelogo.jpg" alt="SETI Institute logo" align="left" height="100" width="200">
+<a href="http://www.seti.org"><img src="images/SETIInstitutelogo.jpg" alt="SETI Institute logo" align="left" height="100" width="200" border="0"></a>
 </td>
 
 <td valign="top" width="280">
@@ -512,7 +512,7 @@ Contact us.</a>
 </td>
 
 <td valign="top" width="200">
-<a href="http://www.frontierdevelopmentlab.org/"><img src="images/FDL_comet.jpg" alt="FDL logo" align="left" height="111" border="0"></a>
+<a href="http://sidgan.me/nasaweb"><img src="images/FDL_comet.jpg" alt="FDL logo" align="left" height="111" border="0"></a>
 </td>
 
 </tr>
@@ -522,12 +522,12 @@ Contact us.</a>
 </td>
 </tr>
 </table>
+
 <!-- end pagetable --------------------------------------------------->
 
         <div class="footer"></div>
     </div>
     <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="assets/js/lib/twinkle.js"></script>
 </body>
 </html>
