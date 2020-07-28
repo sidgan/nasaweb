@@ -9,3 +9,27 @@ The deep learning algorithms would be used to recognize meteors amongst false po
 ## What this repository contains
 
 This repository only contains the code for the new **Celestial Globe Web Portal** for CAMS data visualization. This new web tool is part of an effort by Frontier Development Lab 2017, a NASA research accelerator program at the SETI Institute, led by James Parr and Bill Diamond and supported by NVidia and IBM amongst others, that set out to use artificial intelligence techniques to automate the CAMS data reduction pipeline. The new web tool designed by Peter Jenniskens, Siddha Ganju and Leo Silverberg displays each shower radiant in sun-centered ecliptic coordinates, with a color assigned proportional to the entry speed. By hovering the cursor over a colored meteor radiant, one can see the IAU shower number. Clicking brings up a new window that shows the 2010-2016 CAMS data for that shower displayed in the planetarium program by Ian Webster. That makes the new web tool a portal to the minor showers in Webster's visualization program.
+
+## ToDo
+
+- Adding constellations, seasonal changes, etc:
+
+  Use SVG to have stars in black and lines joining them will be black too.
+
+- Consult lookup table so the name of the shower shows in the scroll box, rather than the shower number
+
+  Have a checkbox to remove/overlay them.
+
+- Find a way to add lat/long coordinates to the lines if zoomed in. 
+
+- Find a way to scroll over several days of observations, to see the showers move.
+ 
+  Have some kind of a fast forward or timelapse on the globe. So when the user clicks "next", the next days' meteors are loaded so one can view how the meteor is moving over time (day). Something similar to videos that show the movement of stars at night (example: https://www.youtube.com/watch?v=HsJxGpDmJrQ&t=09)
+
+- Find a way to make the points smaller when zoomed in, to resolve compact showers
+
+  Clustering points and unclustering them when clicked upon.
+
+- Make website lighter
+
+  Depending on how large the JSON data gets, it might be worthwhile hosting it on a backend server as an API rather than having a single JSON file loaded in memory.
