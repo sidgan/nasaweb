@@ -1,0 +1,31 @@
+.flexbox_container {
+    flex-direction: row;
+    display: inline-flex;
+    width: 100%;
+}
+
+.title_item {
+    font-size: 32px;
+    font-family: 'Helvetica Neue';
+    font-weight: bolder;
+    text-align: left;
+    padding: 2rem;
+}
+
+.logo_item {
+    padding: 1rem;
+    margin: 5px;
+}
+
+.search_box {
+    padding: 1rem;
+    margin: 5px;
+}
+
+.datepicker {
+    height: 40px;
+    align-content: right ;
+    border-color: blue;
+    font-style: italic;
+    text-align: center;
+}
