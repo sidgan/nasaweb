@@ -6,7 +6,7 @@
 
 .title_item {
     font-size: 32px;
-    font-family: 'Helvetica Neue';
+    font-family: 'Lucida Sans Regular';
     font-weight: bolder;
     text-align: left;
     padding: 2rem;
@@ -29,3 +29,4 @@
     font-style: italic;
     text-align: center;
 }
+

@@ -22,34 +22,69 @@
   pointer-events: none;
 }
 
+
+.cellestial-globe {
+  fill: #355886;
+  pointer-events: none;
+}
+
+.meteor {
+  fill: #FFFFFF;
+  fill-opacity: 1.0;
+
+}
+
+.star {
+  fill: #000000;
+  fill-opacity: 1.0;
+}
+
+.sun {
+  fill: #FFFF00;
+  fill-opacity: 1.0;
+}
+
+.star-label {
+  text-transform: uppercase;
+  font-size: 10px;
+  fill: #fff;
+  fill-opacity: 0.6;
+}
+
+
 .graticule {
   fill: none;
-  stroke: #d61515;
+  stroke: #aaa;
   stroke-width: 1px;
-  stroke-opacity: 0.5;
+  stroke-opacity: 0.3;
   pointer-events: none;
 }
 
 .graticule-black {
   fill: none;
-  stroke: #d61515;
+  stroke: #555;
   stroke-width: 1px;
   stroke-opacity: 0.5;
 }
 
-.cellestial-globe {
-  fill: #000000;
-  pointer-events: none;
+.popup {
+  position: absolute;
+  z-index: 100;
+  height: 30px;
+  font-size: 16pt;
+  width: 60px;
+  border: 2px solid white;
+  border-radius: 12px;
+  background-color: white;
 }
 
-.star {
-  fill: #ffffff;
+.info {
+  position: absolute;
+  z-index: 100;
+  height: 80px;
+  font-size: 10pt;
+  width: 80px;
+  border: 2px solid black;
+  border-radius: 3px;
+  background-color: white;
 }
-
-.star-label {
-  text-transform: uppercase;
-  font-size: 5px;
-  fill: #fff;
-  fill-opacity: 0.6;
-}
-

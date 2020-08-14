@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 
 import logo from '../images/NASA_logo.jpg';
 
-import './Navigation.css';
+import './style.css';
 import "react-datepicker/dist/react-datepicker.css";
 
 class NavigationBar extends Component {
@@ -29,13 +29,12 @@ class NavigationBar extends Component {
                 </a>
 
                 <p className="title_item col-lg-7">
-                    NASA (CAMS) Meteor Shower Portal
+                    NASA Meteor Shower Portal
                 </p>
 
                 
                 <div className="search_box col-lg-3">
                     <br/>
-            
                     <DatePicker
                         className="datepicker"
                         value={this.state.date}
