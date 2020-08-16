@@ -20,6 +20,7 @@
 .search_box {
     padding: 1rem;
     margin: 5px;
+    transition-timing-function: ease-in-out .5s;
 }
 
 .datepicker {
@@ -28,6 +29,7 @@
     border-color: blue;
     font-style: italic;
     text-align: center;
+    color: tomato;
 }
 
 .popup_container {
@@ -40,6 +42,7 @@
     bottom: 0;
     margin: auto;
     background-color: rgba(0,0,0,0.5);
+    transition: margin .5s;
 }
 
 .popup {
@@ -52,5 +55,4 @@
     background-position-y: center;
     position: relative;
     text-justify: auto;
-}
-  
+} 

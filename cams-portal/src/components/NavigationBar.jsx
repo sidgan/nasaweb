@@ -1,51 +1,48 @@
-import React, { Component } from 'react';
-import DatePicker from 'react-datepicker';
+import React, { Component } from "react";
+import DatePicker from "react-datepicker";
 
-import logo from '../images/NASA_logo.jpg';
+import logo from "../images/NASA_logo.jpg";
+// import { ReactComponent as ReactLogo } from './Icon.svg'
 
-import './style.css';
+import "./style.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 class NavigationBar extends Component {
+  state = {
+    date: "Pick A Date To See Meteors",
+  };
 
-    state = {
-        date: "Pick A Date To See Meteors"
-    }
+  handleDateSelect = (date) => {
+    console.log("Handle Works");
+    let newDate = date.toDateString();
+    this.setState({
+      date: newDate,
+    });
+  };
 
-    handleDateSelect = date => {
-        console.log("Handle Works");
-        let newDate = date.toDateString();
-        this.setState({
-            date: newDate
-        })
-    }
-    
-    render() {
+  render() {
+    return (
+      <div className="flexbox_container">
+        <a className="logo_item col-lg-2" href="http://cams.seti.org">
+          <img src={logo} alt="NASA" width="80" />
+        </a>
 
-        return (
-           <div className='flexbox_container'>
-                <a className='logo_item col-lg-2' href="http://cams.seti.org">
-                    <img src={logo} alt="NASA" width="80"/>
-                </a>
+        <p className="title_item col-lg-7">NASA Meteor Shower Portal</p>
 
-                <p className="title_item col-lg-7">
-                    NASA Meteor Shower Portal
-                </p>
-
-                
-                <div className="search_box col-lg-3">
-                    <br/>
-                    <DatePicker
-                        className="datepicker"
-                        value={this.state.date}
-                        onSelect={this.handleDateSelect}
-                        onChange={this.handleDateChange}
-                    />
-                </div>
-           </div>
-        );
-    }
+        <div className="search_box col-lg-3">
+            <img src="https://img.icons8.com/ios-filled/50/e74c3c/down2.png" alt=""/>
+            <br />
+            <DatePicker
+                className="datepicker"
+                value={this.state.date}
+                onSelect={this.handleDateSelect}
+                onChange={this.handleDateChange}
+            />
+        </div>
+      </div>
+    );
+  }
 }
 
-
-export default NavigationBar;   
+export default NavigationBar;
+    
