@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
 import NavigationBar from './components/NavigationBar';
 import Popup from './components/Popup';
+import Globe from './components/Globe';
+
+import './App.css';
 
 class App extends Component {
   state = {
@@ -29,6 +31,7 @@ class App extends Component {
           />
           : null
         }
+        <Globe />
       </div>
     );
   }
@@ -36,4 +39,4 @@ class App extends Component {
 
 export default App;
 
-   
+     
