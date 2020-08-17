@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import NavigationBar from './components/NavigationBar';
 import Popup from './components/Popup';
 import Globe from './components/Globe';
-import { Data } from './components/test'
+import { Data } from './components/test';
 
 import './App.css';
 class App extends Component {
 
   state = {
     showPopup: false,
-    data: []
+    data: [],
   }
 
   togglePopup = () => {
@@ -33,7 +33,7 @@ class App extends Component {
             : null
         }
         <hr />
-        <Globe geoJson={Data} size={400} />
+        <Globe geoJson={Data} size={800} />
         <hr />
       </div>
     )
@@ -41,4 +41,4 @@ class App extends Component {
 }
 
 
-export default App;
+export default App; 

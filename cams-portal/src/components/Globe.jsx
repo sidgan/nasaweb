@@ -9,25 +9,29 @@ class Globe extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            data: []
+            data: [],
+            rotation: 0
         }
     }
 
-    // componentWillMount() {
-    //     this.setState({
-    //       data: Data
-    //     })
-    //     console.log(Data)
-    //   }
-
     render() {
+
+        console.log(this.state.geoJson)
         let projection = d3.geoOrthographic()
             .fitSize([this.props.size, this.props.size], this.props.geoJson)
+            .rotate([this.state.rotation])
 
         let geoGenerator = d3.geoPath()
             .projection(projection)
 
         let pathString = geoGenerator(this.props.geoJson)
+
+
+        window.requestAnimationFrame(() => {
+            this.setState({
+                rotation: this.state.rotation + 0.7
+            })
+        })
 
 
         return (
@@ -38,4 +42,4 @@ class Globe extends Component {
     }
 }
  
-export default Globe;
+export default Globe;  
