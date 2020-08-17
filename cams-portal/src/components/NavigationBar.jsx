@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import DatePicker from "react-datepicker";
 
-import logo from "../images/NASA_logo.jpg";
+import logo from "../images/icon.png";
 // import { ReactComponent as ReactLogo } from './Icon.svg'
 
 import "./style.css";
@@ -24,7 +24,7 @@ class NavigationBar extends Component {
     return (
       <div className="flexbox_container">
         <a className="logo_item col-lg-2" href="http://cams.seti.org">
-          <img src={logo} alt="NASA" width="80" />
+          <img src={logo} alt="NASA" width="100" />
         </a>
 
         <p className="title_item col-lg-7">NASA Meteor Shower Portal</p>

@@ -42,7 +42,6 @@
     bottom: 0;
     margin: auto;
     background-color: rgba(0,0,0,0.5);
-    transition: width 15s;
 }
 
 .popup {
