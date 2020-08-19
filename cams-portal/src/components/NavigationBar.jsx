@@ -8,19 +8,10 @@ import "./style.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 class NavigationBar extends Component {
-  state = {
-    date: "Pick A Date To See Meteors",
-  };
-
-  handleDateSelect = (date) => {
-    console.log("Handle Works");
-    let newDate = date.toDateString();
-    this.setState({
-      date: newDate,
-    });
-  };
 
   render() {
+    const { selectedDate, onDateChange } = this.props;
+
     return (
       <div className="flexbox_container">
         <a className="logo_item col-lg-2" href="http://cams.seti.org">
@@ -34,9 +25,8 @@ class NavigationBar extends Component {
             <br />
             <DatePicker
                 className="datepicker"
-                value={this.state.date}
-                onSelect={this.handleDateSelect}
-                onChange={this.handleDateChange}
+                value={selectedDate}
+                onSelect={onDateChange}
             />
         </div>
       </div>
@@ -45,4 +35,4 @@ class NavigationBar extends Component {
 }
 
 export default NavigationBar;
-    
+     
