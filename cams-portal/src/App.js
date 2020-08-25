@@ -2,25 +2,24 @@ import React, { Component } from 'react';
 import NavigationBar from './components/NavigationBar';
 import Popup from './components/Popup';
 import Globe from './components/Globe';
-import { meteorJson } from './sources/meteors';
-import { starJson } from './sources/stars';
-import { sunJson } from './sources/sun';
 
 import './App.css';
 class App extends Component {
 
-  state = {
-    date: "",
-    showPopup: false,
-    freshLoad: typeof(date) == "string" ? false : true,
-    data: [],
+  constructor() {
+    super();
+    this.state = {
+      date: "",
+      showPopup: false,
     }
+  }
 
-  componentDidMount() {
+
+  static getDerivedStateFromProps(props, state) {
     let newDate = new Date();
-    this.setState({
+    return {
       date: newDate.toDateString()
-    });
+    }
   }
 
 
@@ -35,7 +34,23 @@ class App extends Component {
     });
   };
 
+  updateGlobeWithData = () => {
+    return this.getDateFormat(this.state.date)
+  }
+
+  addZ = n => { return n < 10 && n.length === 1 ? '0' + n : '' + n; }
+  getMonthFromString = mon => {
+      return new Date(Date.parse(mon + " 1, 2012")).getMonth() + 1
+  }
+
+  getDateFormat = date => {
+      let res = date.split(" ");
+      let month = this.getMonthFromString(res[1])
+      return `${res[3]}_${this.addZ(String(month))}_${this.addZ(res[2])}`;
+  }
+
   render() {
+    console.log(this.state.date)
     return (
       <div className="App">
         <NavigationBar
@@ -56,11 +71,8 @@ class App extends Component {
         <hr />
 
         <Globe
-          date={this.state.date}
-          geoMeteorJson={meteorJson}
-          geoStarJson={starJson}
-          geoSunJson={sunJson}
-          size={800}/>
+          date={this.updateGlobeWithData}
+          />
           
         <hr />
       </div>
@@ -69,4 +81,4 @@ class App extends Component {
 }
 
 
-export default App;   
+export default App;     

@@ -1,4 +1,4 @@
-export const sunJson = {
+export const sunData = {
     "type": "FeatureCollection",
     "features": [
         {

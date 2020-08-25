@@ -1,4 +1,4 @@
-export const starJson =
+export const starsData =
     {
     "type": "FeatureCollection",
     "features": [

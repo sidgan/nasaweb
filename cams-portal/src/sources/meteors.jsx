@@ -1,4 +1,4 @@
-export const meteorJson = {
+export const meteorsData = {
     "type": "FeatureCollection",
     "features": [
         {
