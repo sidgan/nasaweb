@@ -1,6 +1,12 @@
 .App {
   text-align: center;
-  color: rgb(240, 224, 240);
+  color: rgb(24, 27, 37);
+}
+
+.switch {
+  position: inherit;
+  background: transparent;
+  justify-items: baseline;
 }
 
 .globe {
@@ -32,7 +38,6 @@
 .meteor {
   fill: #FFFFFF;
   fill-opacity: 1.0;
-
 }
 
 .star {
@@ -88,9 +93,4 @@
   border: 2px solid black;
   border-radius: 3px;
   background-color: white;
-}
-
-
-.switch {
-  background-color: red;
 }

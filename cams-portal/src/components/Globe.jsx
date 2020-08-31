@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import * as d3 from 'd3';
+
 import { meteorsData } from '../sources/meteors';
 import { starsData } from '../sources/stars';
 import { sunData } from '../sources/sun';
 
 import "./style.css";
+
+
 
 
 const Globe = props => {
@@ -33,8 +36,8 @@ const GlobeObject = ({sunJson, starJson, meteorJson}) => {
         console.log("[d3] Got data.")
         d3.select('#orthographic').select("svg").remove()
 
-        let width = 700;
-        let height = 700;
+        let width = 710;
+        let height = 710;
 
         // Select the container div and append the SVG element
         let div = d3.select('#orthographic')
@@ -143,14 +146,40 @@ const GlobeObject = ({sunJson, starJson, meteorJson}) => {
         })
 
         //handle meteor mouse hover event
-        let handleMouseOver = function (d) {
+        let handleMouseOver = d => {
+            // let popup = `<div class="popup" style="top:${currentEvent.y}px;left:${currentEvent.x}px">${d.properties.name}</div>`;
 
-            let popup = `<div class="popup" style="top:${currentEvent.y}px;left:${currentEvent.x}px">${d.properties.name}</div>`;
+            // const popup = () => {
+                
+            //     return (
+            //         <div className="popup" style={`top:${currentEvent.y}px; left:${currentEvent.x}pz`}>
+            //             {/* <h1>{d.properties.name}</h1> */}
+            //             <p>This is a boot set</p>
+            //         </div>
+            //     )
+            // }
 
-            let info = `<div class="info" style="top:200px;left:150px"><a> <span>sl : ${parseFloat(d.properties.sol).toFixed(3)}<br>&lambda; : ${parseFloat(d.geometry.coordinates[0]).toFixed(2)} <br>&beta; : ${parseFloat(d.geometry.coordinates[1]).toFixed(2)} <br>Vg : ${parseFloat(d.properties.velocg).toFixed(2)}</span></a></div>`;
-
-            d3.select('body').append(popup);
-            d3.select('body').append(info);
+            // // let info = `<br>&lambda; :  <br
+            // const info = d => {
+            //     return (
+            //         <div className="info" style={{top: "200px", left:'150px'}}>
+            //             <a href="https://google.com">
+            //                 <span>
+            //                     sl : ${parseFloat(d.properties.sol).toFixed(3)}
+            //                     <br/>
+            //                     &lambda; : ${parseFloat(d.geometry.coordinates[0]).toFixed(2)}
+            //                     <br/>
+            //                     &beta; : ${parseFloat(d.geometry.coordinates[1]).toFixed(2)} 
+            //                     <br/>
+            //                     Vg : ${parseFloat(d.properties.velocg).toFixed(2)}
+            //                 </span>
+            //             </a>
+            //         </div>
+            //     )
+            // }
+            
+            // d3.select('body').append(<Popup />);
+            // d3.select('body').append(<info />);
         }
 
         let handleMouseClick = function (d) {
@@ -239,7 +268,7 @@ const GlobeObject = ({sunJson, starJson, meteorJson}) => {
         }
 
         overlay.call(dragBehavior);
-        let i = 50;
+        let i = 180;
 
         let globeRotationInterval = setInterval(function () {
             drag({ 'x': 1 * (i - 1) + 270, 'y': i });

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import Popup from 'reactjs-popup';
 import NavigationBar from './components/NavigationBar';
-import Popup from './components/Popup';
 import Globe from './components/Globe';
-
+import Button from './components/Button';
+import FooterTabs from './components/FooterTabs';
 import './App.css';
+
+
 class App extends Component {
 
   constructor() {
@@ -57,24 +60,45 @@ class App extends Component {
           selectedDate={this.state.date}
           onDateChange={this.handleDateChange}
         />
-
-        <button className="switch" onClick={this.togglePopup}>Click!</button>
-        <hr />
+        
         {
           this.state.showPopup ?
             <Popup
-              text='Legend: Inclusive of web portal directives'
-              closePopup={this.togglePopup}
-            />
+            open={this.state.showPopup}
+            position='bottom left'
+            closeOnDocumentClick
+            onClose={this.togglePopup}
+            modal
+            >
+              <div className="modal">
+                <p className="close" href='#' onClick={this.togglePopup}>
+                  &times;
+                </p>
+                <div className='header'> Legendary</div>
+                <div className='content'>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae magni
+                  omnis delectus nemo, maxime molestiae dolorem numquam mollitia, voluptate
+                  ea, accusamus excepturi deleniti ratione sapiente! Laudantium, aperiam
+                  doloribus. Odit, aut.
+                </div>
+              </div>
+            </Popup>
             : null
         }
-        <hr />
-
-        <Globe
-          date={this.updateGlobeWithData}
-          />
-          
-        <hr />
+        <div className='flexbox_container'>
+          <div className='col-lg-10'>
+            <Globe
+              date={this.updateGlobeWithData}
+              />
+          </div>
+          <div className='col-lg-2 m-6 switch'>
+            <Button 
+              onClick={this.togglePopup}
+              className="switch"
+            />
+          </div>
+        </div>
+        <FooterTabs />
       </div>
     )
   }

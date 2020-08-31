@@ -13,13 +13,12 @@ class NavigationBar extends Component {
     const { selectedDate, onDateChange } = this.props;
 
     return (
-      <div className="flexbox_container">
+      <div className="flexbox_container p-3">
         <a className="logo_item col-lg-2" href="http://cams.seti.org">
           <img src={logo} alt="NASA" width="100" />
         </a>
 
         <p className="title_item col-lg-7">NASA Meteor Shower Portal</p>
-
         <div className="search_box col-lg-3">
             <img src="https://img.icons8.com/ios-filled/50/e74c3c/down2.png" alt=""/>
             <br />
