@@ -7,9 +7,6 @@ import { sunData } from '../sources/sun';
 
 import "./style.css";
 
-
-
-
 const Globe = props => {
     const [date] = useState(props.date);
     const [sunJson] = useState(sunData);
@@ -36,8 +33,8 @@ const GlobeObject = ({sunJson, starJson, meteorJson}) => {
         console.log("[d3] Got data.")
         d3.select('#orthographic').select("svg").remove()
 
-        let width = 710;
-        let height = 710;
+        let width = 800;
+        let height = 800;
 
         // Select the container div and append the SVG element
         let div = d3.select('#orthographic')
@@ -183,7 +180,6 @@ const GlobeObject = ({sunJson, starJson, meteorJson}) => {
         }
 
         let handleMouseClick = function (d) {
-
             window.open('https://www.meteorshowers.org/view/iau-' + d.properties.name);
         }
 
@@ -231,7 +227,7 @@ const GlobeObject = ({sunJson, starJson, meteorJson}) => {
 
         let dragBehavior = d3.drag()
             .subject(Object)
-            .on('drag', drag({'x': currentEvent.x, 'y': currentEvent.y}))
+            .on('drag', drag)
 
         function drag(d) {
 
