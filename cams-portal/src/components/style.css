@@ -81,13 +81,23 @@
     background-color: rgba(0, 66, 128, 0.856);
 }
 
+.cams-logo {
+  position: absolute;
+  border: 3px lightblue;
+  height: 40px;
+  weight: 75px;
+  bottom: 30px;
+  left: 120px;
+}
+
 .footer {
   border: 1px lightblue;
+  width: 100%;
   height: 48px;
   position: relative;
   color: rgba(223, 223, 236, 0.863);
   background-color: rgba(0, 66, 128, 0.856);
   font-weight: bolder;
   font-family: Georgia, 'Times New Roman', Times, serif;
+  box-sizing: border-box;
 }
- 

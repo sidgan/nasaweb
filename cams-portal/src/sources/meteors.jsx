@@ -1,3 +1,16 @@
+export const getMeteorsData = date => {
+
+    const data = require(`../json/${date}_00_00_00.json`)
+    console.log(data)
+    return data
+    // fetch(`../json/${date}_00_00_00.json`)
+    //     .then(function(resp) {
+    //         console.log(resp.json())
+    //         return resp.json()
+    //     })
+}
+
+
 export const meteorsData = {
     "type": "FeatureCollection",
     "features": [

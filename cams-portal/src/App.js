@@ -4,6 +4,8 @@ import NavigationBar from './components/NavigationBar';
 import Globe from './components/Globe';
 import Button from './components/Button';
 import FooterTabs from './components/FooterTabs';
+
+import image from './images/CAMSbanner.jpg';
 import './App.css';
 
 
@@ -87,6 +89,7 @@ class App extends Component {
         }
         <div className='flexbox_container'>
           <div className='col-lg-10'>
+            <img src={image} className="cams-logo" alt="cams"></img>
             <Globe
               date={this.updateGlobeWithData}
               />
@@ -104,4 +107,4 @@ class App extends Component {
 }
 
 
-export default App;     
+export default App;      

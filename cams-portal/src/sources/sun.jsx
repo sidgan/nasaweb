@@ -1,3 +1,16 @@
+
+export const getSunData = () => {
+    const data = require('../json/sun.json')
+    console.log(data)
+    return data
+    // fetch('../json/sun.json')
+    //     .then(function(resp) {
+    //         return resp.json()
+    //     })
+
+}
+
+
 export const sunData = {
     "type": "FeatureCollection",
     "features": [

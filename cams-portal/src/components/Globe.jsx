@@ -1,31 +1,51 @@
 import React, { useState } from "react";
+// import Popup from 'reactjs-popup';
 import * as d3 from 'd3';
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
 
-import { meteorsData } from '../sources/meteors';
-import { starsData } from '../sources/stars';
-import { sunData } from '../sources/sun';
+import { getMeteorsData } from '../sources/meteors';
+import { getStarsData } from '../sources/stars';
+import { getSunData } from '../sources/sun';
 
 import "./style.css";
 
-const Globe = props => {
+const Globe = (props, children) => {
     const [date] = useState(props.date);
-    const [sunJson] = useState(sunData);
-    const [starJson] = useState(starsData);
-    const [meteorJson] = useState(meteorsData);
 
-    console.log(date)
+    const [showTooltip, setShowTooltip] = useState(false) // Boolean For Popup
+
+
+    console.log(showTooltip)
     return (
         <section>
             <div id="orthographic"></div>
-            <GlobeObject sunJson={sunJson} starJson={starJson} meteorJson={meteorJson}/>
+            <GlobeObject
+                date={date}
+                showTooltip={showPopup => setShowTooltip(showPopup)}>
+                { showTooltip ?
+                    <Tooltip
+                        title={props.dataPoint}
+                        TransitionComponent={Zoom}>
+                        <p>He</p>
+                    </Tooltip>
+                    : null
+                }
+            </GlobeObject>
         </section>
     )
 }
 
 
-const GlobeObject = ({sunJson, starJson, meteorJson}) => {
+const GlobeObject = ({date, showTooltip}) => {
+
+    const [sunJson] = useState(getSunData());
+    const [starJson] = useState(getStarsData(date));
+    const [meteorJson] = useState(getMeteorsData(date));
 
     const promises = [sunJson, starJson, meteorJson]
+
+    // const [dataPoint, setDataPoint] = useState(null) // Reference Metoer Point
 
     Promise.all(promises).then(() => {
 
@@ -35,15 +55,13 @@ const GlobeObject = ({sunJson, starJson, meteorJson}) => {
 
         let width = 800;
         let height = 800;
+        let rotate = { x: 0, y: 0 };
 
         // Select the container div and append the SVG element
         let div = d3.select('#orthographic')
         let svg = div.append('svg')
             .attr('width', width)
             .attr('height', height);
-
-        //Store the current rotation
-        let rotate = { x: 0, y: 0 };
 
         //Create and configure an instance of the orthographic proj.
         let projection = d3.geoOrthographic()
@@ -116,7 +134,7 @@ const GlobeObject = ({sunJson, starJson, meteorJson}) => {
         // METEOR
         let rMeteorScale = d3.scaleLinear()
             .domain(d3.extent(meteorJson.features, function (d) { return d.properties.mag; }))
-            .range([0, 3]);
+            .range([1.5, 2.5]);
 
         // STAR
         let rStarScale = d3.scaleLinear()
@@ -126,7 +144,7 @@ const GlobeObject = ({sunJson, starJson, meteorJson}) => {
         // SUN
         let rSunScale = d3.scaleLinear()
             .domain(d3.extent(sunJson.features, function (d) { return d.properties.mag; }))
-            .range([2, 3])
+            .range([4, 6])
 
         // Compute the radius for the point features
         // METEOR
@@ -143,41 +161,49 @@ const GlobeObject = ({sunJson, starJson, meteorJson}) => {
         })
 
         //handle meteor mouse hover event
-        let handleMouseOver = d => {
-            // let popup = `<div class="popup" style="top:${currentEvent.y}px;left:${currentEvent.x}px">${d.properties.name}</div>`;
+        // let handleMouseOver = d => {
+        //     // let popup = `<div class="popup" style="top:${currentEvent.y}px;left:${currentEvent.x}px">${d.properties.name}</div>`;
 
-            // const popup = () => {
+        //     // const popup = () => {
                 
-            //     return (
-            //         <div className="popup" style={`top:${currentEvent.y}px; left:${currentEvent.x}pz`}>
-            //             {/* <h1>{d.properties.name}</h1> */}
-            //             <p>This is a boot set</p>
-            //         </div>
-            //     )
-            // }
+        //     //     return (
+        //     //         <div className="popup" style={`top:${currentEvent.y}px; left:${currentEvent.x}pz`}>
+        //     //             {/* <h1>{d.properties.name}</h1> */}
+        //     //             <p>This is a boot set</p>
+        //     //         </div>
+        //     //     )
+        //     // }
 
-            // // let info = `<br>&lambda; :  <br
-            // const info = d => {
-            //     return (
-            //         <div className="info" style={{top: "200px", left:'150px'}}>
-            //             <a href="https://google.com">
-            //                 <span>
-            //                     sl : ${parseFloat(d.properties.sol).toFixed(3)}
-            //                     <br/>
-            //                     &lambda; : ${parseFloat(d.geometry.coordinates[0]).toFixed(2)}
-            //                     <br/>
-            //                     &beta; : ${parseFloat(d.geometry.coordinates[1]).toFixed(2)} 
-            //                     <br/>
-            //                     Vg : ${parseFloat(d.properties.velocg).toFixed(2)}
-            //                 </span>
-            //             </a>
-            //         </div>
-            //     )
-            // }
+        //     // // let info = `<br>&lambda; :  <br
+        //     // const info = d => {
+        //     //     return (
+        //     //         <div className="info" style={{top: "200px", left:'150px'}}>
+        //     //             <a href="https://google.com">
+        //     //                 <span>
+        //     //                     sl : ${parseFloat(d.properties.sol).toFixed(3)}
+        //     //                     <br/>
+        //     //                     &lambda; : ${parseFloat(d.geometry.coordinates[0]).toFixed(2)}
+        //     //                     <br/>
+        //     //                     &beta; : ${parseFloat(d.geometry.coordinates[1]).toFixed(2)} 
+        //     //                     <br/>
+        //     //                     Vg : ${parseFloat(d.properties.velocg).toFixed(2)}
+        //     //                 </span>
+        //     //             </a>
+        //     //         </div>
+        //     //     )
+        //     // }
+
+        //     setShowPopup(true);
+
+        //     const popup = d => {
+        //         return null
+        //     }
+
+        //     React.render(<popup />)
             
-            // d3.select('body').append(<Popup />);
-            // d3.select('body').append(<info />);
-        }
+        //     // d3.select('body').append(<Popup />);
+        //     // d3.select('body').append(<info />);
+        // }
 
         let handleMouseClick = function (d) {
             window.open('https://www.meteorshowers.org/view/iau-' + d.properties.name);
@@ -196,11 +222,13 @@ const GlobeObject = ({sunJson, starJson, meteorJson}) => {
                 handleMouseClick(d);
             })
             .on("mouseover", function (d) {
-                handleMouseOver(d);
+                // handleMouseOver(d);
+                return () => showTooltip(true)
             })
             .on("mouseout", () => {
-                d3.select('.popup').remove();
-                d3.select('.info').remove();
+                return () => showTooltip(false)
+                // d3.select('.popup').remove();
+                // d3.select('.info').remove();
             });
 
 
@@ -233,9 +261,9 @@ const GlobeObject = ({sunJson, starJson, meteorJson}) => {
 
             // let mouse = d3.mouse(this);
             if (!currentEvent || !rotationComplete) {
-                currentEvent = { 'x': 20 + d.x, 'y': 20 + d.y }
+                currentEvent = { 'x': 5 * d.x, 'y': 0 }
             }
-            console.log(`currentEvent is ${currentEvent.x}, ${currentEvent.y} /// d is ${d.x} ${d.y}`);
+            // console.log(`currentEvent is ${currentEvent.x}, ${currentEvent.y} /// d is ${d.x} ${d.y}`);
             
             projection.rotate([(d.x = currentEvent.x), -(d.y = currentEvent.y)]);
             // METEOR
@@ -267,7 +295,7 @@ const GlobeObject = ({sunJson, starJson, meteorJson}) => {
         let i = 180;
 
         let globeRotationInterval = setInterval(function () {
-            drag({ 'x': 1 * (i - 1) + 270, 'y': i });
+            drag({ 'x': 1 * (i - 1) + 270, 'y': 0 });
             i--;
             if (i === 0) {
                 // rotationComplete = true;
@@ -299,7 +327,9 @@ const GlobeObject = ({sunJson, starJson, meteorJson}) => {
         //         .style("font-size", "12px");
         // });
     })
+
+
     return null
 }
 
-export default Globe;  
+export default Globe;
