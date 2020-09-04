@@ -25,7 +25,7 @@ class NavigationBar extends Component {
             <DatePicker
                 className="datepicker"
                 value={selectedDate}
-                onChange={onDateChange}
+                onSelect={onDateChange}
             />
         </div>
       </div>
@@ -34,4 +34,4 @@ class NavigationBar extends Component {
 }
 
 export default NavigationBar;
-     
+        

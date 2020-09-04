@@ -10,7 +10,7 @@ import { getSunData } from '../sources/sun';
 
 import "./style.css";
 
-const Globe = (props, children) => {
+const Globe = (props) => {
     const [date] = useState(props.date);
 
     const [showTooltip, setShowTooltip] = useState(false) // Boolean For Popup
@@ -20,18 +20,20 @@ const Globe = (props, children) => {
     return (
         <section>
             <div id="orthographic"></div>
-            <GlobeObject
-                date={date}
-                showTooltip={showPopup => setShowTooltip(showPopup)}>
-                { showTooltip ?
-                    <Tooltip
-                        title={props.dataPoint}
-                        TransitionComponent={Zoom}>
-                        <p>He</p>
-                    </Tooltip>
-                    : null
-                }
-            </GlobeObject>
+            <div className="col-lg-7">
+                <GlobeObject
+                    date={date}
+                    showTooltip={showPopup => setShowTooltip(showPopup)}>
+                    { showTooltip ?
+                        <Tooltip
+                            title={props.dataPoint}
+                            TransitionComponent={Zoom}>
+                            <p>He</p>
+                        </Tooltip>
+                        : null
+                    }
+                </GlobeObject>
+            </div>
         </section>
     )
 }
@@ -332,4 +334,4 @@ const GlobeObject = ({date, showTooltip}) => {
     return null
 }
 
-export default Globe;
+export default Globe;                         

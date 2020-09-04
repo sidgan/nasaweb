@@ -4,6 +4,7 @@ import NavigationBar from './components/NavigationBar';
 import Globe from './components/Globe';
 import Button from './components/Button';
 import FooterTabs from './components/FooterTabs';
+// import StyledCheckbox from './components/Checkbox';
 
 import image from './images/CAMSbanner.jpg';
 import './App.css';
@@ -15,25 +16,39 @@ class App extends Component {
     super();
     this.state = {
       date: "",
+      status: "Remove",
       showPopup: false,
-    }
+      showOverlay: true
+    };
+    this.handleDateChange = this.handleDateChange.bind(this)
   }
 
 
   static getDerivedStateFromProps(props, state) {
     let newDate = new Date();
     return {
-      date: newDate.toDateString()
+      date: `${newDate.toDateString()}`
     }
   }
 
-
   togglePopup = () => {
+    console.log(`Popup -${this.state.showPopup}`)
     this.setState({ showPopup: !this.state.showPopup })
+  }
+
+  toggleOverlay = () => {
+    this.setState({ showOverlay: !this.state.showOverlay });
+    console.log(this.state.showOverlay)
+    if (this.state.showOverlay) {
+      this.setState({ status: "Add" })
+    } else {
+      this.setState({ status: "Remove" })
+    }
   }
 
   handleDateChange = date => {
     let newDate = date.toDateString();
+    console.log(newDate)
     this.setState({
       date: newDate
     });
@@ -47,12 +62,13 @@ class App extends Component {
   getMonthFromString = mon => {
       return new Date(Date.parse(mon + " 1, 2012")).getMonth() + 1
   }
-
+ 
   getDateFormat = date => {
       let res = date.split(" ");
       let month = this.getMonthFromString(res[1])
       return `${res[3]}_${this.addZ(String(month))}_${this.addZ(res[2])}`;
   }
+
 
   render() {
     console.log(this.state.date)
@@ -62,7 +78,7 @@ class App extends Component {
           selectedDate={this.state.date}
           onDateChange={this.handleDateChange}
         />
-        
+
         {
           this.state.showPopup ?
             <Popup
@@ -88,16 +104,20 @@ class App extends Component {
             : null
         }
         <div className='flexbox_container'>
-          <div className='col-lg-10'>
+          <div className='col-lg-9'>
             <img src={image} className="cams-logo" alt="cams"></img>
             <Globe
               date={this.updateGlobeWithData}
               />
           </div>
-          <div className='col-lg-2 m-6 switch'>
-            <Button 
-              onClick={this.togglePopup}
-            />
+          <div className='col-lg-3 m-6'>
+
+              <div className="guide-1">
+                <Button onClick={this.togglePopup}>Open Guide</Button>
+              </div>
+              {/* <div className="overlay">
+                <Button onClick={this.toggleOverlay}>{this.state.status} Overlay</Button>
+              </div> */}
           </div>
         </div>
         <FooterTabs />
@@ -105,6 +125,8 @@ class App extends Component {
     )
   }
 }
+  
+
 
 
 export default App;      

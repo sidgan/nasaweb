@@ -19,11 +19,10 @@ function Button(props) {
     <div>
         <Fab variant="extended" color="primary" aria-label="add" className={classes.margin} onClick={props.onClick}>
             <NavigationIcon className={classes.extendedIcon} />
-            Open Guide
+            {props.children}
         </Fab>
     </div>
   );
 }
 
 export default Button;
-

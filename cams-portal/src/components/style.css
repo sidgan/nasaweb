@@ -73,12 +73,20 @@
   border: 2px dotted #cfcece;
 }
 
-.switch Button{
-    position: absolute;
-    bottom: 50px;
-    right: 110px;
-    color: rgba(223, 223, 236, 0.863);
-    background-color: rgba(0, 66, 128, 0.856);
+.guide-1 Button {
+  position: absolute;
+  bottom: 50px;
+  right: 110px;
+  color: rgba(223, 223, 236, 0.863);
+  background-color: rgba(0, 66, 128, 0.856);
+}
+
+.overlay Button {
+  position: absolute;
+  bottom: 150px;
+  right: 110px;
+  color: rgba(223, 223, 236, 0.863);
+  background-color: rgba(0, 66, 128, 0.856);
 }
 
 .cams-logo {
