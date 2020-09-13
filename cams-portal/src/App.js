@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Popup from 'reactjs-popup';
+import ReactGlobe from 'react-globe';
 import NavigationBar from './components/NavigationBar';
-import Globe from './components/Globe';
+// import Globe from './components/Globe';
 import Button from './components/Button';
 import FooterTabs from './components/FooterTabs';
 // import StyledCheckbox from './components/Checkbox';
@@ -9,6 +10,8 @@ import FooterTabs from './components/FooterTabs';
 import image from './images/CAMSbanner.jpg';
 import './App.css';
 
+import "tippy.js/dist/tippy.css";
+import "tippy.js/animations/scale.css";
 
 class App extends Component {
 
@@ -104,13 +107,22 @@ class App extends Component {
             : null
         }
         <div className='flexbox_container'>
-          <div className='col-lg-9'>
+          <div className='col-lg-12'>
             <img src={image} className="cams-logo" alt="cams"></img>
-            <Globe
+            {/* <Globe
               date={this.updateGlobeWithData}
+              /> */}
+            <ReactGlobe 
+              height={800}
+              width="100%"
               />
+    
+            {/* <Globe
+              globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+              width="800"
+              height="800"/> */}
           </div>
-          <div className='col-lg-3 m-6'>
+          <div className='m-6'>
 
               <div className="guide-1">
                 <Button onClick={this.togglePopup}>Open Guide</Button>

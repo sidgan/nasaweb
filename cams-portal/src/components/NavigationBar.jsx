@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
+import DayPickerInput from "react-day-picker/DayPickerInput";
+import 'react-day-picker/lib/style.css';
 
 import logo from "../images/icon.png";
 // import { ReactComponent as ReactLogo } from './Icon.svg'
@@ -22,10 +24,10 @@ class NavigationBar extends Component {
         <div className="search_box col-lg-3">
             <img src="https://img.icons8.com/ios-filled/50/e74c3c/down2.png" alt=""/>
             <br />
-            <DatePicker
+            <DayPickerInput
                 className="datepicker"
                 value={selectedDate}
-                onSelect={onDateChange}
+                onDayChange={onDateChange}
             />
         </div>
       </div>
