@@ -25,7 +25,7 @@ class NavigationBar extends Component {
             <img src="https://img.icons8.com/ios-filled/50/e74c3c/down2.png" alt=""/>
             <br />
             <DayPickerInput
-                className="datepicker"
+                style={{ textAlign: 'center' }}
                 value={selectedDate}
                 onDayChange={onDateChange}
             />

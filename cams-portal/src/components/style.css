@@ -3,6 +3,8 @@
   flex-direction: row;
   display: inline-flex;
   width: 100%;
+  bottom: 0;
+  top: 0;
 }
 
 .title_item {
