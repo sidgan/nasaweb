@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Popup from 'reactjs-popup';
-import ReactGlobe from 'react-globe';
 import NavigationBar from './components/NavigationBar';
-// import Globe from './components/Globe';
+import GlobeObject from './components/Globe';
 import Button from './components/Button';
 import FooterTabs from './components/FooterTabs';
 // import StyledCheckbox from './components/Checkbox';
@@ -10,10 +9,9 @@ import FooterTabs from './components/FooterTabs';
 import image from './images/CAMSbanner.jpg';
 import './App.css';
 
+
 import "tippy.js/dist/tippy.css";
 import "tippy.js/animations/scale.css";
-
-
 
 
 class App extends Component {
@@ -115,9 +113,7 @@ class App extends Component {
             {/* <Globe
               date={this.updateGlobeWithData}
               /> */}
-            <ReactGlobe 
-              height={800}
-              width="100%"
+            <GlobeObject
               />
     
             {/* <Globe

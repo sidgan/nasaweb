@@ -1,3 +1,4 @@
+// import { Marker } from 'react-globe';
 
 export const getSunData = () => {
     const data = require('../json/sun.json')
@@ -10,6 +11,7 @@ export const getSunData = () => {
 
 }
 
+export default getSunData;
 
 export const sunData = {
     "type": "FeatureCollection",
