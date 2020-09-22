@@ -10,9 +10,6 @@ import image from './images/CAMSbanner.jpg';
 import './App.css';
 
 
-import "tippy.js/dist/tippy.css";
-import "tippy.js/animations/scale.css";
-
 
 class App extends Component {
 
@@ -24,15 +21,8 @@ class App extends Component {
       showPopup: false,
       showOverlay: true
     };
-    this.handleDateChange = this.handleDateChange.bind(this)
-  }
-
-
-  static getDerivedStateFromProps(props, state) {
-    let newDate = new Date();
-    return {
-      date: `${newDate.toDateString()}`
-    }
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.updateGlobeWithDate = this.updateGlobeWithDate.bind(this)
   }
 
   togglePopup = () => {
@@ -50,16 +40,30 @@ class App extends Component {
     }
   }
 
-  handleDateChange = date => {
-    let newDate = date.toDateString();
-    console.log(newDate)
-    this.setState({
-      date: newDate
-    });
+  handleDateChange = (d) => {
+    const newDate = d;
+    console.log(newDate, this.state.date)
+    if(newDate === this.state.date){
+      console.log("Updated")
+    }
+    else {
+      this.setState({
+        date: newDate
+      });
+    }
   };
 
-  updateGlobeWithData = () => {
-    return this.getDateFormat(this.state.date)
+  updateGlobeWithDate = () => {
+    const { date } = this.state;
+
+    if( date === "") {
+      let formatDate = this.getDateFormat(`${new Date()}`);
+      return formatDate
+    }
+    else {
+      let formatDate = this.getDateFormat(this.state.date);
+      return formatDate
+    }
   }
 
   addZ = n => { return n < 10 && n.length === 1 ? '0' + n : '' + n; }
@@ -75,7 +79,7 @@ class App extends Component {
 
 
   render() {
-    console.log(this.state.date)
+
     return (
       <div className="App">
         <NavigationBar
@@ -110,16 +114,9 @@ class App extends Component {
         <div className='flexbox_container'>
           <div className='col-lg-12'>
             <img src={image} className="cams-logo" alt="cams"></img>
-            {/* <Globe
-              date={this.updateGlobeWithData}
-              /> */}
-            <GlobeObject
-              />
-    
-            {/* <Globe
-              globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
-              width="800"
-              height="800"/> */}
+
+            <GlobeObject date={this.updateGlobeWithDate()}/>
+
           </div>
           <div className='m-6'>
 

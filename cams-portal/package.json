@@ -8,6 +8,8 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "carbon-components": "^10.20.0",
+    "carbon-components-react": "^7.20.0",
     "d3": "^5.16.0",
     "material-ui": "^0.20.2",
     "react": "^16.9.0",
@@ -19,6 +21,7 @@
     "react-globe.gl": "^2.12.4",
     "react-pikaday": "^0.5.1",
     "react-popup": "^0.10.0",
+    "react-rainbow-components": "^1.17.0",
     "react-scripts": "3.4.1",
     "reactjs-popup": "^1.5.0",
     "topojson": "^3.0.2"

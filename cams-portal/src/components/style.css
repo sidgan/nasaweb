@@ -13,7 +13,7 @@
   font-weight: bolder;
   text-align: left;
   padding: 2rem;
-  color: rgb(183, 183, 255);
+  color: rgb(247, 110, 110);
 }
 
 .logo_item {
@@ -77,7 +77,7 @@
 
 .guide-1 Button {
   position: fixed;
-  bottom: 150px;
+  bottom: 100px;
   right: 110px;
   color: rgba(223, 223, 236, 0.863);
   background-color: rgba(0, 66, 128, 0.856);
