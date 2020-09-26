@@ -39,3 +39,5 @@ This repository only contains the code for the new **Celestial Globe Web Portal*
   Depending on how large the JSON data gets, it might be worthwhile hosting it on a backend server as an API rather than having a single JSON file loaded in memory.
   
 - Add a slider that can take results from different models and visually see which model works better (based on results)
+
+- limit date picker to current date (yesterday)
