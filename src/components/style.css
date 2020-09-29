@@ -9,7 +9,7 @@
 
 .title_item {
   font-size: 32px;
-  font-family: "Lucida Sans Regular";
+  font-family: 'Lucida Sans Regular';
   font-weight: bolder;
   text-align: left;
   padding: 2rem;
@@ -95,7 +95,6 @@
   position: absolute;
   border: 3px lightblue;
   height: 40px;
-  weight: 75px;
   bottom: 30px;
   left: 120px;
 }
