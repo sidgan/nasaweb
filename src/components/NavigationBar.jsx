@@ -1,36 +1,43 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { DatePicker } from 'react-rainbow-components';
-import logo from "../images/icon.png";
+import logo from '../images/icon.png';
 
-import "./style.css";
-
+import './style.css';
 
 class NavigationBar extends Component {
   state = {
-    date: this.props.selectedDate
-  }
+    date: this.props.selectedDate,
+  };
 
   componentDidUpdate() {
-    console.log(`Here we are! ${this.state.date}`)
-    this.props.onDateChange(this.state.date)
+    console.log(`Here we are! ${this.state.date}`);
+    this.props.onDateChange(this.state.date);
   }
 
-  render() { 
+  render() {
     return (
       <div className="flexbox_container p-3">
         <a className="logo_item col-lg-2" href="http://cams.seti.org">
           <img src={logo} alt="NASA" width="100" />
         </a>
-  
+
         <p className="title_item col-lg-7">NASA Meteor Shower Portal</p>
         <div className="search_box col-lg-3">
-          <img src="https://img.icons8.com/ios-filled/50/e74c3c/down2.png" alt=""/>
+          <img
+            src="https://img.icons8.com/ios-filled/50/e74c3c/down2.png"
+            alt=""
+          />
           <br />
 
-          <div className="rainbow-align-content_center rainbow-m-vertical_large" style={{ maxWidth: 350 }}>
+          <div
+            className="rainbow-align-content_center rainbow-m-vertical_large"
+            style={{ maxWidth: 350 }}
+          >
             <DatePicker
               value={this.state.date}
-              onChange={value => this.setState({ date : value.toDateString() })}
+              onChange={(value) =>
+                this.setState({ date: value.toDateString() })
+              }
               placeholder="Pick A Date To See Meteors"
               formatStyle="large"
             />
@@ -40,9 +47,8 @@ class NavigationBar extends Component {
     );
   }
 }
- 
-export default NavigationBar;
 
+export default NavigationBar;
 
 // const NavigationBar = props => {
 
@@ -80,8 +86,7 @@ export default NavigationBar;
 //       </div>
 //     </div>
 //   );
-  
+
 // }
 
 // export default NavigationBar;
-         

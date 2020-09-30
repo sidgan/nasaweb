@@ -3,7 +3,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import './style.css';
 
-
 function a11yProps(index) {
   return {
     id: `scrollable-auto-tab-${index}`,
@@ -29,12 +28,7 @@ export default function FooterTabs() {
 
   return (
     <div className="footer">
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        textColor="white"
-        centered
-      >
+      <Tabs value={value} onChange={handleChange} textColor="white" centered>
         <Tab label="All Video" {...a11yProps(0)} />
         <Tab label="Arizona" {...a11yProps(1)} />
         <Tab label="Arkansas" {...a11yProps(2)} />
@@ -54,4 +48,3 @@ export default function FooterTabs() {
     </div>
   );
 }
- 

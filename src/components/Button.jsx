@@ -17,10 +17,16 @@ function Button(props) {
 
   return (
     <div>
-        <Fab variant="extended" color="primary" aria-label="add" className={classes.margin} onClick={props.onClick}>
-            <NavigationIcon className={classes.extendedIcon} />
-            {props.children}
-        </Fab>
+      <Fab
+        variant="extended"
+        color="primary"
+        aria-label="add"
+        className={classes.margin}
+        onClick={props.onClick}
+      >
+        <NavigationIcon className={classes.extendedIcon} />
+        {props.children}
+      </Fab>
     </div>
   );
 }

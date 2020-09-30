@@ -8,7 +8,6 @@
   position: inherit;
   background: transparent;
   justify-items: baseline;
-  
 }
 
 .globe {
@@ -17,20 +16,19 @@
 }
 
 .land {
-  fill: #BCBCBC;
+  fill: #bcbcbc;
   pointer-events: none;
 }
 
 .guide {
-  stroke: #3299BB;
+  stroke: #3299bb;
   pointer-events: none;
 }
 
 .guide-label {
-  fill: #3299BB;
+  fill: #3299bb;
   pointer-events: none;
 }
-
 
 .cellestial-globe {
   fill: #355886;
@@ -38,18 +36,18 @@
 }
 
 .meteor {
-  fill: #FFFFFF;
-  fill-opacity: 1.0;
+  fill: #ffffff;
+  fill-opacity: 1;
 }
 
 .star {
   fill: #000000;
-  fill-opacity: 1.0;
+  fill-opacity: 1;
 }
 
 .sun {
-  fill: #FFFF00;
-  fill-opacity: 1.0;
+  fill: #ffff00;
+  fill-opacity: 1;
 }
 
 .star-label {
@@ -58,7 +56,6 @@
   fill: #fff;
   fill-opacity: 0.6;
 }
-
 
 .graticule {
   fill: none;
@@ -105,4 +102,3 @@
   color: #f5eaea;
   font-weight: 800;
 }
- 
