@@ -17,7 +17,7 @@ const colorScale = (code) => {
     return 'rgb(0,255,0)';
   } else if (code > 57 && code <= 67) {
     return 'rgb(255,255,0)';
-  } else if (code > 57 && code <= 120) {
+  } else if (code > 67 && code <= 120) {
     return 'rgb(255,165,0)';
   } else {
     return 'rgb(255,0,0)';
@@ -113,3 +113,4 @@ const GlobeObject = (props) => {
 };
 
 export default GlobeObject;
+ 
