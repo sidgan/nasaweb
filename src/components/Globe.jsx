@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactGlobe from 'react-globe';
 
 import 'tippy.js/dist/tippy.css';
@@ -24,54 +24,47 @@ const colorScale = (code) => {
   }
 };
 
-const getDataPoints = (d) => {
-  let date = '2020_09_22';
-
-  const sunMarkers = [require('../json/sun.json')];
-  const starMarkers = require(`../json/hyg.json`);
-  const meteorMarkers = require(`../json/ALL/hyg${date}_00_00_00.json`);
-
-  let sourceMarkers = [];
-
-  sunMarkers.forEach((m) => {
-    sourceMarkers.push({
-      id: sourceMarkers.length,
-      color: '#FDB800',
-      name: 'Sun',
-      coordinates: [...m.features[0].geometry.coordinates],
-      value: 35,
-    });
-  });
-
-  starMarkers.features.forEach((m) => {
-    sourceMarkers.push({
-      id: sourceMarkers.length,
-      color: 'black',
-      name: 'Star',
-      coordinates: [...m.geometry.coordinates],
-      value: 28,
-    });
-  });
-
-  meteorMarkers.features.forEach((m) => {
-    sourceMarkers.push({
-      id: sourceMarkers.length,
-      color: colorScale(m.properties.color),
-      name: m.properties.name,
-      coordinates: [...m.geometry.coordinates],
-      value: 30,
-    });
-  });
-
-  return sourceMarkers;
-};
 
 const GlobeObject = (props) => {
+
+  const getDataPoints = (date) => {
+    console.log("Updating Globe Component");
+    const sunMarkers = [require('../json/sun.json')];
+    const meteorMarkers = require(`../json/ALL/${date}_00_00_00.json`);
+
+    let sourceMarkers = [];
+
+    sunMarkers.forEach((m) => {
+      sourceMarkers.push({
+        id: sourceMarkers.length,
+        color: '#FDB800',
+        name: 'Sun',
+        coordinates: [...m.features[0].geometry.coordinates],
+        value: 85,
+      });
+    });
+
+    meteorMarkers.features.forEach((m) => {
+      sourceMarkers.push({
+        id: sourceMarkers.length,
+        color: colorScale(m.properties.color),
+        name: m.properties.name,
+        coordinates: [...m.geometry.coordinates],
+        value: 50,
+      });
+    });
+
+    return sourceMarkers;
+  };
+
+
   const randomMarkers = getDataPoints(props.date).map((marker) => ({
     ...marker,
   }));
 
-  const [markers] = useState([...randomMarkers]);
+  const globeTexture = 'https://raw.githubusercontent.com/chrisrzhou/react-globe/main/textures/globe_dark.jpg';
+
+  const [markers, setMarkers] = useState([...randomMarkers]);
   const [globe, setGlobe] = useState(null);
 
   const markerTooltipRenderer = (marker) => {
@@ -80,11 +73,14 @@ const GlobeObject = (props) => {
 
   const options = {
     ambientLightColor: 'grey',
+    enableGlobeGlow: false,
     enableMarkerGlow: true,
     enableMarkerTooltip: true,
     ambientLightIntensity: 1,
     markerTooltipRenderer: markerTooltipRenderer,
-    markerRadiusScaleRange: [0.001, 0.02],
+    markerRadiusScaleRange: [0.006, 0.02],
+    enableCameraZoom: true,
+    enableDefocus: true,
     markerType: 'dot',
     cameraAutoRotateSpeed: 0.5,
     globeCloudsOpacity: 0.5,
@@ -92,6 +88,14 @@ const GlobeObject = (props) => {
   };
 
   console.log(globe); // captured globe instance with API methods
+
+  useEffect(() => {
+    const newMarkers = getDataPoints(props.date).map((marker) => ({
+      ...marker,
+    }));
+
+    setMarkers([...newMarkers]);
+  }, [props.date])
 
   return (
     <section>
@@ -102,6 +106,7 @@ const GlobeObject = (props) => {
         width="100%"
         onGetGlobe={setGlobe}
         globeCloudsTexture={null}
+        globeTexture={globeTexture}
       />
     </section>
   );

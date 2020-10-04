@@ -19,7 +19,7 @@ class App extends Component {
       showOverlay: true,
     };
     this.handleDateChange = this.handleDateChange.bind(this);
-    this.updateGlobeWithDate = this.updateGlobeWithDate.bind(this);
+    // this.updateGlobeWithDate = this.updateGlobeWithDate.bind(this);
   }
 
   togglePopup = () => {
