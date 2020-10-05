@@ -16,7 +16,7 @@ This repository only contains the code for the new **Celestial Globe Web Portal*
 
 ## Todo
 
-- Adding constellations, seasonal changes, etc:
+- Adding constellations in the background for intuitive feel + reference location. Can be simple lines or illustrative. 
 
   Use SVG to have stars in black and lines joining them will be black too.
 
@@ -24,14 +24,16 @@ This repository only contains the code for the new **Celestial Globe Web Portal*
 
   Have a checkbox to remove/overlay them.
 
-- Find a way to add lat/long coordinates to the lines if zoomed in. 
+- Find a way to add lat/long coordinates to the lines if zoomed in. Fits in with animations.
 
 - Find a way to scroll over several days of observations, to see the showers move.
  
   Have some kind of a fast forward or timelapse on the globe. So when the user clicks "next", the next days' meteors are loaded so one can view how the meteor is moving over time (day). Something similar to videos that show the movement of stars at night (example: https://www.youtube.com/watch?v=HsJxGpDmJrQ&t=09)
   UI of movement of meteors and stars: https://worldview.earthdata.nasa.gov/?v=-128.90451997335305,34.795375946677936,-115.59462762476738,41.855633184631046&t=2020-09-10-T00%3A00%3A00Z
 
-- Find a way to make the points smaller when zoomed in, to resolve compact showers
+- Find a way to make the points smaller when zoomed in, to resolve compact shower. 
+Invible meteor showers may be under some other meteor showers. 
+example - cragislist  https://sfbay.craigslist.org/d/apartments-housing-for-rent/search/apa
 
   Clustering points and unclustering them when clicked upon.
 
