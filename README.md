@@ -44,3 +44,7 @@ example - cragislist  https://sfbay.craigslist.org/d/apartments-housing-for-rent
 - Add a slider that can take results from different models and visually see which model works better (based on results)
 
 - limit date picker to current date (yesterday)
+
+- should run on mobile browser
+
+- intelligent search powered for same date on different years showing a meteor shower per year. eg geminids on 2010 - 2020.
