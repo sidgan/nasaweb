@@ -34,6 +34,7 @@ const GlobeObject = (props) => {
     console.log("Updating Globe Component");
     const meteorNames = require('../json/showers.json');
     const sunMarkers = [require('../json/sun.json')];
+    const starMarkers = require(`../json/hyg.json`);
     const meteorMarkers = require(`../json/ALL/${date}_00_00_00.json`);
 
     let sourceMarkers = [];
@@ -44,7 +45,17 @@ const GlobeObject = (props) => {
         color: '#FDB800',
         name: 'Sun',
         coordinates: [...m.features[0].geometry.coordinates],
-        value: 85,
+        value: 35,
+      });
+    });
+
+    starMarkers.features.forEach((m) => {
+      sourceMarkers.push({
+        id: sourceMarkers.length,
+        color: 'black',
+        name: 'Star',
+        coordinates: [...m.geometry.coordinates],
+        value: 28,
       });
     });
 
@@ -54,7 +65,7 @@ const GlobeObject = (props) => {
         color: colorScale(m.properties.color),
         name: meteorNames[m.properties.name],
         coordinates: [...m.geometry.coordinates],
-        value: 50,
+        value: 30,
       });
     });
 
@@ -72,7 +83,7 @@ const GlobeObject = (props) => {
   // const [background] = useState(starBackground);
 
   const markerTooltipRenderer = (marker) => {
-    return `IAU Name: ${marker.name} \n`;
+    return `${marker.name} \n`;
   };
 
   const options = {
@@ -82,7 +93,7 @@ const GlobeObject = (props) => {
     enableMarkerTooltip: true,
     ambientLightIntensity: 1,
     markerTooltipRenderer: markerTooltipRenderer,
-    markerRadiusScaleRange: [0.006, 0.02],
+    markerRadiusScaleRange: [0.001, 0.02],
     enableCameraZoom: true,
     enableDefocus: true,
     markerType: 'dot',
@@ -134,4 +145,4 @@ const GlobeObject = (props) => {
 };
 
 export default Responsive(GlobeObject);
-       
+        
