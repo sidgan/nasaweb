@@ -5,21 +5,38 @@
   width: 100%;
   bottom: 0;
   top: 0;
+  padding: 0;
 }
 
 .title_item {
-  font-size: 32px;
+  font-size: 35px;
   font-family: 'Lucida Sans Regular';
   font-weight: bolder;
-  text-align: left;
   padding: 2rem;
-  color: rgb(247, 110, 110);
+  text-align: left;
+  color: rgb(247, 238, 238);
+  margin-top: 20px;
 }
 
 .logo_item {
-  padding: 1rem;
+  padding: 2.5rem;
   margin: 5px;
 }
+
+@media only screen and (max-width: 800px) {
+  .title_item {
+    font-size: 18px;
+    padding: 0.5rem;
+    text-align: center;
+  }
+
+  .logo_item {
+    padding: 0.5rem;
+    margin: 1px;
+  }
+}
+
+
 
 .search_box {
   padding: 1rem;
@@ -27,14 +44,14 @@
   transition-timing-function: ease-in-out 0.5s;
 }
 
-.datepicker {
+/* .datepicker {
   height: 40px;
   align-content: right;
   border-color: blue;
   font-style: italic;
   text-align: center;
   color: tomato;
-}
+} */
 
 .modal {
   font-size: 20px;
@@ -85,7 +102,7 @@
 
 .overlay Button {
   position: absolute;
-  bottom: 150px;
+  bottom: 200px;
   right: 110px;
   color: rgba(223, 223, 236, 0.863);
   background-color: rgba(0, 66, 128, 0.856);
@@ -110,3 +127,4 @@
   font-family: Georgia, 'Times New Roman', Times, serif;
   box-sizing: border-box;
 }
+ 

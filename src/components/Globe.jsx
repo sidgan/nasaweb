@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ReactGlobe from 'react-globe';
+import Responsive from 'react-responsive-decorator';
+// import starBackground from '../images/background.png';
+import globeTexture from '../images/globe.jpg';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
@@ -29,6 +32,7 @@ const GlobeObject = (props) => {
 
   const getDataPoints = (date) => {
     console.log("Updating Globe Component");
+    const meteorNames = require('../json/showers.json');
     const sunMarkers = [require('../json/sun.json')];
     const meteorMarkers = require(`../json/ALL/${date}_00_00_00.json`);
 
@@ -48,7 +52,7 @@ const GlobeObject = (props) => {
       sourceMarkers.push({
         id: sourceMarkers.length,
         color: colorScale(m.properties.color),
-        name: m.properties.name,
+        name: meteorNames[m.properties.name],
         coordinates: [...m.geometry.coordinates],
         value: 50,
       });
@@ -61,14 +65,14 @@ const GlobeObject = (props) => {
   const randomMarkers = getDataPoints(props.date).map((marker) => ({
     ...marker,
   }));
-
-  const globeTexture = 'https://raw.githubusercontent.com/chrisrzhou/react-globe/main/textures/globe_dark.jpg';
+  // const globeBackground = 'https://raw.githubusercontent.com/chrisrzhou/react-globe/blob/main/textures/background.png';
 
   const [markers, setMarkers] = useState([...randomMarkers]);
   const [globe, setGlobe] = useState(null);
+  // const [background] = useState(starBackground);
 
   const markerTooltipRenderer = (marker) => {
-    return `IAU NAME: ${marker.name} (Number: ${marker.id})`;
+    return `IAU Name: ${marker.name} \n`;
   };
 
   const options = {
@@ -89,13 +93,29 @@ const GlobeObject = (props) => {
 
   console.log(globe); // captured globe instance with API methods
 
+  // This updates the markers
   useEffect(() => {
-    const newMarkers = getDataPoints(props.date).map((marker) => ({
-      ...marker,
-    }));
-
-    setMarkers([...newMarkers]);
+    return () => { 
+      const newMarkers = getDataPoints(props.date).map((marker) => ({
+        ...marker,
+      }));
+      setMarkers([...newMarkers])
+    }
   }, [props.date])
+
+  // This toggles the background image
+  // useEffect(() => {
+  //   return () => {
+  //     if (props.status === false) {
+  //       setBackground(starBackground);
+  //     }
+  //     else {
+  //       setBackground(null);
+  //     }
+  //   }
+  // }, [props.status])
+
+  // console.log(props.status)
 
   return (
     <section>
@@ -107,10 +127,11 @@ const GlobeObject = (props) => {
         onGetGlobe={setGlobe}
         globeCloudsTexture={null}
         globeTexture={globeTexture}
+        globeBackgroundTexture={null}
       />
     </section>
   );
 };
 
-export default GlobeObject;
- 
+export default Responsive(GlobeObject);
+       

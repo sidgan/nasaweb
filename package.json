@@ -13,7 +13,9 @@
     "react-globe": "^5.0.2",
     "react-globe.gl": "^2.12.4",
     "react-rainbow-components": "^1.17.0",
+    "react-responsive-decorator": "^0.0.1",
     "react-scripts": "3.4.1",
+    "react-switch": "^5.0.1",
     "reactjs-popup": "^1.5.0",
     "topojson": "^3.0.2"
   },
