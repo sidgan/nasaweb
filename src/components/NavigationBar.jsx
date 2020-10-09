@@ -35,6 +35,8 @@ class NavigationBar extends Component {
             style={{ maxWidth: 350 }}
           >
             <DatePicker
+              minDate={new Date(2018, 10, 1)}
+              maxDate={new Date(2020, 10, 8)}
               value={this.state.date}
               onChange={(value) =>
                 this.setState({ date: value.toDateString() })
