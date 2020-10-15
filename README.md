@@ -47,59 +47,59 @@ This repository only contains the code for the new **Celestial Globe Web Portal*
 
 Here are the steps to follow in getting the web portal up and running locally;
 
-Clone the repository to a machine
+- Clone the repository to a machine
 
 ```sh
 git clone https://github.com/sidgan/nasaweb
 ```
-    or using `gihub cli`
+or using `gihub cli`
 
 ```sh
 gh repo clone https://github.com/sidgan/nasaweb
 ```
     
-Move into the project directory
+- Move into the project directory
 
-    ```sh
-    cd nasaweb
-    ```
+```sh
+cd nasaweb
+```
 
-Install all dependencies needed to run the CAMS web portal react application
+- Install all dependencies needed to run the CAMS web portal react application
 
-    ```sh
-    yarn install
-    ```
+```sh
+yarn install
+```
 
-You need to wait for all the project dependecies to download completely before moving any forward. To start the development server run,
+- Wait for all the project dependecies to download completely before moving any forward. To start the development server run,
 
-    ```sh
-    yarn start
-    ```
+```sh
+yarn start
+```
   
 At this point, you can open the browser and open [http://localhost:3000](http://localhost:3000) to view the CAMS web portal in development mode.
 
-For testing you run,
+- For testing you run,
 
-    ```sh
-    yarn test
-    ````
+```sh
+yarn test
+````
     
-Finally, to build the application into the `build` directory for production mode or better known as deployment. You run,
+- Finally, to build the application into the `build` directory for production mode or better known as deployment. You run,
 
-    ```sh
-    yarn build
-    ```
+```sh
+yarn build
+```
 
 It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes.
 <br />
 Your app is ready to be deployed!
 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-     ```sh
-     yarn eject
-     ```
+ ```sh
+ yarn eject
+ ```
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
