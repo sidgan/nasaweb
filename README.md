@@ -49,30 +49,30 @@ Here are the steps to follow in getting the web portal up and running locally;
 
 Clone the repository to a machine
     
-    ```bash
+    ```sh
     git clone https://github.com/sidgan/nasaweb
     ```
-    or using `gihub cli`
+        or using `gihub cli`
     
-    ```bash
+    ```sh
     gh repo clone https://github.com/sidgan/nasaweb
     ```
     
 Move into the project directory
 
-    ```bash
+    ```sh
     cd nasaweb
     ```
 
 Install all dependencies needed to run the CAMS web portal react application
 
-    ```bash
+    ```sh
     yarn install
     ```
 
 You need to wait for all the project dependecies to download completely before moving any forward. To start the development server run,
 
-    ```bash
+    ```sh
     yarn start
     ```
   
@@ -80,13 +80,13 @@ At this point, you can open the browser and open [http://localhost:3000](http://
 
 For testing you run,
 
-    ```bash
+    ```sh
     yarn test
     ````
     
 Finally, to build the application into the `build` directory for production mode or better known as deployment. You run,
 
-    ```bash
+    ```sh
     yarn build
     ```
 
@@ -97,7 +97,7 @@ Your app is ready to be deployed!
 
 If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-     ```bash
+     ```sh
      yarn eject
      ```
 
