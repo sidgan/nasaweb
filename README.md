@@ -48,15 +48,15 @@ This repository only contains the code for the new **Celestial Globe Web Portal*
 Here are the steps to follow in getting the web portal up and running locally;
 
 Clone the repository to a machine
-    
-    ```sh
-    git clone https://github.com/sidgan/nasaweb
-    ```
-        or using `gihub cli`
-    
-    ```sh
-    gh repo clone https://github.com/sidgan/nasaweb
-    ```
+
+```sh
+git clone https://github.com/sidgan/nasaweb
+```
+    or using `gihub cli`
+
+```sh
+gh repo clone https://github.com/sidgan/nasaweb
+```
     
 Move into the project directory
 
