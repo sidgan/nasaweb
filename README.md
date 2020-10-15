@@ -41,3 +41,23 @@ This repository only contains the code for the new **Celestial Globe Web Portal*
 - Add a slider that can take results from different models and visually see which model works better (based on results)
 
 - limit date picker to current date (yesterday)
+
+
+## Getting Started On This Repository
+
+Here are the steps to follow in getting the web portal up and running locally;
+
+-  Clone the repository to a machine
+    
+   ### ```bash
+    git clone https://github.com/sidgan/nasaweb
+    ```
+    or using `gihub cli`
+    
+   ### ```bash
+    gh repo clone https://github.com/sidgan/nasaweb
+    ```
+    
+-   Install all dependencies
+
+  
