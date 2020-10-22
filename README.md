@@ -10,6 +10,10 @@ The deep learning algorithms would be used to recognize meteors amongst false po
 
 This repository only contains the code for the new **Celestial Globe Web Portal** for CAMS data visualization. This new web tool is part of an effort by Frontier Development Lab 2017, a NASA research accelerator program at the SETI Institute, led by James Parr and Bill Diamond and supported by NVidia and IBM amongst others, that set out to use artificial intelligence techniques to automate the CAMS data reduction pipeline. The new web tool designed by Peter Jenniskens, Siddha Ganju and Leo Silverberg displays each shower radiant in sun-centered ecliptic coordinates, with a color assigned proportional to the entry speed. By hovering the cursor over a colored meteor radiant, one can see the IAU shower number. Clicking brings up a new window that shows the 2010-2016 CAMS data for that shower displayed in the planetarium program by Ian Webster. That makes the new web tool a portal to the minor showers in Webster's visualization program.
 
+Progress report
+https://docs.google.com/document/d/1jAXcFvTkCRp0fvCQuOvaRiUG9rCfWZxq_s3zAeEdn7Y/edit?ts=5f780868#
+
+
 ## Development Team
 
   - [Alfred Emmanuel](http://codefred.me)
@@ -48,8 +52,6 @@ example - cragislist  https://sfbay.craigslist.org/d/apartments-housing-for-rent
 - should run on mobile browser
 
 - intelligent search powered for same date on different years showing a meteor shower per year. eg geminids on 2010 - 2020.
-
-
 
 ## Getting Started On This Repository
 
