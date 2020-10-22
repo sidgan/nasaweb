@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   color: rgb(24, 27, 37);
-  height: 100%;
+  height: 1024px;
 }
 
 .switch {
@@ -13,6 +13,14 @@
 .globe {
   fill: #003bff;
   pointer-events: none;
+}
+
+.globe-container {
+  height: 80%;
+  width: 100%;
+  padding: 0%;
+  margin: 0%;
+  border-bottom: 0%;
 }
 
 .land {
@@ -102,3 +110,4 @@
   color: #f5eaea;
   font-weight: 800;
 }
+ 

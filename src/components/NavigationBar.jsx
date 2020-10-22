@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { DatePicker } from 'react-rainbow-components';
+import Responsive from 'react-responsive-decorator';
 import logo from '../images/icon.png';
 
 import './style.css';
@@ -18,7 +19,7 @@ class NavigationBar extends Component {
     return (
       <div className="flexbox_container p-3">
         <a className="logo_item col-lg-2" href="http://cams.seti.org">
-          <img src={logo} alt="NASA" width="100" />
+          <img src={logo} alt="NASA" width="80" height="70" />
         </a>
 
         <p className="title_item col-lg-7">NASA Meteor Shower Portal</p>
@@ -34,6 +35,8 @@ class NavigationBar extends Component {
             style={{ maxWidth: 350 }}
           >
             <DatePicker
+              minDate={new Date(2018, 10, 1)}
+              maxDate={new Date(2020, 10, 8)}
               value={this.state.date}
               onChange={(value) =>
                 this.setState({ date: value.toDateString() })
@@ -48,7 +51,7 @@ class NavigationBar extends Component {
   }
 }
 
-export default NavigationBar;
+export default Responsive(NavigationBar);
 
 // const NavigationBar = props => {
 

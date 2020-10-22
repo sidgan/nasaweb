@@ -52,3 +52,65 @@ example - cragislist  https://sfbay.craigslist.org/d/apartments-housing-for-rent
 - should run on mobile browser
 
 - intelligent search powered for same date on different years showing a meteor shower per year. eg geminids on 2010 - 2020.
+
+## Getting Started On This Repository
+
+Here are the steps to follow in getting the web portal up and running locally;
+
+- Clone the repository to a machine
+
+```sh
+git clone https://github.com/sidgan/nasaweb
+```
+or using `gihub cli`
+
+```sh
+gh repo clone https://github.com/sidgan/nasaweb
+```
+    
+- Move into the project directory
+
+```sh
+cd nasaweb
+```
+
+- Install all dependencies needed to run the CAMS web portal react application
+
+```sh
+yarn install
+```
+
+- Wait for all the project dependecies to download completely before moving any forward. To start the development server run,
+
+```sh
+yarn start
+```
+  
+At this point, you can open the browser and open [http://localhost:3000](http://localhost:3000) to view the CAMS web portal in development mode.
+
+- For testing you run,
+
+```sh
+yarn test
+````
+    
+- Finally, to build the application into the `build` directory for production mode or better known as deployment. You run,
+
+```sh
+yarn build
+```
+
+It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes. Your app is ready to be deployed!
+
+
+- If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+ ```sh
+ yarn eject
+ ```
+
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
