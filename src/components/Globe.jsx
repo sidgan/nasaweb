@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import Header from './Header';
 import ReactGlobe from 'react-globe';
 import Responsive from 'react-responsive-decorator';
 // import starBackground from '../images/background.png';
-import globeTexture from '../images/globe.jpg';
+// import globeTexture from '../images/globe.jpg';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
 const colorScale = (code) => {
   if (code <= 7) {
-    return 'rgb(255,255,255)';
+    return 'rgb(0,0,0)';
   } else if (code > 7 && code <= 17) {
     return 'rgb(160,32,240)';
   } else if (code > 17 && code <= 37) {
@@ -87,9 +88,9 @@ const GlobeObject = (props) => {
   };
 
   const options = {
-    ambientLightColor: 'grey',
+    ambientLightColor: 'black',
     enableGlobeGlow: false,
-    enableMarkerGlow: true,
+    enableMarkerGlow: false,
     enableMarkerTooltip: true,
     ambientLightIntensity: 1,
     markerTooltipRenderer: markerTooltipRenderer,
@@ -130,6 +131,11 @@ const GlobeObject = (props) => {
 
   return (
     <section>
+      <Header
+        selectedDate={props.selectedDate}
+        onDateChange={props.onDateChange}
+      />
+      
       <ReactGlobe
         height={800}
         markers={markers}
@@ -137,7 +143,7 @@ const GlobeObject = (props) => {
         width="100%"
         onGetGlobe={setGlobe}
         globeCloudsTexture={null}
-        globeTexture={globeTexture}
+        globeTexture={null}
         globeBackgroundTexture={null}
       />
     </section>

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import NavigationBar from './components/NavigationBar';
 import GlobeObject from './components/Globe';
 import Button from './components/Button';
-import FooterTabs from './components/FooterTabs';
+// import FooterTabs from './components/FooterTabs';
 // import StyledCheckbox from './components/Checkbox';
 import Responsive from 'react-responsive-decorator';
 
@@ -76,10 +75,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <NavigationBar
-          selectedDate={this.state.date}
-          onDateChange={this.handleDateChange}
-        />
 
         {this.state.showGuide ? (
           <Guide
@@ -87,11 +82,13 @@ class App extends Component {
             togglePopup={this.toggleGuide}
             />
         ) : null}
-        <div className="container globe-container">
+        <div className="globe-container">
           <div className="col-lg-12 col-sm-12">
             <img src={image} className="cams-logo" alt="cams"></img>
 
-            <GlobeObject 
+            <GlobeObject
+              selectedDate={this.state.date}
+              onDateChange={this.handleDateChange}
               date={this.updateGlobeWithDate()}
               // status={this.state.showOverlay}
               />
@@ -100,12 +97,9 @@ class App extends Component {
             <div className="guide-1">
               <Button onClick={this.toggleGuide}>Open Guide</Button>
             </div>
-            {/* <div className="overlay">
-              <Button onClick={this.toggleOverlay}>{this.state.status} Overlay</Button>
-            </div> */}
           </div>
         </div>
-        <FooterTabs />
+        {/* <FooterTabs /> */}
       </div>
     );
   }

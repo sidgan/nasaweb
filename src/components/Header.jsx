@@ -5,7 +5,7 @@ import logo from '../images/icon.png';
 
 import './style.css';
 
-class NavigationBar extends Component {
+class Header extends Component {
   state = {
     date: this.props.selectedDate,
   };
@@ -51,9 +51,9 @@ class NavigationBar extends Component {
   }
 }
 
-export default Responsive(NavigationBar);
+export default Responsive(Header);
 
-// const NavigationBar = props => {
+// const Header = props => {
 
 //   const { onDateChange } = props;
 //   const [ date, setDate ] = useState(props.selectedDate);
@@ -92,4 +92,4 @@ export default Responsive(NavigationBar);
 
 // }
 
-// export default NavigationBar;
+// export default Header;

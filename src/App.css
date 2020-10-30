@@ -1,7 +1,7 @@
 .App {
   text-align: center;
+  /* background-color: #252c3355; */
   color: rgb(24, 27, 37);
-  height: 1024px;
 }
 
 .switch {
@@ -16,7 +16,8 @@
 }
 
 .globe-container {
-  height: 80%;
+  fill-opacity: inherit;
+  height: 100%;
   width: 100%;
   padding: 0%;
   margin: 0%;

@@ -7,13 +7,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-image: url('./images/shy.jpg');
   background-size: cover;
+  height: 100%;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-#section {
-  background-color: #252c3355;
 }
