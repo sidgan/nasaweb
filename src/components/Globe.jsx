@@ -3,14 +3,14 @@ import Header from './Header';
 import ReactGlobe from 'react-globe';
 import Responsive from 'react-responsive-decorator';
 // import starBackground from '../images/background.png';
-// import globeTexture from '../images/globe.jpg';
+import globeTexture from '../images/globebg.png';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
 const colorScale = (code) => {
   if (code <= 7) {
-    return 'rgb(0,0,0)';
+    return 'rgb(255,255,255)';
   } else if (code > 7 && code <= 17) {
     return 'rgb(160,32,240)';
   } else if (code > 17 && code <= 37) {
@@ -88,11 +88,11 @@ const GlobeObject = (props) => {
   };
 
   const options = {
-    ambientLightColor: 'black',
-    enableGlobeGlow: false,
+    ambientLightColor: 'grey',
+    enableGlobeGlow: true,
     enableMarkerGlow: false,
     enableMarkerTooltip: true,
-    ambientLightIntensity: 1,
+    ambientLightIntensity: 0.6,
     markerTooltipRenderer: markerTooltipRenderer,
     markerRadiusScaleRange: [0.001, 0.02],
     enableCameraZoom: true,
@@ -143,7 +143,7 @@ const GlobeObject = (props) => {
         width="100%"
         onGetGlobe={setGlobe}
         globeCloudsTexture={null}
-        globeTexture={null}
+        globeTexture={globeTexture}
         globeBackgroundTexture={null}
       />
     </section>

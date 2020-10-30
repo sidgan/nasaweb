@@ -18,12 +18,12 @@ class Header extends Component {
   render() {
     return (
       <div className="flexbox_container p-3">
-        <a className="logo_item col-lg-2" href="http://cams.seti.org">
+        <a className="logo_item col-lg-4" href="http://cams.seti.org">
           <img src={logo} alt="NASA" width="80" height="70" />
         </a>
 
-        <p className="title_item col-lg-7">NASA Meteor Shower Portal</p>
-        <div className="search_box col-lg-3">
+        <p className="title_item col-lg-6">NASA Meteor Shower Portal</p>
+        <div className="search_box col-lg-2">
           <img
             src="https://img.icons8.com/ios-filled/50/e74c3c/down2.png"
             alt=""
