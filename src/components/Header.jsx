@@ -18,20 +18,25 @@ class Header extends Component {
   render() {
     return (
       <div className="flexbox_container p-3">
-        <a className="logo_item col-lg-4" href="http://cams.seti.org">
+        {/* <a className="logo_item col-lg-4" href="http://cams.seti.org">
           <img src={logo} alt="NASA" width="80" height="70" />
-        </a>
+        </a> */}
 
-        <p className="title_item col-lg-6">NASA Meteor Shower Portal</p>
+        <p className="title_item col-lg-10"> 
+          <a className="logo_item" href="http://cams.seti.org">
+            <img src={logo} alt="NASA" width="60" height="40" />
+          </a>
+           Meteor Shower Portal
+        </p>
         <div className="search_box col-lg-2">
-          <img
+          {/* <img
             src="https://img.icons8.com/ios-filled/50/e74c3c/down2.png"
             alt=""
           />
-          <br />
+          <br /> */}
 
           <div
-            className="rainbow-align-content_center rainbow-m-vertical_large"
+            className="rainbow-align-content_right rainbow-m-vertical_large"
             style={{ maxWidth: 350 }}
           >
             <DatePicker

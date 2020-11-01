@@ -3,7 +3,7 @@ import Header from './Header';
 import ReactGlobe from 'react-globe';
 import Responsive from 'react-responsive-decorator';
 // import starBackground from '../images/background.png';
-import globeTexture from '../images/globebg.png';
+import globeTexture from '../images/globe_bg.png';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
@@ -92,7 +92,7 @@ const GlobeObject = (props) => {
     enableGlobeGlow: true,
     enableMarkerGlow: false,
     enableMarkerTooltip: true,
-    ambientLightIntensity: 0.6,
+    ambientLightIntensity: 1,
     markerTooltipRenderer: markerTooltipRenderer,
     markerRadiusScaleRange: [0.001, 0.02],
     enableCameraZoom: true,

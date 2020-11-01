@@ -8,26 +8,42 @@
   padding: 0;
 }
 
+/* .title_group {
+  padding: 2.5rem;
+} */
+
+
+/* HEADER STYLES */
+
 .title_item {
-  font-size: 35px;
+  font-size: 30px;
   font-family: 'Lucida Sans Regular';
-  font-weight: bolder;
-  padding: 2rem;
-  text-align: left;
+  font-weight: bold;
+  text-align-last: left;
+  text-shadow: blue;
   color: rgb(247, 238, 238);
   margin-top: 20px;
 }
 
 .logo_item {
-  padding: 2.5rem;
-  margin: 5px;
+  justify-content: right;
+  margin: 1px;
+}
+
+
+.search_box {
+  margin-top: 40px;
+  padding-right: 10px;
+  justify-content: right;
+  /* margin: 5px; */
+  transition-timing-function: ease-in-out 0.5s;
 }
 
 @media only screen and (max-width: 800px) {
   .title_item {
-    font-size: 18px;
+    font-size: 15px;
     padding: 0.5rem;
-    text-align: center;
+    text-align: left;
   }
 
   .logo_item {
@@ -36,22 +52,9 @@
   }
 }
 
+/* END HEADER */
 
 
-.search_box {
-  padding: 1rem;
-  margin: 5px;
-  transition-timing-function: ease-in-out 0.5s;
-}
-
-/* .datepicker {
-  height: 40px;
-  align-content: right;
-  border-color: blue;
-  font-style: italic;
-  text-align: center;
-  color: tomato;
-} */
 
 .modal {
   font-size: 20px;

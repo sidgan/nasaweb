@@ -1,7 +1,9 @@
 .App {
   text-align: center;
   /* background-color: #252c3355; */
-  color: rgb(24, 27, 37);
+  /* color: rgb(24, 27, 37); */
+  color: #3b3842;
+  height: 100%;
 }
 
 .switch {
