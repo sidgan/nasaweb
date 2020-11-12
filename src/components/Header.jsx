@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { DatePicker } from 'react-rainbow-components';
 import Responsive from 'react-responsive-decorator';
-import logo from '../images/icon.png';
+import logo from '../images/logo.svg';
 
 import './style.css';
 
@@ -17,16 +17,18 @@ class Header extends Component {
 
   render() {
     return (
-      <div className="flexbox_container p-3">
+      <div className="flexbox_container p-1">
         {/* <a className="logo_item col-lg-4" href="http://cams.seti.org">
           <img src={logo} alt="NASA" width="80" height="70" />
         </a> */}
 
         <p className="title_item col-lg-10"> 
-          <a className="logo_item" href="http://cams.seti.org">
-            <img src={logo} alt="NASA" width="60" height="40" />
-          </a>
-           Meteor Shower Portal
+          <div className="row">
+            <a className="logo_item" href="http://cams.seti.org">
+              <img src={logo} alt="NASA" width="60" height="40" />
+            </a>
+            Meteor Shower Portal
+          </div>
         </p>
         <div className="search_box col-lg-2">
           {/* <img

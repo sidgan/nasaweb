@@ -53,7 +53,7 @@ const GlobeObject = (props) => {
     starMarkers.features.forEach((m) => {
       sourceMarkers.push({
         id: sourceMarkers.length,
-        color: 'black',
+        color: 'white',
         name: 'Star',
         coordinates: [...m.geometry.coordinates],
         value: 28,
@@ -92,7 +92,7 @@ const GlobeObject = (props) => {
     enableGlobeGlow: true,
     enableMarkerGlow: false,
     enableMarkerTooltip: true,
-    ambientLightIntensity: 1,
+    ambientLightIntensity: 0.5,
     markerTooltipRenderer: markerTooltipRenderer,
     markerRadiusScaleRange: [0.001, 0.02],
     enableCameraZoom: true,
@@ -137,7 +137,7 @@ const GlobeObject = (props) => {
       />
       
       <ReactGlobe
-        height={800}
+        height={'100vh'}
         markers={markers}
         options={options}
         width="100%"
