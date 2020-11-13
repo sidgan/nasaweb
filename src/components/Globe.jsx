@@ -137,7 +137,7 @@ const GlobeObject = (props) => {
       />
       
       <ReactGlobe
-        height={'100vh'}
+        height={'95vh'}
         markers={markers}
         options={options}
         width="100%"

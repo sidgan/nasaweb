@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import GlobeObject from './components/Globe';
-import Button from './components/Button';
-// import FooterTabs from './components/FooterTabs';
-// import StyledCheckbox from './components/Checkbox';
+// import Button from './components/Button';
+import Footer from './components/Footer';
 import Responsive from 'react-responsive-decorator';
 
-import image from './images/CAMSbanner.jpg';
+// import image from './images/CAMSbanner.jpg';
 import './App.css';
-import Guide from './components/Guide';
+// import Guide from './components/Guide';
 
 class App extends Component {
   constructor() {
@@ -22,18 +21,9 @@ class App extends Component {
     this.updateGlobeWithDate = this.updateGlobeWithDate.bind(this);
   }
 
-  toggleGuide = () => {
-    this.setState({ showGuide: !this.state.showGuide });
-  };
-
-  toggleOverlay = () => {
-    this.setState({ showOverlay: !this.state.showOverlay });
-    if (this.state.showOverlay) {
-      this.setState({ status: 'Add' });
-    } else {
-      this.setState({ status: 'Remove' });
-    }
-  };
+  // toggleGuide = () => {
+  //   this.setState({ showGuide: !this.state.showGuide });
+  // };
 
   handleDateChange = (d) => {
     const newDate = d;
@@ -75,16 +65,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-
+{/* 
         {this.state.showGuide ? (
           <Guide
             status={this.state.showGuide}
             togglePopup={this.toggleGuide}
             />
-        ) : null}
+        ) : null} */}
         <div className="globe-container">
           <div className="col-lg-12 col-sm-12">
-            <img src={image} className="cams-logo" alt="cams"></img>
+            {/* <img src={image} className="cams-logo" alt="cams"></img> */}
 
             <GlobeObject
               selectedDate={this.state.date}
@@ -93,13 +83,13 @@ class App extends Component {
               // status={this.state.showOverlay}
               />
           </div>
-          <div className="m-6">
+          {/* <div className="m-6">
             <div className="guide-1">
               <Button onClick={this.toggleGuide}>Open Guide</Button>
             </div>
-          </div>
+          </div> */}
         </div>
-        {/* <FooterTabs /> */}
+        <Footer />
       </div>
     );
   }
