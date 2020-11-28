@@ -18,10 +18,6 @@ class Header extends Component {
   render() {
     return (
       <div className="flexbox_container p-1">
-        {/* <a className="logo_item col-lg-4" href="http://cams.seti.org">
-          <img src={logo} alt="NASA" width="80" height="70" />
-        </a> */}
-
         <p className="title_item col-lg-10"> 
           <div className="row">
             <a className="logo_item" href="http://cams.seti.org">

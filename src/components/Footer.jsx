@@ -5,7 +5,6 @@ import './style.css';
 class Footer extends Component {
     state = {}
 
-
     render() { 
         return (
             <section>

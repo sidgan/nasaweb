@@ -46,17 +46,17 @@ const GlobeObject = (props) => {
         color: '#FDB800',
         name: 'Sun',
         coordinates: [...m.features[0].geometry.coordinates],
-        value: 35,
+        value: 50,
       });
     });
 
     starMarkers.features.forEach((m) => {
       sourceMarkers.push({
         id: sourceMarkers.length,
-        color: 'white',
+        color: 'black',
         name: 'Star',
         coordinates: [...m.geometry.coordinates],
-        value: 28,
+        value: 18,
       });
     });
 
@@ -66,7 +66,7 @@ const GlobeObject = (props) => {
         color: colorScale(m.properties.color),
         name: meteorNames[m.properties.name],
         coordinates: [...m.geometry.coordinates],
-        value: 30,
+        value: 25,
       });
     });
 
@@ -77,26 +77,25 @@ const GlobeObject = (props) => {
   const randomMarkers = getDataPoints(props.date).map((marker) => ({
     ...marker,
   }));
-  // const globeBackground = 'https://raw.githubusercontent.com/chrisrzhou/react-globe/blob/main/textures/background.png';
+
 
   const [markers, setMarkers] = useState([...randomMarkers]);
   const [globe, setGlobe] = useState(null);
-  // const [background] = useState(starBackground);
 
   const markerTooltipRenderer = (marker) => {
     return `${marker.name} \n`;
   };
 
   const options = {
-    ambientLightColor: 'grey',
+    ambientLightColor: 'white',
     enableGlobeGlow: true,
     enableMarkerGlow: false,
     enableMarkerTooltip: true,
-    ambientLightIntensity: 0.5,
+    ambientLightIntensity: 0.4,
     markerTooltipRenderer: markerTooltipRenderer,
-    markerRadiusScaleRange: [0.001, 0.02],
-    enableCameraZoom: true,
-    enableDefocus: true,
+    markerRadiusScaleRange: [0.003, 0.02],
+    enableCameraZoom: false,
+    enableDefocus: false,
     markerType: 'dot',
     cameraAutoRotateSpeed: 0.5,
     globeCloudsOpacity: 0.5,
@@ -115,19 +114,6 @@ const GlobeObject = (props) => {
     }
   }, [props.date])
 
-  // This toggles the background image
-  // useEffect(() => {
-  //   return () => {
-  //     if (props.status === false) {
-  //       setBackground(starBackground);
-  //     }
-  //     else {
-  //       setBackground(null);
-  //     }
-  //   }
-  // }, [props.status])
-
-  // console.log(props.status)
 
   return (
     <section>
@@ -137,7 +123,7 @@ const GlobeObject = (props) => {
       />
       
       <ReactGlobe
-        height={'95vh'}
+        height={'100vh'}
         markers={markers}
         options={options}
         width="100%"
