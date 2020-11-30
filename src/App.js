@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import GlobeObject from './components/Globe';
-// import Button from './components/Button';
+import Button from './components/Button';
+import Guide from './components/Guide';
 import Footer from './components/Footer';
 import Responsive from 'react-responsive-decorator';
 
@@ -21,9 +22,9 @@ class App extends Component {
     this.updateGlobeWithDate = this.updateGlobeWithDate.bind(this);
   }
 
-  // toggleGuide = () => {
-  //   this.setState({ showGuide: !this.state.showGuide });
-  // };
+  toggleGuide = () => {
+    this.setState({ showGuide: !this.state.showGuide });
+  };
 
   handleDateChange = (d) => {
     const newDate = d;
@@ -65,13 +66,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-{/* 
+
         {this.state.showGuide ? (
           <Guide
             status={this.state.showGuide}
             togglePopup={this.toggleGuide}
             />
-        ) : null} */}
+        ) : null}
         <div className="globe-container">
           <div className="col-lg-12 col-sm-12">
             {/* <img src={image} className="cams-logo" alt="cams"></img> */}
@@ -83,11 +84,11 @@ class App extends Component {
               // status={this.state.showOverlay}
               />
           </div>
-          {/* <div className="m-6">
+          <div className="m-6">
             <div className="guide-1">
               <Button onClick={this.toggleGuide}>Open Guide</Button>
             </div>
-          </div> */}
+          </div>
         </div>
         <Footer />
       </div>

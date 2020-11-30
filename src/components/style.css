@@ -19,12 +19,14 @@
 
 .title_item {
   display: flex;
-  font-size: 27px;
+  align-items: center;
+  font-size: 25px;
   font-family: Helvetica;
   font-weight: bold;
+  font-style: normal;
   text-align-last: left;
   text-shadow: blue;
-  color: rgb(255, 255, 255);
+  color: #ffffff;
   margin-top: 30px;
 }
 
@@ -136,29 +138,35 @@
 } */
  
 .footer {
-  position: absolute;
+  position: relative;
   flex-direction: row;
+  justify-content: center;
   width: 100%;
   flex: 1;
-  line-height: 3.5em;
+  letter-spacing: 0.01em;
+  font-family: Roboto Mono;
+  font-style: normal;
+  font-weight: normal;
   justify-content: center;
   color: white;
-  background-color: black;
+  background: transparent;
   height: 5vh;
   bottom: 0;
   left: 0;
   right: 0;
 }
 
+.footer div div div p {
+  margin-top: 6px;
+}
+
 .footer_nav {
-  line-height: 3.5em;
   display: flex;
   margin-right: 0;
   text-align: right;
 }
 
 .footer_nav h5 {
-  font-size: 15px;
-  margin-top: 1.3em;
+  font-size: 14px;
   margin-left: 35px;
 }

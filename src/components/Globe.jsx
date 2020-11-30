@@ -89,7 +89,12 @@ const GlobeObject = (props) => {
   const options = {
     ambientLightColor: 'white',
     enableGlobeGlow: true,
-    enableMarkerGlow: false,
+    globeGlowCoefficient: 0.01,
+    globeGlowRadiusScale: 0.1,
+    globeGlowPower: 2.5,
+    globeCloudsOpacity: 0.5,
+    markerGlowPower: 15,
+    enableMarkerGlow: true,
     enableMarkerTooltip: true,
     ambientLightIntensity: 0.4,
     markerTooltipRenderer: markerTooltipRenderer,
@@ -98,8 +103,7 @@ const GlobeObject = (props) => {
     enableDefocus: false,
     markerType: 'dot',
     cameraAutoRotateSpeed: 0.5,
-    globeCloudsOpacity: 0.5,
-    markerGlowPower: 7.5,
+
   };
 
   console.log(globe); // captured globe instance with API methods
