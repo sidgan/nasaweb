@@ -12,10 +12,6 @@
   justify-items: baseline;
 }
 
-.globe {
-  fill: #003bff;
-  pointer-events: none;
-}
 
 .globe-container {
   display: flex;
@@ -27,62 +23,7 @@
   border-bottom: 0;
 }
 
-.land {
-  fill: #bcbcbc;
-  pointer-events: none;
-}
 
-.guide {
-  stroke: #3299bb;
-  pointer-events: none;
-}
-
-.guide-label {
-  fill: #3299bb;
-  pointer-events: none;
-}
-
-.cellestial-globe {
-  fill: #355886;
-  pointer-events: none;
-}
-
-.meteor {
-  fill: #ffffff;
-  fill-opacity: 1;
-}
-
-.star {
-  fill: #000000;
-  fill-opacity: 1;
-}
-
-.sun {
-  fill: #ffff00;
-  fill-opacity: 1;
-}
-
-.star-label {
-  text-transform: uppercase;
-  font-size: 10px;
-  fill: #fff;
-  fill-opacity: 0.6;
-}
-
-.graticule {
-  fill: none;
-  stroke: #aaa;
-  stroke-width: 1px;
-  stroke-opacity: 0.3;
-  pointer-events: none;
-}
-
-.graticule-black {
-  fill: none;
-  stroke: #555;
-  stroke-width: 1px;
-  stroke-opacity: 0.5;
-}
 
 .popup {
   position: absolute;

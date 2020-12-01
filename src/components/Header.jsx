@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { DatePicker } from 'react-rainbow-components';
+import Stations from './Stations';
+// import { DatePicker } from 'react-rainbow-components';
 import Responsive from 'react-responsive-decorator';
 import logo from '../images/logo.svg';
 
@@ -17,11 +18,11 @@ class Header extends Component {
 
   render() {
     return (
-      <div className="flexbox_container p-1">
+      <div className="flexbox_container">
         <p className="title_item col-lg-10"> 
           <div className="row">
             <a className="logo_item" href="http://cams.seti.org">
-              <img src={logo} alt="NASA" width="60" height="40" />
+              <img src={logo} alt="NASA" width="50" height="30" />
             </a>
             Meteor Shower Portal
           </div>
@@ -33,7 +34,7 @@ class Header extends Component {
           />
           <br /> */}
 
-          <div
+          {/* <div
             className="rainbow-align-content_right rainbow-m-vertical_large"
             style={{ maxWidth: 350 }}
           >
@@ -47,7 +48,8 @@ class Header extends Component {
               placeholder="Pick A Date To See Meteors"
               formatStyle="large"
             />
-          </div>
+          </div> */}
+          <Stations />
         </div>
       </div>
     );

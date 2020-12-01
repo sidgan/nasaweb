@@ -99,11 +99,10 @@ const GlobeObject = (props) => {
     ambientLightIntensity: 0.4,
     markerTooltipRenderer: markerTooltipRenderer,
     markerRadiusScaleRange: [0.003, 0.02],
-    enableCameraZoom: false,
+    enableCameraZoom: true,
     enableDefocus: false,
     markerType: 'dot',
     cameraAutoRotateSpeed: 0.5,
-
   };
 
   console.log(globe); // captured globe instance with API methods
@@ -127,7 +126,7 @@ const GlobeObject = (props) => {
       />
       
       <ReactGlobe
-        height={'100vh'}
+        height={'95vh'}
         markers={markers}
         options={options}
         width="100%"
@@ -135,6 +134,7 @@ const GlobeObject = (props) => {
         globeCloudsTexture={null}
         globeTexture={globeTexture}
         globeBackgroundTexture={null}
+        initialCameraDistanceRadiusScale={3.5}
       />
     </section>
   );

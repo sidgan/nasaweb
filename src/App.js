@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import GlobeObject from './components/Globe';
-import Button from './components/Button';
+import GroupedButton from './components/GroupedButton';
 import Guide from './components/Guide';
 import Footer from './components/Footer';
+
+import { ThemeProvider } from '@material-ui/core/styles';
+import { theme } from './theme';
+
 import Responsive from 'react-responsive-decorator';
 
-// import image from './images/CAMSbanner.jpg';
+import 'fontsource-roboto';
 import './App.css';
-// import Guide from './components/Guide';
+
 
 class App extends Component {
   constructor() {
@@ -65,33 +69,35 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <ThemeProvider theme={theme}>
+        <div className="App">
 
-        {this.state.showGuide ? (
-          <Guide
-            status={this.state.showGuide}
-            togglePopup={this.toggleGuide}
-            />
-        ) : null}
-        <div className="globe-container">
-          <div className="col-lg-12 col-sm-12">
-            {/* <img src={image} className="cams-logo" alt="cams"></img> */}
-
-            <GlobeObject
-              selectedDate={this.state.date}
-              onDateChange={this.handleDateChange}
-              date={this.updateGlobeWithDate()}
-              // status={this.state.showOverlay}
+          {this.state.showGuide ? (
+            <Guide
+              status={this.state.showGuide}
+              togglePopup={this.toggleGuide}
               />
-          </div>
-          <div className="m-6">
-            <div className="guide-1">
-              <Button onClick={this.toggleGuide}>Open Guide</Button>
+          ) : null}
+
+          <div className="globe-container">
+            <div className="col-lg-12 col-sm-12">
+              <GlobeObject
+                selectedDate={this.state.date}
+                onDateChange={this.handleDateChange}
+                date={this.updateGlobeWithDate()}
+                // status={this.state.showOverlay}
+                />
+            </div>
+            <div className="m-6">
+              <div className="guide-1">
+                {/* <Button onClick={this.toggleGuide}>Open Guide</Button> */}
+                <GroupedButton />
+              </div>
             </div>
           </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </ThemeProvider>
     );
   }
 }
