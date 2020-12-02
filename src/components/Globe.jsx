@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Header from './Header';
+import ZoomButton from './ZoomButton';
 import ReactGlobe from 'react-globe';
 import Responsive from 'react-responsive-decorator';
-// import starBackground from '../images/background.png';
 import globeTexture from '../images/globe_bg.png';
 
 import 'tippy.js/dist/tippy.css';
@@ -124,6 +124,10 @@ const GlobeObject = (props) => {
         selectedDate={props.selectedDate}
         onDateChange={props.onDateChange}
       />
+
+      <div className="zoom-1">
+        <ZoomButton />
+      </div>
       
       <ReactGlobe
         height={'95vh'}

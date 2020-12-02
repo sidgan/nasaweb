@@ -6,11 +6,11 @@ export const theme = createMuiTheme({
             main: '#474E74'
         },
         secondary: {
-            main: '#464d73'
+            main: 'rgba(71, 78, 116, 0.6)'
         },
         text: {
             primary: "#ffffff",
-            secondary: "rgba(223, 223, 236, 0.863)"
+            secondary: "rgba(223, 223, 236)"
         }
     },
 
@@ -27,12 +27,15 @@ export const theme = createMuiTheme({
         MuiButton: {
             root: {
                 textTransform: "none",
+                backgroundColor: "rgba(71, 78, 116, 0.6)",
+                opacity: 0.8,
             }
         },
 
         MuiMenuItem: {
             root: {
-                backgroundColor: "rgba(71, 78, 116)"
+                backgroundColor: "rgba(71, 78, 116, 0.6)",
+                fillOpacity: 0.5
             }
         }
     }

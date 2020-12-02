@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Stations from './Stations';
+import DatePicker from './DatePicker';
+import Grid from '@material-ui/core/Grid';
 // import { DatePicker } from 'react-rainbow-components';
 import Responsive from 'react-responsive-decorator';
 import logo from '../images/logo.svg';
@@ -19,7 +21,7 @@ class Header extends Component {
   render() {
     return (
       <div className="flexbox_container">
-        <p className="title_item col-lg-10"> 
+        <p className="title_item col-lg-8"> 
           <div className="row">
             <a className="logo_item" href="http://cams.seti.org">
               <img src={logo} alt="NASA" width="50" height="30" />
@@ -27,7 +29,7 @@ class Header extends Component {
             Meteor Shower Portal
           </div>
         </p>
-        <div className="search_box col-lg-2">
+        <div className="search_box col-lg-4 align-right">
           {/* <img
             src="https://img.icons8.com/ios-filled/50/e74c3c/down2.png"
             alt=""
@@ -49,7 +51,15 @@ class Header extends Component {
               formatStyle="large"
             />
           </div> */}
-          <Stations />
+          <Grid container spacing={2}>
+            <Grid item>
+              <DatePicker/>
+            </Grid>
+
+            <Grid item>
+              <Stations />
+            </Grid>
+          </Grid>
         </div>
       </div>
     );
@@ -57,44 +67,3 @@ class Header extends Component {
 }
 
 export default Responsive(Header);
-
-// const Header = props => {
-
-//   const { onDateChange } = props;
-//   const [ date, setDate ] = useState(props.selectedDate);
-//   useEffect(() => {
-//     onDateChange(date)
-//   }, [date])
-
-//   console.log(`Selected date - ${date}`);
-
-//   return (
-//     <div className="flexbox_container p-3">
-//       <a className="logo_item col-lg-2" href="http://cams.seti.org">
-//         <img src={logo} alt="NASA" width="100" />
-//       </a>
-
-//       <p className="title_item col-lg-7">NASA Meteor Shower Portal</p>
-//       <div className="search_box col-lg-3">
-//         <img src="https://img.icons8.com/ios-filled/50/e74c3c/down2.png" alt=""/>
-//         <br />
-//           <DatePicker
-//             value={date}
-//             onChange={value => setDate(value)}
-//             placeholder="Pick A Date To See Meteors"
-//           />
-//         {/* <DatePicker dateFormat="m/d/Y" datePickerType="simple">
-//           <DatePickerInput
-//             id="date-picker-default-id"
-//             placeholder="mm/dd/yyyy"
-//             labelText="Date picker label"
-//             type="text"
-//           />
-//         </DatePicker> */}
-//       </div>
-//     </div>
-//   );
-
-// }
-
-// export default Header;

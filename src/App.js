@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import GlobeObject from './components/Globe';
 import GroupedButton from './components/GroupedButton';
-import Guide from './components/Guide';
 import Footer from './components/Footer';
 
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -12,23 +11,15 @@ import Responsive from 'react-responsive-decorator';
 import 'fontsource-roboto';
 import './App.css';
 
-
 class App extends Component {
   constructor() {
     super();
     this.state = {
       date: '',
-      status: 'Remove',
-      showGuide: false,
-      showOverlay: true,
     };
     this.handleDateChange = this.handleDateChange.bind(this);
     this.updateGlobeWithDate = this.updateGlobeWithDate.bind(this);
   }
-
-  toggleGuide = () => {
-    this.setState({ showGuide: !this.state.showGuide });
-  };
 
   handleDateChange = (d) => {
     const newDate = d;
@@ -71,26 +62,16 @@ class App extends Component {
     return (
       <ThemeProvider theme={theme}>
         <div className="App">
-
-          {this.state.showGuide ? (
-            <Guide
-              status={this.state.showGuide}
-              togglePopup={this.toggleGuide}
-              />
-          ) : null}
-
           <div className="globe-container">
             <div className="col-lg-12 col-sm-12">
               <GlobeObject
                 selectedDate={this.state.date}
                 onDateChange={this.handleDateChange}
                 date={this.updateGlobeWithDate()}
-                // status={this.state.showOverlay}
-                />
+              />
             </div>
             <div className="m-6">
               <div className="guide-1">
-                {/* <Button onClick={this.toggleGuide}>Open Guide</Button> */}
                 <GroupedButton />
               </div>
             </div>
@@ -103,4 +84,3 @@ class App extends Component {
 }
 
 export default Responsive(App);
- 

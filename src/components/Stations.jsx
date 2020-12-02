@@ -46,8 +46,9 @@ const Stations = (props) => {
                 aria-controls="long-menu"
                 aria-haspopup="true"
                 variant="contained"
-                color="primary"
+                color="secondary"
                 onClick={handleClick}
+                active
             >
                 <Typography variant="body2" color="textSecondary">
                     All Locations <ArrowDropDownIcon size="large"/>
@@ -59,6 +60,7 @@ const Stations = (props) => {
                 elevation={2}
                 open={open}
                 getContentAnchorEl={null}
+                backgroundColor='rgba(71, 78, 116, 0.6)'
                 anchorOrigin={{
                   vertical: 'bottom',
                   horizontal: 'center',
