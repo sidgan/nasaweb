@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Stations from './Stations';
-import DatePicker from './DatePicker';
+import NavigationBar from './Navigation';
 import Grid from '@material-ui/core/Grid';
 // import { DatePicker } from 'react-rainbow-components';
 import Responsive from 'react-responsive-decorator';
@@ -53,7 +53,9 @@ class Header extends Component {
           </div> */}
           <Grid container spacing={2}>
             <Grid item>
-              <DatePicker/>
+              <NavigationBar
+                selectedDate={this.state.date}
+              />
             </Grid>
 
             <Grid item>

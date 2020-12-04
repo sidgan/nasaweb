@@ -15,8 +15,7 @@ export const theme = createMuiTheme({
     },
 
     typography: {
-        fontFamily: "Roboto",
-        fontSize: "22px",
+        fontFamily: "Roboto Mono",
     },
 
     shape: {

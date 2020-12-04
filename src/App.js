@@ -16,9 +16,17 @@ class App extends Component {
     super();
     this.state = {
       date: '',
+      showGlobe: false,
     };
     this.handleDateChange = this.handleDateChange.bind(this);
     this.updateGlobeWithDate = this.updateGlobeWithDate.bind(this);
+    this.toggleDisplay = this.toggleDisplay.bind(this);
+  }
+
+  toggleDisplay = () => {
+      this.setState({
+          showGlobe: !this.state.showGlobe
+      });
   }
 
   handleDateChange = (d) => {
@@ -64,15 +72,29 @@ class App extends Component {
         <div className="App">
           <div className="globe-container">
             <div className="col-lg-12 col-sm-12">
-              <GlobeObject
-                selectedDate={this.state.date}
-                onDateChange={this.handleDateChange}
-                date={this.updateGlobeWithDate()}
-              />
+
+              {
+                this.state.showGlobe ?
+
+                <h4 className="text-center">Good one boy</h4>
+
+                :
+
+                <GlobeObject
+                  selectedDate={this.state.date}
+                  onDateChange={this.handleDateChange}
+                  date={this.updateGlobeWithDate()}
+                />
+
+              }
+
             </div>
             <div className="m-6">
               <div className="guide-1">
-                <GroupedButton />
+                <GroupedButton
+                  showGlobe={this.state.showGlobe}
+                  toggleDisplay={this.toggleDisplay}
+                />
               </div>
             </div>
           </div>

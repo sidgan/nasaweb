@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Header from './Header';
 import ZoomButton from './ZoomButton';
 import ReactGlobe from 'react-globe';
@@ -10,39 +11,38 @@ import 'tippy.js/animations/scale.css';
 
 const colorScale = (code) => {
   if (code <= 7) {
-    return 'rgb(255,255,255)';
+    return 'rgb(255,255,255,0.8)';
   } else if (code > 7 && code <= 17) {
-    return 'rgb(160,32,240)';
+    return 'rgb(160,32,240,0.8)';
   } else if (code > 17 && code <= 37) {
-    return 'rgb(0,0,255)';
+    return 'rgb(0,0,255,0.8)';
   } else if (code > 37 && code <= 47) {
-    return 'rgb(0,165,255)';
+    return 'rgb(0,165,255,0.8)';
   } else if (code > 47 && code <= 57) {
-    return 'rgb(0,255,0)';
+    return 'rgb(0,255,0,0.8)';
   } else if (code > 57 && code <= 67) {
-    return 'rgb(255,255,0)';
+    return 'rgb(255,255,0,0.8)';
   } else if (code > 67 && code <= 120) {
-    return 'rgb(255,165,0)';
+    return 'rgb(255,165,0,0.8)';
   } else {
-    return 'rgb(255,0,0)';
+    return 'rgb(255,0,0,0.8)';
   }
 };
 
 
 const GlobeObject = (props) => {
+  const [markers, setMarkers] = useState([]);
+  const [globe, setGlobe] = useState(null);
 
-  const getDataPoints = (date) => {
-    console.log("Updating Globe Component");
+  const updateMarkers = (markers) => {
+    let newMarkers = [];
     const meteorNames = require('../json/showers.json');
     const sunMarkers = [require('../json/sun.json')];
     const starMarkers = require(`../json/hyg.json`);
-    const meteorMarkers = require(`../json/ALL/${date}_00_00_00.json`);
-
-    let sourceMarkers = [];
 
     sunMarkers.forEach((m) => {
-      sourceMarkers.push({
-        id: sourceMarkers.length,
+      newMarkers.push({
+        id: newMarkers.length,
         color: '#FDB800',
         name: 'Sun',
         coordinates: [...m.features[0].geometry.coordinates],
@@ -51,8 +51,8 @@ const GlobeObject = (props) => {
     });
 
     starMarkers.features.forEach((m) => {
-      sourceMarkers.push({
-        id: sourceMarkers.length,
+      newMarkers.push({
+        id: newMarkers.length,
         color: 'black',
         name: 'Star',
         coordinates: [...m.geometry.coordinates],
@@ -60,27 +60,23 @@ const GlobeObject = (props) => {
       });
     });
 
-    meteorMarkers.features.forEach((m) => {
-      sourceMarkers.push({
-        id: sourceMarkers.length,
-        color: colorScale(m.properties.color),
-        name: meteorNames[m.properties.name],
-        coordinates: [...m.geometry.coordinates],
-        value: 25,
-      });
+    markers.forEach(m => {
+      newMarkers.push({
+        id: m.id,
+        iau: m.iau,
+        name: meteorNames[m.iau],
+        color: colorScale(m.color),
+        coordinates: [...m.location.coordinates],
+        velocg: m.velocg,
+        mag: m.mag,
+        sol: m.sol,
+        value: 25
+      })
     });
 
-    return sourceMarkers;
-  };
+    setMarkers([...newMarkers]);
+  }
 
-
-  const randomMarkers = getDataPoints(props.date).map((marker) => ({
-    ...marker,
-  }));
-
-
-  const [markers, setMarkers] = useState([...randomMarkers]);
-  const [globe, setGlobe] = useState(null);
 
   const markerTooltipRenderer = (marker) => {
     return `${marker.name} \n`;
@@ -107,15 +103,40 @@ const GlobeObject = (props) => {
 
   console.log(globe); // captured globe instance with API methods
 
-  // This updates the markers
   useEffect(() => {
-    return () => { 
-      const newMarkers = getDataPoints(props.date).map((marker) => ({
-        ...marker,
-      }));
-      setMarkers([...newMarkers])
-    }
+    axios.get("https://cors-anywhere.herokuapp.com/http://voren3.seti.org/api/meteor", {
+      params: {
+        source: "ALL",
+        date: "2020-04-15"
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      }
+    }).then((response) => {
+      updateMarkers(response.data.meteors);
+    })
   }, [props.date])
+
+
+  // // This updates the markers
+  // useEffect(() => {
+  //     // AXIOS FECTCHER
+  //   axios.get("https://cors-anywhere.herokuapp.com/http://voren3.seti.org/api/meteor", {
+  //     params: {
+  //       source: "ALL",
+  //       date: "2020-04-15"
+  //     },
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Access-Control-Allow-Origin': '*',
+  //       'Access-Control-Allow-Credentials': true
+  //     }
+  //   }).then((response) => {
+  //     updateMarkers(response.data.meteors);
+  //   })
+  // }, [props.date])
 
 
   return (

@@ -36,9 +36,8 @@
 
 
 .search_box {
-  display: flexbox;
+  display: flex;
   align-items: right;
-  align-content: flex-end;
   margin-top: 40px;
   /* margin: 5px; */
   transition-timing-function: ease-in-out 0.5s;
@@ -60,15 +59,15 @@
 
 .zoom-1 {
   position: fixed;
-  top: 45vh;
-  right: 90px;
+  top: 40vh;
+  right: 70px;
 }
 
 
 .guide-1 {
   position: fixed;
   bottom: 100px;
-  right: 90px;
+  right: 70px;
 }
 
 .overlay Button {

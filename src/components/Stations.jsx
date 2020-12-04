@@ -50,7 +50,7 @@ const Stations = (props) => {
                 onClick={handleClick}
                 active
             >
-                <Typography variant="body2" color="textSecondary">
+                <Typography variant="h5" color="textSecondary">
                     All Locations <ArrowDropDownIcon size="large"/>
                 </Typography>
             </Button>
@@ -72,7 +72,7 @@ const Stations = (props) => {
                 {...props}
             >
                 {options.map((option) => (
-                <MenuItem key={option} color="textPrimary" selected={option === 'Pyxis'} onClick={handleClose}>
+                <MenuItem key={option} color="primary" backgroundColor="rgba(71, 78, 116, 0.6)" selected={option === 'Pyxis'} onClick={handleClose}>
                     {option}
                 </MenuItem>
                 ))}
