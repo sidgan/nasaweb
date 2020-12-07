@@ -9,14 +9,6 @@ import logo from '../images/logo.svg';
 import './style.css';
 
 class Header extends Component {
-  state = {
-    date: this.props.selectedDate,
-  };
-
-  componentDidUpdate() {
-    console.log(`Here we are! ${this.state.date}`);
-    this.props.onDateChange(this.state.date);
-  }
 
   render() {
     return (
@@ -54,7 +46,8 @@ class Header extends Component {
           <Grid container spacing={2}>
             <Grid item>
               <NavigationBar
-                selectedDate={this.state.date}
+                selectedDate={this.props.selectedDate}
+                onDateChange={this.props.onDateChange}
               />
             </Grid>
 
@@ -68,4 +61,4 @@ class Header extends Component {
   }
 }
 
-export default Responsive(Header);
+export default React.memo(Responsive(Header));

@@ -1,13 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
+import ReactGlobe from 'react-globe';
+import Responsive from 'react-responsive-decorator';
 import axios from 'axios';
 import Header from './Header';
 import ZoomButton from './ZoomButton';
-import ReactGlobe from 'react-globe';
-import Responsive from 'react-responsive-decorator';
+// import DataTooltip from './Tooltip';
+
 import globeTexture from '../images/globe_bg.png';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
+
+
+const HtmlTooltip = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: 'rgba(71, 78, 116, 0.6)',
+    color: "primary",
+    maxWidth: 250,
+    maxHeight: 250,
+    marginBlock: '3px',
+    border: '1px solid #474E74',
+  },
+}))(Tooltip);
+
 
 const colorScale = (code) => {
   if (code <= 7) {
@@ -31,8 +48,37 @@ const colorScale = (code) => {
 
 
 const GlobeObject = (props) => {
+
+  const addZ = (n) => {
+    return n < 10 && n.length === 1 ? '0' + n : '' + n;
+  };
+  const getMonthFromString = (mon) => {
+    return new Date(Date.parse(mon + ' 1, 2012')).getMonth() + 1;
+  };
+
+  const getDateFormat = (d) => {
+    let res = d.split(' ');
+    let month = getMonthFromString(res[1]);
+
+    return `${res[3]}-${addZ(String(month))}-${addZ(res[2])}`;
+  };
+
+  const [date, setDate] = useState(getDateFormat(`${new Date().toDateString()}`))
   const [markers, setMarkers] = useState([]);
   const [globe, setGlobe] = useState(null);
+
+
+  const handleDateChange = (d) => {
+    let newDate = d;
+    console.log("working", d)
+
+    if (newDate === date) {
+      console.log("Updated!");
+      // setFormatDate(datePickerUpdate(date));
+    } else {
+      setDate(newDate);
+    };
+  };
 
   const updateMarkers = (markers) => {
     let newMarkers = [];
@@ -75,11 +121,13 @@ const GlobeObject = (props) => {
     });
 
     setMarkers([...newMarkers]);
-  }
-
+  };
 
   const markerTooltipRenderer = (marker) => {
-    return `${marker.name} \n`;
+    return(
+      <HtmlTooltip title={`${marker.name}`}>
+      </HtmlTooltip>
+    );
   };
 
   const options = {
@@ -103,47 +151,32 @@ const GlobeObject = (props) => {
 
   console.log(globe); // captured globe instance with API methods
 
-  useEffect(() => {
-    axios.get("https://cors-anywhere.herokuapp.com/http://voren3.seti.org/api/meteor", {
+  const pullData = useCallback(async () => {
+    console.log(`${date}`)
+    const response = await axios.get("https://cors-anywhere.herokuapp.com/http://voren3.seti.org/api/meteor", {
       params: {
         source: "ALL",
-        date: "2020-04-15"
+        date: `${date}`
       },
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true
       }
-    }).then((response) => {
-      updateMarkers(response.data.meteors);
     })
-  }, [props.date])
 
+    updateMarkers(response.data.meteors)
+  }, [date]);
 
-  // // This updates the markers
-  // useEffect(() => {
-  //     // AXIOS FECTCHER
-  //   axios.get("https://cors-anywhere.herokuapp.com/http://voren3.seti.org/api/meteor", {
-  //     params: {
-  //       source: "ALL",
-  //       date: "2020-04-15"
-  //     },
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Access-Control-Allow-Origin': '*',
-  //       'Access-Control-Allow-Credentials': true
-  //     }
-  //   }).then((response) => {
-  //     updateMarkers(response.data.meteors);
-  //   })
-  // }, [props.date])
-
+  useEffect(() => {
+    pullData();
+  }, [pullData])
 
   return (
     <section>
       <Header
-        selectedDate={props.selectedDate}
-        onDateChange={props.onDateChange}
+        selectedDate={date}
+        onDateChange={handleDateChange}
       />
 
       <div className="zoom-1">
@@ -165,5 +198,5 @@ const GlobeObject = (props) => {
   );
 };
 
-export default Responsive(GlobeObject);
+export default React.memo(Responsive(GlobeObject));
         

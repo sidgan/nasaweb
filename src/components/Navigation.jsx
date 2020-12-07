@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -8,13 +8,25 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 // import { DatePicker } from 'react-rainbow-components';
 
-const NavigationBar = () => {
+const NavigationBar = (props) => {
+
+    const [value, setValue] = useState(props.selectedDate);
+
     const incrementDate = () => {
         // Add One Day To Selected Date
     };
 
     const decrementDate = () => {
         // Minus One Dat To Selected Date
+    };
+    
+    const handleDateChange = e => {
+        console.log(e.target.value);
+
+        setValue(e.target.value);
+
+        // Update Parent Component
+        props.onDateChange(e.target.value);
     };
 
     return (
@@ -39,7 +51,6 @@ const NavigationBar = () => {
         <Grid item>
             <Button
                 id="date"
-                variant="contained"
                 color="secondary"
                 style={{
                     maxHeight: '40px',
@@ -61,6 +72,10 @@ const NavigationBar = () => {
                 <TextField
                     id="date"
                     type="date"
+                    color="secondary"
+                    defaultValue={props.selectedDate}
+                    value={value}
+                    onChange={handleDateChange}
                 />
             </Button>
         </Grid>
@@ -85,4 +100,4 @@ const NavigationBar = () => {
     );
 };
 
-export default NavigationBar;
+export default React.memo(NavigationBar);

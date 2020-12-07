@@ -37,6 +37,8 @@
 
 .search_box {
   display: flex;
+  justify-content: right;
+  text-align-last: right;
   align-items: right;
   margin-top: 40px;
   /* margin: 5px; */

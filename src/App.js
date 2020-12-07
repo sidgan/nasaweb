@@ -15,11 +15,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      date: '',
       showGlobe: false,
     };
-    this.handleDateChange = this.handleDateChange.bind(this);
-    this.updateGlobeWithDate = this.updateGlobeWithDate.bind(this);
     this.toggleDisplay = this.toggleDisplay.bind(this);
   }
 
@@ -28,43 +25,6 @@ class App extends Component {
           showGlobe: !this.state.showGlobe
       });
   }
-
-  handleDateChange = (d) => {
-    const newDate = d;
-    console.log(newDate, this.state.date);
-    if (newDate === this.state.date) {
-      console.log('Updated');
-    } else {
-      this.setState({
-        date: newDate,
-      });
-    }
-  };
-
-  updateGlobeWithDate = () => {
-    const { date } = this.state;
-
-    if (date === '') {
-      let formatDate = this.getDateFormat(`${new Date()}`);
-      return formatDate;
-    } else {
-      let formatDate = this.getDateFormat(this.state.date);
-      return formatDate;
-    }
-  };
-
-  addZ = (n) => {
-    return n < 10 && n.length === 1 ? '0' + n : '' + n;
-  };
-  getMonthFromString = (mon) => {
-    return new Date(Date.parse(mon + ' 1, 2012')).getMonth() + 1;
-  };
-
-  getDateFormat = (date) => {
-    let res = date.split(' ');
-    let month = this.getMonthFromString(res[1]);
-    return `${res[3]}_${this.addZ(String(month))}_${this.addZ(res[2])}`;
-  };
 
   render() {
     return (
@@ -80,13 +40,9 @@ class App extends Component {
 
                 :
 
-                <GlobeObject
-                  selectedDate={this.state.date}
-                  onDateChange={this.handleDateChange}
-                  date={this.updateGlobeWithDate()}
-                />
+                <GlobeObject/>
 
-              }
+              }  
 
             </div>
             <div className="m-6">
@@ -105,4 +61,4 @@ class App extends Component {
   }
 }
 
-export default Responsive(App);
+export default React.memo(Responsive(App));
