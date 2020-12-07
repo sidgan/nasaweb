@@ -153,7 +153,7 @@ const GlobeObject = (props) => {
 
   const pullData = useCallback(async () => {
     console.log(`${date}`)
-    const response = await axios.get("https://cors-anywhere.herokuapp.com/http://voren3.seti.org/api/meteor", {
+    const response = await axios.get("https://meteorshowers.seti.org/api/meteor", {
       params: {
         source: "ALL",
         date: `${date}`

@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 
 const options = [
-  'None',
+  'ALL',
   'Atria',
   'Callisto',
   'Dione',
@@ -72,7 +72,7 @@ const Stations = (props) => {
                 {...props}
             >
                 {options.map((option) => (
-                <MenuItem key={option} color="primary" backgroundColor="rgba(71, 78, 116, 0.6)" selected={option === 'Pyxis'} onClick={handleClose}>
+                <MenuItem key={option} color="primary" backgroundColor="rgba(71, 78, 116, 0.6)" selected={option === 'ALL'} onClick={handleClose}>
                     {option}
                 </MenuItem>
                 ))}
