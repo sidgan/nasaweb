@@ -22,27 +22,6 @@ class Header extends Component {
           </div>
         </p>
         <div className="search_box col-lg-4 align-right">
-          {/* <img
-            src="https://img.icons8.com/ios-filled/50/e74c3c/down2.png"
-            alt=""
-          />
-          <br /> */}
-
-          {/* <div
-            className="rainbow-align-content_right rainbow-m-vertical_large"
-            style={{ maxWidth: 350 }}
-          >
-            <DatePicker
-              minDate={new Date(2018, 10, 1)}
-              maxDate={new Date(2020, 10, 8)}
-              value={this.state.date}
-              onChange={(value) =>
-                this.setState({ date: value.toDateString() })
-              }
-              placeholder="Pick A Date To See Meteors"
-              formatStyle="large"
-            />
-          </div> */}
           <Grid container spacing={2}>
             <Grid item>
               <NavigationBar

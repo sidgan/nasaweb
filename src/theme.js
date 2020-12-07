@@ -34,7 +34,14 @@ export const theme = createMuiTheme({
         MuiMenuItem: {
             root: {
                 backgroundColor: "rgba(71, 78, 116, 0.6)",
-                fillOpacity: 0.5
+                opacity: 0.8,
+            }
+        },
+
+        MuiTextField: {
+            root: {
+                backgroundColor: "rgba(71, 78, 116, 0.6)",
+                opacity: 0.8,
             }
         }
     }
