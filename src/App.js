@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import GlobeObject from './components/Globe';
 import GroupedButton from './components/GroupedButton';
 import Footer from './components/Footer';
+import ReactVirtualizedTable from './components/Table';
 
 import { ThemeProvider } from '@material-ui/core/styles';
 import { theme } from './theme';
@@ -36,7 +37,7 @@ class App extends Component {
               {
                 this.state.showGlobe ?
 
-                <h4 className="text-center">Good one boy</h4>
+                <ReactVirtualizedTable />
 
                 :
 

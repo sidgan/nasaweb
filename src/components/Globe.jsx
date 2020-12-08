@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
+// import { withStyles } from '@material-ui/core/styles';
+// import Tooltip from '@material-ui/core/Tooltip';
 import ReactGlobe from 'react-globe';
 import Responsive from 'react-responsive-decorator';
 import axios from 'axios';
@@ -14,32 +14,32 @@ import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
 
-const HtmlTooltip = withStyles((theme) => ({
-  tooltip: {
-    backgroundColor: 'rgba(71, 78, 116, 0.6)',
-    color: "primary",
-    maxWidth: 250,
-    maxHeight: 250,
-    marginBlock: '3px',
-    border: '1px solid #474E74',
-  },
-}))(Tooltip);
+// const HtmlTooltip = withStyles((theme) => ({
+//   tooltip: {
+//     backgroundColor: 'rgba(71, 78, 116, 0.6)',
+//     color: "primary",
+//     maxWidth: 250,
+//     maxHeight: 250,
+//     marginBlock: '3px',
+//     border: '1px solid #474E74',
+//   },
+// }))(Tooltip);
 
 
 const colorScale = (code) => {
-  if (code <= 7) {
+  if (code === 0) {
     return 'rgb(255,255,255,0.8)';
-  } else if (code > 7 && code <= 17) {
+  } else if (code > 0 && code <= 20) {
     return 'rgb(160,32,240,0.8)';
-  } else if (code > 17 && code <= 37) {
+  } else if (code > 20 && code <= 30) {
     return 'rgb(0,0,255,0.8)';
-  } else if (code > 37 && code <= 47) {
+  } else if (code > 30 && code <= 40) {
     return 'rgb(0,165,255,0.8)';
-  } else if (code > 47 && code <= 57) {
+  } else if (code > 40 && code <= 50) {
     return 'rgb(0,255,0,0.8)';
-  } else if (code > 57 && code <= 67) {
+  } else if (code > 50 && code <= 60) {
     return 'rgb(255,255,0,0.8)';
-  } else if (code > 67 && code <= 120) {
+  } else if (code > 60 && code <= 70) {
     return 'rgb(255,165,0,0.8)';
   } else {
     return 'rgb(255,0,0,0.8)';
@@ -111,23 +111,20 @@ const GlobeObject = (props) => {
         id: m.id,
         iau: m.iau,
         name: meteorNames[m.iau],
-        color: colorScale(m.color),
+        color: colorScale(m.velocg),
         coordinates: [...m.location.coordinates],
         velocg: m.velocg,
         mag: m.mag,
         sol: m.sol,
-        value: 25
+        value: 20
       })
     });
 
-    setMarkers([...newMarkers]);
+    setMarkers(newMarkers);
   };
 
   const markerTooltipRenderer = (marker) => {
-    return(
-      <HtmlTooltip title={`${marker.name}`}>
-      </HtmlTooltip>
-    );
+    return `${marker.iau}`
   };
 
   const options = {
@@ -153,7 +150,7 @@ const GlobeObject = (props) => {
 
   const pullData = useCallback(async () => {
     console.log(`${date}`)
-    const response = await axios.get("https://meteorshowers.seti.org/api/meteor", {
+    const response = await axios.get("https://cors-anywhere.herokuapp.com/http://voren3.seti.org/api/meteor", {
       params: {
         source: "ALL",
         date: `${date}`
@@ -199,4 +196,4 @@ const GlobeObject = (props) => {
 };
 
 export default React.memo(Responsive(GlobeObject));
-        
+

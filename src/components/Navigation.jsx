@@ -52,6 +52,7 @@ const NavigationBar = (props) => {
             <Button
                 id="date"
                 color="secondary"
+                variant="contained"
                 style={{
                     maxHeight: '40px',
                     maxWidth: '150px',
@@ -72,7 +73,10 @@ const NavigationBar = (props) => {
                 <TextField
                     id="date"
                     type="date"
-                    color="secondary"
+                    style={{
+                        maxHeight: '60px',
+                        fontWeight: 'bolder',
+                    }}
                     defaultValue={props.selectedDate}
                     value={value}
                     onChange={handleDateChange}

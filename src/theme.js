@@ -41,7 +41,9 @@ export const theme = createMuiTheme({
         MuiTextField: {
             root: {
                 backgroundColor: "rgba(71, 78, 116, 0.6)",
-                opacity: 0.8,
+                fillOpacity: 0.8,
+                color: "primary",
+                fontSize: '20px',
             }
         }
     }
