@@ -45,6 +45,27 @@ export const theme = createMuiTheme({
                 color: "primary",
                 fontSize: '20px',
             }
+        },
+
+        MuiTableBody: {
+            root: {
+                backgroundColor: "rgba(71, 78, 116, 0.6)",
+                opacity: 0.8,
+            }
+        },
+        MuiTableHead: {
+            root: {
+                color: "textSecondary",
+                backgroundColor: "rgba(71, 78, 116, 0.6)",
+                opacity: 0.8,
+            }
+        },
+        MuiTableCell: {
+            root: {
+                color: "textSecondary",
+                backgroundColor: "rgba(71, 78, 116)",
+                opacity: 0.8,
+            }
         }
     }
 })

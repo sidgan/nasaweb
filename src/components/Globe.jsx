@@ -4,6 +4,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import ReactGlobe from 'react-globe';
 import Responsive from 'react-responsive-decorator';
 import axios from 'axios';
+import StickyHeadTable from './Table';
 import Header from './Header';
 import ZoomButton from './ZoomButton';
 // import DataTooltip from './Tooltip';
@@ -47,7 +48,7 @@ const colorScale = (code) => {
 };
 
 
-const GlobeObject = (props) => {
+const MainSection = (props) => {
 
   const addZ = (n) => {
     return n < 10 && n.length === 1 ? '0' + n : '' + n;
@@ -74,9 +75,10 @@ const GlobeObject = (props) => {
 
     if (newDate === date) {
       console.log("Updated!");
-      // setFormatDate(datePickerUpdate(date));
+    
     } else {
       setDate(newDate);
+
     };
   };
 
@@ -179,21 +181,35 @@ const GlobeObject = (props) => {
       <div className="zoom-1">
         <ZoomButton />
       </div>
+
+
+
+      {
+        props.showGlobe ?
+
+        <ReactGlobe
+          height={'95vh'}
+          markers={markers}
+          options={options}
+          width="100%"
+          onGetGlobe={setGlobe}
+          globeCloudsTexture={null}
+          globeTexture={globeTexture}
+          globeBackgroundTexture={null}
+          initialCameraDistanceRadiusScale={3.5}
+        />
+
+        :
+
+        <StickyHeadTable
+          markers={markers}
+        />
+
+      } 
       
-      <ReactGlobe
-        height={'95vh'}
-        markers={markers}
-        options={options}
-        width="100%"
-        onGetGlobe={setGlobe}
-        globeCloudsTexture={null}
-        globeTexture={globeTexture}
-        globeBackgroundTexture={null}
-        initialCameraDistanceRadiusScale={3.5}
-      />
     </section>
   );
 };
 
-export default React.memo(Responsive(GlobeObject));
+export default React.memo(Responsive(MainSection));
 

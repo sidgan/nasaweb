@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import GlobeObject from './components/Globe';
+import MainSection from './components/Globe';
 import GroupedButton from './components/GroupedButton';
 import Footer from './components/Footer';
-import ReactVirtualizedTable from './components/Table';
 
 import { ThemeProvider } from '@material-ui/core/styles';
 import { theme } from './theme';
@@ -16,7 +15,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      showGlobe: false,
+      showGlobe: true,
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
   }
@@ -34,16 +33,9 @@ class App extends Component {
           <div className="globe-container">
             <div className="col-lg-12 col-sm-12">
 
-              {
-                this.state.showGlobe ?
-
-                <ReactVirtualizedTable />
-
-                :
-
-                <GlobeObject/>
-
-              }  
+              <MainSection
+                showGlobe={this.state.showGlobe}
+              />
 
             </div>
             <div className="m-6">

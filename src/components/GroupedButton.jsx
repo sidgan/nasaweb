@@ -30,18 +30,6 @@ class GroupedButton extends Component {
                     this.props.showGlobe ?
 
                     <ButtonGroup size="large" style={{maxHeight: "40px", minHeight: "40px"}}>
-                        <Button variant="contained" color="secondary" onClick={this.props.toggleDisplay}>
-                            <Typography variant="h5" color="textSecondary">Sphere</Typography>
-                        </Button>
-
-                        <Button variant="contained" color="primary" active>
-                            <Typography variant="h5" color="textPrimary">Table</Typography>
-                        </Button>
-                    </ButtonGroup> 
-                    
-                    :
-
-                    <ButtonGroup size="large" style={{maxHeight: "40px", minHeight: "40px"}}>
                         <Button variant="contained" color="primary" active>
                             <Typography variant="h5" color="textSecondary">Sphere</Typography>
                         </Button>
@@ -50,6 +38,19 @@ class GroupedButton extends Component {
                             <Typography variant="h5" color="textSecondary">Table</Typography>
                         </Button>
                     </ButtonGroup>
+
+                    :
+
+
+                    <ButtonGroup size="large" style={{maxHeight: "40px", minHeight: "40px"}}>
+                        <Button variant="contained" color="secondary" onClick={this.props.toggleDisplay}>
+                            <Typography variant="h5" color="textSecondary">Sphere</Typography>
+                        </Button>
+
+                        <Button variant="contained" color="primary" active>
+                            <Typography variant="h5" color="textPrimary">Table</Typography>
+                        </Button>
+                    </ButtonGroup> 
                     
                     }
                 </Grid>
