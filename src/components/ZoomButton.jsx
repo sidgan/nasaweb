@@ -16,11 +16,11 @@ class ZoomButton extends Component {
                         aria-label="vertical contained primary button group"
                         variant="contained"
                     >
-                        <Button variant="contained" color="secondary" style={{maxHeight: "40px", minHeight: "40px", fontSize: "20px"}} active>
+                        <Button variant="contained" color="secondary" style={{minWidth: "50px", minHeight: "50px", fontSize: "20px"}} active>
                             +
                         </Button>
 
-                        <Button variant="contained" color="secondary" style={{maxHeight: "40px", minHeight: "40px", fontSize: "20px"}} active>
+                        <Button variant="contained" color="secondary" style={{minWidth: "50px", minHeight: "50px", fontSize: "20px"}} active>
                             -
                         </Button>
                     </ButtonGroup>

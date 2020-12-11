@@ -7,7 +7,7 @@ const DataTooltip = (props) => {
         <React.Fragment>
             <Grid container color="secondary" spacing={2}>
                 <Grid item xs={12} spacing={1}>
-                    <Typography variant="h6" color="textPrimary">
+                    <Typography variant="h5" color="textPrimary">
                         {props.children}
                     </Typography>
                 </Grid>

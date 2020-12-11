@@ -1,34 +1,18 @@
 import React, { useState, useCallback, useEffect } from 'react';
-// import { withStyles } from '@material-ui/core/styles';
-// import Tooltip from '@material-ui/core/Tooltip';
 import ReactGlobe from 'react-globe';
 import Responsive from 'react-responsive-decorator';
 import axios from 'axios';
 import StickyHeadTable from './Table';
 import Header from './Header';
 import ZoomButton from './ZoomButton';
-// import DataTooltip from './Tooltip';
-
 import globeTexture from '../images/globe_bg.png';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
 
-// const HtmlTooltip = withStyles((theme) => ({
-//   tooltip: {
-//     backgroundColor: 'rgba(71, 78, 116, 0.6)',
-//     color: "primary",
-//     maxWidth: 250,
-//     maxHeight: 250,
-//     marginBlock: '3px',
-//     border: '1px solid #474E74',
-//   },
-// }))(Tooltip);
-
-
 const colorScale = (code) => {
-  if (code === 0) {
+  if (code <= 0) {
     return 'rgb(255,255,255,0.8)';
   } else if (code > 0 && code <= 20) {
     return 'rgb(160,32,240,0.8)';
@@ -47,9 +31,7 @@ const colorScale = (code) => {
   }
 };
 
-
 const MainSection = (props) => {
-
   const addZ = (n) => {
     return n < 10 && n.length === 1 ? '0' + n : '' + n;
   };
@@ -64,29 +46,41 @@ const MainSection = (props) => {
     return `${res[3]}-${addZ(String(month))}-${addZ(res[2])}`;
   };
 
-  const [date, setDate] = useState(getDateFormat(`${new Date().toDateString()}`))
+  const [date, setDate] = useState(
+    getDateFormat(`${new Date().toDateString()}`)
+  );
   const [markers, setMarkers] = useState([]);
   const [globe, setGlobe] = useState(null);
 
-
   const handleDateChange = (d) => {
     let newDate = d;
-    console.log("working", d)
+    console.log('working', d);
 
     if (newDate === date) {
-      console.log("Updated!");
-    
+      console.log('Updated!');
     } else {
       setDate(newDate);
-
-    };
+    }
   };
 
-  const updateMarkers = (markers) => {
+  const updateMarkers = useCallback((meteors, stars) => {
     let newMarkers = [];
-    const meteorNames = require('../json/showers.json');
     const sunMarkers = [require('../json/sun.json')];
-    const starMarkers = require(`../json/hyg.json`);
+    const meteorNames = require('../json/showers.json');
+
+    meteors.forEach((m) => {
+      newMarkers.push({
+        id: m.id,
+        iau: m.iau,
+        name: meteorNames[m.iau],
+        color: colorScale(m.color),
+        coordinates: [...m.location.coordinates],
+        velocg: m.velocg,
+        mag: m.mag,
+        sol: m.sol,
+        value: 20,
+      });
+    });
 
     sunMarkers.forEach((m) => {
       newMarkers.push({
@@ -98,35 +92,74 @@ const MainSection = (props) => {
       });
     });
 
-    starMarkers.features.forEach((m) => {
+    stars.forEach((m) => {
       newMarkers.push({
-        id: newMarkers.length,
+        id: m.id,
         color: 'black',
         name: 'Star',
-        coordinates: [...m.geometry.coordinates],
+        coordinates: [...m.location.coordinates],
         value: 18,
       });
     });
 
-    markers.forEach(m => {
-      newMarkers.push({
-        id: m.id,
-        iau: m.iau,
-        name: meteorNames[m.iau],
-        color: colorScale(m.velocg),
-        coordinates: [...m.location.coordinates],
-        velocg: m.velocg,
-        mag: m.mag,
-        sol: m.sol,
-        value: 20
-      })
+    setMarkers(newMarkers);
+  }, []);
+
+  const fetchData = useCallback(async () => {
+    setMarkers([]);
+      
+    // FETCH FROM ALL ENDPOINTS WITH ASYNC
+    let meteors =
+      'https://meteorshowers.seti.org/api/meteor';
+    let stars =
+      'https://meteorshowers.seti.org/api/star';
+
+    // Pull using promises
+    const requestMeteors = await axios.get(meteors, {
+      params: {
+        source: 'ALL',
+        date: `${date}`,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
     });
 
-    setMarkers(newMarkers);
-  };
+    const requestStars = await axios.get(stars, {
+      params: {
+        date: `${date}`,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
+    });
+
+    await axios
+      .all([requestMeteors, requestStars])
+      .then(
+        await axios.spread((...responses) => {
+          const responseOne = responses[0];
+          const responseTwo = responses[1];
+
+          updateMarkers(responseOne.data.meteors, responseTwo.data.stars);
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [date, updateMarkers]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
 
   const markerTooltipRenderer = (marker) => {
-    return `${marker.iau}`
+    return `${marker.name}`;
   };
 
   const options = {
@@ -150,43 +183,15 @@ const MainSection = (props) => {
 
   console.log(globe); // captured globe instance with API methods
 
-  const pullData = useCallback(async () => {
-    console.log(`${date}`)
-    const response = await axios.get("https://cors-anywhere.herokuapp.com/http://voren3.seti.org/api/meteor", {
-      params: {
-        source: "ALL",
-        date: `${date}`
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true
-      }
-    })
-
-    updateMarkers(response.data.meteors)
-  }, [date]);
-
-  useEffect(() => {
-    pullData();
-  }, [pullData])
-
   return (
     <section>
-      <Header
-        selectedDate={date}
-        onDateChange={handleDateChange}
-      />
+      <Header selectedDate={date} onDateChange={handleDateChange} />
 
       <div className="zoom-1">
         <ZoomButton />
       </div>
 
-
-
-      {
-        props.showGlobe ?
-
+      {props.showGlobe ? (
         <ReactGlobe
           height={'95vh'}
           markers={markers}
@@ -198,18 +203,11 @@ const MainSection = (props) => {
           globeBackgroundTexture={null}
           initialCameraDistanceRadiusScale={3.5}
         />
-
-        :
-
-        <StickyHeadTable
-          markers={markers}
-        />
-
-      } 
-      
+      ) : (
+        <StickyHeadTable markers={markers} />
+      )}
     </section>
   );
 };
 
 export default React.memo(Responsive(MainSection));
-

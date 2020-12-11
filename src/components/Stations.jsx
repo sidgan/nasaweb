@@ -48,7 +48,7 @@ const Stations = (props) => {
     return (
         <div>
             <Button
-                style={{maxHeight: "40px", minHeight: "40px"}}
+                style={{maxHeight: "50px", minHeight: "50px"}}
                 aria-label="more"
                 aria-controls="long-menu"
                 aria-haspopup="true"
@@ -57,7 +57,7 @@ const Stations = (props) => {
                 onClick={handleClick}
                 active
             >
-                <Typography variant="h5" color="textSecondary">
+                <Typography variant="h4" color="textSecondary">
                     All Locations <ArrowDropDownIcon size="large"/>
                 </Typography>
             </Button>

@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-
-// import { DatePicker } from 'react-rainbow-components';
 
 const NavigationBar = (props) => {
 
@@ -21,8 +18,6 @@ const NavigationBar = (props) => {
     };
     
     const handleDateChange = e => {
-        console.log(e.target.value);
-
         setValue(e.target.value);
 
         // Update Parent Component
@@ -35,10 +30,8 @@ const NavigationBar = (props) => {
             <Button
             onClick={incrementDate}
             style={{
-                maxHeight: '40px',
-                maxWidth: '40px',
-                minHeight: '40px',
-                minWidth: '40px',
+                minHeight: '50px',
+                minWidth: '50px',
                 fontSize: '30px',
             }}
             variant="contained"
@@ -54,27 +47,15 @@ const NavigationBar = (props) => {
                 color="secondary"
                 variant="contained"
                 style={{
-                    maxHeight: '40px',
                     maxWidth: '150px',
-                    minHeight: '40px',
+                    minHeight: '50px',
                     fontSize: '30px',
                 }}
             >
-                {/* <DatePicker
-                minDate={new Date(2018, 10, 1)}
-                maxDate={new Date(2020, 10, 8)}
-                value={this.state.date}
-                onChange={(value) =>
-                    this.setState({ date: value.toDateString() })
-                }
-                placeholder="Pick A Date To See Meteors"
-                formatStyle="large"
-                /> */}
                 <TextField
                     id="date"
                     type="date"
                     style={{
-                        maxHeight: '60px',
                         fontWeight: 'bolder',
                     }}
                     defaultValue={props.selectedDate}
@@ -87,10 +68,8 @@ const NavigationBar = (props) => {
             <Button
             onClick={decrementDate}
             style={{
-                maxHeight: '40px',
-                maxWidth: '40px',
-                minHeight: '40px',
-                minWidth: '40px',
+                minHeight: '50px',
+                minWidth: '50px',
                 fontSize: '30px',
             }}
             variant="contained"

@@ -16,12 +16,12 @@ class Header extends Component {
         <p className="title_item col-lg-8"> 
           <div className="row">
             <a className="logo_item" href="http://cams.seti.org">
-              <img src={logo} alt="NASA" width="50" height="30" />
+              <img src={logo} alt="NASA" width="60" height="40" />
             </a>
             Meteor Shower Portal
           </div>
         </p>
-        <div className="search_box col-lg-4 align-right">
+        <div className="search_box col-lg-4 text-right">
           <Grid container spacing={2}>
             <Grid item>
               <NavigationBar

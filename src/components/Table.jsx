@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
@@ -17,8 +17,7 @@ const columns = [
   {
     id: 'total',
     label: 'Total Number',
-    minWidth: 170,
-    align: 'right',
+    minWidth: 170
   },
 ];
 
@@ -49,20 +48,43 @@ export default function StickyHeadTable(props) {
 
   const [rows, setRows] = React.useState([]);
 
-  props.markers.forEach((m) => {
 
-    console.log(rows);
-    var num = props.markers.reduce(function (n, person) {
-        return n + (person.iau === m.iau);
-    }, 0);
-    console.log(num)
+  useEffect(() => {
+    props.markers.forEach((m) => {
 
-    setRows([...{
-        iau: m.iau,
-        name: m.name,
-        total: num
-    }]);
-  })
+      console.log(rows);
+      let newRows = [];
+
+      if (m.value === 20) {
+
+        // Count the occurences
+
+        // Append to existing rows
+        newRows.push({
+          id: m.id,
+          iau: m.iau,
+          total: m.velocg
+        });
+
+      } else {
+        console.log("matched")
+      }
+
+      setRows([...newRows])
+      // // CHECK THE USER THAT IS 
+      // var num = props.markers.reduce(function (n, person) {
+      //     return n + (person.iau === m.iau);
+      // }, 0);
+      // console.log(num)
+
+      // setRows([...{
+      //     iau: m.iau,
+      //     name: m.name,
+      //     total: num
+      // }]);
+    })
+
+  }, [props, rows])
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

@@ -5,16 +5,16 @@ import './style.css';
 class Footer extends Component {
     state = {}
 
-    render() { 
+    render() {
         return (
             <section>
                 <div className="footer">
                     <div className="col-md-12">
                         <div className="row">
                             <div className="col-md-9 text-left">
-                                <p>Hosted by: <a href="http://www.seti.org">The SETI Institute</a></p>
+                                <p>Hosted by: <a href="https://www.seti.org">The SETI Institute</a></p>
                                 <p>Curator: <a href="mailto:petrus.m.jenniskens@nasa.gov">Peter Jenniskens  </a></p>
-                                <p>Responsible NASA Official: <a href="http://cams.seti.org">Lindley Johnson</a></p>
+                                <p>Responsible NASA Official: <a href="https://cams.seti.org">Lindley Johnson</a></p>
                             </div>
 
                             <div className="col-md-3 footer_nav text-right">

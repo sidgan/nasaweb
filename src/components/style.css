@@ -15,7 +15,7 @@
 .title_item {
   display: flex;
   align-items: center;
-  font-size: 18px;
+  font-size: 22px;
   font-family: Helvetica;
   font-weight: bold;
   font-style: normal;
@@ -32,13 +32,17 @@
 
 
 .search_box {
-  display: flex;
+  position: fixed;
+  display: block;
   justify-content: right;
   text-align-last: right;
   align-items: right;
   margin-top: 40px;
   /* margin: 5px; */
   transition-timing-function: ease-in-out 0.5s;
+  right: 0;
+  top: 0;
+  padding-right: 0;
 }
 
 @media only screen and (max-width: 800px) {
@@ -107,6 +111,7 @@
   font-family: Roboto Mono;
   font-style: normal;
   font-weight: normal;
+  font-size: 18px;
   justify-content: center;
   color: white;
   background: transparent;
@@ -131,6 +136,6 @@
 }
 
 .footer_nav h5 {
-  font-size: 14px;
+  font-size: 18px;
   margin-left: 35px;
 }

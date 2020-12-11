@@ -29,26 +29,26 @@ class GroupedButton extends Component {
                     {
                     this.props.showGlobe ?
 
-                    <ButtonGroup size="large" style={{maxHeight: "40px", minHeight: "40px"}}>
+                    <ButtonGroup size="large" style={{maxHeight: "50px", minHeight: "50px"}}>
                         <Button variant="contained" color="primary" active>
-                            <Typography variant="h5" color="textSecondary">Sphere</Typography>
+                            <Typography variant="h4" color="textSecondary">Sphere</Typography>
                         </Button>
 
                         <Button variant="contained" color="secondary" onClick={this.props.toggleDisplay}>
-                            <Typography variant="h5" color="textSecondary">Table</Typography>
+                            <Typography variant="h4" color="textSecondary">Table</Typography>
                         </Button>
                     </ButtonGroup>
 
                     :
 
 
-                    <ButtonGroup size="large" style={{maxHeight: "40px", minHeight: "40px"}}>
+                    <ButtonGroup size="large" style={{maxHeight: "50px", minHeight: "50px"}}>
                         <Button variant="contained" color="secondary" onClick={this.props.toggleDisplay}>
-                            <Typography variant="h5" color="textSecondary">Sphere</Typography>
+                            <Typography variant="h4" color="textSecondary">Sphere</Typography>
                         </Button>
 
                         <Button variant="contained" color="primary" active>
-                            <Typography variant="h5" color="textPrimary">Table</Typography>
+                            <Typography variant="h4" color="textPrimary">Table</Typography>
                         </Button>
                     </ButtonGroup> 
                     
@@ -58,7 +58,7 @@ class GroupedButton extends Component {
                     <HtmlTooltip
                         title={<Helper />}
                     >
-                        <Button style={{maxHeight: "40px", maxWidth: "40px", minHeight: "40px", minWidth: "40px", fontSize: "20px"}} variant="contained" color="secondary" active>
+                        <Button style={{minHeight: "50px", minWidth: "50px", fontSize: "20px"}} variant="contained" color="secondary" active>
                             <b>?</b>
                         </Button>
                     </HtmlTooltip>
