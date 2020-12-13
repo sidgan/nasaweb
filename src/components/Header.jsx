@@ -15,7 +15,7 @@ class Header extends Component {
       <div className="flexbox_container">
         <p className="title_item col-lg-8"> 
           <div className="row">
-            <a className="logo_item" href="http://cams.seti.org">
+            <a className="logo_item" href="https://cams.seti.org" target="_blank">
               <img src={logo} alt="NASA" width="60" height="40" />
             </a>
             Meteor Shower Portal
