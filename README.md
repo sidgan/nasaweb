@@ -53,6 +53,8 @@ example - cragislist  https://sfbay.craigslist.org/d/apartments-housing-for-rent
 
 - intelligent search powered for same date on different years showing a meteor shower per year. eg geminids on 2010 - 2020.
 
+- ability to save a snippet in video format. Eg save movement of globe from 1 Dec to 4 Dec 2020 from one fixed viewpoint. 
+
 ## Getting Started On This Repository
 
 Here are the steps to follow in getting the web portal up and running locally;
