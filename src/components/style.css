@@ -1,33 +1,55 @@
 .flexbox_container {
-  position: relative;
-  flex-direction: row;
-  display: inline-flex;
+  position: fixed;
+  display: block;
   width: 100%;
+  height: 20px;
   bottom: 0;
+  right: 0;
+  left: 0;
   top: 0;
   padding: 0;
 }
 
+
+/* HEADER STYLES */
 .title_item {
-  font-size: 35px;
-  font-family: 'Lucida Sans Regular';
-  font-weight: bolder;
-  padding: 2rem;
-  text-align: left;
-  color: rgb(247, 238, 238);
-  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  font-family: Helvetica;
+  font-weight: bold;
+  font-style: normal;
+  text-align-last: left;
+  text-shadow: blue;
+  color: #ffffff;
+  margin-top: 30px;
 }
 
 .logo_item {
-  padding: 2.5rem;
-  margin: 5px;
+  justify-content: center;
+  margin: 4px;
+}
+
+
+.search_box {
+  position: fixed;
+  display: block;
+  justify-content: right;
+  text-align-last: right;
+  align-items: right;
+  margin-top: 40px;
+  /* margin: 5px; */
+  transition-timing-function: ease-in-out 0.5s;
+  right: 0;
+  top: 0;
+  padding-right: 0;
 }
 
 @media only screen and (max-width: 800px) {
   .title_item {
-    font-size: 18px;
+    font-size: 15px;
     padding: 0.5rem;
-    text-align: center;
+    text-align: left;
   }
 
   .logo_item {
@@ -35,69 +57,19 @@
     margin: 1px;
   }
 }
+/* END HEADER */
 
-
-
-.search_box {
-  padding: 1rem;
-  margin: 5px;
-  transition-timing-function: ease-in-out 0.5s;
+.zoom-1 {
+  position: fixed;
+  top: 40vh;
+  right: 70px;
 }
 
-/* .datepicker {
-  height: 40px;
-  align-content: right;
-  border-color: blue;
-  font-style: italic;
-  text-align: center;
-  color: tomato;
-} */
 
-.modal {
-  font-size: 20px;
-}
-
-.modal > .header {
-  width: 100%;
-  border-bottom: 1px;
-  font-size: 20px;
-  text-align: left;
-  padding: 5px;
-  font-weight: bolder;
-  text-decoration-line: underline;
-  font-family: 'Helvetica Neue';
-}
-.modal > .content {
-  justify-content: left;
-  font-family: 'Cantarell';
-  font-weight: 500;
-  text-justify: newspaper;
-  text-align: left;
-  width: 100%;
-  padding: 10px 5px;
-  line-height: 1.6em;
-}
-
-.modal > .close {
-  cursor: pointer;
-  position: absolute;
-  display: block;
-  padding: 2px 5px;
-  line-height: 26px;
-  right: -10px;
-  top: -10px;
-  font-size: 24px;
-  background: #c50c0c;
-  border-radius: 18px;
-  border: 2px dotted #cfcece;
-}
-
-.guide-1 Button {
+.guide-1 {
   position: fixed;
   bottom: 100px;
-  right: 110px;
-  color: rgba(223, 223, 236, 0.863);
-  background-color: rgba(0, 66, 128, 0.856);
+  right: 70px;
 }
 
 .overlay Button {
@@ -112,11 +84,12 @@
   position: absolute;
   border: 3px lightblue;
   height: 40px;
-  bottom: 30px;
-  left: 120px;
+  bottom: 50px;
+  left: 150px;
 }
 
-.footer {
+/* .footer {
+
   border: 1px lightblue;
   width: 100%;
   height: 48px;
@@ -126,5 +99,43 @@
   font-weight: bolder;
   font-family: Georgia, 'Times New Roman', Times, serif;
   box-sizing: border-box;
-}
+} */
  
+.footer {
+  position: relative;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  flex: 1;
+  letter-spacing: 0.1em;
+  font-family: Roboto Mono;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  justify-content: center;
+  color: white;
+  background: transparent;
+  height: 5vh;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.footer div div div p {
+  position: inherit;
+  float: left;
+  margin-top: 6px;
+  margin-left: 3px;
+  margin-left: 20px;
+}
+
+.footer_nav {
+  display: flex;
+  margin-right: 0;
+  text-align: right;
+}
+
+.footer_nav h5 {
+  font-size: 18px;
+  margin-left: 35px;
+}

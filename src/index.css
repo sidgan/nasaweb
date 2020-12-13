@@ -5,15 +5,15 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('./images/shy.jpg');
+  /* background-image: url('./images/shy.jpg'); */
+  /* background-color: #252c33;
+   */
+  background-color: #302f2f;
   background-size: cover;
+  height: 100%;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-#section {
-  background-color: #252c3355;
 }
