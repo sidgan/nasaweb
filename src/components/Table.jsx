@@ -30,14 +30,14 @@ const useStyles = makeStyles({
     width: '60%',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '60vh',
+    height: '67vh',
     marginTop: "100px",
     marginBottom: "175px",
     marginLeft: "250px",
     top: '50px',
   },
   container: {
-    maxHeight: 400,
+    maxHeight: 600,
   },
 });
 
@@ -50,41 +50,41 @@ export default function StickyHeadTable(props) {
 
 
   useEffect(() => {
+    let newRows = [];
+
+    let names = [];
     props.markers.forEach((m) => {
 
-      console.log(rows);
-      let newRows = [];
-
-      if (m.value === 20) {
+      if (m.value === 20 && m.iau !== 0) {
 
         // Count the occurences
+        var num = props.markers.reduce(function (n, person) {
+            return n + (person.iau === m.iau);
+        }, 0);
 
-        // Append to existing rows
-        newRows.push({
-          id: m.id,
+        let object = {
+          name: m.name,
           iau: m.iau,
-          total: m.velocg
-        });
+          total: num
+        }
+
+        // Check existing listings for object
+        if (newRows.some(obj => obj.name === m.name)) {
+          console.log('Already recorded')
+        } else {
+          names.push(m.name);
+          // Append to existing rows
+          newRows.push(object);
+        }
 
       } else {
         console.log("matched")
       }
+    });
 
-      setRows([...newRows])
-      // // CHECK THE USER THAT IS 
-      // var num = props.markers.reduce(function (n, person) {
-      //     return n + (person.iau === m.iau);
-      // }, 0);
-      // console.log(num)
+    setRows([...newRows]);
 
-      // setRows([...{
-      //     iau: m.iau,
-      //     name: m.name,
-      //     total: num
-      // }]);
-    })
-
-  }, [props, rows])
+  }, [props.markers])
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

@@ -74,7 +74,7 @@ const MainSection = (props) => {
         iau: m.iau,
         name: meteorNames[m.iau],
         color: colorScale(m.color),
-        coordinates: [...m.location.coordinates],
+        coordinates: [m.location.coordinates[1], m.location.coordinates[0]],
         velocg: m.velocg,
         mag: m.mag,
         sol: m.sol,

@@ -12,9 +12,9 @@ class Footer extends Component {
                     <div className="col-md-12">
                         <div className="row">
                             <div className="col-md-9 text-left">
-                                <p>Hosted by: <a href="https://www.seti.org" target="_blank">The SETI Institute</a></p>
-                                <p>Curator: <a href="mailto:petrus.m.jenniskens@nasa.gov" target="_blank">Peter Jenniskens  </a></p>
-                                <p>Responsible NASA Official: <a href="https://cams.seti.org" target="_blank">Lindley Johnson</a></p>
+                                <p>Hosted by: <a target="_blank" rel="noopener noreferrer" href="https://www.seti.org">The SETI Institute</a></p>
+                                <p>Curator: <a target="_blank" rel="noopener noreferrer" href="mailto:petrus.m.jenniskens@nasa.gov">Peter Jenniskens  </a></p>
+                                <p>Responsible NASA Official: <a target="_blank" rel="noopener noreferrer" href="http://cams.seti.org">Lindley Johnson</a></p>
                             </div>
 
                             <div className="col-md-3 footer_nav text-right">
