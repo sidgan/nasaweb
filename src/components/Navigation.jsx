@@ -11,10 +11,20 @@ const NavigationBar = (props) => {
 
     const incrementDate = () => {
         // Add One Day To Selected Date
+        let newDate = new Date(value);
+
+        newDate.setDate(newDate.getDate() + 1);
+        setValue(newDate.toISOString().slice(0, 10));
+        // props.onDateChange(value);
     };
 
     const decrementDate = () => {
         // Minus One Dat To Selected Date
+        let newDate = new Date(value);
+
+        newDate.setDate(newDate.getDate() - 1);
+        setValue(newDate.toISOString().slice(0, 10));
+        // props.onDateChange(value);
     };
     
     const handleDateChange = e => {
@@ -28,17 +38,17 @@ const NavigationBar = (props) => {
         <Grid container spacing={1}>
         <Grid item>
             <Button
-            onClick={incrementDate}
-            style={{
-                minHeight: '50px',
-                minWidth: '50px',
-                fontSize: '30px',
-            }}
-            variant="contained"
-            color="secondary"
-            active
+                onClick={decrementDate}
+                style={{
+                    minHeight: '50px',
+                    minWidth: '50px',
+                    fontSize: '30px',
+                }}
+                variant="contained"
+                color="secondary"
+                active
             >
-            <NavigateBeforeIcon />
+                <NavigateBeforeIcon />
             </Button>
         </Grid>
         <Grid item>
@@ -66,17 +76,17 @@ const NavigationBar = (props) => {
         </Grid>
         <Grid item>
             <Button
-            onClick={decrementDate}
-            style={{
-                minHeight: '50px',
-                minWidth: '50px',
-                fontSize: '30px',
-            }}
-            variant="contained"
-            color="secondary"
-            active
+                onClick={incrementDate}
+                style={{
+                    minHeight: '50px',
+                    minWidth: '50px',
+                    fontSize: '30px',
+                }}
+                variant="contained"
+                color="secondary"
+                active
             >
-            <NavigateNextIcon />
+                <NavigateNextIcon />
             </Button>
         </Grid>
         </Grid>

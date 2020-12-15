@@ -32,34 +32,31 @@ const colorScale = (code) => {
 };
 
 const MainSection = (props) => {
-  const addZ = (n) => {
-    return n < 10 && n.length === 1 ? '0' + n : '' + n;
-  };
-  const getMonthFromString = (mon) => {
-    return new Date(Date.parse(mon + ' 1, 2012')).getMonth() + 1;
-  };
+  // const addZ = (n) => {
+  //   return n < 10 && n.length === 1 ? '0' + n : '' + n;
+  // };
+  // const getMonthFromString = (mon) => {
+  //   return new Date(Date.parse(mon + ' 1, 2012')).getMonth() + 1;
+  // };
 
-  const getDateFormat = (d) => {
-    let res = d.split(' ');
-    let month = getMonthFromString(res[1]);
+  // const getDateFormat = (d) => {
+  //   let res = d.split(' ');
+  //   let month = getMonthFromString(res[1]);
 
-    return `${res[3]}-${addZ(String(month))}-${addZ(res[2])}`;
-  };
+  //   return `${res[3]}-${addZ(String(month))}-${addZ(res[2])}`;
+  // };
 
   const [date, setDate] = useState(
-    getDateFormat(`${new Date().toDateString()}`)
+    `${new Date().toISOString().slice(0, 10)}`
   );
   const [markers, setMarkers] = useState([]);
   const [globe, setGlobe] = useState(null);
 
   const handleDateChange = (d) => {
-    let newDate = d;
-    console.log('working', d);
-
-    if (newDate === date) {
+    if (d === date) {
       console.log('Updated!');
     } else {
-      setDate(newDate);
+      setDate(d);
     }
   };
 

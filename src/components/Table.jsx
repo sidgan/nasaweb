@@ -22,8 +22,6 @@ const columns = [
 ];
 
 
-
-
 const useStyles = makeStyles({
   root: {
     position: 'relative',
