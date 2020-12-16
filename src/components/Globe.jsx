@@ -5,11 +5,14 @@ import axios from 'axios';
 import StickyHeadTable from './Table';
 import Header from './Header';
 import ZoomButton from './ZoomButton';
-import globeTexture from '../images/globe_bg.png';
+import globeTextureImage from '../images/globe_bg.png';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
+// Context Manager
+export const DateContext = React.createContext()
+export const SourceContext = React.createContext()
 
 const colorScale = (code) => {
   if (code <= 0) {
@@ -32,23 +35,10 @@ const colorScale = (code) => {
 };
 
 const MainSection = (props) => {
-  // const addZ = (n) => {
-  //   return n < 10 && n.length === 1 ? '0' + n : '' + n;
-  // };
-  // const getMonthFromString = (mon) => {
-  //   return new Date(Date.parse(mon + ' 1, 2012')).getMonth() + 1;
-  // };
 
-  // const getDateFormat = (d) => {
-  //   let res = d.split(' ');
-  //   let month = getMonthFromString(res[1]);
+  const [date, setDate] = useState(`${new Date().toISOString().slice(0, 10)}`);
+  const [source, setSource] =  useState(`ALL`);
 
-  //   return `${res[3]}-${addZ(String(month))}-${addZ(res[2])}`;
-  // };
-
-  const [date, setDate] = useState(
-    `${new Date().toISOString().slice(0, 10)}`
-  );
   const [markers, setMarkers] = useState([]);
   const [globe, setGlobe] = useState(null);
 
@@ -57,6 +47,13 @@ const MainSection = (props) => {
       console.log('Updated!');
     } else {
       setDate(d);
+    }
+  };
+  const handleSourceChange = (d) => {
+    if (d === source) {
+      console.log('Updated!');
+    } else {
+      setSource(d);
     }
   };
 
@@ -114,7 +111,7 @@ const MainSection = (props) => {
     // Pull using promises
     const requestMeteors = await axios.get(meteors, {
       params: {
-        source: 'ALL',
+        source: `${source}`,
         date: `${date}`,
       },
       headers: {
@@ -148,7 +145,7 @@ const MainSection = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  }, [date, updateMarkers]);
+  }, [date, source, updateMarkers]);
 
   useEffect(() => {
     fetchData();
@@ -159,30 +156,47 @@ const MainSection = (props) => {
     return `${marker.name}`;
   };
 
-  const options = {
-    ambientLightColor: 'white',
-    enableGlobeGlow: true,
-    globeGlowCoefficient: 0.01,
-    globeGlowRadiusScale: 0.1,
-    globeGlowPower: 2.5,
-    globeCloudsOpacity: 0.5,
-    markerGlowPower: 15,
-    enableMarkerGlow: true,
-    enableMarkerTooltip: true,
-    ambientLightIntensity: 0.4,
-    markerTooltipRenderer: markerTooltipRenderer,
-    markerRadiusScaleRange: [0.003, 0.02],
-    enableCameraZoom: true,
-    enableDefocus: false,
-    markerType: 'dot',
-    cameraAutoRotateSpeed: 0.5,
-  };
+  const options = React.useMemo(() => {
+    return {
+      ambientLightColor: 'white',
+      enableGlobeGlow: true,
+      globeGlowCoefficient: 0.01,
+      globeGlowRadiusScale: 0.1,
+      globeGlowPower: 2.5,
+      globeCloudsOpacity: 0.5,
+      markerGlowPower: 15,
+      enableMarkerGlow: true,
+      enableMarkerTooltip: true,
+      ambientLightIntensity: 0.4,
+      markerTooltipRenderer: markerTooltipRenderer,
+      markerRadiusScaleRange: [0.003, 0.02],
+      enableCameraZoom: true,
+      enableDefocus: false,
+      markerType: 'dot',
+      cameraAutoRotateSpeed: 0.5,
+    }
+  }, []);
+
+  const initialCoordinates = React.useMemo(() => {
+    return [0, 0];
+  }, []); // add dependecisies to useMemo where appropriate
+
+  const globeTexture = React.useMemo(() => {
+    return globeTextureImage
+  }, [])
 
   console.log(globe); // captured globe instance with API methods
 
   return (
     <section>
-      <Header selectedDate={date} onDateChange={handleDateChange} />
+      <DateContext.Provider value={date}>
+        <SourceContext.Provider value={source}>
+          <Header
+            onDateChange={handleDateChange}
+            onSourceChange={handleSourceChange}
+            />
+        </SourceContext.Provider>
+      </DateContext.Provider>
 
       <div className="zoom-1">
         <ZoomButton />
@@ -198,6 +212,7 @@ const MainSection = (props) => {
           globeCloudsTexture={null}
           globeTexture={globeTexture}
           globeBackgroundTexture={null}
+          initialCoordinates={initialCoordinates}
           initialCameraDistanceRadiusScale={3.5}
         />
       ) : (

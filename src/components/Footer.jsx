@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Responsive from 'react-responsive-decorator';
+
 import './style.css';
 
 class Footer extends Component {

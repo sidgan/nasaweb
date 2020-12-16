@@ -6,7 +6,7 @@ const Helper = () => {
     return (
         <React.Fragment>
             <Grid container color="secondary" spacing={2}>
-                <Grid item xs={12} spacing={1}>
+                <Grid item xs={12}>
                     <div className="text-left">
                         <Typography variant="h3" style={{padding: "10px", fontFamily: "Roboto Condensed", lineHeight: "25px"}} color="textPrimary">
                             <b>How To Use</b>
@@ -16,7 +16,7 @@ const Helper = () => {
                         </Typography>
                     </div>
                 </Grid>
-                <Grid item xs={12} spacing={1}>
+                <Grid item xs={12}>
                     <div className="text-left">
                         <Typography variant="h3" style={{padding: "10px", fontFamily: "Roboto Condensed", lineHeight: "25px"}} color="textPrimary">
                             <b>Explanation</b>

@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import Stations from './Stations';
 import NavigationBar from './Navigation';
 import Grid from '@material-ui/core/Grid';
-// import { DatePicker } from 'react-rainbow-components';
 import Responsive from 'react-responsive-decorator';
-import logo from '../images/logo.svg';
 
+import logo from '../images/logo.svg';
 import './style.css';
 
 class Header extends Component {
@@ -25,13 +24,14 @@ class Header extends Component {
           <Grid container spacing={2}>
             <Grid item>
               <NavigationBar
-                selectedDate={this.props.selectedDate}
-                onDateChange={this.props.onDateChange}
+                onChange={this.props.onDateChange}
               />
             </Grid>
 
             <Grid item>
-              <Stations />
+              <Stations
+                onChange={this.props.onSourceChange}
+              />
             </Grid>
           </Grid>
         </div>
