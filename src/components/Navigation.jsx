@@ -37,9 +37,8 @@ const NavigationBar = (props) => {
 
   return (
     <Grid container spacing={1}>
-      <Grid item>
+      <Grid item onClick={decrementDate}>
         <Button
-          onClick={decrementDate}
           style={{
             minHeight: '50px',
             minWidth: '50px',
@@ -74,9 +73,8 @@ const NavigationBar = (props) => {
           />
         </Button>
       </Grid>
-      <Grid item>
+      <Grid item onClick={incrementDate}>
         <Button
-          onClick={incrementDate}
           style={{
             minHeight: '50px',
             minWidth: '50px',
