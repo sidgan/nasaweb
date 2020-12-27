@@ -38,12 +38,11 @@ export const theme = createMuiTheme({
             }
         },
 
-        MuiTextField: {
+        MuiInputBase: {
             root: {
                 backgroundColor: "rgba(71, 78, 116, 0.6)",
-                fillOpacity: 0.8,
                 color: "primary",
-                fontSize: '25px',
+                fontSize: "1.4rem"
             }
         },
 

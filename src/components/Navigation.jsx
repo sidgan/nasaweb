@@ -1,11 +1,23 @@
 import React, { useState } from 'react';
+// import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
+import InputBase from '@material-ui/core/InputBase';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 import { DateContext } from './Globe';
+
+
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     '& > *': {
+//       font
+//     }
+//   }
+// }))
+
 
 const NavigationBar = (props) => {
   const [value, setValue] = useState(React.useContext(DateContext));
@@ -52,25 +64,44 @@ const NavigationBar = (props) => {
         </Button>
       </Grid>
       <Grid item>
-        <Button
-          id="date"
-          color="secondary"
-          variant="contained"
-          style={{
-            maxWidth: '150px',
-            minHeight: '50px',
-            fontSize: '30px',
-          }}
-        >
-          <TextField
+          {/* <TextField
             id="date"
             type="date"
+            variant="outlined"
             style={{
+              width: '150px',
+              minHeight: '50px',
               fontWeight: 'bolder',
             }}
+            size="medium"
+            fullWidth="true"
             value={value}
             onChange={handleDateChange}
-          />
+          /> */}
+          <Button
+            id="date"
+            color="secondary"
+            variant="contained"
+            style={{
+              maxWidth: '150px',
+              minHeight: '50px',
+              fontSize: '30px',
+            }}
+          >
+
+            <InputBase
+              id="date"
+              type="date"
+              variant="filled"
+              style={{
+                backgroundColor: "transparent"
+              }}
+              size="medium"
+              fullWidth="true"
+              value={value}
+              onChange={handleDateChange}
+            />
+
         </Button>
       </Grid>
       <Grid item onClick={incrementDate}>

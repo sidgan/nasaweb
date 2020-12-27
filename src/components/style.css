@@ -13,6 +13,7 @@
 
 /* HEADER STYLES */
 .title_item {
+  color: rgba(0, 0, 0, 0.719);
   display: flex;
   align-items: center;
   font-size: 22px;
@@ -107,11 +108,11 @@
   justify-content: center;
   width: 100%;
   flex: 1;
-  letter-spacing: 0.1em;
+  letter-spacing: 1%;
   font-family: Roboto Mono;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 17px;
   justify-content: center;
   color: white;
   background: transparent;
@@ -137,5 +138,6 @@
 
 .footer_nav h5 {
   font-size: 18px;
-  margin-left: 35px;
+  margin-left: 60px;
+  margin-right: 0;
 }
