@@ -8,6 +8,7 @@
   left: 0;
   top: 0;
   padding: 0;
+  z-index: 999;
 }
 
 
@@ -64,6 +65,7 @@
   position: fixed;
   top: 40vh;
   right: 70px;
+  z-index: 999;
 }
 
 

@@ -5,13 +5,13 @@ import Header from './Header';
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton'
 
-import globeTextureImage from '../images/globe_bg.png';
+// import globeTextureImage from '../images/globe_bg.png';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
 // Lazy Loading React COmponent
-const ReactGlobe = React.lazy(() => import('react-globe'));
+const ReactGlobe = React.lazy(() => import('react-globe.gl'));
 const StickyHeadTable = React.lazy(() => import('./Table'));
 // const Header = React.lazy(() => import('./Header'));
 
@@ -42,19 +42,17 @@ const colorScale = (colorCode) => {
 };
 
 
-const starScale = (colorCode) => {
-  let code = parseFloat(colorCode);
+// const starScale = (colorCode) => {
+//   let code = parseFloat(colorCode);
 
-  if (code < 0) {
-    return "rgb(0, 0, 0, 0.062)";
-  } else if (code === 0) {
-    return "rgb(0, 0, 0, 0.253)";
-  } else if (code > 0 && code <= 1) {
-    return "rgb(0, 0, 0, 0.534)";
-  } else {
-    return "rgb(0, 0, 0, 0.719)";
-  }
-}
+//   if (code <= 0) {
+//     return "rgb(0, 0, 0, 0.062)";
+//   } else if (code <= 1) {
+//     return "rgb(0, 0, 0, 0.534)";
+//   } else {
+//     return "rgb(0, 0, 0, 0.719)";
+//   }
+// }
 
 const MainSection = (props) => {
 
@@ -62,9 +60,6 @@ const MainSection = (props) => {
   const [source, setSource] =  useState(`ALL`);
 
   const [markers, setMarkers] = useState([]);
-
-  const [globeDistance] = useState(3.5);
-  const [globe, setGlobe] = useState(null);
 
   const handleDateChange = (d) => {
     if (d === date) {
@@ -80,6 +75,16 @@ const MainSection = (props) => {
       setSource(d);
     }
   };
+  const handleZoomIn = () => {
+    // let newX = globeDistance + 0.5;
+    // setGlobeDistance(newX)
+    console.log("Attempt to zoom in")
+  };
+  const handleZoomOut = () => {
+    // let newX = globeDistance - 0.5;
+    // setGlobeDistance(newX)
+    console.log("Attempt to zoom out")
+  };
 
   const updateMarkers = useCallback((meteors, stars) => {
     let newMarkers = [];
@@ -91,11 +96,12 @@ const MainSection = (props) => {
         iau: m.iau,
         name: m.name,
         color: colorScale(m.color),
-        coordinates: [m.location.coordinates[1], m.location.coordinates[0]],
+        lat: m.location.coordinates[1],
+        lng: m.location.coordinates[0],
         velocg: m.velocg,
         mag: m.mag,
         sol: m.sol,
-        value: 20,
+        size: 20,
       });
     });
 
@@ -104,18 +110,20 @@ const MainSection = (props) => {
         id: newMarkers.length,
         color: '#FDB800',
         name: 'Sun',
-        coordinates: [...m.features[0].geometry.coordinates],
-        value: 50,
+        lat: 0,
+        lng: 0,
+        size: 50,
       });
     });
 
     stars.forEach((m) => {
       newMarkers.push({
         id: m.id,
-        color: starScale(m.color),
+        color: '#000000',
         name: 'Star',
-        coordinates: [m.location.coordinates[1], m.location.coordinates[0]],
-        value: 18,
+        lat: m.location.coordinates[1],
+        lng: m.location.coordinates[0],
+        size: 18,
       });
     });
 
@@ -174,59 +182,6 @@ const MainSection = (props) => {
     fetchData();
   }, [date, source, updateMarkers]);
 
-  const markerTooltipRenderer = (marker) => {
-    return `${marker.name}`;
-  };
-
-  const options = React.useMemo(() => {
-    return {
-      ambientLightColor: 'white',
-      enableGlobeGlow: true,
-      globeGlowCoefficient: 0.01,
-      globeGlowRadiusScale: 0.1,
-      globeGlowPower: 2.5,
-      globeCloudsOpacity: 0.5,
-      markerGlowPower: 15,
-      enableMarkerGlow: true,
-      enableMarkerTooltip: true,
-      ambientLightIntensity: 0.4,
-      markerTooltipRenderer: markerTooltipRenderer,
-      markerRadiusScaleRange: [0.003, 0.02],
-      enableCameraZoom: true,
-      enableDefocus: false,
-      markerType: 'dot',
-      cameraAutoRotateSpeed: 0.5,
-      enableCameraAutoRotate: true,
-      markerEnterAnimationDuration: 500,
-      markerExitAnimationDuration: 500
-    }
-  }, []);
-
-  const initialCoordinates = React.useMemo(() => {
-    return [10.31, 151.69];
-  }, []); // add dependecisies to useMemo where appropriate
-
-  const globeTexture = React.useMemo(() => {
-    return globeTextureImage
-  }, [])
-
-  const zoomDistance = React.useMemo(() => {
-    return globeDistance
-  }, [globeDistance])
-
-  const handleZoomIn = () => {
-    // let newX = globeDistance + 0.5;
-    // setGlobeDistance(newX)
-    console.log("Attempt to zoom in")
-  };
-
-  const handleZoomOut = () => {
-    // let newX = globeDistance - 0.5;
-    // setGlobeDistance(newX)
-    console.log("Attempt to zoom out")
-  };
-
-  console.log(globe); // captured globe instance with API methods
 
   return (
     <section>
@@ -251,16 +206,19 @@ const MainSection = (props) => {
         {props.showGlobe ? (
 
           <ReactGlobe
-            height={'95vh'}
-            markers={markers}
-            options={options}
-            width="100%"
-            onGetGlobe={setGlobe}
-            globeCloudsTexture={null}
-            globeTexture={globeTexture}
-            globeBackgroundTexture={null}
-            initialCoordinates={initialCoordinates}
-            initialCameraDistanceRadiusScale={zoomDistance}
+            width={1800}
+
+            backgroundColor='#1C00ff00'
+            backgroundImageUrl={null}
+            showGraticules={true}
+
+            pointsData={markers}
+            labelsData={markers}
+            pointLat="lat"
+            pointLng="lng"
+            pointRadius={0.7}
+            pointColor="color"
+            pointAltitude={0.1}
           />
             
         ) : (
