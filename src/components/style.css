@@ -58,6 +58,21 @@ h2 {
   border-radius: 4px;
 }
 
+.data-tooltip {
+  position: absolute;
+  width: 20vw;
+  height: 226px;
+  left: 10vw;
+  top: 40vh;
+  
+  /* Darker Grey (80%) */
+  
+  background: #060e318c;
+  backdrop-filter: blur(16px);
+  border-radius: 4px;
+  z-index: 999;
+}
+
 @media only screen and (max-width: 800px) {
   .title_item {
     font-size: 15px;

@@ -3,18 +3,19 @@ import axios from 'axios';
 import Responsive from 'react-responsive-decorator';
 import Header from './Header';
 import Preloader from './Preloader';
-import ZoomButton from './ZoomButton'
-
+import ZoomButton from './ZoomButton';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import globeTextureImage from '../images/background.jpg';
 
 import './style.css';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
+import { render } from '@testing-library/react';
 
 // Lazy Loading React COmponent
 const ReactGlobe = React.lazy(() => import('react-globe.gl'));
 const StickyHeadTable = React.lazy(() => import('./Table'));
-// const Header = React.lazy(() => import('./Header'));
 
 // Context Manager
 export const DateContext = React.createContext(`${new Date().toISOString().slice(0, 10)}`)
@@ -24,41 +25,40 @@ const colorScale = (colorCode) => {
   let code = parseFloat(colorCode);
 
   if (code <= 0) {
-    return 'rgba(255, 255, 255, 0.6)';
+    return 'rgba(255, 255, 255, 0.5)';
   } else if (code > 0 && code <= 20) {
-    return 'rgba(160, 32, 240, 0.6)';
+    return 'rgba(160, 32, 240, 0.5)';
   } else if (code > 20 && code <= 30) {
-    return 'rgba(0, 0, 255, 0.6)';
+    return 'rgba(0, 0, 255, 0.5)';
   } else if (code > 30 && code <= 40) {
-    return 'rgba(0, 165, 255, 0.6)';
+    return 'rgba(0, 165, 255, 0.5)';
   } else if (code > 40 && code <= 50) {
-    return 'rgba(0, 255, 0, 0.6)';
+    return 'rgba(0, 255, 0, 0.5)';
   } else if (code > 50 && code <= 60) {
-    return 'rgba(255, 255, 0, 0.6)';
+    return 'rgba(255, 255, 0, 0.5)';
   } else if (code > 60 && code <= 70) {
-    return 'rgba(255, 165, 0, 0.6)';
+    return 'rgba(255, 165, 0, 0.5)';
   } else {
-    return 'rgba(255, 0, 0, 0.6)';
+    return 'rgba(255, 0, 0, 0.5)';
   }
 };
-
 
 const starScale = (colorCode) => {
   let code = parseFloat(colorCode);
 
   if (code <= 0) {
-    return "rgb(0, 0, 0, 0.062)";
+    return "rgba(0, 0, 0, 0.4)";
   } else if (code <= 1) {
-    return "rgb(0, 0, 0, 0.534)";
+    return "rgba(0, 0, 0, 0.6)";
   } else {
-    return "rgb(0, 0, 0, 0.719)";
+    return "rgba(0, 0, 0, 0.8)";
   }
 }
 
 const MainSection = (props) => {
 
   const globeEl = React.useRef();
-  const [alt, setAlt] = useState(2);
+  const [alt, setAlt] = useState(3);
 
   const [date, setDate] = useState(React.useContext(DateContext));
   const [source, setSource] =  useState(React.useContext(SourceContext));
@@ -82,12 +82,12 @@ const MainSection = (props) => {
 
   const handleZoomIn = () => {
     let altitude = parseFloat(alt - 0.5);
-    globeEl.current.pointOfView({ lat: 0, lng: 0, altitude: altitude });
+    globeEl.current.pointOfView({altitude: altitude });
     setAlt(altitude);
   };
   const handleZoomOut = () => {
     let altitude = parseFloat(alt + 0.5);
-    globeEl.current.pointOfView({ lat: 0, lng: 0, altitude: altitude });
+    globeEl.current.pointOfView({altitude: altitude });
     setAlt(altitude);
   };
 
@@ -134,7 +134,7 @@ const MainSection = (props) => {
         lat: m.location.coordinates[1],
         lng: m.location.coordinates[0],
         // coordinates: [m.location.coordinates[1], m.location.coordinates[0]],
-        size: 0.35,
+        size: 0.25,
         alt: 0
       });
     });
@@ -144,6 +144,37 @@ const MainSection = (props) => {
 
   const markerTooltip = (marker) => {
     return `<h2>${marker.name}</h2>`;
+  };
+
+  const markerInfoTip = (marker) => {
+    if (marker.type === 'meteor') {
+      return render(
+        <div className="container data-tooltip">
+          <Grid container color="secondary" spacing={2}>
+            <Grid item xs={12}>
+                <div className="text-left">
+                    <Typography style={{padding: '1rem', fontSize: '20px', fontFamily: "Roboto Mono", lineHeight: "26px"}} color="#ffffff">
+                        <b>{marker.name}</b>
+                    </Typography>
+                    <Typography style={{paddingTop: "2px", padding: '1rem', fontSize: "12px", lineHeight: "14.06px"}} color="#fffff">
+                      [{marker.iau}]
+                    </Typography>
+                </div>
+            </Grid>
+            <Grid item xs={12}>
+                <div className="text-left">
+                    <Typography variant="h3" style={{padding: "10px", fontFamily: "Roboto Condensed", lineHeight: "25px"}} color="textPrimary">
+                        <b>Explanation</b>
+                    </Typography>
+                    <Typography variant="h5" style={{padding: "10px", fontSize: "18px", lineHeight: "20px"}} color="textPrimary">
+                        The celestial sphere shows stars in black and meteors in colors (showers: <span style={{ color: 'red' }}>red</span> = fast, <span style={{ color: 'blue' }}>blue</span> = slow) or <b>white</b> (non-showers). Each dot is the direction from which a meteor approached (called the "radiant"), displayed in sun-centered ecliptic coordinates. Showers are assigned according to the CAMS Shower Lookup Table (10 Mb) described in this publication. New showers will show up as groupings of white dots.
+                    </Typography>
+                </div>
+            </Grid>
+          </Grid>
+        </div>
+      )
+    }
   };
 
   useEffect(() => {
@@ -241,6 +272,7 @@ const MainSection = (props) => {
             pointColor="color"
             pointAltitude="alt"
             pointsTransitionDuration={2000}
+            onPointClick={markerInfoTip}
           />
         </Suspense>
           
