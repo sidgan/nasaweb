@@ -27,8 +27,10 @@ const NavigationBar = (props) => {
     let newDate = new Date(value);
 
     newDate.setDate(newDate.getDate() + 1);
-    setValue(newDate.toISOString().slice(0, 10));
-    props.onChange(value);
+
+    let newdf = `${newDate.toISOString().slice(0, 10)}`;
+    setValue(newdf);
+    props.onChange(newdf);
   };
 
   const decrementDate = () => {
@@ -36,8 +38,9 @@ const NavigationBar = (props) => {
     let newDate = new Date(value);
 
     newDate.setDate(newDate.getDate() - 1);
-    setValue(newDate.toISOString().slice(0, 10));
-    props.onChange(value);
+    let newdf = newDate.toISOString().slice(0, 10);
+    setValue(newdf);
+    props.onChange(newdf);
   };
 
   const handleDateChange = (e) => {

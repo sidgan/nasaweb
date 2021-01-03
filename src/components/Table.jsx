@@ -53,7 +53,7 @@ export default function StickyHeadTable(props) {
     let names = [];
     props.markers.forEach((m) => {
 
-      if (m.value === 20 && m.iau !== 0) {
+      if (m.type === 'meteor' && m.iau !== 0) {
 
         // Count the occurences
         var num = props.markers.reduce(function (n, person) {

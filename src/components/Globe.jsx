@@ -5,7 +5,7 @@ import Header from './Header';
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton'
 
-// import globeTextureImage from '../images/globe_bg.png';
+import globeTextureImage from '../images/background.jpg';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
@@ -16,8 +16,8 @@ const StickyHeadTable = React.lazy(() => import('./Table'));
 // const Header = React.lazy(() => import('./Header'));
 
 // Context Manager
-export const DateContext = React.createContext()
-export const SourceContext = React.createContext()
+export const DateContext = React.createContext(`${new Date().toISOString().slice(0, 10)}`)
+export const SourceContext = React.createContext(`ALL`)
 
 const colorScale = (colorCode) => {
   let code = parseFloat(colorCode);
@@ -56,14 +56,14 @@ const colorScale = (colorCode) => {
 
 const MainSection = (props) => {
 
-  const [date, setDate] = useState(`${new Date().toISOString().slice(0, 10)}`);
-  const [source, setSource] =  useState(`ALL`);
+  const [date, setDate] = useState(React.useContext(DateContext));
+  const [source, setSource] =  useState(React.useContext(SourceContext));
 
   const [markers, setMarkers] = useState([]);
 
   const handleDateChange = (d) => {
     if (d === date) {
-      console.log('Updated!');
+      console.log(`Updated! ${d} - ${date}`);
     } else {
       setDate(d);
     }
@@ -95,13 +95,14 @@ const MainSection = (props) => {
         id: newMarkers.length,
         iau: m.iau,
         name: m.name,
+        type: "meteor",
         color: colorScale(m.color),
         lat: m.location.coordinates[1],
         lng: m.location.coordinates[0],
         velocg: m.velocg,
         mag: m.mag,
         sol: m.sol,
-        size: 20,
+        size: 0.4,
       });
     });
 
@@ -110,9 +111,10 @@ const MainSection = (props) => {
         id: newMarkers.length,
         color: '#FDB800',
         name: 'Sun',
+        type: "",
         lat: 0,
         lng: 0,
-        size: 50,
+        size: 1.5,
       });
     });
 
@@ -121,9 +123,11 @@ const MainSection = (props) => {
         id: m.id,
         color: '#000000',
         name: 'Star',
+        type: 'star',
         lat: m.location.coordinates[1],
         lng: m.location.coordinates[0],
-        size: 18,
+        // coordinates: [m.location.coordinates[1], m.location.coordinates[0]],
+        size: 0.35,
       });
     });
 
@@ -168,9 +172,11 @@ const MainSection = (props) => {
           await axios.spread((...responses) => {
             const responseOne = responses[0];
             const responseTwo = responses[1];
+            console.log(date);
             console.log(responseOne.data.meteors);
-            // empty the markers state
-            setMarkers([]);
+            console.log(responseTwo.data.stars);
+                // empty the markers state
+            
             updateMarkers(responseOne.data.meteors, responseTwo.data.stars);
           })
         )
@@ -211,14 +217,35 @@ const MainSection = (props) => {
             backgroundColor='#1C00ff00'
             backgroundImageUrl={null}
             showGraticules={true}
+            globeImageUrl={globeTextureImage}
+            bumpImageUrl={globeTextureImage}
 
             pointsData={markers}
-            labelsData={markers}
             pointLat="lat"
             pointLng="lng"
-            pointRadius={0.7}
+            pointRadius="size"
             pointColor="color"
-            pointAltitude={0.1}
+            pointAltitude={0}
+
+
+            // labelsData={markers}
+            // labelLat="lat"
+            // labelLng="lnh"
+            // labelAltitude={() => 0 + 1e-6}
+            // labelDotRadius={0.12}
+            // labelDotOrientation={() => 'bottom'}
+            // labelColor="color"
+            // labelText="name"
+            // labelSize={0.15}
+            // labelResolution={1}
+
+
+            // polygonsData={markers}
+            // polygonLabel="name"
+            // polygonGeoJsonGeometry="coordinates"
+            // polygonCapColor={() => 'rgba(200, 0, 0, 0.6)'}
+            // polygonSideColor={() => 'rgba(0, 100, 0, 0.15)'}
+
           />
             
         ) : (
