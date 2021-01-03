@@ -47,6 +47,17 @@
   padding-right: 0;
 }
 
+h2 {
+  position: relative;
+  font-size: 20px;
+  line-height: 20px;
+  background: #070C26;
+  padding: 1rem;
+  backdrop-filter: blur(16px);
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 4px;
+}
+
 @media only screen and (max-width: 800px) {
   .title_item {
     font-size: 15px;

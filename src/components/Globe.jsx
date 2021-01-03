@@ -7,6 +7,7 @@ import ZoomButton from './ZoomButton'
 
 import globeTextureImage from '../images/background.jpg';
 
+import './style.css';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
@@ -23,38 +24,41 @@ const colorScale = (colorCode) => {
   let code = parseFloat(colorCode);
 
   if (code <= 0) {
-    return '#ffffff';
+    return 'rgba(255, 255, 255, 0.6)';
   } else if (code > 0 && code <= 20) {
-    return '#a020f0';
+    return 'rgba(160, 32, 240, 0.6)';
   } else if (code > 20 && code <= 30) {
-    return '#0000ff';
+    return 'rgba(0, 0, 255, 0.6)';
   } else if (code > 30 && code <= 40) {
-    return '#00a5ff';
+    return 'rgba(0, 165, 255, 0.6)';
   } else if (code > 40 && code <= 50) {
-    return '#00ff00';
+    return 'rgba(0, 255, 0, 0.6)';
   } else if (code > 50 && code <= 60) {
-    return '#ffff00';
+    return 'rgba(255, 255, 0, 0.6)';
   } else if (code > 60 && code <= 70) {
-    return '#ffa500';
+    return 'rgba(255, 165, 0, 0.6)';
   } else {
-    return '#ff0000';
+    return 'rgba(255, 0, 0, 0.6)';
   }
 };
 
 
-// const starScale = (colorCode) => {
-//   let code = parseFloat(colorCode);
+const starScale = (colorCode) => {
+  let code = parseFloat(colorCode);
 
-//   if (code <= 0) {
-//     return "rgb(0, 0, 0, 0.062)";
-//   } else if (code <= 1) {
-//     return "rgb(0, 0, 0, 0.534)";
-//   } else {
-//     return "rgb(0, 0, 0, 0.719)";
-//   }
-// }
+  if (code <= 0) {
+    return "rgb(0, 0, 0, 0.062)";
+  } else if (code <= 1) {
+    return "rgb(0, 0, 0, 0.534)";
+  } else {
+    return "rgb(0, 0, 0, 0.719)";
+  }
+}
 
 const MainSection = (props) => {
+
+  const globeEl = React.useRef();
+  const [alt, setAlt] = useState(2);
 
   const [date, setDate] = useState(React.useContext(DateContext));
   const [source, setSource] =  useState(React.useContext(SourceContext));
@@ -75,15 +79,16 @@ const MainSection = (props) => {
       setSource(d);
     }
   };
+
   const handleZoomIn = () => {
-    // let newX = globeDistance + 0.5;
-    // setGlobeDistance(newX)
-    console.log("Attempt to zoom in")
+    let altitude = parseFloat(alt - 0.5);
+    globeEl.current.pointOfView({ lat: 0, lng: 0, altitude: altitude });
+    setAlt(altitude);
   };
   const handleZoomOut = () => {
-    // let newX = globeDistance - 0.5;
-    // setGlobeDistance(newX)
-    console.log("Attempt to zoom out")
+    let altitude = parseFloat(alt + 0.5);
+    globeEl.current.pointOfView({ lat: 0, lng: 0, altitude: altitude });
+    setAlt(altitude);
   };
 
   const updateMarkers = useCallback((meteors, stars) => {
@@ -103,6 +108,7 @@ const MainSection = (props) => {
         mag: m.mag,
         sol: m.sol,
         size: 0.4,
+        alt: 0.01
       });
     });
 
@@ -115,26 +121,33 @@ const MainSection = (props) => {
         lat: 0,
         lng: 0,
         size: 1.5,
+        alt: 0.02
       });
     });
 
     stars.forEach((m) => {
       newMarkers.push({
         id: m.id,
-        color: '#000000',
+        color: starScale(m.color),
         name: 'Star',
         type: 'star',
         lat: m.location.coordinates[1],
         lng: m.location.coordinates[0],
         // coordinates: [m.location.coordinates[1], m.location.coordinates[0]],
         size: 0.35,
+        alt: 0
       });
     });
 
     setMarkers(newMarkers);
   }, []);
 
+  const markerTooltip = (marker) => {
+    return `<h2>${marker.name}</h2>`;
+  };
+
   useEffect(() => {
+  
     const fetchData = async () => {
       // FETCH FROM ALL ENDPOINTS WITH ASYNC
       let meteors =
@@ -175,8 +188,6 @@ const MainSection = (props) => {
             console.log(date);
             console.log(responseOne.data.meteors);
             console.log(responseTwo.data.stars);
-                // empty the markers state
-            
             updateMarkers(responseOne.data.meteors, responseTwo.data.stars);
           })
         )
@@ -188,6 +199,7 @@ const MainSection = (props) => {
     fetchData();
   }, [date, source, updateMarkers]);
 
+  console.log(globeEl.current);
 
   return (
     <section>
@@ -207,11 +219,12 @@ const MainSection = (props) => {
         />
       </div>
 
-      <Suspense fallback={<Preloader />}>
+      
 
-        {props.showGlobe ? (
-
+      {props.showGlobe ? (
+        <Suspense fallback={<Preloader />}>
           <ReactGlobe
+            ref={globeEl}
             width={1800}
 
             backgroundColor='#1C00ff00'
@@ -221,38 +234,23 @@ const MainSection = (props) => {
             bumpImageUrl={globeTextureImage}
 
             pointsData={markers}
+            pointLabel={markerTooltip}
             pointLat="lat"
             pointLng="lng"
             pointRadius="size"
             pointColor="color"
-            pointAltitude={0}
-
-
-            // labelsData={markers}
-            // labelLat="lat"
-            // labelLng="lnh"
-            // labelAltitude={() => 0 + 1e-6}
-            // labelDotRadius={0.12}
-            // labelDotOrientation={() => 'bottom'}
-            // labelColor="color"
-            // labelText="name"
-            // labelSize={0.15}
-            // labelResolution={1}
-
-
-            // polygonsData={markers}
-            // polygonLabel="name"
-            // polygonGeoJsonGeometry="coordinates"
-            // polygonCapColor={() => 'rgba(200, 0, 0, 0.6)'}
-            // polygonSideColor={() => 'rgba(0, 100, 0, 0.15)'}
-
+            pointAltitude="alt"
+            pointsTransitionDuration={2000}
           />
-            
-        ) : (
+        </Suspense>
+          
+      ) : (
+        <Suspense fallback={<Preloader />}>
           <StickyHeadTable markers={markers} />
-        )}
+          </Suspense>
+      )}
 
-      </Suspense>
+      
     </section>
   );
 };
