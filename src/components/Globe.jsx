@@ -16,8 +16,8 @@ const StickyHeadTable = React.lazy(() => import('./Table'));
 // const Header = React.lazy(() => import('./Header'));
 
 // Context Manager
-export const DateContext = React.createContext()
-export const SourceContext = React.createContext()
+export const DateContext = React.createContext(`${new Date().toISOString().slice(0, 10)}`)
+export const SourceContext = React.createContext(`ALL`)
 
 const colorScale = (colorCode) => {
   let code = parseFloat(colorCode);
@@ -58,8 +58,8 @@ const starScale = (colorCode) => {
 
 const MainSection = (props) => {
 
-  const [date, setDate] = useState(`${new Date().toISOString().slice(0, 10)}`);
-  const [source, setSource] =  useState(`ALL`);
+  const [date, setDate] = useState(React.useContext(DateContext));
+  const [source, setSource] =  useState(React.useContext(SourceContext));
 
   const [markers, setMarkers] = useState([]);
 
