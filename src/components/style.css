@@ -60,6 +60,7 @@ h2 {
 
 .data-tooltip {
   position: absolute;
+  color: #ffffff;
   width: 20vw;
   height: 226px;
   left: 10vw;
@@ -168,4 +169,10 @@ h2 {
   font-size: 18px;
   margin-left: 60px;
   margin-right: 0;
+}
+
+
+/* TABLE SECTION STYLES */
+.menu {
+  padding: "0px";
 }

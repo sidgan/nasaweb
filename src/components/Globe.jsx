@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import axios from 'axios';
+import { render } from '@testing-library/react';
 import Responsive from 'react-responsive-decorator';
 import Header from './Header';
 import Preloader from './Preloader';
@@ -11,7 +12,7 @@ import globeTextureImage from '../images/background.jpg';
 import './style.css';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
-import { render } from '@testing-library/react';
+
 
 // Lazy Loading React COmponent
 const ReactGlobe = React.lazy(() => import('react-globe.gl'));
@@ -108,7 +109,7 @@ const MainSection = (props) => {
         mag: m.mag,
         sol: m.sol,
         size: 0.4,
-        alt: 0.01
+        alt: 0
       });
     });
 
@@ -121,7 +122,7 @@ const MainSection = (props) => {
         lat: 0,
         lng: 0,
         size: 1.5,
-        alt: 0.02
+        alt: 0
       });
     });
 
@@ -161,16 +162,14 @@ const MainSection = (props) => {
                     </Typography>
                 </div>
             </Grid>
-            <Grid item xs={12}>
+            <Grid container color="secondary" spacing={2}>
+              <Grid item xs={6}>
                 <div className="text-left">
-                    <Typography variant="h3" style={{padding: "10px", fontFamily: "Roboto Condensed", lineHeight: "25px"}} color="textPrimary">
-                        <b>Explanation</b>
-                    </Typography>
-                    <Typography variant="h5" style={{padding: "10px", fontSize: "18px", lineHeight: "20px"}} color="textPrimary">
-                        The celestial sphere shows stars in black and meteors in colors (showers: <span style={{ color: 'red' }}>red</span> = fast, <span style={{ color: 'blue' }}>blue</span> = slow) or <b>white</b> (non-showers). Each dot is the direction from which a meteor approached (called the "radiant"), displayed in sun-centered ecliptic coordinates. Showers are assigned according to the CAMS Shower Lookup Table (10 Mb) described in this publication. New showers will show up as groupings of white dots.
-                    </Typography>
+
                 </div>
+              </Grid>
             </Grid>
+           
           </Grid>
         </div>
       )

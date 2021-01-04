@@ -61,13 +61,14 @@ const Stations = (props) => {
                 active
             >
                 <Typography variant="h4" color="textSecondary">
-                    All Locations <ArrowDropDownIcon size="large" />
+                    {source} Locations <ArrowDropDownIcon size="large" />
                 </Typography>
             </Button>
             <Menu
-                id="long-menu"
+                id="short-menu"
                 anchorEl={anchorEl}
-                elevation={2}
+                className="menu"
+                elevation={1}
                 open={open}
                 getContentAnchorEl={null}
                 backgroundcolor="rgba(71, 78, 116, 0.6)"
@@ -79,14 +80,15 @@ const Stations = (props) => {
                     vertical: 'top',
                     horizontal: 'center',
                 }}
-                {...props}
+                
             >
                 {options.map((option) => (
                     <MenuItem
                         key={option}
-                        color="primary"
-                        backgroundcolor="rgba(71, 78, 116, 0.6)"
-                        selected={option === source}
+                        style={{
+                            minWidth: '50px'
+                        }}
+                        // selected={option === source}
                         onClick={handleClose}
                     >
                         {option}
