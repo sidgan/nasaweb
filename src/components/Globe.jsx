@@ -135,7 +135,7 @@ const MainSection = (props) => {
         lat: m.location.coordinates[1],
         lng: m.location.coordinates[0],
         // coordinates: [m.location.coordinates[1], m.location.coordinates[0]],
-        size: 0.25,
+        size: m.mag / 20,
         alt: 0
       });
     });

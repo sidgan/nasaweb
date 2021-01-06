@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Stations from './Stations';
+// import Stations from './Stations';
+import SimpleSelect from './NewStations';
 import NavigationBar from './Navigation';
 import Grid from '@material-ui/core/Grid';
 import Responsive from 'react-responsive-decorator';
@@ -29,9 +30,10 @@ class Header extends Component {
             </Grid>
 
             <Grid item>
-              <Stations
+              {/* <Stations
                 onChange={this.props.onSourceChange}
-              />
+              /> */}
+              <SimpleSelect />
             </Grid>
           </Grid>
         </div>
