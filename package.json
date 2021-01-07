@@ -12,7 +12,6 @@
     "fontsource-roboto": "^3.0.3",
     "react": "^16.9.0",
     "react-dom": "^16.6.3",
-    "react-globe": "^5.0.2",
     "react-globe.gl": "^2.13.0",
     "react-responsive-decorator": "^0.0.1",
     "react-scripts": "3.4.1",

@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import axios from 'axios';
-import { render } from '@testing-library/react';
+// import { render } from '@testing-library/react';
 import Responsive from 'react-responsive-decorator';
 import Header from './Header';
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+// import Grid from '@material-ui/core/Grid';
+// import Typography from '@material-ui/core/Typography';
 import globeTextureImage from '../images/background.jpg';
 
 import './style.css';
@@ -59,7 +59,7 @@ const starScale = (colorCode) => {
 const MainSection = (props) => {
 
   const globeEl = React.useRef();
-  const [alt, setAlt] = useState(3);
+  const [alt, setAlt] = useState(2);
 
   const [date, setDate] = useState(React.useContext(DateContext));
   const [source, setSource] =  useState(React.useContext(SourceContext));
@@ -147,34 +147,34 @@ const MainSection = (props) => {
     return `<h2>${marker.name}</h2>`;
   };
 
-  const markerInfoTip = (marker) => {
-    if (marker.type === 'meteor') {
-      return render(
-        <div className="container data-tooltip">
-          <Grid container color="secondary" spacing={2}>
-            <Grid item xs={12}>
-                <div className="text-left">
-                    <Typography style={{padding: '1rem', fontSize: '20px', fontFamily: "Roboto Mono", lineHeight: "26px"}} color="#ffffff">
-                        <b>{marker.name}</b>
-                    </Typography>
-                    <Typography style={{paddingTop: "2px", padding: '1rem', fontSize: "12px", lineHeight: "14.06px"}} color="#fffff">
-                      [{marker.iau}]
-                    </Typography>
-                </div>
-            </Grid>
-            <Grid container color="secondary" spacing={2}>
-              <Grid item xs={6}>
-                <div className="text-left">
+  // const markerInfoTip = (marker) => {
+  //   if (marker.type === 'meteor') {
+  //     return render(
+  //       <div className="container data-tooltip">
+  //         <Grid container color="secondary" spacing={2}>
+  //           <Grid item xs={12}>
+  //               <div className="text-left">
+  //                   <Typography style={{padding: '1rem', fontSize: '20px', fontFamily: "Roboto Mono", lineHeight: "26px"}} color="#ffffff">
+  //                       <b>{marker.name}</b>
+  //                   </Typography>
+  //                   <Typography style={{paddingTop: "2px", padding: '1rem', fontSize: "12px", lineHeight: "14.06px"}} color="#fffff">
+  //                     [{marker.iau}]
+  //                   </Typography>
+  //               </div>
+  //           </Grid>
+  //           <Grid container color="secondary" spacing={2}>
+  //             <Grid item xs={6}>
+  //               <div className="text-left">
 
-                </div>
-              </Grid>
-            </Grid>
+  //               </div>
+  //             </Grid>
+  //           </Grid>
            
-          </Grid>
-        </div>
-      )
-    }
-  };
+  //         </Grid>
+  //       </div>
+  //     )
+  //   }
+  // };
 
   useEffect(() => {
   
@@ -256,6 +256,7 @@ const MainSection = (props) => {
           <ReactGlobe
             ref={globeEl}
             width={1800}
+            altitude={alt}
 
             backgroundColor='#1C00ff00'
             backgroundImageUrl={null}
@@ -271,7 +272,7 @@ const MainSection = (props) => {
             pointColor="color"
             pointAltitude="alt"
             pointsTransitionDuration={2000}
-            onPointClick={markerInfoTip}
+            // onPointClick={markerInfoTip}
           />
         </Suspense>
           

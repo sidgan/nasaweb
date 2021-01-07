@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 // import Stations from './Stations';
-import SimpleSelect from './NewStations';
+import NativeSelects from './Stations';
 import NavigationBar from './Navigation';
 import Grid from '@material-ui/core/Grid';
-import Responsive from 'react-responsive-decorator';
 
 import logo from '../images/logo.svg';
 import './style.css';
+// import SimpleSelect from './NewStations';
 
 class Header extends Component {
 
   render() {
     return (
       <div className="flexbox_container">
-        <p className="title_item col-lg-8"> 
+        <p className="title_item col-lg-9"> 
           <div className="row">
             <a className="logo_item" target="_blank" rel="noopener noreferrer" href="http://cams.seti.org">
               <img src={logo} alt="NASA" width="60" height="40" />
@@ -21,7 +21,7 @@ class Header extends Component {
             Meteor Shower Portal
           </div>
         </p>
-        <div className="search_box col-lg-4 text-right">
+        <div className="search_box col-lg-3 text-right">
           <Grid container spacing={2}>
             <Grid item>
               <NavigationBar
@@ -33,7 +33,9 @@ class Header extends Component {
               {/* <Stations
                 onChange={this.props.onSourceChange}
               /> */}
-              <SimpleSelect />
+              <NativeSelects
+                onChange={this.props.onSourceChange}
+              />
             </Grid>
           </Grid>
         </div>
@@ -42,4 +44,4 @@ class Header extends Component {
   }
 }
 
-export default React.memo(Responsive(Header));
+export default React.memo(Header);
