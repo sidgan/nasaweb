@@ -8,6 +8,7 @@
   left: 0;
   top: 0;
   padding: 0;
+  z-index: 999;
 }
 
 
@@ -16,9 +17,10 @@
   color: rgba(0, 0, 0, 0.719);
   display: flex;
   align-items: center;
-  font-size: 22px;
+  font-size: 16px;
   font-family: Helvetica;
-  font-weight: bold;
+  line-height: 18.4px;
+  font-weight: 700;
   font-style: normal;
   text-align-last: left;
   text-shadow: blue;
@@ -42,8 +44,36 @@
   /* margin: 5px; */
   transition-timing-function: ease-in-out 0.5s;
   right: 0;
-  top: 0;
+  left: 71%;
   padding-right: 0;
+  width: 100%
+}
+
+h2 {
+  position: relative;
+  font-size: 20px;
+  line-height: 20px;
+  background: #070C26;
+  padding: 1rem;
+  backdrop-filter: blur(16px);
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 4px;
+}
+
+.data-tooltip {
+  position: absolute;
+  color: #ffffff;
+  width: 20vw;
+  height: 226px;
+  left: 10vw;
+  top: 40vh;
+  
+  /* Darker Grey (80%) */
+  
+  background: #060e318c;
+  backdrop-filter: blur(16px);
+  border-radius: 4px;
+  z-index: 999;
 }
 
 @media only screen and (max-width: 800px) {
@@ -64,12 +94,13 @@
   position: fixed;
   top: 40vh;
   right: 70px;
+  z-index: 999;
 }
 
 
 .guide-1 {
   position: fixed;
-  bottom: 100px;
+  bottom: 70px;
   right: 70px;
 }
 
@@ -112,7 +143,8 @@
   font-family: Roboto Mono;
   font-style: normal;
   font-weight: normal;
-  font-size: 17px;
+  font-size: 12px;
+  line-height: 15.83px;
   justify-content: center;
   color: white;
   background: transparent;
@@ -134,10 +166,26 @@
   display: flex;
   margin-right: 0;
   text-align: right;
+  flex-direction: row;
+  align-items: right;
+  padding: 0px;
+  border-left: 1px;
+  justify-items: right;
+  right: 2vw;
+  width: auto;
 }
 
 .footer_nav h5 {
-  font-size: 18px;
-  margin-left: 60px;
+  font-size: 14px;
+  line-height: 18.46px;
+  letter-spacing: 1%;
   margin-right: 0;
+  margin-left: 25px;
+  text-align: right;
+}
+
+
+/* TABLE SECTION STYLES */
+.menu {
+  padding: "0px";
 }

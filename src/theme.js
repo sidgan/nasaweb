@@ -31,10 +31,25 @@ export const theme = createMuiTheme({
             }
         },
 
+        MuiMenuList: {
+            root: {
+                width: "150px"
+            },
+
+            padding: {
+                padding: "0px"
+            }
+        },
+
+        MuiSelect: {
+            root: {
+                color: "#ffffff"
+            }
+        },
+
         MuiMenuItem: {
             root: {
                 backgroundColor: "rgba(71, 78, 116, 0.6)",
-                opacity: 0.8,
             }
         },
 
@@ -45,6 +60,13 @@ export const theme = createMuiTheme({
                 fontSize: "1.4rem"
             }
         },
+
+        // MuiSelect: {
+        //     root: {
+        //         color: "primary",
+        //         fontSize: "1.4rem"         
+        //     }
+        // },
 
         MuiTableBody: {
             root: {
@@ -65,7 +87,8 @@ export const theme = createMuiTheme({
                 backgroundColor: "rgba(71, 78, 116)",
                 opacity: 0.8,
             }
-        }
+        },
+        
     }
 })
 

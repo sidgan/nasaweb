@@ -31,7 +31,7 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <div className="App">
           <div className="globe-container">
-            <div className="col-lg-12 col-sm-12">
+            <div style={{height: '95vh'}} className="col-lg-12 col-sm-12">
 
               <MainSection
                 showGlobe={this.state.showGlobe}
