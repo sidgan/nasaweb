@@ -10,20 +10,24 @@
 
 .slider {
   position: relative;
-  width: 30%;
+  width: 696px;
+  height: 2px;
   margin: 0 auto;
-  border-radius: 3px;
-  background: #dddddd;
-  height: 15px;
+  background: rgba(255, 255, 255, 0.6);
+  /* Highlight (White) */
+  box-shadow: 0px 1px 6px rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
 }
 
 .thumb {
-  width: 10px;
-  height: 25px;
-  border-radius: 3px;
+  width: 9px;
+  height: 9px;
+  border-radius: 1px;
   position: relative;
-  top: -5px;
-  opacity: 0.5;
-  background: #823eb7;
+  top: -3px;
   cursor: pointer;
+  /* Light Blue */
+  background: #19c8ff;
+  box-shadow: 0px 0px 14px rgba(255, 255, 255, 0.45);
+  border-radius: 1px;
 }
