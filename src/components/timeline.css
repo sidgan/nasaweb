@@ -1,0 +1,10 @@
+.timeline-container {
+    position: absolute;
+    top: 80vh;
+    width: 98vw;
+}
+
+.timeline {
+    margin: 0 auto;
+    color: red;
+}
