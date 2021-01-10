@@ -106,57 +106,57 @@ const MainSection = (props) => {
     setMarkers(newMarkers);
   }, []);
 
-  const fetchData = useCallback(async () => {
-    setMarkers([]);
+  // const fetchData = useCallback(async () => {
+  //   setMarkers([]);
       
-    // FETCH FROM ALL ENDPOINTS WITH ASYNC
-    let meteors =
-      'https://meteorshowers.seti.org/api/meteor';
-    let stars =
-      'https://meteorshowers.seti.org/api/star';
+  //   // FETCH FROM ALL ENDPOINTS WITH ASYNC
+  //   let meteors =
+  //     'https://meteorshowers.seti.org/api/meteor';
+  //   let stars =
+  //     'https://meteorshowers.seti.org/api/star';
 
-    // Pull using promises
-    const requestMeteors = await axios.get(meteors, {
-      params: {
-        source: 'ALL',
-        date: `${date}`,
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
-    });
+  //   // Pull using promises
+  //   const requestMeteors = await axios.get(meteors, {
+  //     params: {
+  //       source: 'ALL',
+  //       date: `${date}`,
+  //     },
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Access-Control-Allow-Origin': '*',
+  //       'Access-Control-Allow-Credentials': true,
+  //     },
+  //   });
 
-    const requestStars = await axios.get(stars, {
-      params: {
-        date: `${date}`,
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
-    });
+  //   const requestStars = await axios.get(stars, {
+  //     params: {
+  //       date: `${date}`,
+  //     },
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Access-Control-Allow-Origin': '*',
+  //       'Access-Control-Allow-Credentials': true,
+  //     },
+  //   });
 
-    await axios
-      .all([requestMeteors, requestStars])
-      .then(
-        await axios.spread((...responses) => {
-          const responseOne = responses[0];
-          const responseTwo = responses[1];
+  //   await axios
+  //     .all([requestMeteors, requestStars])
+  //     .then(
+  //       await axios.spread((...responses) => {
+  //         const responseOne = responses[0];
+  //         const responseTwo = responses[1];
 
-          updateMarkers(responseOne.data.meteors, responseTwo.data.stars);
-        })
-      )
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [date, updateMarkers]);
+  //         updateMarkers(responseOne.data.meteors, responseTwo.data.stars);
+  //       })
+  //     )
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, [date, updateMarkers]);
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [fetchData]);
 
 
   const markerTooltipRenderer = (marker) => {
