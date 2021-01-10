@@ -5,6 +5,7 @@ import axios from 'axios';
 import StickyHeadTable from './Table';
 import Header from './Header';
 import ZoomButton from './ZoomButton';
+import Timeline from './Timeline';
 import globeTexture from '../images/globe_bg.png';
 
 import 'tippy.js/dist/tippy.css';
@@ -206,6 +207,7 @@ const MainSection = (props) => {
       ) : (
         <StickyHeadTable markers={markers} />
       )}
+      <Timeline />
     </section>
   );
 };
