@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import './timeline.css'
 
 const Timeline = (props) => {
     return (
-        <div style={{position: "absolute", left: "50%", top: "50%"}}>
-            <div style={{color: "red"}}>hi</div>
+        <div class="timeline-container">
+            <div class="timeline">hi</div>
         </div>
     );
 }
