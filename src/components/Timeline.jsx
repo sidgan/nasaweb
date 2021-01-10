@@ -1,4 +1,3 @@
-import { doc } from 'prettier';
 import React, { useState } from 'react';
 import './timeline.css';
 
