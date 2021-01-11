@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import DatePicker from './DatePicker';
 import Button from '@material-ui/core/Button';
 import './timeline.css';
 
@@ -58,15 +59,19 @@ const Timeline = (props) => {
       height: "40px",
       width: "40px",
       minWidth: "40px",
+      margin: "0 20px 0 0"
   }
 
   return (
     <div className="timeline-container">
       <div className="timeline">
-        <Button style={playStyle}>
-          <div className="play-icon"></div>
-        </Button>
-        <Slider />
+        <div className="row-1">
+          <Button style={playStyle}>
+            <div className="play-icon"></div>
+          </Button>
+          <Slider />
+        </div>
+        <DatePicker />
       </div>
     </div>
   );
