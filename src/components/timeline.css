@@ -6,6 +6,7 @@
 
 .timeline {
   margin: 0 auto;
+  display: grid;
 }
 
 .slider {
@@ -24,10 +25,23 @@
   height: 9px;
   border-radius: 1px;
   position: relative;
-  top: -3px;
+  top: -4px;
   cursor: pointer;
   /* Light Blue */
   background: #19c8ff;
   box-shadow: 0px 0px 14px rgba(255, 255, 255, 0.45);
   border-radius: 1px;
+}
+
+.thumb-tick {
+  width: 3px;
+  height: 25px;
+  position: relative;
+  top: -8px;
+  left: 3px;
+  /* Light Blue */
+  background: #19C8FF;
+  box-shadow: 0px 0px 14px rgba(255, 255, 255, 0.45);
+  border-radius: 5px;
+  transform: rotate(-180deg);
 }
