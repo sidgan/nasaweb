@@ -1,26 +1,22 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import axios from 'axios';
-// import { render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import Responsive from 'react-responsive-decorator';
 import Header from './Header';
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
-// import Grid from '@material-ui/core/Grid';
-// import Typography from '@material-ui/core/Typography';
+import DataTooltip from './Tooltip';
+
 import globeTextureImage from '../images/background.jpg';
+import { DateContext, SourceContext } from '../context';
 
 import './style.css';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
-
 // Lazy Loading React COmponent
 const ReactGlobe = React.lazy(() => import('react-globe.gl'));
 const StickyHeadTable = React.lazy(() => import('./Table'));
-
-// Context Manager
-export const DateContext = React.createContext(`${new Date().toISOString().slice(0, 10)}`)
-export const SourceContext = React.createContext(`ALL`)
 
 const colorScale = (colorCode) => {
   let code = parseFloat(colorCode);
@@ -147,34 +143,13 @@ const MainSection = (props) => {
     return `<h2>${marker.name}</h2>`;
   };
 
-  // const markerInfoTip = (marker) => {
-  //   if (marker.type === 'meteor') {
-  //     return render(
-  //       <div className="container data-tooltip">
-  //         <Grid container color="secondary" spacing={2}>
-  //           <Grid item xs={12}>
-  //               <div className="text-left">
-  //                   <Typography style={{padding: '1rem', fontSize: '20px', fontFamily: "Roboto Mono", lineHeight: "26px"}} color="#ffffff">
-  //                       <b>{marker.name}</b>
-  //                   </Typography>
-  //                   <Typography style={{paddingTop: "2px", padding: '1rem', fontSize: "12px", lineHeight: "14.06px"}} color="#fffff">
-  //                     [{marker.iau}]
-  //                   </Typography>
-  //               </div>
-  //           </Grid>
-  //           <Grid container color="secondary" spacing={2}>
-  //             <Grid item xs={6}>
-  //               <div className="text-left">
-
-  //               </div>
-  //             </Grid>
-  //           </Grid>
-           
-  //         </Grid>
-  //       </div>
-  //     )
-  //   }
-  // };
+  const markerInfoTip = (marker) => {
+    if (marker.type === 'meteor') {
+      return render(
+        <DataTooltip meteor={marker}/>
+      )
+    }
+  };
 
   useEffect(() => {
   
@@ -272,14 +247,14 @@ const MainSection = (props) => {
             pointColor="color"
             pointAltitude="alt"
             pointsTransitionDuration={2000}
-            // onPointClick={markerInfoTip}
+            onPointClick={markerInfoTip}
           />
         </Suspense>
           
       ) : (
         <Suspense fallback={<Preloader />}>
           <StickyHeadTable markers={markers} />
-          </Suspense>
+        </Suspense>
       )}
 
       

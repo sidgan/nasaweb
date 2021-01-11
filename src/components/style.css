@@ -139,12 +139,10 @@ h2 {
   justify-content: center;
   width: 100%;
   flex: 1;
-  letter-spacing: 1%;
+  letter-spacing: 0.01em;
   font-family: Roboto Mono;
   font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 15.83px;
+  font-weight: 500;
   justify-content: center;
   color: white;
   background: transparent;
@@ -157,9 +155,11 @@ h2 {
 .footer div div div p {
   position: inherit;
   float: left;
-  margin-top: 6px;
-  margin-left: 3px;
-  margin-left: 20px;
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 1vh;
+  margin-left: 1.7vw;
+  letter-spacing: 0.1em;
 }
 
 .footer_nav {
@@ -178,7 +178,7 @@ h2 {
 .footer_nav h5 {
   font-size: 14px;
   line-height: 18.46px;
-  letter-spacing: 1%;
+  letter-spacing: 0.1em;
   margin-right: 0;
   margin-left: 25px;
   text-align: right;

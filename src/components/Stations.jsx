@@ -1,22 +1,16 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-// import Button from '@material-ui/core/Button';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-// import NativeSelect from '@material-ui/core/NativeSelect';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
     fontFamily: "Roboto Mono",
+    fontStyle: "normal",
     fontSize: '16px',
     lineHeight: '16px',
     fontWeight: '500'
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
+  }
 }));
 
 
@@ -44,7 +38,7 @@ const options = [
     'TK',
 ];
 
-export default function NativeSelects(props) {
+const StationSelect = (props) => {
     const classes = useStyles();
     const [state, setState] = React.useState({
       age: '',
@@ -85,3 +79,6 @@ export default function NativeSelects(props) {
         </div>
     );
 }
+
+
+export default React.memo(StationSelect);

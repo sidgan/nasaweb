@@ -5,8 +5,7 @@ import MoonLoader from "react-spinners/MoonLoader";
 // Adding custom styles
 const override = css`
     display: flex;
-    margin: 15.7vh auto;
-    border-color: red;
+    margin: 35vh auto;
     z-index: 9999;
 `;
 
@@ -21,7 +20,7 @@ class Preloader extends React.Component {
             <div className="sweet-loading">
                 <MoonLoader
                     css={override}
-                    size={500}
+                    size={200}
                     color={"rgba(255, 255, 255)"}
                     loading={this.state.loading}
                 />

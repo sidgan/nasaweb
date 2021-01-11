@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-// import Stations from './Stations';
-import NativeSelects from './Stations';
-import NavigationBar from './Navigation';
 import Grid from '@material-ui/core/Grid';
+import StationSelect from './Stations';
+import NavigationBar from './Navigation';
 
 import logo from '../images/logo.svg';
 import './style.css';
-// import SimpleSelect from './NewStations';
+
 
 class Header extends Component {
 
@@ -30,10 +29,7 @@ class Header extends Component {
             </Grid>
 
             <Grid item>
-              {/* <Stations
-                onChange={this.props.onSourceChange}
-              /> */}
-              <NativeSelects
+              <StationSelect
                 onChange={this.props.onSourceChange}
               />
             </Grid>
