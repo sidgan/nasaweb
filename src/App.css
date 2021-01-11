@@ -7,6 +7,10 @@
   width: 100%;
 }
 
+.main-section {
+  height: 95vh;
+}
+
 .switch {
   position: inherit;
   background: transparent;
