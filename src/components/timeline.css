@@ -7,6 +7,10 @@
 .timeline {
   margin: 0 auto;
   display: grid;
+  width: fit-content;
+  grid-template-columns: 40px 696px;
+  column-gap: 20px;
+  align-items: center;
 }
 
 .slider {
