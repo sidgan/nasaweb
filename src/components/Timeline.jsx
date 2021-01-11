@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import Button from '@material-ui/core/Button';
 import './timeline.css';
 
 const getPercentage = (current, max) => (100 * current) / max;
 
 const getLeft = percentage => `calc(${percentage}% - 4.5px)`
 
-const Slider = (props) => {
+const Slider = ({ start, end }) => {
   const sliderRef = React.useRef();
   const thumbRef = React.useRef();
 
@@ -43,7 +44,9 @@ const Slider = (props) => {
   return (
     <>
       <div class="slider" ref={sliderRef}>
-        <div class="thumb" ref={thumbRef} onMouseDown={handleMouseDown}></div>
+        <div class="thumb" ref={thumbRef} onMouseDown={handleMouseDown}>
+          <div class="thumb-tick"></div>
+        </div>
       </div>
     </>
   );
@@ -51,8 +54,8 @@ const Slider = (props) => {
 
 const Timeline = (props) => {
   return (
-    <div class="timeline-container">
-      <div class="timeline">
+    <div className="timeline-container">
+      <div className="timeline">
         <Slider />
       </div>
     </div>
