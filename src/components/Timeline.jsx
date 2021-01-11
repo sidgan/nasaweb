@@ -53,9 +53,17 @@ const Slider = ({ start, end }) => {
 };
 
 const Timeline = (props) => {
+
+  const playStyle = {
+      height: "40px",
+      width: "40px",
+      minWidth: "40px",
+  }
+
   return (
     <div className="timeline-container">
       <div className="timeline">
+        <Button style={playStyle}></Button>
         <Slider />
       </div>
     </div>
