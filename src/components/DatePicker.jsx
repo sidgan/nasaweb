@@ -6,81 +6,106 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 const DatePicker = (props) => {
+  const [value, setValue] = useState(props.selectedDate);
 
-    const [value, setValue] = useState(props.selectedDate);
+  const incrementDate = () => {
+    // Add One Day To Selected Date
+  };
 
-    const incrementDate = () => {
-        // Add One Day To Selected Date
-    };
+  const decrementDate = () => {
+    // Minus One Dat To Selected Date
+  };
 
-    const decrementDate = () => {
-        // Minus One Dat To Selected Date
-    };
-    
-    const handleDateChange = e => {
-        setValue(e.target.value);
+  const handleDateChange = (e) => {
+    setValue(e.target.value);
 
-        // Update Parent Component
-        props.onDateChange(e.target.value);
-    };
+    // Update Parent Component
+    props.onDateChange(e.target.value);
+  };
 
+  if (props.showAarrows) {
     return (
-        <Grid container spacing={1}>
+      <Grid container spacing={1}>
         <Grid item>
-            <Button
+          <Button
             onClick={incrementDate}
             style={{
-                minHeight: '50px',
-                minWidth: '50px',
-                fontSize: '30px',
+              minHeight: '50px',
+              minWidth: '50px',
+              fontSize: '30px',
             }}
             variant="contained"
             color="secondary"
             active
-            >
+          >
             <NavigateBeforeIcon />
-            </Button>
+          </Button>
         </Grid>
         <Grid item>
-            <Button
-                id="date"
-                color="secondary"
-                variant="contained"
-                style={{
-                    maxWidth: '150px',
-                    minHeight: '50px',
-                    fontSize: '30px',
-                }}
-            >
-                <TextField
-                    id="date"
-                    type="date"
-                    style={{
-                        fontWeight: 'bolder',
-                    }}
-                    defaultValue={props.selectedDate}
-                    value={value}
-                    onChange={handleDateChange}
-                />
-            </Button>
+          <Button
+            id="date"
+            color="secondary"
+            variant="contained"
+            style={{
+              maxWidth: '150px',
+              minHeight: '50px',
+              fontSize: '30px',
+            }}
+          >
+            <TextField
+              id="date"
+              type="date"
+              style={{
+                fontWeight: 'bolder',
+              }}
+              defaultValue={props.selectedDate}
+              value={value}
+              onChange={handleDateChange}
+            />
+          </Button>
         </Grid>
         <Grid item>
-            <Button
+          <Button
             onClick={decrementDate}
             style={{
-                minHeight: '50px',
-                minWidth: '50px',
-                fontSize: '30px',
+              minHeight: '50px',
+              minWidth: '50px',
+              fontSize: '30px',
             }}
             variant="contained"
             color="secondary"
             active
-            >
+          >
             <NavigateNextIcon />
-            </Button>
+          </Button>
         </Grid>
-        </Grid>
+      </Grid>
     );
+  } else {
+    return (
+      <Button
+        id="date"
+        color="secondary"
+        variant="contained"
+        style={{
+          maxWidth: '150px',
+          minHeight: '50px',
+          fontSize: '30px',
+        }}
+      >
+        <TextField
+          id="date"
+          type="date"
+          style={{
+            fontWeight: 'bolder',
+          }}
+          defaultValue={props.selectedDate}
+          value={value}
+          onChange={handleDateChange}
+        />
+      </Button>
+    );
+  }
 };
 
 export default React.memo(DatePicker);
