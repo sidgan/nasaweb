@@ -71,7 +71,7 @@ const Timeline = (props) => {
           </Button>
           <Slider />
         </div>
-        <DatePicker />
+        <DatePicker showArrows={false} />
       </div>
     </div>
   );
