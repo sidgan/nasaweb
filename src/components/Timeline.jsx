@@ -63,7 +63,9 @@ const Timeline = (props) => {
   return (
     <div className="timeline-container">
       <div className="timeline">
-        <Button style={playStyle}></Button>
+        <Button style={playStyle}>
+          <div className="play-icon"></div>
+        </Button>
         <Slider />
       </div>
     </div>
