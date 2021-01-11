@@ -20,7 +20,7 @@ const DatePicker = (props) => {
     setValue(e.target.value);
 
     // Update Parent Component
-    props.onDateChange(e.target.value);
+    // props.onDateChange(e.target.value);
   };
 
   if (props.showAarrows) {

@@ -18,6 +18,23 @@
   align-items: center;
 }
 
+.row-2 {
+  display: grid;
+  grid-template-columns: 40px 1fr 2fr 1fr;
+  grid-template-areas: 
+    "space start loop end";
+  height: fit-content;
+}
+
+.start {
+  grid-area: start;
+}
+
+.end {
+  justify-self: end;
+  grid-area: end;
+}
+
 .play-icon {
   width: 40px;
   height: 19px;
