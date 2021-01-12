@@ -75,6 +75,9 @@ const Timeline = (props) => {
         </div>
         <div className="row-2">
           <div className="start">
+            <div className="label-date" style={{left: "20px"}}>
+              Start Date
+            </div>
             <DatePicker showArrows={false} />
           </div>
           <div className="loop">
@@ -90,6 +93,7 @@ const Timeline = (props) => {
             />
           </div>
           <div className="end">
+            <div className="label-date">End Date</div>
             <DatePicker showArrows={false} />
           </div>
         </div>
