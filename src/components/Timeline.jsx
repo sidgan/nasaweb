@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import DatePicker from './DatePicker';
 import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import './timeline.css';
 
 const getPercentage = (current, max) => (100 * current) / max;
@@ -74,6 +76,18 @@ const Timeline = (props) => {
         <div className="row-2">
           <div className="start">
             <DatePicker showArrows={false} />
+          </div>
+          <div className="loop">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={false}
+                  name="loop"
+                  color="primary"
+                />
+              }
+              label="Loop Video"
+            />
           </div>
           <div className="end">
             <DatePicker showArrows={false} />

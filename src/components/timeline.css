@@ -24,6 +24,13 @@
   grid-template-areas: 
     "space start loop end";
   height: fit-content;
+  align-items: center;
+}
+
+.loop {
+  justify-self: start;
+  color: #fff;
+  grid-area: loop;
 }
 
 .start {
