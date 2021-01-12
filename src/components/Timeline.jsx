@@ -9,7 +9,7 @@ const getPercentage = (current, max) => (100 * current) / max;
 
 const getLeft = percentage => `calc(${percentage}% - 4.5px)`
 
-const Slider = ({ start, end }) => {
+const Slider = () => {
   const sliderRef = React.useRef();
   const thumbRef = React.useRef();
 
@@ -55,7 +55,7 @@ const Slider = ({ start, end }) => {
   );
 };
 
-const Timeline = (props) => {
+const Timeline = () => {
 
   const [loop, setLoop] = React.useState(false);
 
@@ -66,7 +66,7 @@ const Timeline = (props) => {
       margin: "0 20px 0 0"
   }
 
-  const handleChange = () => {
+  const toggleLoop = () => {
     setLoop(!loop);
   };
 
@@ -93,7 +93,7 @@ const Timeline = (props) => {
                   checked={loop}
                   name="loop"
                   color="primary"
-                  onChange={handleChange}
+                  onChange={toggleLoop}
                 />
               }
               label="Loop Video"
