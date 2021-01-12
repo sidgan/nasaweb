@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DatePicker from './DatePicker';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -57,12 +57,18 @@ const Slider = ({ start, end }) => {
 
 const Timeline = (props) => {
 
+  const [loop, setLoop] = React.useState(false);
+
   const playStyle = {
       height: "40px",
       width: "40px",
       minWidth: "40px",
       margin: "0 20px 0 0"
   }
+
+  const handleChange = () => {
+    setLoop(!loop);
+  };
 
   return (
     <div className="timeline-container">
@@ -84,9 +90,10 @@ const Timeline = (props) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={false}
+                  checked={loop}
                   name="loop"
                   color="primary"
+                  onChange={handleChange}
                 />
               }
               label="Loop Video"

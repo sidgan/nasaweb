@@ -47,7 +47,7 @@
 .label-date {
   position: absolute;
   top: -18px;
-  /* font-family: Roboto Mono; */
+  font-family: Roboto Mono;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
