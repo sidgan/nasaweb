@@ -4,6 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 
+import spaceButton from '../images/space.png';
+
 const styles = (theme) => ({
     root: {
       margin: 0,
@@ -18,6 +20,11 @@ const styles = (theme) => ({
       height: '24px',
       background: "#ffffff",
       color: theme.palette.grey[500],
+    },
+    spaceButton: {
+        position: 'inherit',
+        top: '27vh',
+        width: '16.5vw',
     },
     header: {
         padding: '1rem',
@@ -56,10 +63,17 @@ const styles = (theme) => ({
 
 const DataTooltip = withStyles(styles)((props) => {
     const [status, setStatus] = useState(true)
+    const [url] = useState(`https://www.meteorshowers.org/view/iau-${props.meteor.iau}`)
+
 
     const handleClose = () => {
         setStatus(false);
     };
+
+    const handleRedirect = () => {
+        window.location.replace(url);
+    };
+
 
     const { classes } = props;
     return (
@@ -117,7 +131,13 @@ const DataTooltip = withStyles(styles)((props) => {
                                 </b>
                             </div>
                         </Grid>
+                        <Grid item xs={12}>
+                            <IconButton aria-label="close" className={classes.spaceButton} onClick={handleRedirect}>
+                                <img src={spaceButton} alt={spaceButton}></img>
+                            </IconButton>
+                        </Grid>
                         {/* <p></p> */}
+
                     
                         <IconButton aria-label="close" className={classes.closeButton} onClick={handleClose}>
                             <CloseIcon />
