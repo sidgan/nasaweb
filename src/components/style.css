@@ -63,7 +63,7 @@ h2 {
 .data-tooltip {
   position: absolute;
   color: #ffffff;
-  width: 20vw;
+  width: 18vw;
   height: 226px;
   left: 10vw;
   top: 40vh;
@@ -89,6 +89,13 @@ h2 {
   }
 }
 /* END HEADER */
+
+
+/* .content {
+  position: absolute;
+  justify-content: center;
+  align-content: center;
+} */
 
 .zoom-1 {
   position: fixed;
@@ -180,7 +187,7 @@ h2 {
   line-height: 18.46px;
   letter-spacing: 0.1em;
   margin-right: 0;
-  margin-left: 25px;
+  margin-left: 20px;
   text-align: right;
 }
 

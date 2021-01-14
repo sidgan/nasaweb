@@ -225,38 +225,39 @@ const MainSection = (props) => {
       </div>
 
       
+      <div className="content">
+        {props.showGlobe ? (
+          <Suspense fallback={<Preloader />}>
+            <ReactGlobe
+              ref={globeEl}
+              width={`${window.innerWidth - 50}`}
+              height={window.innerHeight}
+              altitude={alt}
 
-      {props.showGlobe ? (
-        <Suspense fallback={<Preloader />}>
-          <ReactGlobe
-            ref={globeEl}
-            width={1800}
-            altitude={alt}
+              backgroundColor='#1C00ff00'
+              backgroundImageUrl={null}
+              showGraticules={true}
+              globeImageUrl={globeTextureImage}
+              bumpImageUrl={globeTextureImage}
 
-            backgroundColor='#1C00ff00'
-            backgroundImageUrl={null}
-            showGraticules={true}
-            globeImageUrl={globeTextureImage}
-            bumpImageUrl={globeTextureImage}
-
-            pointsData={markers}
-            pointLabel={markerTooltip}
-            pointLat="lat"
-            pointLng="lng"
-            pointRadius="size"
-            pointColor="color"
-            pointAltitude="alt"
-            pointsTransitionDuration={2000}
-            onPointClick={markerInfoTip}
-          />
-        </Suspense>
-          
-      ) : (
-        <Suspense fallback={<Preloader />}>
-          <StickyHeadTable markers={markers} />
-        </Suspense>
-      )}
-
+              pointsData={markers}
+              pointLabel={markerTooltip}
+              pointLat="lat"
+              pointLng="lng"
+              pointRadius="size"
+              pointColor="color"
+              pointAltitude="alt"
+              pointsTransitionDuration={2000}
+              onPointClick={markerInfoTip}
+            />
+          </Suspense>
+            
+        ) : (
+          <Suspense fallback={<Preloader />}>
+            <StickyHeadTable markers={markers} />
+          </Suspense>
+        )}
+      </div>
       
     </section>
   );

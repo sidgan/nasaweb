@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 import { DateContext } from '../context';
+
+import leftIcon from '../images/left-icon.png';
+import rightIcon from '../images/right-icon.png';
 
 const NavigationBar = (props) => {
   const [value, setValue] = useState(React.useContext(DateContext));
@@ -15,7 +16,6 @@ const NavigationBar = (props) => {
     let newDate = new Date(value);
 
     newDate.setDate(newDate.getDate() + 1);
-
     let newdf = `${newDate.toISOString().slice(0, 10)}`;
     setValue(newdf);
     props.onChange(newdf);
@@ -51,7 +51,7 @@ const NavigationBar = (props) => {
           color="secondary"
           active
         >
-          <NavigateBeforeIcon />
+          <img src={leftIcon} alt={leftIcon}></img>
         </Button>
       </Grid>
       <Grid item>
@@ -92,7 +92,7 @@ const NavigationBar = (props) => {
           color="secondary"
           active
         >
-          <NavigateNextIcon />
+          <img src={rightIcon} alt={rightIcon}></img>
         </Button>
       </Grid>
     </Grid>

@@ -17,11 +17,11 @@ class ZoomButton extends Component {
                         variant="contained"
                     >
                         <Button variant="contained" color="secondary" style={{minWidth: "50px", minHeight: "50px", fontSize: "20px"}} onClick={this.props.onZoomIn} active>
-                            +
+                            <b>+</b>
                         </Button>
 
                         <Button variant="contained" color="secondary" style={{minWidth: "50px", minHeight: "50px", fontSize: "20px"}} onClick={this.props.onZoomOut} active>
-                            -
+                            <b>-</b>
                         </Button>
                     </ButtonGroup>
                 </Grid>
