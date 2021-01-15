@@ -1,6 +1,7 @@
 import React from 'react';
 import DatePicker from './DatePicker';
 import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import './timeline.css';
@@ -55,15 +56,21 @@ const Slider = () => {
   );
 };
 
+const StyledLabel = withStyles({
+  label: {
+    fontSize: "14px"
+  }
+})(FormControlLabel);
+
 const Timeline = () => {
 
   const [loop, setLoop] = React.useState(false);
 
   const playStyle = {
-      height: "40px",
-      width: "40px",
-      minWidth: "40px",
-      margin: "0 20px 0 0"
+    height: "40px",
+    width: "40px",
+    minWidth: "40px",
+    margin: "0 20px 0 0"
   }
 
   const toggleLoop = () => {
@@ -87,7 +94,7 @@ const Timeline = () => {
             <DatePicker showArrows={false} />
           </div>
           <div className="loop">
-            <FormControlLabel
+            <StyledLabel
               control={
                 <Checkbox
                   checked={loop}
