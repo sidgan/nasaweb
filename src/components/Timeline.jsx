@@ -64,9 +64,7 @@ const Slider = () => {
   return (
     <>
       <div className="slider" ref={sliderRef} onClick={handleSliderClick}>
-        <div className="thumb" ref={thumbRef} onMouseDown={handleMouseDown}>
-          <div className="thumb-tick"></div>
-        </div>
+        <div className="thumb" ref={thumbRef} onMouseDown={handleMouseDown}></div>
       </div>
     </>
   );
