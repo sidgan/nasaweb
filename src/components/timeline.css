@@ -44,20 +44,24 @@
   position: relative;
 }
 
-.label-date {
+.start::before, .end::before {
   position: absolute;
-  top: -18px;
+  bottom: 105%;
   font-family: Roboto Mono;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
   text-transform: uppercase;
-  /* identical to box height */
-  display: flex;
-  align-items: center;
+  color: #fff;
+}
 
-  color: #FFFFFF;
+.start::before {
+  content: 'Start Date';
+}
+
+.end::before {
+  content: 'End Date';
 }
 
 .play-icon {
@@ -72,7 +76,6 @@
   height: 2px;
   margin: 0 auto;
   background: rgba(255, 255, 255, 0.6);
-  /* Highlight (White) */
   box-shadow: 0px 1px 6px rgba(255, 255, 255, 0.3);
   border-radius: 4px;
 }
@@ -84,7 +87,6 @@
   position: relative;
   top: -4px;
   cursor: pointer;
-  /* Light Blue */
   background: #19c8ff;
   box-shadow: 0px 0px 14px rgba(255, 255, 255, 0.45);
   border-radius: 1px;
@@ -96,7 +98,6 @@
   position: relative;
   top: -8px;
   left: 3px;
-  /* Light Blue */
   background: #19C8FF;
   box-shadow: 0px 0px 14px rgba(255, 255, 255, 0.45);
   border-radius: 5px;
