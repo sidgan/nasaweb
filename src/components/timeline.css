@@ -80,6 +80,18 @@
   border-radius: 4px;
 }
 
+.slider::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  height: 20px;
+  width: 696px;
+  /* Show selection area
+  background: red;
+  opacity: 0.1; */
+}
+
 .thumb {
   width: 9px;
   height: 9px;
