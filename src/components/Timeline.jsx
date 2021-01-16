@@ -47,9 +47,9 @@ const Slider = () => {
 
   return (
     <>
-      <div class="slider" ref={sliderRef}>
-        <div class="thumb" ref={thumbRef} onMouseDown={handleMouseDown}>
-          <div class="thumb-tick"></div>
+      <div className="slider" ref={sliderRef}>
+        <div className="thumb" ref={thumbRef} onMouseDown={handleMouseDown}>
+          <div className="thumb-tick"></div>
         </div>
       </div>
     </>
