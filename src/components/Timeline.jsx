@@ -16,6 +16,22 @@ const Slider = () => {
 
   const diff = React.useRef();
 
+  const handleSliderClick = (e) => {
+    let newX = 
+      e.clientX -
+      sliderRef.current.getBoundingClientRect().left;
+
+    const end = sliderRef.current.offsetWidth - thumbRef.current.offsetWidth;
+    const start = 0;
+    if (newX < start) 
+      newX = 0;
+    if (newX > end)
+      newX = end;
+
+    const newPercentage = getPercentage(newX, end);
+    thumbRef.current.style.left = `calc(${newPercentage}% - 9px)`;
+  }
+
   const handleMouseMove = (e) => {
     let newX = 
       e.clientX -
@@ -47,7 +63,7 @@ const Slider = () => {
 
   return (
     <>
-      <div className="slider" ref={sliderRef}>
+      <div className="slider" ref={sliderRef} onClick={handleSliderClick}>
         <div className="thumb" ref={thumbRef} onMouseDown={handleMouseDown}>
           <div className="thumb-tick"></div>
         </div>
