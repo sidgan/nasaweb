@@ -33,6 +33,18 @@
   grid-area: loop;
 }
 
+.icon {
+  width: 16px;
+  height: 16px;
+  background: rgba(71, 78, 116, 0.6);
+  backdrop-filter: blur(16px);
+  border-radius: 2px;
+}
+
+.icon.checked {
+  background-image: url('../images/Checkmark.png');
+}
+
 .start {
   grid-area: start;
   position: relative;

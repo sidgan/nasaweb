@@ -68,9 +68,17 @@ const Slider = () => {
 
 const StyledLabel = withStyles({
   label: {
-    fontSize: "14px"
+    fontSize: "16px"
   }
 })(FormControlLabel);
+
+const CheckboxIcon = (
+  <div className="icon"></div>
+);
+
+const CheckboxIconChecked = (
+  <div className="icon checked"></div>
+);
 
 const Timeline = () => {
 
@@ -104,9 +112,10 @@ const Timeline = () => {
             <StyledLabel
               control={
                 <Checkbox
+                  icon={CheckboxIcon}
+                  checkedIcon={CheckboxIconChecked}
                   checked={loop}
                   name="loop"
-                  color="primary"
                   onChange={toggleLoop}
                 />
               }
