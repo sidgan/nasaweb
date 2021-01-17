@@ -68,7 +68,8 @@ const Slider = () => {
 
 const StyledLabel = withStyles({
   label: {
-    fontSize: "16px"
+    fontSize: "16px",
+    color: "rgba(255, 255, 255, 0.8)"
   }
 })(FormControlLabel);
 
