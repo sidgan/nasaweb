@@ -8,19 +8,13 @@ import './timeline.css';
 
 const getPercentage = (current, max) => (100 * current) / max;
 
-const getLeft = percentage => `calc(${percentage}% - 4.5px)`
-
 const Slider = () => {
   const sliderRef = React.useRef();
   const thumbRef = React.useRef();
 
   const diff = React.useRef();
 
-  const handleSliderClick = (e) => {
-    let newX = 
-      e.clientX -
-      sliderRef.current.getBoundingClientRect().left;
-
+  const moveThumb = (newX, offsetX) => {
     const end = sliderRef.current.offsetWidth - thumbRef.current.offsetWidth;
     const start = 0;
     if (newX < start) 
@@ -29,7 +23,16 @@ const Slider = () => {
       newX = end;
 
     const newPercentage = getPercentage(newX, end);
-    thumbRef.current.style.left = `calc(${newPercentage}% - 9px)`;
+    thumbRef.current.style.left = `calc(${newPercentage}% - ${offsetX})`;
+  }
+
+  const handleSliderClick = (e) => {
+    let newX = 
+      e.clientX -
+      sliderRef.current.getBoundingClientRect().left;
+    
+    const offsetX = '9px';
+    moveThumb(newX, offsetX);
   }
 
   const handleMouseMove = (e) => {
@@ -38,15 +41,8 @@ const Slider = () => {
       diff.current -
       sliderRef.current.getBoundingClientRect().left;
 
-    const end = sliderRef.current.offsetWidth - thumbRef.current.offsetWidth;
-    const start = 0;
-    if (newX < start) 
-      newX = 0;
-    if (newX > end)
-      newX = end;
-
-    const newPercentage = getPercentage(newX, end);
-    thumbRef.current.style.left = getLeft(newPercentage);
+    const offsetX = '4.5px';
+    moveThumb(newX, offsetX);
   };
 
   const handleMouseUp = () => {
