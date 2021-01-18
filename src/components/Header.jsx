@@ -15,7 +15,7 @@ class Header extends Component {
         <p className="title_item col-lg-9"> 
           <div className="row">
             <a className="logo_item" target="_blank" rel="noopener noreferrer" href="http://cams.seti.org">
-              <img src={logo} alt="NASA" width="60" height="40" />
+              <img src={logo} alt="NASA" width="36.7" height="30" />
             </a>
             Meteor Shower Portal
           </div>

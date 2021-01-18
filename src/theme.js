@@ -61,12 +61,29 @@ export const theme = createMuiTheme({
             }
         },
 
-        // MuiSelect: {
-        //     root: {
-        //         color: "primary",
-        //         fontSize: "1.4rem"         
-        //     }
-        // },
+        MuiTypography: {
+            h3: {
+                fontFamily: "Roboto Condensed",
+                fontStyle: "normal",
+                fontWeight: 700,
+                fontSize: "16px",
+                lineHeight: "19px",
+                padding: "1vh",
+                textTransform: "uppercase"
+            },
+            h4: {
+                fontSize: "16px",
+                lineHeight: "16px",
+                fontWeight: 500
+            },
+            h5: {
+                fontFamily: "Roboto Condensed",
+                fontSize: "14px",
+                lineHeight: "18px",
+                fontWeight: 400,
+                padding: "10px"
+            },
+        },
 
         MuiTableBody: {
             root: {
