@@ -1,10 +1,10 @@
 import React from 'react';
 import DatePicker from './DatePicker';
 import Button from '@material-ui/core/Button';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import classnames from 'classnames';
 import PlayIcon from '../images/play icon.png';
 import Checkmark from '../images/Checkmark.png';
 
