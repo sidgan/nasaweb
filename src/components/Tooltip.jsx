@@ -97,7 +97,7 @@ const DataTooltip = withStyles(styles)((props) => {
                                     VELOCITY
                                 </p>
                                 <b className={classes.contentValue}>
-                                    {props.meteor.velocg}
+                                    {props.meteor.velocg.toFixed(2)}
                                 </b>
                             </div>
                         </Grid>
@@ -107,7 +107,7 @@ const DataTooltip = withStyles(styles)((props) => {
                                     SOLAR LONGITUDE
                                 </p>
                                 <b className={classes.contentValue}>
-                                    {props.meteor.sol}
+                                    {props.meteor.sol.toFixed(2)}
                                 </b>
                             </div>
                         </Grid>
@@ -117,7 +117,7 @@ const DataTooltip = withStyles(styles)((props) => {
                                     ECLIPTIC LONGITUDE
                                 </p>
                                 <b className={classes.contentValue}>
-                                    {props.meteor.lng}
+                                    {props.meteor.lng.toFixed(2)}
                                 </b>
                             </div>
                         </Grid>
@@ -127,7 +127,7 @@ const DataTooltip = withStyles(styles)((props) => {
                                     ECLIPTIC LATITUDE
                                 </p>
                                 <b className={classes.contentValue}>
-                                    {props.meteor.lat}
+                                    {props.meteor.lat.toFixed(2)}
                                 </b>
                             </div>
                         </Grid>

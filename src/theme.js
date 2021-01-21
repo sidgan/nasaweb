@@ -50,6 +50,7 @@ export const theme = createMuiTheme({
         MuiMenuItem: {
             root: {
                 backgroundColor: "rgba(71, 78, 116, 0.6)",
+                opacity: 0.8,
             }
         },
 
@@ -57,7 +58,8 @@ export const theme = createMuiTheme({
             root: {
                 backgroundColor: "rgba(71, 78, 116, 0.6)",
                 color: "primary",
-                fontSize: "1.4rem"
+                fontSize: "1.4rem",
+                alignContent: "center",
             }
         },
 
@@ -69,7 +71,8 @@ export const theme = createMuiTheme({
                 fontSize: "16px",
                 lineHeight: "19px",
                 padding: "1vh",
-                textTransform: "uppercase"
+                textTransform: "uppercase",
+                letterSpacing: "1.5px"
             },
             h4: {
                 fontSize: "16px",
@@ -81,7 +84,8 @@ export const theme = createMuiTheme({
                 fontSize: "14px",
                 lineHeight: "18px",
                 fontWeight: 400,
-                padding: "10px"
+                padding: "10px",
+                letterSpacing: "1.5px"
             },
         },
 

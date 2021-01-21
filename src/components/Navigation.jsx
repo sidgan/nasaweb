@@ -71,10 +71,11 @@ const NavigationBar = (props) => {
               type="date"
               variant="filled"
               style={{
-                backgroundColor: "transparent"
+                backgroundColor: "transparent",
+                paddingRight: "5px",
+                width: "180px"
               }}
               size="medium"
-              fullWidth="true"
               value={value}
               onChange={handleDateChange}
             />

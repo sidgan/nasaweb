@@ -52,6 +52,24 @@ const starScale = (colorCode) => {
   }
 }
 
+const starSizeScale = (colorCode) => {
+  let code = parseFloat(colorCode) * 10;
+
+  if (code <= 0.0 && code <= 10) {
+    return 0.46
+  } else if (code >= 11 && code <= 20) {
+    return 0.41
+  } else if (code >= 21 && code <= 30) {
+    return 0.33
+  } else if (code >= 31 && code <= 40) {
+    return 0.27
+  } else if (code >= 41 && code <= 50) {
+    return 0.21
+  } else {
+    return 0.17
+  }
+}
+
 const MainSection = (props) => {
 
   const globeEl = React.useRef();
@@ -131,7 +149,7 @@ const MainSection = (props) => {
         lat: m.location.coordinates[1],
         lng: m.location.coordinates[0],
         // coordinates: [m.location.coordinates[1], m.location.coordinates[0]],
-        size: m.mag / 20,
+        size: starSizeScale(m.mag),
         alt: 0
       });
     });
@@ -144,6 +162,7 @@ const MainSection = (props) => {
   };
 
   const markerInfoTip = (marker) => {
+    
     if (marker.type === 'meteor') {
       return render(
         <DataTooltip meteor={marker}/>
