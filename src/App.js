@@ -28,6 +28,16 @@ class App extends Component {
     });
   };
 
+  renderTimeline = () => {
+    if (this.state.showGlobe) {
+      return (
+      <div className="timeline-container">
+        <Timeline/>
+      </div>
+      )
+    }
+  }
+
   render() {
     return (
       <MuiThemeProvider theme={theme}>
@@ -39,11 +49,7 @@ class App extends Component {
               <div className="col-lg-12 col-sm-12 main-section">
                 <MainSection showGlobe={this.state.showGlobe} />
               </div>
-              <div className="timeline-container">
-                <Timeline
-                  showGlobe={this.state.showGlobe}
-                />
-              </div>
+              {this.renderTimeline()}
               <div className="m-6">
                 <div className="guide-1">
                   <GroupedButton
