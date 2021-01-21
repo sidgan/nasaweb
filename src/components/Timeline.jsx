@@ -1,10 +1,95 @@
 import React from 'react';
 import DatePicker from './DatePicker';
 import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import classnames from 'classnames';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import PlayIcon from '../images/play icon.png';
+import Checkmark from '../images/Checkmark.png';
 import './timeline.css';
+
+const useStyles = makeStyles({
+  timeline: {
+    margin: '0 auto',
+    display: 'grid',
+    width: 'fit-content',
+    gridTemplateRows: '40px 50px',
+    rowGap: '30px',
+    alignItems: 'center'
+  },
+  row1: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  row2: {
+    display: 'grid',
+    gridTemplateColumns: '40px 1fr 2fr 1fr',
+    gridTemplateAreas: 
+      '"space start loop end"',
+    height: 'fit-content',
+    alignItems: 'center'
+  },
+  loop: {
+    justifySelf: 'start',
+    color: '#fff',
+    gridArea: 'loop'
+  },
+  icon: {
+    width: 16,
+    height: 16,
+    background: 'rgba(71, 78, 116, 0.6)',
+    backdropFilter: 'blur(16px)',
+    borderRadius: '2px'
+  },
+  checked: {
+    backgroundImage: `url(${Checkmark})`
+  },
+  start: {
+    gridArea: 'start',
+    position: 'relative',
+    '&:before': {
+      content: "'Start Date'",
+      position: 'absolute',
+      bottom: '105%',
+      fontFamily: 'Roboto Mono',
+      fontStyle: 'normal',
+      fontWeight: 500,
+      fontSize: '12px',
+      lineHeight: '16px',
+      textTransform: 'uppercase',
+      color: '#fff'
+    }
+  },
+  end: {
+    justifySelf: 'end',
+    gridArea: 'end',
+    position: 'relative',
+    '&:before': {
+      content: "'End Date'",
+      position: 'absolute',
+      bottom: '105%',
+      fontFamily: 'Roboto Mono',
+      fontStyle: 'normal',
+      fontWeight: 500,
+      fontSize: '12px',
+      lineHeight: '16px',
+      textTransform: 'uppercase',
+      color: '#fff'
+    }
+  },
+  playButton: {
+    height: "40px",
+    width: "40px",
+    minWidth: "40px",
+    margin: "0 20px 0 0"
+  },
+  playIcon: {
+    width: '40px',
+    height: '19px',
+    backgroundImage: `url(${PlayIcon})`
+  }
+});
 
 const getPercentage = (current, max) => (100 * current) / max;
 
@@ -73,42 +158,38 @@ const StyledLabel = withStyles({
   }
 })(FormControlLabel);
 
-const CheckboxIcon = (
-  <div className="icon"></div>
-);
-
-const CheckboxIconChecked = (
-  <div className="icon checked"></div>
-);
 
 const Timeline = () => {
 
   const [loop, setLoop] = React.useState(false);
 
-  const playStyle = {
-    height: "40px",
-    width: "40px",
-    minWidth: "40px",
-    margin: "0 20px 0 0"
-  }
-
   const toggleLoop = () => {
     setLoop(!loop);
   };
 
+  const classes = useStyles();
+
+  const CheckboxIcon = (
+    <div className={classes.icon}></div>
+  );
+  
+  const CheckboxIconChecked = (
+    <div className={classnames(classes.icon, classes.checked)}></div>
+  );
+
   return (
-    <div className="timeline">
-      <div className="row-1">
-        <Button style={playStyle}>
-          <div className="play-icon"></div>
+    <div className={classes.timeline}>
+      <div className={classes.row1}>
+        <Button className={classes.playButton}>
+          <div className={classes.playIcon}></div>
         </Button>
         <Slider />
       </div>
-      <div className="row-2">
-        <div className="start">
+      <div className={classes.row2}>
+        <div className={classes.start}>
           <DatePicker showArrows={false} />
         </div>
-        <div className="loop">
+        <div className={classes.loop}>
           <StyledLabel
             control={
               <Checkbox
@@ -122,7 +203,7 @@ const Timeline = () => {
             label="Loop Video"
           />
         </div>
-        <div className="end">
+        <div className={classes.end}>
           <DatePicker showArrows={false} />
         </div>
       </div>
