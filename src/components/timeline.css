@@ -1,9 +1,3 @@
-.timeline-container {
-  position: absolute;
-  top: 76vh;
-  width: 98vw;
-}
-
 .timeline {
   margin: 0 auto;
   display: grid;

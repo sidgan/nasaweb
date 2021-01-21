@@ -97,35 +97,33 @@ const Timeline = () => {
   };
 
   return (
-    <div className="timeline-container">
-      <div className="timeline">
-        <div className="row-1">
-          <Button style={playStyle}>
-            <div className="play-icon"></div>
-          </Button>
-          <Slider />
+    <div className="timeline">
+      <div className="row-1">
+        <Button style={playStyle}>
+          <div className="play-icon"></div>
+        </Button>
+        <Slider />
+      </div>
+      <div className="row-2">
+        <div className="start">
+          <DatePicker showArrows={false} />
         </div>
-        <div className="row-2">
-          <div className="start">
-            <DatePicker showArrows={false} />
-          </div>
-          <div className="loop">
-            <StyledLabel
-              control={
-                <Checkbox
-                  icon={CheckboxIcon}
-                  checkedIcon={CheckboxIconChecked}
-                  checked={loop}
-                  name="loop"
-                  onChange={toggleLoop}
-                />
-              }
-              label="Loop Video"
-            />
-          </div>
-          <div className="end">
-            <DatePicker showArrows={false} />
-          </div>
+        <div className="loop">
+          <StyledLabel
+            control={
+              <Checkbox
+                icon={CheckboxIcon}
+                checkedIcon={CheckboxIconChecked}
+                checked={loop}
+                name="loop"
+                onChange={toggleLoop}
+              />
+            }
+            label="Loop Video"
+          />
+        </div>
+        <div className="end">
+          <DatePicker showArrows={false} />
         </div>
       </div>
     </div>

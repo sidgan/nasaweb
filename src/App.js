@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import NavigtaionContext, { getNewDate } from './contexts/navigation';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
+import Timeline from './components/Timeline';
 import { theme } from './theme';
 
 import Responsive from 'react-responsive-decorator';
@@ -37,6 +38,11 @@ class App extends Component {
             <div className="globe-container">
               <div className="col-lg-12 col-sm-12 main-section">
                 <MainSection showGlobe={this.state.showGlobe} />
+              </div>
+              <div className="timeline-container">
+                <Timeline
+                  showGlobe={this.state.showGlobe}
+                />
               </div>
               <div className="m-6">
                 <div className="guide-1">
