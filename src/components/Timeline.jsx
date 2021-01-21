@@ -118,7 +118,6 @@ const useStyles = makeStyles({
     cursor: 'pointer',
     background: '#19c8ff',
     boxShadow: '0px 0px 14px rgba(255, 255, 255, 0.45)',
-    borderRadius: '1px',
     '&:after': {
       content: "''",
       position: 'absolute',
