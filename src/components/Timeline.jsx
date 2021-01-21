@@ -7,7 +7,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import PlayIcon from '../images/play icon.png';
 import Checkmark from '../images/Checkmark.png';
-import './timeline.css';
 
 const useStyles = makeStyles({
   timeline: {
@@ -34,6 +33,10 @@ const useStyles = makeStyles({
     justifySelf: 'start',
     color: '#fff',
     gridArea: 'loop'
+  },
+  loopLabel: {
+    fontSize: "16px",
+    color: "rgba(255, 255, 255, 0.8)"
   },
   icon: {
     width: 16,
@@ -88,7 +91,46 @@ const useStyles = makeStyles({
     width: '40px',
     height: '19px',
     backgroundImage: `url(${PlayIcon})`
-  }
+  },
+  slider: {
+    position: 'relative',
+    width: '696px',
+    height: '2px',
+    margin: '0 auto',
+    background: 'rgba(255, 255, 255, 0.6)',
+    boxShadow: '0px 1px 6px rgba(255, 255, 255, 0.3)',
+    borderRadius: '4px',
+    '&:before': {
+      content: "''",
+      position: 'absolute',
+      top: '-8px',
+      left: 0,
+      height: '20px',
+      width: '696px'
+    }
+  },
+  thumb: {
+    width: '9px',
+    height: '9px',
+    borderRadius: '1px',
+    position: 'relative',
+    top: '-3.5px',
+    cursor: 'pointer',
+    background: '#19c8ff',
+    boxShadow: '0px 0px 14px rgba(255, 255, 255, 0.45)',
+    borderRadius: '1px',
+    '&:after': {
+      content: "''",
+      position: 'absolute',
+      top: '-8px',
+      left: 'calc(50% - 1.5px)',
+      width: '3px',
+      height: '25px',
+      background: '#19C8FF',
+      boxShadow: '0px 0px 14px rgba(255, 255, 255, 0.45)',
+      borderRadius: '5px'
+    }
+  } 
 });
 
 const getPercentage = (current, max) => (100 * current) / max;
@@ -142,10 +184,12 @@ const Slider = () => {
     document.addEventListener('mouseup', handleMouseUp);
   };
 
+  const classes = useStyles();
+
   return (
     <>
-      <div className="slider" ref={sliderRef} onClick={handleSliderClick}>
-        <div className="thumb" ref={thumbRef} onMouseDown={handleMouseDown}></div>
+      <div className={classes.slider} ref={sliderRef} onClick={handleSliderClick}>
+        <div className={classes.thumb} ref={thumbRef} onMouseDown={handleMouseDown}></div>
       </div>
     </>
   );
