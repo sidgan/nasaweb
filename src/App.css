@@ -7,6 +7,11 @@
   width: 100%;
 }
 
+.main-section {
+  height: 95vh;
+  width: 100vw;
+}
+
 .switch {
   position: inherit;
   background: transparent;
@@ -15,9 +20,9 @@
 
 
 .globe-container {
-  display: flex;
+  display: inline-flex;
   fill-opacity: inherit;
-  height: 100%;
+  height: 80%;
   width: 100%;
   padding: 0;
   margin: 0;

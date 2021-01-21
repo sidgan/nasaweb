@@ -3,12 +3,11 @@ import MainSection from './components/Globe';
 import GroupedButton from './components/GroupedButton';
 import Footer from './components/Footer';
 
-import { ThemeProvider } from '@material-ui/core/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import { theme } from './theme';
 
 import Responsive from 'react-responsive-decorator';
 
-import 'fontsource-roboto';
 import './App.css';
 
 class App extends Component {
@@ -28,10 +27,10 @@ class App extends Component {
 
   render() {
     return (
-      <ThemeProvider theme={theme}>
+      <MuiThemeProvider theme={theme}>
         <div className="App">
           <div className="globe-container">
-            <div className="col-lg-12 col-sm-12">
+            <div className="col-lg-12 col-sm-12 main-section">
 
               <MainSection
                 showGlobe={this.state.showGlobe}
@@ -49,7 +48,7 @@ class App extends Component {
           </div>
           <Footer />
         </div>
-      </ThemeProvider>
+      </MuiThemeProvider>
     );
   }
 }

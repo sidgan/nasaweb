@@ -14,7 +14,7 @@ const HtmlTooltip = withStyles((theme) => ({
       color: "primary",
       maxWidth: 448,
       maxHeight: 480,
-      marginBlock: '5px',
+      marginLeft: "10px",
       border: '2px solid #474E74',
     },
 }))(Tooltip);

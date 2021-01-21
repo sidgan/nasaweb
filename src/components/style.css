@@ -8,21 +8,25 @@
   left: 0;
   top: 0;
   padding: 0;
+  z-index: 999;
 }
 
 
 /* HEADER STYLES */
 .title_item {
+  color: rgba(0, 0, 0, 0.719);
   display: flex;
   align-items: center;
-  font-size: 22px;
+  font-size: 16px;
   font-family: Helvetica;
-  font-weight: bold;
+  line-height: 18.4px;
+  font-weight: 700;
   font-style: normal;
   text-align-last: left;
   text-shadow: blue;
   color: #ffffff;
-  margin-top: 30px;
+  margin-top: 5vh;
+  margin-left: 1.7vw;
 }
 
 .logo_item {
@@ -41,8 +45,36 @@
   /* margin: 5px; */
   transition-timing-function: ease-in-out 0.5s;
   right: 0;
-  top: 0;
+  left: 71%;
   padding-right: 0;
+  width: 100%
+}
+
+h2 {
+  position: relative;
+  font-size: 20px;
+  line-height: 20px;
+  background: #070C26;
+  padding: 1rem;
+  backdrop-filter: blur(16px);
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 4px;
+}
+
+.data-tooltip {
+  position: absolute;
+  color: #ffffff;
+  width: 18vw;
+  height: 226px;
+  left: 10vw;
+  top: 40vh;
+  
+  /* Darker Grey (80%) */
+  
+  background: #060e318c;
+  backdrop-filter: blur(16px);
+  border-radius: 4px;
+  z-index: 999;
 }
 
 @media only screen and (max-width: 800px) {
@@ -59,16 +91,24 @@
 }
 /* END HEADER */
 
+
+/* .content {
+  position: absolute;
+  justify-content: center;
+  align-content: center;
+} */
+
 .zoom-1 {
   position: fixed;
   top: 40vh;
   right: 70px;
+  z-index: 999;
 }
 
 
 .guide-1 {
   position: fixed;
-  bottom: 100px;
+  bottom: 70px;
   right: 70px;
 }
 
@@ -107,11 +147,10 @@
   justify-content: center;
   width: 100%;
   flex: 1;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.01em;
   font-family: Roboto Mono;
   font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
+  font-weight: 500;
   justify-content: center;
   color: white;
   background: transparent;
@@ -124,18 +163,37 @@
 .footer div div div p {
   position: inherit;
   float: left;
-  margin-top: 6px;
-  margin-left: 3px;
-  margin-left: 20px;
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 1vh;
+  margin-left: 1.7vw;
+  letter-spacing: 0.1em;
 }
 
 .footer_nav {
   display: flex;
   margin-right: 0;
   text-align: right;
+  flex-direction: row;
+  align-items: right;
+  padding: 0px;
+  border-left: 1px;
+  justify-items: right;
+  right: 2vw;
+  width: auto;
 }
 
 .footer_nav h5 {
-  font-size: 18px;
-  margin-left: 35px;
+  font-size: 14px;
+  line-height: 18.46px;
+  letter-spacing: 0.1em;
+  margin-right: 0;
+  margin-left: 20px;
+  text-align: right;
+}
+
+
+/* TABLE SECTION STYLES */
+.menu {
+  padding: "0px";
 }

@@ -31,6 +31,22 @@ export const theme = createMuiTheme({
             }
         },
 
+        MuiMenuList: {
+            root: {
+                width: "150px"
+            },
+
+            padding: {
+                padding: "0px"
+            }
+        },
+
+        MuiSelect: {
+            root: {
+                color: "#ffffff"
+            }
+        },
+
         MuiMenuItem: {
             root: {
                 backgroundColor: "rgba(71, 78, 116, 0.6)",
@@ -38,13 +54,39 @@ export const theme = createMuiTheme({
             }
         },
 
-        MuiTextField: {
+        MuiInputBase: {
             root: {
                 backgroundColor: "rgba(71, 78, 116, 0.6)",
-                fillOpacity: 0.8,
                 color: "primary",
-                fontSize: '25px',
+                fontSize: "1.4rem",
+                alignContent: "center",
             }
+        },
+
+        MuiTypography: {
+            h3: {
+                fontFamily: "Roboto Condensed",
+                fontStyle: "normal",
+                fontWeight: 700,
+                fontSize: "16px",
+                lineHeight: "19px",
+                padding: "1vh",
+                textTransform: "uppercase",
+                letterSpacing: "1.5px"
+            },
+            h4: {
+                fontSize: "16px",
+                lineHeight: "16px",
+                fontWeight: 500
+            },
+            h5: {
+                fontFamily: "Roboto Condensed",
+                fontSize: "14px",
+                lineHeight: "18px",
+                fontWeight: 400,
+                padding: "10px",
+                letterSpacing: "1.5px"
+            },
         },
 
         MuiTableBody: {
@@ -66,7 +108,8 @@ export const theme = createMuiTheme({
                 backgroundColor: "rgba(71, 78, 116)",
                 opacity: 0.8,
             }
-        }
+        },
+        
     }
 })
 

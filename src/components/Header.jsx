@@ -1,37 +1,37 @@
 import React, { Component } from 'react';
-import Stations from './Stations';
-import NavigationBar from './Navigation';
 import Grid from '@material-ui/core/Grid';
-// import { DatePicker } from 'react-rainbow-components';
-import Responsive from 'react-responsive-decorator';
-import logo from '../images/logo.svg';
+import StationSelect from './Stations';
+import NavigationBar from './Navigation';
 
+import logo from '../images/logo.svg';
 import './style.css';
+
 
 class Header extends Component {
 
   render() {
     return (
       <div className="flexbox_container">
-        <p className="title_item col-lg-8"> 
+        <p className="title_item col-lg-9"> 
           <div className="row">
-            <a className="logo_item" href="http://cams.seti.org">
-              <img src={logo} alt="NASA" width="60" height="40" />
+            <a className="logo_item" target="_blank" rel="noopener noreferrer" href="http://cams.seti.org">
+              <img src={logo} alt="NASA" width="36.7" height="30" />
             </a>
             Meteor Shower Portal
           </div>
         </p>
-        <div className="search_box col-lg-4 text-right">
+        <div className="search_box col-lg-3 text-right">
           <Grid container spacing={2}>
             <Grid item>
               <NavigationBar
-                selectedDate={this.props.selectedDate}
-                onDateChange={this.props.onDateChange}
+                onChange={this.props.onDateChange}
               />
             </Grid>
 
             <Grid item>
-              <Stations />
+              <StationSelect
+                onChange={this.props.onSourceChange}
+              />
             </Grid>
           </Grid>
         </div>
@@ -40,4 +40,4 @@ class Header extends Component {
   }
 }
 
-export default React.memo(Responsive(Header));
+export default React.memo(Header);

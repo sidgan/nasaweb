@@ -1,8 +1,20 @@
+@font-face {
+  font-family: "Roboto Mono";
+  src: local("Roboto Mono"),
+    url("./fonts/RobotoMono-Regular.ttf") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Roboto Condensed";
+  src: local("Roboto Condensed"),
+    url("./fonts/RobotoCondensed-Regular.ttf") format("truetype");
+  font-weight: normal;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: Roboto Mono;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* background-image: url('./images/shy.jpg'); */
@@ -11,9 +23,4 @@ body {
   background-color: #302f2f;
   background-size: cover;
   height: 100%;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }
