@@ -1,8 +1,8 @@
 .App {
   text-align: center;
-  background-color: #070C26;
+  background-color: #070c26;
   /* color: rgb(24, 27, 37); */
-  color: #070C26;
+  color: #070c26;
   height: 100%;
   width: 100%;
 }
@@ -18,7 +18,6 @@
   justify-items: baseline;
 }
 
-
 .globe-container {
   display: inline-flex;
   fill-opacity: inherit;
@@ -28,8 +27,6 @@
   margin: 0;
   border-bottom: 0;
 }
-
-
 
 .popup {
   position: absolute;
@@ -61,4 +58,3 @@
   color: #f5eaea;
   font-weight: 800;
 }
- 
