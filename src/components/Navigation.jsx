@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import InputBase from '@material-ui/core/InputBase';
+import FormControl from '@material-ui/core/FormControl';
+// import InputBase from '@material-ui/core/InputBase';
+import { KeyboardDatePicker } from "@material-ui/pickers";
 
 import { DateContext } from '../context';
 
@@ -32,10 +34,8 @@ const NavigationBar = (props) => {
   };
 
   const handleDateChange = (e) => {
-    setValue(e.target.value);
-
-    // Update Parent Component
-    props.onChange(e.target.value);
+    setValue(e);
+    props.onChange(e);
   };
 
   return (
@@ -55,32 +55,24 @@ const NavigationBar = (props) => {
         </Button>
       </Grid>
       <Grid item>
-          <Button
-            id="date"
-            color="secondary"
-            variant="contained"
+        <FormControl variant="outlined">
+          <KeyboardDatePicker
+            disableToolbar
+            variant="inline"
+            format="yyyy-MM-dd"
             style={{
-              maxWidth: '150px',
-              minHeight: '50px',
-              fontSize: '30px',
+              fontSize: '15px',
+              color: 'black',
+              width: '150px'
             }}
-          >
+            value={value}
+            onChange={handleDateChange}
+            allowKeyboardControl={false}
+            minDate="2010-04-14"
+            maxDate={`${new Date()}`}
+          />
+        </FormControl>
 
-            <InputBase
-              id="date"
-              type="date"
-              variant="filled"
-              style={{
-                backgroundColor: "transparent",
-                paddingRight: "5px",
-                width: "180px"
-              }}
-              size="medium"
-              value={value}
-              onChange={handleDateChange}
-            />
-
-        </Button>
       </Grid>
       <Grid item onClick={incrementDate}>
         <Button

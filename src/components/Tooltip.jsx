@@ -62,91 +62,82 @@ const styles = (theme) => ({
 });
 
 const DataTooltip = withStyles(styles)((props) => {
-    const [status, setStatus] = useState(true)
     const [url] = useState(`https://www.meteorshowers.org/view/iau-${props.meteor.iau}`)
 
-
-    const handleClose = () => {
-        setStatus(false);
-    };
-
     const handleRedirect = () => {
-        window.location.replace(url);
+        window.location.href = url;
     };
 
 
     const { classes } = props;
     return (
         <React.Fragment>
-            {status ?
-                <div className="container data-tooltip">
-                    <Grid container color="secondary" spacing={1}>
-                        <Grid item xs={12}>
-                            <div className="text-left">
-                                <div className={classes.header}>
-                                    <b>{props.meteor.name}</b>
-                                </div>
-                                <div className={classes.subHeader}>
-                                    [{props.meteor.iau}]
-                                </div>
+            <div className="container data-tooltip">
+                <Grid container color="secondary" spacing={1}>
+                    <Grid item xs={12}>
+                        <div className="text-left">
+                            <div className={classes.header}>
+                                <b>{props.meteor.name}</b>
                             </div>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <div className={classes.content}>
-                                <p className={classes.contentText}>
-                                    VELOCITY
-                                </p>
-                                <b className={classes.contentValue}>
-                                    {props.meteor.velocg.toFixed(2)}
-                                </b>
+                            <div className={classes.subHeader}>
+                                [{props.meteor.iau}]
                             </div>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <div className={classes.content}>
-                                <p className={classes.contentText}>
-                                    SOLAR LONGITUDE
-                                </p>
-                                <b className={classes.contentValue}>
-                                    {props.meteor.sol.toFixed(2)}
-                                </b>
-                            </div>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <div className={classes.content}>
-                                <p className={classes.contentText}>
-                                    ECLIPTIC LONGITUDE
-                                </p>
-                                <b className={classes.contentValue}>
-                                    {props.meteor.lng.toFixed(2)}
-                                </b>
-                            </div>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <div className={classes.content}>
-                                <p className={classes.contentText}>
-                                    ECLIPTIC LATITUDE
-                                </p>
-                                <b className={classes.contentValue}>
-                                    {props.meteor.lat.toFixed(2)}
-                                </b>
-                            </div>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <IconButton aria-label="close" className={classes.spaceButton} onClick={handleRedirect}>
-                                <img src={spaceButton} alt={spaceButton}></img>
-                            </IconButton>
-                        </Grid>
-                        {/* <p></p> */}
-
-                    
-                        <IconButton aria-label="close" className={classes.closeButton} onClick={handleClose}>
-                            <CloseIcon />
-                        </IconButton>
-                            
+                        </div>
                     </Grid>
-                </div>
-            :
-                null}
+                    <Grid item xs={6}>
+                        <div className={classes.content}>
+                            <p className={classes.contentText}>
+                                VELOCITY
+                            </p>
+                            <b className={classes.contentValue}>
+                                {props.meteor.velocg.toFixed(2)}
+                            </b>
+                        </div>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <div className={classes.content}>
+                            <p className={classes.contentText}>
+                                SOLAR LONGITUDE
+                            </p>
+                            <b className={classes.contentValue}>
+                                {props.meteor.sol.toFixed(2)}
+                            </b>
+                        </div>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <div className={classes.content}>
+                            <p className={classes.contentText}>
+                                ECLIPTIC LONGITUDE
+                            </p>
+                            <b className={classes.contentValue}>
+                                {props.meteor.lng.toFixed(2)}
+                            </b>
+                        </div>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <div className={classes.content}>
+                            <p className={classes.contentText}>
+                                ECLIPTIC LATITUDE
+                            </p>
+                            <b className={classes.contentValue}>
+                                {props.meteor.lat.toFixed(2)}
+                            </b>
+                        </div>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <IconButton aria-label="close" className={classes.spaceButton} onClick={handleRedirect}>
+                            <img src={spaceButton} alt={spaceButton}></img>
+                        </IconButton>
+                    </Grid>
+                    {/* <p></p> */}
+
+                
+                    <IconButton aria-label="close" className={classes.closeButton} onClick={props.handleClose}>
+                        <CloseIcon />
+                    </IconButton>
+                        
+                </Grid>
+            </div>
         </React.Fragment>
     )
 });

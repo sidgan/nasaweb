@@ -3,9 +3,11 @@ import MainSection from './components/Globe';
 import GroupedButton from './components/GroupedButton';
 import Footer from './components/Footer';
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { theme } from './theme';
 
+import DateFnsUtils from '@date-io/date-fns';
 import Responsive from 'react-responsive-decorator';
 
 import './App.css';
@@ -27,28 +29,32 @@ class App extends Component {
 
   render() {
     return (
-      <MuiThemeProvider theme={theme}>
-        <div className="App">
-          <div className="globe-container">
-            <div className="col-lg-12 col-sm-12 main-section">
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <MuiThemeProvider theme={theme}>
+            <div className="App">
+              <div className="globe-container">
+                <div className="col-lg-12 col-sm-12 main-section">
 
-              <MainSection
-                showGlobe={this.state.showGlobe}
-              />
+                  <MainSection
+                    showGlobe={this.state.showGlobe}
+                  />
 
-            </div>
-            <div className="m-6">
-              <div className="guide-1">
-                <GroupedButton
-                  showGlobe={this.state.showGlobe}
-                  toggleDisplay={this.toggleDisplay}
-                />
+                </div>
+                <div className="m-6">
+                  <div className="guide-1">
+                    <GroupedButton
+                      showGlobe={this.state.showGlobe}
+                      toggleDisplay={this.toggleDisplay}
+                    />
+                  </div>
+                </div>
+
+                
               </div>
+              <Footer />
             </div>
-          </div>
-          <Footer />
-        </div>
-      </MuiThemeProvider>
+        </MuiThemeProvider>
+      </MuiPickersUtilsProvider>
     );
   }
 }

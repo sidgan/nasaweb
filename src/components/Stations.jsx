@@ -64,7 +64,6 @@ const StationSelect = (props) => {
             <FormControl variant="outlined" className={classes.formControl}>
                 <Select
                 native
-                style={{ backgroundColor: "rgba(71, 78, 116, 0.4)", color: 'rgba(223, 223, 236)', maxHeight: '50px', minHeight: '50px' }}
                 value={state.age}
                 onChange={handleChange}
                 inputProps={{
@@ -72,7 +71,7 @@ const StationSelect = (props) => {
                 }}
                 >
                     {options.map((option) => (
-                    <option style={{ backgroundColor: "rgba(71, 78, 116, 0.4)", borderRadius: "4px" }} value={option}>{option}</option>
+                    <option style={{ backgroundColor: "rgba(71, 78, 116, 0.4)" }} value={option}>{option}</option>
                     ))}
                 </Select>
             </FormControl>

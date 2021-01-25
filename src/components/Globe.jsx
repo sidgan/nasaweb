@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import axios from 'axios';
-import { render } from '@testing-library/react';
+// import { render } from '@testing-library/react';
 import Responsive from 'react-responsive-decorator';
 import Header from './Header';
 import Preloader from './Preloader';
@@ -55,64 +55,75 @@ const starScale = (colorCode) => {
 const starSizeScale = (colorCode) => {
   let code = parseFloat(colorCode) * 10;
 
-  if (code <= 0.0 && code <= 10) {
+  if (code <= -2.0 && code <= 0.9)
     return 0.46
+  else if (code >= 1.0 && code <= 10) {
+    return 0.40
   } else if (code >= 11 && code <= 20) {
-    return 0.41
+    return 0.36
   } else if (code >= 21 && code <= 30) {
-    return 0.33
+    return 0.30
   } else if (code >= 31 && code <= 40) {
-    return 0.27
+    return 0.24
   } else if (code >= 41 && code <= 50) {
-    return 0.21
+    return 0.19
   } else {
-    return 0.17
+    return 0.12
   }
 }
 
 const MainSection = (props) => {
 
+  // Globe State
   const globeEl = React.useRef();
   const [alt, setAlt] = useState(2);
 
+  //  OnClick Functionality State
+  const [showDetail, setShowDetail] = useState(false);
+  const [detail, setDetail] = useState("");
+
+  // Context State
   const [date, setDate] = useState(React.useContext(DateContext));
   const [source, setSource] =  useState(React.useContext(SourceContext));
 
+  // Markers State
   const [markers, setMarkers] = useState([]);
 
   const handleDateChange = (d) => {
-    if (d === date) {
-      console.log(`Updated! ${d} - ${date}`);
-    } else {
+    if (d !== date) {
       setDate(d);
     }
   };
   const handleSourceChange = (d) => {
-    if (d === source) {
-      console.log('Updated!');
-    } else {
+    if (d !== source) {
       setSource(d);
     }
   };
 
   const handleZoomIn = () => {
-    let altitude = parseFloat(alt - 0.5);
-    globeEl.current.pointOfView({altitude: altitude });
-    setAlt(altitude);
+    if (parseFloat(alt) !== 0.5) {
+      let altitude = parseFloat(alt - 0.5);
+      globeEl.current.pointOfView({altitude: altitude });
+      setAlt(altitude);
+    }
   };
+
   const handleZoomOut = () => {
-    let altitude = parseFloat(alt + 0.5);
-    globeEl.current.pointOfView({altitude: altitude });
-    setAlt(altitude);
+    if (parseFloat(alt) !== 5.5) {
+      let altitude = parseFloat(alt + 0.5);
+      globeEl.current.pointOfView({altitude: altitude });
+      setAlt(altitude);
+    }
   };
 
   const updateMarkers = useCallback((meteors, stars) => {
     let newMarkers = [];
+    setShowDetail(false);
     const sunMarkers = [require('../json/sun.json')];
 
     meteors.forEach((m) => {
       newMarkers.push({
-        id: newMarkers.length,
+        id: m.id,
         iau: m.iau,
         name: m.name,
         type: "meteor",
@@ -162,12 +173,11 @@ const MainSection = (props) => {
   };
 
   const markerInfoTip = (marker) => {
+    setDetail(marker);
     
-    if (marker.type === 'meteor') {
-      return render(
-        <DataTooltip meteor={marker}/>
-      )
-    }
+    if (detail === "" || showDetail === false) {
+      setShowDetail(true)
+    };
   };
 
   useEffect(() => {
@@ -209,9 +219,6 @@ const MainSection = (props) => {
           await axios.spread((...responses) => {
             const responseOne = responses[0];
             const responseTwo = responses[1];
-            console.log(date);
-            console.log(responseOne.data.meteors);
-            console.log(responseTwo.data.stars);
             updateMarkers(responseOne.data.meteors, responseTwo.data.stars);
           })
         )
@@ -277,6 +284,16 @@ const MainSection = (props) => {
           </Suspense>
         )}
       </div>
+
+      <React.Fragment>
+            {showDetail ?
+                <DataTooltip
+                  meteor={detail}
+                  handleClose={() => setShowDetail(false)}
+                />
+            :
+              null}
+        </React.Fragment>
       
     </section>
   );
