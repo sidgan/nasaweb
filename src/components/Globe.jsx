@@ -1,6 +1,4 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
-import axios from 'axios';
-// import { render } from '@testing-library/react';
 import Responsive from 'react-responsive-decorator';
 import Header from './Header';
 import Preloader from './Preloader';
@@ -8,13 +6,12 @@ import ZoomButton from './ZoomButton';
 import DataTooltip from './Tooltip';
 
 import globeTextureImage from '../images/background.jpg';
-import { DateContext, SourceContext } from '../context';
+import NavigationContext from '../contexts/navigation';
 
-import './style.css';
-import 'tippy.js/dist/tippy.css';
-import 'tippy.js/animations/scale.css';
+import { fetchStars } from '../clients/star';
+import { fetchMeteors } from '../clients/meteor';
 
-// Lazy Loading React COmponent
+// Lazy Loading React Component
 const ReactGlobe = React.lazy(() => import('react-globe.gl'));
 const StickyHeadTable = React.lazy(() => import('./Table'));
 
@@ -44,17 +41,16 @@ const starScale = (colorCode) => {
   let code = parseFloat(colorCode);
 
   if (code <= 0) {
-    return "rgba(0, 0, 0, 0.4)";
+    return 'rgba(0, 0, 0, 0.4)';
   } else if (code <= 1) {
-    return "rgba(0, 0, 0, 0.6)";
+    return 'rgba(0, 0, 0, 0.6)';
   } else {
-    return "rgba(0, 0, 0, 0.8)";
+    return 'rgba(0, 0, 0, 0.8)';
   }
-}
+};
 
 const starSizeScale = (colorCode) => {
   let code = parseFloat(colorCode) * 10;
-
   if (code <= -2.0 && code <= 0.9)
     return 0.46
   else if (code >= 1.0 && code <= 10) {
@@ -70,33 +66,34 @@ const starSizeScale = (colorCode) => {
   } else {
     return 0.12
   }
-}
+};
 
 const MainSection = (props) => {
-
-  // Globe State
   const globeEl = React.useRef();
   const [alt, setAlt] = useState(2);
 
-  //  OnClick Functionality State
-  const [showDetail, setShowDetail] = useState(false);
-  const [detail, setDetail] = useState("");
-
-  // Context State
-  const [date, setDate] = useState(React.useContext(DateContext));
-  const [source, setSource] =  useState(React.useContext(SourceContext));
+  const [navigationState, setNavigationState] = useState(
+    React.useContext(NavigationContext)
+  );
 
   // Markers State
   const [markers, setMarkers] = useState([]);
 
-  const handleDateChange = (d) => {
-    if (d !== date) {
-      setDate(d);
+
+  const handleDateChange = (date) => {
+    if (date !== navigationState.date) {
+      setNavigationState({
+        date: date,
+        source: navigationState.source,
+      });
     }
   };
-  const handleSourceChange = (d) => {
-    if (d !== source) {
-      setSource(d);
+  const handleSourceChange = (source) => {
+    if (source !== navigationState.source) {
+      setNavigationState({
+        date: navigationState.date,
+        source,
+      });
     }
   };
 
@@ -126,7 +123,7 @@ const MainSection = (props) => {
         id: m.id,
         iau: m.iau,
         name: m.name,
-        type: "meteor",
+        type: 'meteor',
         color: colorScale(m.color),
         lat: m.location.coordinates[1],
         lng: m.location.coordinates[0],
@@ -134,7 +131,7 @@ const MainSection = (props) => {
         mag: m.mag,
         sol: m.sol,
         size: 0.4,
-        alt: 0
+        alt: 0,
       });
     });
 
@@ -143,11 +140,11 @@ const MainSection = (props) => {
         id: newMarkers.length,
         color: '#FDB800',
         name: 'Sun',
-        type: "",
+        type: '',
         lat: 0,
         lng: 0,
         size: 1.5,
-        alt: 0
+        alt: 0,
       });
     });
 
@@ -159,9 +156,8 @@ const MainSection = (props) => {
         type: 'star',
         lat: m.location.coordinates[1],
         lng: m.location.coordinates[0],
-        // coordinates: [m.location.coordinates[1], m.location.coordinates[0]],
         size: starSizeScale(m.mag),
-        alt: 0
+        alt: 0,
       });
     });
 
@@ -181,91 +177,48 @@ const MainSection = (props) => {
   };
 
   useEffect(() => {
-  
     const fetchData = async () => {
-      // FETCH FROM ALL ENDPOINTS WITH ASYNC
-      let meteors =
-        'https://meteorshowers.seti.org/api/meteor';
-      let stars =
-        'https://meteorshowers.seti.org/api/star';
+      const meteorRequest = fetchMeteors(
+        navigationState.source,
+        navigationState.date
+      );
+      const starsRequest = fetchStars(navigationState.date);
 
-      // Pull using promises
-      const requestMeteors = await axios.get(meteors, {
-        params: {
-          source: `${source}`,
-          date: `${date}`,
-        },
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-        },
+      await Promise.all([meteorRequest, starsRequest]).then((results) => {
+        const [meteors, stars] = results;
+
+        updateMarkers(meteors, stars);
       });
-
-      const requestStars = await axios.get(stars, {
-        params: {
-          date: `${date}`,
-        },
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-        },
-      });
-
-      await axios
-        .all([requestMeteors, requestStars])
-        .then(
-          await axios.spread((...responses) => {
-            const responseOne = responses[0];
-            const responseTwo = responses[1];
-            updateMarkers(responseOne.data.meteors, responseTwo.data.stars);
-          })
-        )
-        .catch((err) => {
-          console.log(err);
-        });
     };
 
     fetchData();
-  }, [date, source, updateMarkers]);
+  }, [navigationState.date, navigationState.source, updateMarkers]);
 
   console.log(globeEl.current);
 
   return (
     <section>
-      <DateContext.Provider value={date}>
-        <SourceContext.Provider value={source}>
-          <Header
-            onDateChange={handleDateChange}
-            onSourceChange={handleSourceChange}
-            />
-        </SourceContext.Provider>
-      </DateContext.Provider>
-
+      <Header
+        onDateChange={handleDateChange}
+        onSourceChange={handleSourceChange}
+      />
       <div className="zoom-1">
-        <ZoomButton
-          onZoomIn={handleZoomIn}
-          onZoomOut={handleZoomOut}
-        />
+        <ZoomButton onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
       </div>
 
-      
       <div className="content">
         {props.showGlobe ? (
           <Suspense fallback={<Preloader />}>
             <ReactGlobe
               ref={globeEl}
-              width={`${window.innerWidth - 50}`}
+              width={window.innerWidth - 50}
               height={window.innerHeight}
               altitude={alt}
-
-              backgroundColor='#1C00ff00'
+              backgroundColor="#1C00ff00"
               backgroundImageUrl={null}
               showGraticules={true}
               globeImageUrl={globeTextureImage}
               bumpImageUrl={globeTextureImage}
-
               pointsData={markers}
               pointLabel={markerTooltip}
               pointLat="lat"
@@ -277,14 +230,12 @@ const MainSection = (props) => {
               onPointClick={markerInfoTip}
             />
           </Suspense>
-            
         ) : (
           <Suspense fallback={<Preloader />}>
             <StickyHeadTable markers={markers} />
           </Suspense>
         )}
       </div>
-
       <React.Fragment>
             {showDetail ?
                 <DataTooltip
@@ -294,7 +245,6 @@ const MainSection = (props) => {
             :
               null}
         </React.Fragment>
-      
     </section>
   );
 };

@@ -1,14 +1,14 @@
 @font-face {
-  font-family: "Roboto Mono";
-  src: local("Roboto Mono"),
-    url("./fonts/RobotoMono-Regular.ttf") format("truetype");
+  font-family: 'Roboto Mono';
+  src: local('Roboto Mono'),
+    url('./fonts/RobotoMono-Regular.ttf') format('truetype');
   font-weight: normal;
 }
 
 @font-face {
-  font-family: "Roboto Condensed";
-  src: local("Roboto Condensed"),
-    url("./fonts/RobotoCondensed-Regular.ttf") format("truetype");
+  font-family: 'Roboto Condensed';
+  src: local('Roboto Condensed'),
+    url('./fonts/RobotoCondensed-Regular.ttf') format('truetype');
   font-weight: normal;
 }
 
