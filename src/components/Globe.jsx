@@ -73,7 +73,29 @@ const MainSection = (props) => {
   const [constellationMarkers, setConstellationMarkers] = useState([]);
 
   const [showDetail, setShowDetail] = useState(false);
+<<<<<<< HEAD
   const [detail, setDetail] = useState('');
+=======
+  const [detail, setDetail] = useState("");
+
+
+  const handleDateChange = (date) => {
+    if (date !== navigationState.date) {
+      setNavigationState({
+        date: date,
+        source: navigationState.source,
+      });
+    }
+  };
+  const handleSourceChange = (source) => {
+    if (source !== navigationState.source) {
+      setNavigationState({
+        date: navigationState.date,
+        source,
+      });
+    }
+  };
+>>>>>>> fix tiny bugs
 
   const handleZoomIn = () => {
     if (parseFloat(alt) !== 0.5) {
