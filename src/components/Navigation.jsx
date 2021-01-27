@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import { KeyboardDatePicker } from "@material-ui/pickers";
 
-import InputBase from '@material-ui/core/InputBase';
 import NavigationContext from '../contexts/navigation';
 
 import leftIcon from '../images/left-icon.png';
@@ -71,7 +70,7 @@ const NavigationBar = (props) => {
               color: 'black',
               width: '150px'
             }}
-            value={value}
+            value={navigationState.date}
             onChange={handleDateChange}
             allowKeyboardControl={false}
             minDate="2010-04-14"

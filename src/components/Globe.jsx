@@ -79,6 +79,9 @@ const MainSection = (props) => {
   // Markers State
   const [markers, setMarkers] = useState([]);
 
+  const [showDetail, setShowDetail] = useState(false);
+  const [detail, setDetail] = useState("");
+
 
   const handleDateChange = (date) => {
     if (date !== navigationState.date) {
