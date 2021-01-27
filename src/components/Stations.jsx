@@ -49,6 +49,7 @@ const StationSelect = ({ source, changeSource }) => {
   };
 
   return (
+<<<<<<< HEAD
     <FormControl variant="outlined" className={classes.formControl}>
       <Select
         native
