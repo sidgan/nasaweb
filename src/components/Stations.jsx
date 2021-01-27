@@ -65,7 +65,7 @@ const StationSelect = (props) => {
         <Select
           native
           style={{
-            backgroundColor: 'rgba(71, 78, 116, 0.4)',
+            backgroundColor: 'rgba(71, 78, 116, 0.6)',
             color: 'rgba(223, 223, 236)',
             maxHeight: '50px',
             minHeight: '50px',
