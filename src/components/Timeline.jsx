@@ -8,6 +8,8 @@ import classnames from 'classnames';
 import PlayIcon from '../images/play icon.png';
 import Checkmark from '../images/Checkmark.png';
 
+import TimelineContext from '../contexts/timeline';
+
 const useStyles = makeStyles({
   timeline: {
     margin: '0 auto',
@@ -203,8 +205,12 @@ const StyledLabel = withStyles({
 
 
 const Timeline = () => {
-
+  const startDate = React.useContext(TimelineContext).startDate;
+  const endDate = React.useContext(TimelineContext).endDate;
   const [loop, setLoop] = React.useState(false);
+
+  const setStartDate = React.useContext(TimelineContext).changeStartDate;
+  const setEndDate = React.useContext(TimelineContext).changeEndDate;
 
   const toggleLoop = () => {
     setLoop(!loop);
@@ -230,7 +236,11 @@ const Timeline = () => {
       </div>
       <div className={classes.row2}>
         <div className={classes.start}>
-          <DatePicker showArrows={false} />
+          <DatePicker 
+            showArrows={false} 
+            selectedDate={startDate}
+            onDateChange={setStartDate}
+          />
         </div>
         <div className={classes.loop}>
           <StyledLabel
@@ -247,7 +257,11 @@ const Timeline = () => {
           />
         </div>
         <div className={classes.end}>
-          <DatePicker showArrows={false} />
+          <DatePicker 
+            showArrows={false} 
+            selectedDate={endDate}
+            onDateChange={setEndDate}
+          />
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -6,7 +6,6 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 const DatePicker = (props) => {
-  const [value, setValue] = useState(props.selectedDate);
 
   const incrementDate = () => {
     // Add One Day To Selected Date
@@ -17,10 +16,10 @@ const DatePicker = (props) => {
   };
 
   const handleDateChange = (e) => {
-    setValue(e.target.value);
 
     // Update Parent Component
-    // props.onDateChange(e.target.value);
+    props.onDateChange(e.target.value);
+
   };
 
   if (props.showAarrows) {
@@ -58,8 +57,7 @@ const DatePicker = (props) => {
               style={{
                 fontWeight: 'bolder',
               }}
-              defaultValue={props.selectedDate}
-              value={value}
+              value={props.selectedDate}
               onChange={handleDateChange}
             />
           </Button>
@@ -99,8 +97,7 @@ const DatePicker = (props) => {
           style={{
             fontWeight: 'bolder',
           }}
-          defaultValue={props.selectedDate}
-          value={value}
+          value={props.selectedDate}
           onChange={handleDateChange}
         />
       </Button>
