@@ -205,12 +205,10 @@ const StyledLabel = withStyles({
 
 
 const Timeline = () => {
-  const startDate = React.useContext(TimelineContext).startDate;
-  const endDate = React.useContext(TimelineContext).endDate;
-  const [loop, setLoop] = React.useState(false);
+  const { startDate, endDate } = React.useContext(TimelineContext);
+  const { changeStartDate, changeEndDate } = React.useContext(TimelineContext);
 
-  const setStartDate = React.useContext(TimelineContext).changeStartDate;
-  const setEndDate = React.useContext(TimelineContext).changeEndDate;
+  const [loop, setLoop] = React.useState(false);
 
   const toggleLoop = () => {
     setLoop(!loop);
@@ -239,7 +237,7 @@ const Timeline = () => {
           <DatePicker 
             showArrows={false} 
             selectedDate={startDate}
-            onDateChange={setStartDate}
+            onDateChange={changeStartDate}
           />
         </div>
         <div className={classes.loop}>
@@ -260,7 +258,7 @@ const Timeline = () => {
           <DatePicker 
             showArrows={false} 
             selectedDate={endDate}
-            onDateChange={setEndDate}
+            onDateChange={changeEndDate}
           />
         </div>
       </div>
