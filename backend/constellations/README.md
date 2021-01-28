@@ -17,6 +17,11 @@ This program uses the following modules:
 - Matplotlib
 
 ***
+## Use
+
+Run the python script in its current state to get a .json file with latitude and longitude points for constellations.
+
+***
 ## Extracting data
 
 The function `extract_data` takes the name of the Github constellation data file as an argument, and stores this data as a variable. The data in the original file has been formatted such that each list represents a set of points to be connected by a line. A change in list indicates that the drawing device must stop drawing the current line and start a new line.
