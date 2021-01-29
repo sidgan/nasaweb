@@ -2,7 +2,7 @@
 
 This constellation drawing program uses data from the Github repository [https://github.com/dcf21/constellation-stick-figure](https://github.com/dcf21/constellation-stick-figures.)s.
 
-This repository contains the program (link). This is a python program that iterates over the constellation data to generate a set of plots and data points suitable for the CAMS project.
+This repository contains the program https://github.com/sidgan/nasaweb/blob/constellation/backend/constellations/draw_constellation_stick.py. This is a python program that iterates over the constellation data to generate a set of plots and data points suitable for the CAMS project.
 
 This program has been designed to consist of a set of easy-to-modify python functions.
 
