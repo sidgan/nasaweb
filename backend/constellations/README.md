@@ -6,7 +6,7 @@ This constellation drawing program uses data from the Github repository [https:/
 
 This repository contains the program (link). This is a python program that iterates over the constellation data to generate a set of plots and data points suitable for the CAMS project.
 
-This program contains has been designed to consist of a set of easy-to-modify python functions.
+This program has been designed to consist of a set of easy-to-modify python functions.
 
 ***
 ## Requirements
