@@ -17,7 +17,8 @@ This program uses the following modules:
 ***
 ## Use
 
-Before running the python script, make sure that the above requirements are met. If these packages havent been installed on your system, use the following lines:
+Before running the python script, make sure that the above requirements are met. If these packages havent been installed on your system, you may use `pip` to install these.
+
 `pip install astropy`
 `pip install --pre astroquery`
 
