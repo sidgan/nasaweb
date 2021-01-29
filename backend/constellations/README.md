@@ -24,7 +24,9 @@ Before running the python script, make sure that the above requirements are met.
 
 Please consult the astroquery documentation https://astroquery.readthedocs.io/en/latest/ to check if any additional packages are required.
 
-Run the python script in its current state to get a .json file with latitude and longitude points for constellations.
+Run the python script in its current state to get a .json file with latitude and longitude points for constellations (const_data.json; already in repo). The output file contains lists of lists. Within each list are several lists of two elements (a tuple of sorts) - the latitude and longitude of each point, in that order. The outer list rerpresents the points that must be connected using a single line. At the end of each outer list, a new line is drawn starting from first object in the next list.
+
+(**Note**: I couldnt store python tuples in the json file. Please suggest remedies.)
 
 ***
 ## Extracting data
