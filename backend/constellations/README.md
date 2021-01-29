@@ -17,6 +17,12 @@ This program uses the following modules:
 ***
 ## Use
 
+Before running the python script, make sure that the above requirements are met. If these packages havent been installed on your system, use the following lines:
+`pip install astropy`
+`pip install --pre astroquery`
+
+Please consult the astroquery documentation https://astroquery.readthedocs.io/en/latest/ to check if any additional packages are required.
+
 Run the python script in its current state to get a .json file with latitude and longitude points for constellations.
 
 ***
