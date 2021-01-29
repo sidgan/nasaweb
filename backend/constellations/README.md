@@ -1,5 +1,3 @@
-# CAMS-web
-
 # Contellation Stick Figures
 
 This constellation drawing program uses data from the Github repository [https://github.com/dcf21/constellation-stick-figure](https://github.com/dcf21/constellation-stick-figures.)s.
