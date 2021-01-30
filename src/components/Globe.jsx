@@ -72,9 +72,7 @@ const MainSection = (props) => {
   const globeEl = React.useRef();
   const [alt, setAlt] = useState(2);
 
-  const [navigationState, setNavigationState] = useState(
-    React.useContext(NavigationContext)
-  );
+  const navigationState = React.useContext(NavigationContext);
 
   const [markers, setMarkers] = useState([]);
 
@@ -82,20 +80,22 @@ const MainSection = (props) => {
     if (date === navigationState.date) {
       console.log(`Updated! ${date} - ${navigationState.date}`);
     } else {
-      setNavigationState({
-        date: date,
-        source: navigationState.source,
-      });
+      navigationState.changeNavDate(date);
+      // setNavigationState({
+      //   date: date,
+      //   source: navigationState.source,
+      // });
     }
   };
   const handleSourceChange = (source) => {
     if (source === navigationState.source) {
       console.log('Updated!');
     } else {
-      setNavigationState({
-        date: navigationState.date,
-        source,
-      });
+      navigationState.changeSource(source);
+      // setNavigationState({
+      //   date: navigationState.date,
+      //   source,
+      // });
     }
   };
 

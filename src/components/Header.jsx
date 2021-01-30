@@ -25,7 +25,7 @@ class Header extends Component {
         <div className="search_box col-lg-3 text-right">
           <Grid container spacing={2}>
             <Grid item>
-              <NavigationBar onChange={this.props.onDateChange} />
+              <NavigationBar />
             </Grid>
 
             <Grid item>

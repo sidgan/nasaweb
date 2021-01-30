@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
@@ -6,39 +6,30 @@ import NavigationContext from '../contexts/navigation';
 import leftIcon from '../images/left-icon.png';
 import rightIcon from '../images/right-icon.png';
 
-const NavigationBar = (props) => {
-  const [navigationState, setNavigationState] = useState(
-    React.useContext(NavigationContext)
-  );
+const NavigationBar = () => {
+  const { date, changeNavDate } = React.useContext(NavigationContext);
 
   const incrementDate = () => {
     // Add One Day To Selected Date
-    const newDate = new Date(navigationState.date);
+    const newDate = new Date(date);
 
     newDate.setDate(newDate.getDate() + 1);
     const newdf = `${newDate.toISOString().slice(0, 10)}`;
-    setNavigationState({ source: navigationState.source, date: newdf });
-    props.onChange(newdf);
+    changeNavDate(newdf);
   };
 
   const decrementDate = () => {
     // Minus One Dat To Selected Date
-    const newDate = new Date(navigationState.date);
+    const newDate = new Date(date);
 
     newDate.setDate(newDate.getDate() - 1);
     const newdf = newDate.toISOString().slice(0, 10);
-    setNavigationState({ source: navigationState.source, date: newdf });
-    props.onChange(newdf);
+    changeNavDate(newdf);
   };
 
   const handleDateChange = (e) => {
-    setNavigationState({
-      source: navigationState.source,
-      date: e.target.value,
-    });
-
-    // Update Parent Component
-    props.onChange(e.target.value);
+    // Update Context
+    changeNavDate(e.target.value);
   };
 
   return (
@@ -77,7 +68,7 @@ const NavigationBar = (props) => {
               width: '180px',
             }}
             size="medium"
-            value={navigationState.date}
+            value={date}
             onChange={handleDateChange}
           />
         </Button>

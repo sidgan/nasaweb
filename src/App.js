@@ -4,7 +4,7 @@ import GroupedButton from './components/GroupedButton';
 import Timeline from './components/Timeline';
 import Footer from './components/Footer';
 import StorageContext from './contexts/storage';
-import NavigtaionContext, { getNewDate } from './contexts/navigation';
+import NavigationContext, { getNewDate } from './contexts/navigation';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { theme } from './theme';
@@ -17,9 +17,25 @@ import './style.css';
 class App extends Component {
   constructor() {
     super();
+    this.changeNavDate = (date) => {
+      this.setState({
+        navDate: date,
+      });
+    };
+
+    this.changeSource = (source) => {
+      this.setState({
+        source: source,
+      });
+    }
+
     this.state = {
       showGlobe: true,
       data: new Map(),
+      navDate: getNewDate(),
+      source: 'ALL',
+      changeNavDate: this.changeNavDate,
+      changeSource: this.changeSource,
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
   }
@@ -46,8 +62,13 @@ class App extends Component {
         <StorageContext.Provider 
           value={this.state.data}
         >
-          <NavigtaionContext.Provider
-            value={{ source: 'ALL', date: getNewDate() }}
+          <NavigationContext.Provider
+            value={{ 
+              source: this.state.source, 
+              date: this.state.navDate,
+              changeSource: this.state.changeSource,
+              changeNavDate: this.state.changeNavDate,
+            }}
           >
             <div className="App">
               <div className="globe-container">
@@ -66,7 +87,7 @@ class App extends Component {
               </div>
               <Footer />
             </div>
-          </NavigtaionContext.Provider>
+          </NavigationContext.Provider>
         </StorageContext.Provider>
       </MuiThemeProvider>
     );
