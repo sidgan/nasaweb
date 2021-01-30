@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import MainSection from './components/Globe';
 import GroupedButton from './components/GroupedButton';
+import Timeline from './components/Timeline';
 import Footer from './components/Footer';
+import StorageContext from './contexts/storage';
 import NavigtaionContext, { getNewDate } from './contexts/navigation';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import Timeline from './components/Timeline';
 import { theme } from './theme';
 
 import Responsive from 'react-responsive-decorator';
@@ -18,6 +19,7 @@ class App extends Component {
     super();
     this.state = {
       showGlobe: true,
+      data: new Map(),
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
   }
@@ -41,27 +43,31 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-        <NavigtaionContext.Provider
-          value={{ source: 'ALL', date: getNewDate() }}
+        <StorageContext.Provider 
+          value={this.state.data}
         >
-          <div className="App">
-            <div className="globe-container">
-              <div className="col-lg-12 col-sm-12 main-section">
-                <MainSection showGlobe={this.state.showGlobe} />
-              </div>
-              {this.renderTimeline()}
-              <div className="m-6">
-                <div className="guide-1">
-                  <GroupedButton
-                    showGlobe={this.state.showGlobe}
-                    toggleDisplay={this.toggleDisplay}
-                  />
+          <NavigtaionContext.Provider
+            value={{ source: 'ALL', date: getNewDate() }}
+          >
+            <div className="App">
+              <div className="globe-container">
+                <div className="col-lg-12 col-sm-12 main-section">
+                  <MainSection showGlobe={this.state.showGlobe} />
+                </div>
+                {this.renderTimeline()}
+                <div className="m-6">
+                  <div className="guide-1">
+                    <GroupedButton
+                      showGlobe={this.state.showGlobe}
+                      toggleDisplay={this.toggleDisplay}
+                    />
+                  </div>
                 </div>
               </div>
+              <Footer />
             </div>
-            <Footer />
-          </div>
-        </NavigtaionContext.Provider>
+          </NavigtaionContext.Provider>
+        </StorageContext.Provider>
       </MuiThemeProvider>
     );
   }
