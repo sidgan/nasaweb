@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import StationSelect from './Stations';
-import NavigationBar from './Navigation';
+import DatePicker from './DatePicker';
+
+import NavigationContext from '../contexts/navigation';
 
 import logo from '../images/logo.svg';
 
@@ -23,19 +25,32 @@ class Header extends Component {
           </div>
         </div>
         <div className="search_box col-lg-3 text-right">
-          <Grid container spacing={2}>
-            <Grid item>
-              <NavigationBar />
-            </Grid>
+          <NavigationContext.Consumer>
+            {(navigationState) => (
+              <Grid container spacing={2}>
+                <Grid item>
+                  <DatePicker
+                    date={navigationState.date}
+                    changeDate={navigationState.changeNavDate}
+                    showArrows={true}
+                  />
+                </Grid>
 
-            <Grid item>
-              <StationSelect onChange={this.props.onSourceChange} />
-            </Grid>
-          </Grid>
+                <Grid item>
+                  <StationSelect 
+                    source={navigationState.source}
+                    changeSource={navigationState.changeSource}
+                  />
+                </Grid>
+              </Grid>
+            )}
+          </NavigationContext.Consumer>
         </div>
       </div>
     );
   }
 }
+
+Header.contextType = NavigationContext;
 
 export default React.memo(Header);

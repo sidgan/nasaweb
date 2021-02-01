@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Header from './components/Header';
 import MainSection from './components/Globe';
 import GroupedButton from './components/GroupedButton';
 import Timeline from './components/Timeline';
@@ -31,7 +32,7 @@ class App extends Component {
 
     this.state = {
       showGlobe: true,
-      data: new Map(),
+      cachedData: new Map(),
       navDate: getNewDate(),
       source: 'ALL',
       changeNavDate: this.changeNavDate,
@@ -60,7 +61,7 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <StorageContext.Provider 
-          value={this.state.data}
+          value={this.state.cachedData}
         >
           <NavigationContext.Provider
             value={{ 
@@ -71,6 +72,7 @@ class App extends Component {
             }}
           >
             <div className="App">
+              <Header />
               <div className="globe-container">
                 <div className="col-lg-12 col-sm-12 main-section">
                   <MainSection showGlobe={this.state.showGlobe} />

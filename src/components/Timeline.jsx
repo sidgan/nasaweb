@@ -1,10 +1,12 @@
 import React from 'react';
 import DatePicker from './DatePicker';
+
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
+
 import PlayIcon from '../images/play icon.png';
 import Checkmark from '../images/Checkmark.png';
 
@@ -201,10 +203,25 @@ const StyledLabel = withStyles({
   }
 })(FormControlLabel);
 
+const getTodaysDate = () => {
+  let date = new Date();
+  return `${date.toISOString().slice(0, 10)}`;
+}
+
 
 const Timeline = () => {
 
+  const [start, setStart] = React.useState(getTodaysDate());
+  const [end, setEnd] = React.useState(getTodaysDate());
   const [loop, setLoop] = React.useState(false);
+
+  const handleStartDateChange = (date) => {
+    setStart(date);
+  };
+
+  const handleEndDateChange = (date) => {
+    setEnd(date);
+  };
 
   const toggleLoop = () => {
     setLoop(!loop);
@@ -230,7 +247,11 @@ const Timeline = () => {
       </div>
       <div className={classes.row2}>
         <div className={classes.start}>
-          <DatePicker showArrows={false} />
+          <DatePicker 
+            date={start}
+            changeDate={handleStartDateChange}
+            showArrows={false} 
+          />
         </div>
         <div className={classes.loop}>
           <StyledLabel
@@ -247,7 +268,11 @@ const Timeline = () => {
           />
         </div>
         <div className={classes.end}>
-          <DatePicker showArrows={false} />
+          <DatePicker 
+            date={end}
+            changeDate={handleEndDateChange}
+            showArrows={false} 
+          />
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import { render } from '@testing-library/react';
 import Responsive from 'react-responsive-decorator';
-import Header from './Header';
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
 import DataTooltip from './Tooltip';
@@ -72,32 +71,9 @@ const MainSection = (props) => {
   const globeEl = React.useRef();
   const [alt, setAlt] = useState(2);
 
-  const navigationState = React.useContext(NavigationContext);
+  const { date, source } = React.useContext(NavigationContext);
 
   const [markers, setMarkers] = useState([]);
-
-  const handleDateChange = (date) => {
-    if (date === navigationState.date) {
-      console.log(`Updated! ${date} - ${navigationState.date}`);
-    } else {
-      navigationState.changeNavDate(date);
-      // setNavigationState({
-      //   date: date,
-      //   source: navigationState.source,
-      // });
-    }
-  };
-  const handleSourceChange = (source) => {
-    if (source === navigationState.source) {
-      console.log('Updated!');
-    } else {
-      navigationState.changeSource(source);
-      // setNavigationState({
-      //   date: navigationState.date,
-      //   source,
-      // });
-    }
-  };
 
   const handleZoomIn = () => {
     let altitude = parseFloat(alt - 0.5);
@@ -172,11 +148,8 @@ const MainSection = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const meteorRequest = fetchMeteors(
-        navigationState.source,
-        navigationState.date
-      );
-      const starsRequest = fetchStars(navigationState.date);
+      const meteorRequest = fetchMeteors(source, date);
+      const starsRequest = fetchStars(date);
 
       await Promise.all([meteorRequest, starsRequest]).then((results) => {
         const [meteors, stars] = results;
@@ -186,16 +159,12 @@ const MainSection = (props) => {
     };
 
     fetchData();
-  }, [navigationState.date, navigationState.source, updateMarkers]);
+  }, [date, source, updateMarkers]);
 
   console.log(globeEl.current);
 
   return (
     <section>
-      <Header
-        onDateChange={handleDateChange}
-        onSourceChange={handleSourceChange}
-      />
       <div className="zoom-1">
         <ZoomButton onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
       </div>

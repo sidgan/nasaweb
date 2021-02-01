@@ -1,34 +1,39 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import InputBase from '@material-ui/core/InputBase';
+import leftIcon from '../images/left-icon.png';
+import rightIcon from '../images/right-icon.png';
 
-const DatePicker = (props) => {
-  const [value, setValue] = useState(props.selectedDate);
-
+const DatePicker = ({ date, changeDate, showArrows }) => {
   const incrementDate = () => {
     // Add One Day To Selected Date
+    const newDate = new Date(date);
+
+    newDate.setDate(newDate.getDate() + 1);
+    const newdf = `${newDate.toISOString().slice(0, 10)}`;
+    changeDate(newdf);
   };
 
   const decrementDate = () => {
-    // Minus One Dat To Selected Date
+    // Minus One Day To Selected Date
+    const newDate = new Date(date);
+
+    newDate.setDate(newDate.getDate() - 1);
+    const newdf = newDate.toISOString().slice(0, 10);
+    changeDate(newdf);
   };
 
   const handleDateChange = (e) => {
-    setValue(e.target.value);
-
-    // Update Parent Component
-    // props.onDateChange(e.target.value);
+    // Update Context
+    changeDate(e.target.value);
   };
 
-  if (props.showAarrows) {
+  if (showArrows) {
     return (
       <Grid container spacing={1}>
-        <Grid item>
+        <Grid item onClick={decrementDate}>
           <Button
-            onClick={incrementDate}
             style={{
               minHeight: '50px',
               minWidth: '50px',
@@ -36,9 +41,8 @@ const DatePicker = (props) => {
             }}
             variant="contained"
             color="secondary"
-            active
           >
-            <NavigateBeforeIcon />
+            <img src={leftIcon} alt={leftIcon}></img>
           </Button>
         </Grid>
         <Grid item>
@@ -52,21 +56,23 @@ const DatePicker = (props) => {
               fontSize: '30px',
             }}
           >
-            <TextField
+            <InputBase
               id="date"
               type="date"
+              variant="filled"
               style={{
-                fontWeight: 'bolder',
+                backgroundColor: 'transparent',
+                paddingRight: '5px',
+                width: '180px',
               }}
-              defaultValue={props.selectedDate}
-              value={value}
+              size="medium"
+              value={date}
               onChange={handleDateChange}
             />
           </Button>
         </Grid>
-        <Grid item>
+        <Grid item onClick={incrementDate}>
           <Button
-            onClick={decrementDate}
             style={{
               minHeight: '50px',
               minWidth: '50px',
@@ -74,9 +80,8 @@ const DatePicker = (props) => {
             }}
             variant="contained"
             color="secondary"
-            active
           >
-            <NavigateNextIcon />
+            <img src={rightIcon} alt={rightIcon}></img>
           </Button>
         </Grid>
       </Grid>
@@ -93,14 +98,17 @@ const DatePicker = (props) => {
           fontSize: '30px',
         }}
       >
-        <TextField
+        <InputBase
           id="date"
           type="date"
+          variant="filled"
           style={{
-            fontWeight: 'bolder',
+            backgroundColor: 'transparent',
+            paddingRight: '5px',
+            width: '180px',
           }}
-          defaultValue={props.selectedDate}
-          value={value}
+          size="medium"
+          value={date}
           onChange={handleDateChange}
         />
       </Button>
