@@ -1,12 +1,10 @@
-# CAMS-web
-
 # Contellation Stick Figures
 
 This constellation drawing program uses data from the Github repository [https://github.com/dcf21/constellation-stick-figure](https://github.com/dcf21/constellation-stick-figures.)s.
 
-This repository contains the program (link). This is a python program that iterates over the constellation data to generate a set of plots and data points suitable for the CAMS project.
+This repository contains the program https://github.com/sidgan/nasaweb/blob/constellation/backend/constellations/draw_constellation_stick.py. This is a python program that iterates over the constellation data to generate a set of plots and data points suitable for the CAMS project.
 
-This program contains has been designed to consist of a set of easy-to-modify python functions.
+This program has been designed to consist of a set of easy-to-modify python functions.
 
 ***
 ## Requirements
@@ -19,7 +17,16 @@ This program uses the following modules:
 ***
 ## Use
 
-Run the python script in its current state to get a .json file with latitude and longitude points for constellations.
+Before running the python script, make sure that the above requirements are met. If these packages havent been installed on your system, you may use `pip` to install these.
+
+`pip install astropy`
+`pip install --pre astroquery`
+
+Please consult the astroquery documentation https://astroquery.readthedocs.io/en/latest/ to check if any additional packages are required.
+
+Run the python script in its current state to get a .json file with latitude and longitude points for constellations (const_data.json; already in repo). The output file contains lists of lists. Within each list are several lists of two elements (a tuple of sorts) - the latitude and longitude of each point, in that order. The outer list rerpresents the points that must be connected using a single line. At the end of each outer list, a new line is drawn starting from first object in the next list.
+
+(**Note**: I couldnt store python tuples in the json file. Please suggest remedies.)
 
 ***
 ## Extracting data
