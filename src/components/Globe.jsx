@@ -1,13 +1,12 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import { render } from '@testing-library/react';
 import Responsive from 'react-responsive-decorator';
-import Header from './Header';
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
 import DataTooltip from './Tooltip';
 
 import globeTextureImage from '../images/background.jpg';
-import NavigationContext from '../contexts/navigation';
+import { useNavigationState } from '../contexts/navigation';
 
 import { fetchStars } from '../clients/star';
 import { fetchMeteors } from '../clients/meteor';
@@ -72,32 +71,9 @@ const MainSection = (props) => {
   const globeEl = React.useRef();
   const [alt, setAlt] = useState(2);
 
-  const [navigationState, setNavigationState] = useState(
-    React.useContext(NavigationContext)
-  );
+  const { meteors, stars } = useNavigationState();
 
   const [markers, setMarkers] = useState([]);
-
-  const handleDateChange = (date) => {
-    if (date === navigationState.date) {
-      console.log(`Updated! ${date} - ${navigationState.date}`);
-    } else {
-      setNavigationState({
-        date: date,
-        source: navigationState.source,
-      });
-    }
-  };
-  const handleSourceChange = (source) => {
-    if (source === navigationState.source) {
-      console.log('Updated!');
-    } else {
-      setNavigationState({
-        date: navigationState.date,
-        source,
-      });
-    }
-  };
 
   const handleZoomIn = () => {
     let altitude = parseFloat(alt - 0.5);
@@ -112,7 +88,6 @@ const MainSection = (props) => {
 
   const updateMarkers = useCallback((meteors, stars) => {
     let newMarkers = [];
-    const sunMarkers = [require('../json/sun.json')];
 
     meteors.forEach((m) => {
       newMarkers.push({
@@ -131,19 +106,6 @@ const MainSection = (props) => {
       });
     });
 
-    sunMarkers.forEach((m) => {
-      newMarkers.push({
-        id: newMarkers.length,
-        color: '#FDB800',
-        name: 'Sun',
-        type: '',
-        lat: 0,
-        lng: 0,
-        size: 1.5,
-        alt: 0,
-      });
-    });
-
     stars.forEach((m) => {
       newMarkers.push({
         id: m.id,
@@ -155,6 +117,18 @@ const MainSection = (props) => {
         size: starSizeScale(m.mag),
         alt: 0,
       });
+    });
+
+    // this is the Sun coordinate
+    newMarkers.push({
+      id: newMarkers.length,
+      color: '#FDB800',
+      name: 'Sun',
+      type: '',
+      lat: 0,
+      lng: 0,
+      size: 1.5,
+      alt: 0,
     });
 
     setMarkers(newMarkers);
@@ -171,31 +145,13 @@ const MainSection = (props) => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const meteorRequest = fetchMeteors(
-        navigationState.source,
-        navigationState.date
-      );
-      const starsRequest = fetchStars(navigationState.date);
-
-      await Promise.all([meteorRequest, starsRequest]).then((results) => {
-        const [meteors, stars] = results;
-
-        updateMarkers(meteors, stars);
-      });
-    };
-
-    fetchData();
-  }, [navigationState.date, navigationState.source, updateMarkers]);
+    updateMarkers(meteors, stars);
+  }, [meteors, stars]);
 
   console.log(globeEl.current);
 
   return (
     <section>
-      <Header
-        onDateChange={handleDateChange}
-        onSourceChange={handleSourceChange}
-      />
       <div className="zoom-1">
         <ZoomButton onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
       </div>
