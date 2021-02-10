@@ -8,9 +8,6 @@ import DataTooltip from './Tooltip';
 import globeTextureImage from '../images/background.jpg';
 import { useNavigationState } from '../contexts/navigation';
 
-import { fetchStars } from '../clients/star';
-import { fetchMeteors } from '../clients/meteor';
-
 // Lazy Loading React Component
 const ReactGlobe = React.lazy(() => import('react-globe.gl'));
 const StickyHeadTable = React.lazy(() => import('./Table'));
@@ -146,7 +143,7 @@ const MainSection = (props) => {
 
   useEffect(() => {
     updateMarkers(meteors, stars);
-  }, [meteors, stars]);
+  }, [meteors, stars, updateMarkers]);
 
   console.log(globeEl.current);
 

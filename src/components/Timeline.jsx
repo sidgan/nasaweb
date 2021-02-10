@@ -178,7 +178,6 @@ const Slider = () => {
   };
 
   const classes = useStyles();
-
   return (
     <>
       <div

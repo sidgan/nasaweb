@@ -49,6 +49,7 @@ export function NavigationProvider({ children }) {
   useEffect(() => {
     retrieveMeteors(date, source);
     retrieveStars(date);
+    // eslint-disable-next-line
   }, []);
 
   return (
