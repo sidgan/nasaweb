@@ -11,6 +11,7 @@ import NavigationContext from '../contexts/navigation';
 
 import { fetchStars } from '../clients/star';
 import { fetchMeteors } from '../clients/meteor';
+import { fetchConstellations } from '../clients/constellation';
 
 // Lazy Loading React Component
 const ReactGlobe = React.lazy(() => import('react-globe.gl'));
@@ -154,6 +155,7 @@ const MainSection = (props) => {
 
   // Markers State
   const [markers, setMarkers] = useState([]);
+  const [constellationMarkers, setConstellationMarkers] = useState([]);
 
   const [showDetail, setShowDetail] = useState(false);
   const [detail, setDetail] = useState('');
@@ -191,8 +193,10 @@ const MainSection = (props) => {
     }
   };
 
-  const updateMarkers = useCallback((meteors, stars) => {
+  const updateMarkers = useCallback((meteors, stars, constellations) => {
     let newMarkers = [];
+    let newConstellations = [];
+
     setShowDetail(false);
     const sunMarkers = [require('../json/sun.json')];
 
@@ -239,6 +243,47 @@ const MainSection = (props) => {
       });
     });
 
+
+    console.log(constellations);
+    constellations.forEach((m) => {
+      let name = m.name;
+
+      for (let i = 0; i < m.points[0].length; i++) {
+
+        let j = i + 1;
+        if (j >= m.points[0].length) {
+          j = 0
+        } else {
+          console.log(m.points[0][i])
+        };
+
+        newConstellations.push({
+          points: m.points[0],
+          id: newConstellations.length,
+          name: name,
+          startLat: m.points[0][i][0],
+          startLng: m.points[0][i][1],
+          endLat: m.points[0][j][0],
+          endLng: m.points[0][j][1],
+          color: "rgba(0, 0, 0, 0.5)"
+        })
+      }
+
+      // m.points[0].forEach((i) => {
+      //   let next = count + 1;
+      //   newConstellations.push({
+      //     id: newConstellations.length,
+      //     name: name,
+      //     startLat: i[0],
+      //     startLng: i[1],
+      //     endLat: m.points[0][next][0],
+      //     endLng: m.points[0][next][1],
+      //   })
+      // });
+
+    });
+
+    setConstellationMarkers(newConstellations);
     setMarkers(newMarkers);
   }, []);
 
@@ -261,11 +306,12 @@ const MainSection = (props) => {
         navigationState.date
       );
       const starsRequest = fetchStars(navigationState.date);
+      const constellationRequest = fetchConstellations(navigationState.date);
 
-      await Promise.all([meteorRequest, starsRequest]).then((results) => {
-        const [meteors, stars] = results;
+      await Promise.all([meteorRequest, starsRequest, constellationRequest]).then((results) => {
+        const [meteors, stars, constellations] = results;
 
-        updateMarkers(meteors, stars);
+        updateMarkers(meteors, stars, constellations);
       });
     };
 
@@ -316,6 +362,27 @@ const MainSection = (props) => {
               labelIncludeDot={false}
               labelColor={d => d.color}
               labelResolution={10}
+
+              arcsData={constellationMarkers}
+              arcLabel={d => d.name}
+              arcStartLat={d => d.startLat}
+              arcStartLng={d => d.startLng}
+              arcEndLat={d => d.endLat}
+              arcEndLng={d => d.endLng}
+              arcColor={d => d.color}
+              arcDashLength={1}
+              arcDashGap={0.2}
+              arcAltitude={0.1}
+
+              // pathsData={constellationMarkers}
+              // pathLabel={d => d.name}
+              // pathPoints={d => d.points}
+              // pathPointLat={d => d.startLat}
+              // pathPointLng={d => d.startLng}
+              // pathColor={d => d.color}
+              // pathPointAlt={0.005}
+              // pathDashLength={0.8}
+              // pathDashGap={0.2}
             />
           </Suspense>
         ) : (
