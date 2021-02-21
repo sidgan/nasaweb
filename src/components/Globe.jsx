@@ -1,8 +1,14 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
+<<<<<<< HEAD
 import * as THREE from 'three';
 
 // import { render } from '@testing-library/react';
 
+=======
+import Responsive from 'react-responsive-decorator';
+// import * as THREE from "three";
+import Header from './Header';
+>>>>>>> added graticle labels
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
 import DataTooltip from './Tooltip';
@@ -49,6 +55,7 @@ const colorScale = (colorCode) => {
 
 const starSizeScale = (colorCode) => {
   let code = parseFloat(colorCode) * 10;
+
   if (code >= 11 && code <= 20) {
     return 0.76;
   } else if (code >= 21 && code <= 30) {
@@ -73,29 +80,8 @@ const MainSection = (props) => {
   const [constellationMarkers, setConstellationMarkers] = useState([]);
 
   const [showDetail, setShowDetail] = useState(false);
-<<<<<<< HEAD
+
   const [detail, setDetail] = useState('');
-=======
-  const [detail, setDetail] = useState("");
-
-
-  const handleDateChange = (date) => {
-    if (date !== navigationState.date) {
-      setNavigationState({
-        date: date,
-        source: navigationState.source,
-      });
-    }
-  };
-  const handleSourceChange = (source) => {
-    if (source !== navigationState.source) {
-      setNavigationState({
-        date: navigationState.date,
-        source,
-      });
-    }
-  };
->>>>>>> fix tiny bugs
 
   const handleZoomIn = () => {
     if (parseFloat(alt) !== 0.5) {
@@ -201,14 +187,10 @@ const MainSection = (props) => {
   };
 
   const markerInfoTip = (marker) => {
-    if (marker.name === 'Sun' || marker.name === 'Star') {
-      console.log('Wrong marker clicked');
-    } else {
-      setDetail(marker);
+    setDetail(marker);
 
-      if (detail === '' || showDetail === false) {
-        setShowDetail(true);
-      }
+    if (detail === '' || showDetail === false) {
+      setShowDetail(true);
     }
   };
 

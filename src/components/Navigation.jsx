@@ -34,7 +34,6 @@ const NavigationBar = (props) => {
 
   const handleDateChange = (e) => {
     navigationState.changeDate(e);
-
     // Update Parent Component
     props.onChange(e);
   };

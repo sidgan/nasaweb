@@ -4,9 +4,12 @@ import Globe from './components/Globe';
 import GroupedButton from './components/GroupedButton';
 import Timeline from './components/Timeline';
 import Footer from './components/Footer';
+<<<<<<< HEAD
 
 import { StorageProvider } from './contexts/storage';
 import { NavigationProvider } from './contexts/navigation';
+=======
+>>>>>>> added graticle labels
 
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -48,6 +51,7 @@ class App extends Component {
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <MuiThemeProvider theme={theme}>
           <div className="App">
+<<<<<<< HEAD
             <StorageProvider>
               <NavigationProvider>
                 <Header />
@@ -57,14 +61,26 @@ class App extends Component {
                   </div>
                   {/* {this.renderTimeline()} */}
                 </div>
+=======
+            <div className="globe-container">
+              <div className="col-lg-12 col-sm-12 main-section">
+                <MainSection showGlobe={this.state.showGlobe} />
+              </div>
+              <div className="m-6">
+>>>>>>> added graticle labels
                 <div className="guide-1">
                   <GroupedButton
                     showGlobe={this.state.showGlobe}
                     toggleDisplay={this.toggleDisplay}
                   />
                 </div>
+<<<<<<< HEAD
               </NavigationProvider>
             </StorageProvider>
+=======
+              </div>
+            </div>
+>>>>>>> added graticle labels
             <Footer />
           </div>
         </MuiThemeProvider>
