@@ -1,19 +1,14 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
-<<<<<<< HEAD
 import * as THREE from 'three';
 
 // import { render } from '@testing-library/react';
 
-=======
-import Responsive from 'react-responsive-decorator';
-// import * as THREE from "three";
-import Header from './Header';
->>>>>>> added graticle labels
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
 import DataTooltip from './Tooltip';
 
 import globeTextureImage from '../images/background.jpg';
+
 import { useNavigationState } from '../contexts/navigation';
 
 // Lazy Loading React Component
@@ -178,7 +173,6 @@ const MainSection = (props) => {
       size: 3,
       alt: 0.05,
     });
-
     setMarkers(newMarkers);
   }, []);
 
@@ -260,6 +254,27 @@ const MainSection = (props) => {
               labelIncludeDot={false}
               labelColor={(d) => 'rgba(255, 255, 255, 0.75)'}
               labelResolution={10}
+
+              arcsData={constellationMarkers}
+              arcLabel={d => d.name}
+              arcStartLat={d => d.startLat}
+              arcStartLng={d => d.startLng}
+              arcEndLat={d => d.endLat}
+              arcEndLng={d => d.endLng}
+              arcColor={d => d.color}
+              arcDashLength={1}
+              arcDashGap={0.2}
+              arcAltitude={0.1}
+
+              // pathsData={constellationMarkers}
+              // pathLabel={d => d.name}
+              // pathPoints={d => d.points}
+              // pathPointLat={d => d.startLat}
+              // pathPointLng={d => d.startLng}
+              // pathColor={d => d.color}
+              // pathPointAlt={0.005}
+              // pathDashLength={0.8}
+              // pathDashGap={0.2}
             />
           </Suspense>
         ) : (
