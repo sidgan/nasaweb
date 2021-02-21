@@ -24,6 +24,7 @@
     "react-virtualized": "^9.22.2",
     "reactjs-popup": "^1.5.0",
     "source-map-explorer": "^2.5.1",
+    "three": "^0.125.2",
     "topojson": "^3.0.2"
   },
   "scripts": {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import { KeyboardDatePicker } from "@material-ui/pickers";
+import { KeyboardDatePicker } from '@material-ui/pickers';
 
 import NavigationContext from '../contexts/navigation';
 
@@ -37,11 +37,11 @@ const NavigationBar = (props) => {
   const handleDateChange = (e) => {
     setNavigationState({
       source: navigationState.source,
-      date: e.target.value,
+      date: e,
     });
 
     // Update Parent Component
-    props.onChange(e.target.value);
+    props.onChange(e);
   };
 
   return (
@@ -68,7 +68,7 @@ const NavigationBar = (props) => {
             style={{
               fontSize: '15px',
               color: 'black',
-              width: '150px'
+              width: '150px',
             }}
             value={navigationState.date}
             onChange={handleDateChange}

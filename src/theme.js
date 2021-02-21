@@ -38,53 +38,53 @@ export const theme = createMuiTheme({
     },
 
     MuiSelect: {
-        root: {
-            color: "#ffffff",
-            maxHeight: '50px',
-            minHeight: '50px'
-        }
+      root: {
+        color: '#ffffff',
+        maxHeight: '50px',
+        minHeight: '50px',
+      },
     },
 
     MuiPaper: {
-        root: {
-            color: "primary"
-        }
+      root: {
+        color: 'primary',
+      },
     },
 
     MuiPickersDay: {
-        day: {
-            color: "primary"
-        }
+      day: {
+        color: 'primary',
+      },
     },
 
     MuiIconButton: {
-        root: {
-            color: "primary"
-        }
+      root: {
+        color: 'primary',
+      },
     },
 
     MuiInputBase: {
-        root: {
-            height: "50px",
-            textTransform: "none",
-            backgroundColor: "rgba(71, 78, 116, 0.6)",
-            opacity: 0.8,
-        },
-        input: {
-            fontSize: "13px"
-        }
+      root: {
+        height: '50px',
+        textTransform: 'none',
+        backgroundColor: 'rgba(71, 78, 116, 0.6)',
+        opacity: 0.8,
+      },
+      input: {
+        fontSize: '13px',
+      },
     },
 
     MuiDatePicker: {
-        root: {
-            backgroundColor: "rgba(71, 78, 116, 0.6)",
-            // color: "primary",
-            fontSize: "1.4rem",
-            alignContent: "center",
-            maxWidth: '170px',
-            minHeight: '50px',
-            color: 'white'
-        }
+      root: {
+        backgroundColor: 'rgba(71, 78, 116, 0.6)',
+        // color: "primary",
+        fontSize: '1.4rem',
+        alignContent: 'center',
+        maxWidth: '170px',
+        minHeight: '50px',
+        color: 'white',
+      },
     },
 
     MuiMenuItem: {

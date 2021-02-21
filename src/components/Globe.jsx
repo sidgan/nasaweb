@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import Responsive from 'react-responsive-decorator';
+// import * as THREE from "three";
 import Header from './Header';
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
@@ -14,6 +15,82 @@ import { fetchMeteors } from '../clients/meteor';
 // Lazy Loading React Component
 const ReactGlobe = React.lazy(() => import('react-globe.gl'));
 const StickyHeadTable = React.lazy(() => import('./Table'));
+
+const coordinatesData = [
+  {
+    name: "-80°",
+    lat: -80,
+    lng: -80,
+    alt: 0.05,
+    radius: 1,
+    color: 'rgba(255, 255, 255, 0.5)'
+  },
+  {
+    name: "-60°",
+    lat: -60,
+    lng: -80,
+    alt: 0.05,
+    radius: 1,
+    color: 'rgba(255, 255, 255, 0.5)'
+  },
+  {
+    name: "-40°",
+    lat: -40,
+    lng: -80,
+    alt: 0.05,
+    radius: 1,
+    color: 'rgba(255, 255, 255, 0.5)'
+  },
+  {
+    name: "-20°",
+    lat: -20,
+    lng: -80,
+    alt: 0.05,
+    radius: 1,
+    color: 'rgba(255, 255, 255, 0.5)'
+  },
+  {
+    name: "0°",
+    lat: 0,
+    lng: -80,
+    alt: 0.05,
+    radius: 1,
+    color: 'rgba(255, 255, 255, 0.5)'
+  },
+  {
+    name: "20°",
+    lat: 20,
+    lng: -80,
+    alt: 0.05,
+    radius: 1,
+    color: 'rgba(255, 255, 255, 0.5)'
+  },
+  {
+    name: "40°",
+    lat: 40,
+    lng: -80,
+    alt: 0.05,
+    radius: 1,
+    color: 'rgba(255, 255, 255, 0.5)'
+  },
+  {
+    name: "60°",
+    lat: 60,
+    lng: -80,
+    alt: 0.05,
+    radius: 1,
+    color: 'rgba(255, 255, 255, 0.5)'
+  },
+  {
+    name: "80°",
+    lat: 80,
+    lng: -80,
+    alt: 0.05,
+    radius: 1,
+    color: 'rgba(255, 255, 255, 0.5)'
+  },
+]
+
 
 const colorScale = (colorCode) => {
   let code = parseFloat(colorCode);
@@ -51,20 +128,19 @@ const starScale = (colorCode) => {
 
 const starSizeScale = (colorCode) => {
   let code = parseFloat(colorCode) * 10;
-  if (code <= -2.0 && code <= 0.9)
-    return 0.46
+  if (code <= -2.0 && code <= 0.9) return 0.46;
   else if (code >= 1.0 && code <= 10) {
-    return 0.40
+    return 0.4;
   } else if (code >= 11 && code <= 20) {
-    return 0.36
+    return 0.36;
   } else if (code >= 21 && code <= 30) {
-    return 0.30
+    return 0.3;
   } else if (code >= 31 && code <= 40) {
-    return 0.24
+    return 0.24;
   } else if (code >= 41 && code <= 50) {
-    return 0.19
+    return 0.19;
   } else {
-    return 0.12
+    return 0.12;
   }
 };
 
@@ -80,8 +156,7 @@ const MainSection = (props) => {
   const [markers, setMarkers] = useState([]);
 
   const [showDetail, setShowDetail] = useState(false);
-  const [detail, setDetail] = useState("");
-
+  const [detail, setDetail] = useState('');
 
   const handleDateChange = (date) => {
     if (date !== navigationState.date) {
@@ -103,7 +178,7 @@ const MainSection = (props) => {
   const handleZoomIn = () => {
     if (parseFloat(alt) !== 0.5) {
       let altitude = parseFloat(alt - 0.5);
-      globeEl.current.pointOfView({altitude: altitude });
+      globeEl.current.pointOfView({ altitude: altitude });
       setAlt(altitude);
     }
   };
@@ -111,7 +186,7 @@ const MainSection = (props) => {
   const handleZoomOut = () => {
     if (parseFloat(alt) !== 5.5) {
       let altitude = parseFloat(alt + 0.5);
-      globeEl.current.pointOfView({altitude: altitude });
+      globeEl.current.pointOfView({ altitude: altitude });
       setAlt(altitude);
     }
   };
@@ -173,10 +248,10 @@ const MainSection = (props) => {
 
   const markerInfoTip = (marker) => {
     setDetail(marker);
-    
-    if (detail === "" || showDetail === false) {
-      setShowDetail(true)
-    };
+
+    if (detail === '' || showDetail === false) {
+      setShowDetail(true);
+    }
   };
 
   useEffect(() => {
@@ -231,6 +306,16 @@ const MainSection = (props) => {
               pointAltitude="alt"
               pointsTransitionDuration={2000}
               onPointClick={markerInfoTip}
+
+              labelsData={coordinatesData}
+              labelLat={d => d.lat}
+              labelAltitude={d => d.alt}
+              labelLng={d => d.lng}
+              labelText={d => d.name}
+              labelSize = {d => d.radius * 2}
+              labelIncludeDot={false}
+              labelColor={d => d.color}
+              labelResolution={10}
             />
           </Suspense>
         ) : (
@@ -240,14 +325,13 @@ const MainSection = (props) => {
         )}
       </div>
       <React.Fragment>
-            {showDetail ?
-                <DataTooltip
-                  meteor={detail}
-                  handleClose={() => setShowDetail(false)}
-                />
-            :
-              null}
-        </React.Fragment>
+        {showDetail ? (
+          <DataTooltip
+            meteor={detail}
+            handleClose={() => setShowDetail(false)}
+          />
+        ) : null}
+      </React.Fragment>
     </section>
   );
 };
