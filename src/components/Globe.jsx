@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import Responsive from 'react-responsive-decorator';
-// import * as THREE from "three";
+import * as THREE from "three";
 import Header from './Header';
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
@@ -17,80 +17,16 @@ import { fetchConstellations } from '../clients/constellation';
 const ReactGlobe = React.lazy(() => import('react-globe.gl'));
 const StickyHeadTable = React.lazy(() => import('./Table'));
 
-const coordinatesData = [
-  {
-    name: "-80°",
-    lat: -80,
-    lng: -80,
-    alt: 0.05,
-    radius: 1,
-    color: 'rgba(255, 255, 255, 0.5)'
-  },
-  {
-    name: "-60°",
-    lat: -60,
-    lng: -80,
-    alt: 0.05,
-    radius: 1,
-    color: 'rgba(255, 255, 255, 0.5)'
-  },
-  {
-    name: "-40°",
-    lat: -40,
-    lng: -80,
-    alt: 0.05,
-    radius: 1,
-    color: 'rgba(255, 255, 255, 0.5)'
-  },
-  {
-    name: "-20°",
-    lat: -20,
-    lng: -80,
-    alt: 0.05,
-    radius: 1,
-    color: 'rgba(255, 255, 255, 0.5)'
-  },
-  {
-    name: "0°",
-    lat: 0,
-    lng: -80,
-    alt: 0.05,
-    radius: 1,
-    color: 'rgba(255, 255, 255, 0.5)'
-  },
-  {
-    name: "20°",
-    lat: 20,
-    lng: -80,
-    alt: 0.05,
-    radius: 1,
-    color: 'rgba(255, 255, 255, 0.5)'
-  },
-  {
-    name: "40°",
-    lat: 40,
-    lng: -80,
-    alt: 0.05,
-    radius: 1,
-    color: 'rgba(255, 255, 255, 0.5)'
-  },
-  {
-    name: "60°",
-    lat: 60,
-    lng: -80,
-    alt: 0.05,
-    radius: 1,
-    color: 'rgba(255, 255, 255, 0.5)'
-  },
-  {
-    name: "80°",
-    lat: 80,
-    lng: -80,
-    alt: 0.05,
-    radius: 1,
-    color: 'rgba(255, 255, 255, 0.5)'
-  },
-]
+const meridianData = require('../json/meridianLabels.json');
+const meridianLabels = [];
+
+meridianData.labels.forEach((m) => {
+  meridianLabels.push({
+    name: m.name,
+    lat: m.lat,
+    lng: m.lng   
+  })
+});
 
 
 const colorScale = (colorCode) => {
@@ -212,8 +148,8 @@ const MainSection = (props) => {
         velocg: m.velocg,
         mag: m.mag,
         sol: m.sol,
-        size: 0.4,
-        alt: 0,
+        size: 0.5,
+        alt: 0.01,
       });
     });
 
@@ -225,8 +161,8 @@ const MainSection = (props) => {
         type: '',
         lat: 0,
         lng: 0,
-        size: 1.5,
-        alt: 0,
+        size: 3,
+        alt: 0.05,
       });
     });
 
@@ -244,10 +180,8 @@ const MainSection = (props) => {
     });
 
 
-    console.log(constellations);
     constellations.forEach((m) => {
       let name = m.name;
-
       for (let i = 0; i < m.points[0].length; i++) {
 
         let j = i + 1;
@@ -257,32 +191,24 @@ const MainSection = (props) => {
           console.log(m.points[0][i])
         };
 
-        newConstellations.push({
-          points: m.points[0],
-          id: newConstellations.length,
-          name: name,
-          startLat: m.points[0][i][0],
-          startLng: m.points[0][i][1],
-          endLat: m.points[0][j][0],
-          endLng: m.points[0][j][1],
-          color: "rgba(0, 0, 0, 0.5)"
-        })
+        if (j === 0) {
+          console.log("End here!")
+        } else {
+          newConstellations.push({
+            points: m.points[0],
+            id: newConstellations.length,
+            name: name,
+            startLng: m.points[0][i][0],
+            startLat: m.points[0][i][1],
+            endLng: m.points[0][j][0],
+            endLat: m.points[0][j][1],
+            color: "rgba(255, 0, 0, 0.4)"
+          })
+        };
       }
-
-      // m.points[0].forEach((i) => {
-      //   let next = count + 1;
-      //   newConstellations.push({
-      //     id: newConstellations.length,
-      //     name: name,
-      //     startLat: i[0],
-      //     startLng: i[1],
-      //     endLat: m.points[0][next][0],
-      //     endLng: m.points[0][next][1],
-      //   })
-      // });
-
     });
 
+    console.log(newConstellations);
     setConstellationMarkers(newConstellations);
     setMarkers(newMarkers);
   }, []);
@@ -343,46 +269,38 @@ const MainSection = (props) => {
               showGraticules={true}
               globeImageUrl={globeTextureImage}
               bumpImageUrl={globeTextureImage}
-              pointsData={markers}
-              pointLabel={markerTooltip}
-              pointLat="lat"
-              pointLng="lng"
-              pointRadius="size"
-              pointColor="color"
-              pointAltitude="alt"
-              pointsTransitionDuration={2000}
-              onPointClick={markerInfoTip}
-
-              labelsData={coordinatesData}
-              labelLat={d => d.lat}
-              labelAltitude={d => d.alt}
-              labelLng={d => d.lng}
-              labelText={d => d.name}
-              labelSize = {d => d.radius * 2}
-              labelIncludeDot={false}
-              labelColor={d => d.color}
-              labelResolution={10}
 
               arcsData={constellationMarkers}
-              arcLabel={d => d.name}
+              arcLabel={markerTooltip}
               arcStartLat={d => d.startLat}
               arcStartLng={d => d.startLng}
               arcEndLat={d => d.endLat}
               arcEndLng={d => d.endLng}
               arcColor={d => d.color}
-              arcDashLength={1}
-              arcDashGap={0.2}
-              arcAltitude={0.1}
+              arcAltitude={0}
+              arcStroke={0.25}
+              arcDashAnimateTime={2500}
 
-              // pathsData={constellationMarkers}
-              // pathLabel={d => d.name}
-              // pathPoints={d => d.points}
-              // pathPointLat={d => d.startLat}
-              // pathPointLng={d => d.startLng}
-              // pathColor={d => d.color}
-              // pathPointAlt={0.005}
-              // pathDashLength={0.8}
-              // pathDashGap={0.2}
+              customLayerData={markers}
+              customThreeObject={d => new THREE.Mesh(
+                new THREE.SphereBufferGeometry(d.size),
+                new THREE.MeshLambertMaterial({ color: d.color })
+              )}
+              customThreeObjectUpdate={(obj, d) => {
+                Object.assign(obj.position, globeEl.current.getCoords(d.lat, d.lng, d.alt));
+              }}
+              onCustomLayerClick={markerInfoTip}
+              customLayerLabel={markerTooltip}
+
+              labelsData={meridianLabels}
+              labelLat={d => d.lat}
+              labelAltitude={0.1}
+              labelLng={d => d.lng}
+              labelText={d => d.name}
+              labelSize = {2}
+              labelIncludeDot={false}
+              labelColor={d => "rgba(255, 255, 255, 0.75)"}
+              labelResolution={10}
             />
           </Suspense>
         ) : (

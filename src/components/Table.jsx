@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     width: '60%',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '67vh',
+    height: '70vh',
     marginTop: '100px',
     marginBottom: '175px',
     marginLeft: '250px',
@@ -40,7 +40,7 @@ const useStyles = makeStyles({
 export default function StickyHeadTable(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(6);
 
   const [rows, setRows] = React.useState([]);
 
@@ -49,7 +49,7 @@ export default function StickyHeadTable(props) {
 
     let names = [];
     props.markers.forEach((m) => {
-      if (m.type === 'meteor' && m.iau !== 0) {
+      if (m.type === 'meteor') {
         // Count the occurences
         var num = props.markers.reduce(function (n, person) {
           return n + (person.iau === m.iau);
@@ -155,7 +155,7 @@ export default function StickyHeadTable(props) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[6, 12, 18, 24, 30]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}

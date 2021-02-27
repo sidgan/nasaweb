@@ -72,7 +72,7 @@ const NavigationBar = (props) => {
             }}
             value={navigationState.date}
             onChange={handleDateChange}
-            allowKeyboardControl={false}
+            allowKeyboardControl={true}
             minDate="2010-04-14"
             maxDate={`${new Date()}`}
           />
