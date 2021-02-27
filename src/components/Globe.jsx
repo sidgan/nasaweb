@@ -229,7 +229,6 @@ const MainSection = (props) => {
                   new THREE.SphereBufferGeometry(d.size),
                   new THREE.MeshLambertMaterial({
                     color: d.color,
-                    cursor: 'pointer',
                   })
                 )
               }
@@ -254,27 +253,6 @@ const MainSection = (props) => {
               labelIncludeDot={false}
               labelColor={(d) => 'rgba(255, 255, 255, 0.75)'}
               labelResolution={10}
-
-              arcsData={constellationMarkers}
-              arcLabel={d => d.name}
-              arcStartLat={d => d.startLat}
-              arcStartLng={d => d.startLng}
-              arcEndLat={d => d.endLat}
-              arcEndLng={d => d.endLng}
-              arcColor={d => d.color}
-              arcDashLength={1}
-              arcDashGap={0.2}
-              arcAltitude={0.1}
-
-              // pathsData={constellationMarkers}
-              // pathLabel={d => d.name}
-              // pathPoints={d => d.points}
-              // pathPointLat={d => d.startLat}
-              // pathPointLng={d => d.startLng}
-              // pathColor={d => d.color}
-              // pathPointAlt={0.005}
-              // pathDashLength={0.8}
-              // pathDashGap={0.2}
             />
           </Suspense>
         ) : (
