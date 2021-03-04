@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import Responsive from 'react-responsive-decorator';
-import * as THREE from "three";
+import * as THREE from 'three';
 import Header from './Header';
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
@@ -24,10 +24,9 @@ meridianData.labels.forEach((m) => {
   meridianLabels.push({
     name: m.name,
     lat: m.lat,
-    lng: m.lng   
-  })
+    lng: m.lng,
+  });
 });
-
 
 const colorScale = (colorCode) => {
   let code = parseFloat(colorCode);
@@ -179,20 +178,18 @@ const MainSection = (props) => {
       });
     });
 
-
     constellations.forEach((m) => {
       let name = m.name;
       for (let i = 0; i < m.points[0].length; i++) {
-
         let j = i + 1;
         if (j >= m.points[0].length) {
-          j = 0
+          j = 0;
         } else {
-          console.log(m.points[0][i])
-        };
+          console.log(m.points[0][i]);
+        }
 
         if (j === 0) {
-          console.log("End here!")
+          console.log('End here!');
         } else {
           newConstellations.push({
             points: m.points[0],
@@ -202,9 +199,9 @@ const MainSection = (props) => {
             startLat: m.points[0][i][1],
             endLng: m.points[0][j][0],
             endLat: m.points[0][j][1],
-            color: "rgba(255, 0, 0, 0.4)"
-          })
-        };
+            color: '#302f2f',
+          });
+        }
       }
     });
 
@@ -234,7 +231,11 @@ const MainSection = (props) => {
       const starsRequest = fetchStars(navigationState.date);
       const constellationRequest = fetchConstellations(navigationState.date);
 
-      await Promise.all([meteorRequest, starsRequest, constellationRequest]).then((results) => {
+      await Promise.all([
+        meteorRequest,
+        starsRequest,
+        constellationRequest,
+      ]).then((results) => {
         const [meteors, stars, constellations] = results;
 
         updateMarkers(meteors, stars, constellations);
@@ -269,37 +270,38 @@ const MainSection = (props) => {
               showGraticules={true}
               globeImageUrl={globeTextureImage}
               bumpImageUrl={globeTextureImage}
-
               arcsData={constellationMarkers}
               arcLabel={markerTooltip}
-              arcStartLat={d => d.startLat}
-              arcStartLng={d => d.startLng}
-              arcEndLat={d => d.endLat}
-              arcEndLng={d => d.endLng}
-              arcColor={d => d.color}
+              arcStartLat={(d) => d.startLat}
+              arcStartLng={(d) => d.startLng}
+              arcEndLat={(d) => d.endLat}
+              arcEndLng={(d) => d.endLng}
+              arcColor={(d) => d.color}
               arcAltitude={0}
-              arcStroke={0.25}
-              arcDashAnimateTime={2500}
-
+              arcStroke={0.125}
               customLayerData={markers}
-              customThreeObject={d => new THREE.Mesh(
-                new THREE.SphereBufferGeometry(d.size),
-                new THREE.MeshLambertMaterial({ color: d.color })
-              )}
+              customThreeObject={(d) =>
+                new THREE.Mesh(
+                  new THREE.SphereBufferGeometry(d.size),
+                  new THREE.MeshLambertMaterial({ color: d.color })
+                )
+              }
               customThreeObjectUpdate={(obj, d) => {
-                Object.assign(obj.position, globeEl.current.getCoords(d.lat, d.lng, d.alt));
+                Object.assign(
+                  obj.position,
+                  globeEl.current.getCoords(d.lat, d.lng, d.alt)
+                );
               }}
               onCustomLayerClick={markerInfoTip}
               customLayerLabel={markerTooltip}
-
               labelsData={meridianLabels}
-              labelLat={d => d.lat}
+              labelLat={(d) => d.lat}
               labelAltitude={0.1}
-              labelLng={d => d.lng}
-              labelText={d => d.name}
-              labelSize = {2}
+              labelLng={(d) => d.lng}
+              labelText={(d) => d.name}
+              labelSize={1}
               labelIncludeDot={false}
-              labelColor={d => "rgba(255, 255, 255, 0.75)"}
+              labelColor={(d) => 'rgba(255, 255, 255, 0.75)'}
               labelResolution={10}
             />
           </Suspense>
