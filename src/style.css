@@ -148,7 +148,7 @@ h2 {
   font-style: normal;
   font-weight: 500;
   justify-content: center;
-  color: white;
+  color: rgba(255, 255, 255, 0.6);
   background: transparent;
   height: 5vh;
   bottom: 0;
@@ -159,11 +159,20 @@ h2 {
 .footer div div div p {
   position: inherit;
   float: left;
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 14px;
+  line-height: 18.5px;
   margin-top: 1vh;
   margin-left: 1.7vw;
   letter-spacing: 0.1em;
+}
+
+.footer-tab a {
+  margin-left: 0.5vw;
+  font-style: bold;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18.46px;
+  color: #ffffff;
 }
 
 .footer_nav {
@@ -177,6 +186,7 @@ h2 {
   justify-items: right;
   right: 2vw;
   width: auto;
+  color: #ffffff;
 }
 
 .footer_nav h5 {

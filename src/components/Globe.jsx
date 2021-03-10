@@ -180,29 +180,31 @@ const MainSection = (props) => {
 
     constellations.forEach((m) => {
       let name = m.name;
-      for (let i = 0; i < m.points[0].length; i++) {
-        let j = i + 1;
-        if (j >= m.points[0].length) {
-          j = 0;
-        } else {
-          console.log(m.points[0][i]);
-        }
+      m.points.forEach((p) => {
+        for (let i = 0; i < p.length; i++) {
+          let j = i + 1;
+          if (j >= p.length) {
+            j = 0;
+          } else {
+            console.log(p[i]);
+          }
 
-        if (j === 0) {
-          console.log('End here!');
-        } else {
-          newConstellations.push({
-            points: m.points[0],
-            id: newConstellations.length,
-            name: name,
-            startLng: m.points[0][i][0],
-            startLat: m.points[0][i][1],
-            endLng: m.points[0][j][0],
-            endLat: m.points[0][j][1],
-            color: '#302f2f',
-          });
+          if (j === 0) {
+            console.log('End here!');
+          } else {
+            newConstellations.push({
+              points: p,
+              id: newConstellations.length,
+              name: name,
+              startLng: p[i][0],
+              startLat: p[i][1],
+              endLng: p[j][0],
+              endLat: p[j][1],
+              color: '#302f2f',
+            });
+          }
         }
-      }
+      });
     });
 
     console.log(newConstellations);

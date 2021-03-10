@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Responsive from 'react-responsive-decorator';
 
+import SpaceMl from '../images/spaceml.png';
+
 class Footer extends Component {
   state = {};
 
@@ -11,7 +13,17 @@ class Footer extends Component {
           <div className="col-md-12">
             <div className="row">
               <div className="col-md-10 text-left">
-                <p>
+                <p className="footer-tab">
+                  Built by:
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://www.seti.org"
+                  >
+                    <img src={SpaceMl} alt={SpaceMl}></img>
+                  </a>
+                </p>
+                <p className="footer-tab">
                   Hosted by:
                   <a
                     target="_blank"
@@ -21,7 +33,7 @@ class Footer extends Component {
                     The SETI Institute
                   </a>
                 </p>
-                <p>
+                <p className="footer-tab">
                   Curator:
                   <a
                     target="_blank"
@@ -29,16 +41,6 @@ class Footer extends Component {
                     href="mailto:petrus.m.jenniskens@nasa.gov"
                   >
                     Peter Jenniskens
-                  </a>
-                </p>
-                <p>
-                  Responsible NASA Official:
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="http://cams.seti.org"
-                  >
-                    Lindley Johnson
                   </a>
                 </p>
               </div>
