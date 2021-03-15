@@ -217,14 +217,20 @@ const MainSection = (props) => {
   };
 
   const markerInfoTip = (marker) => {
-    setDetail(marker);
+    if (marker.name === 'Sun' || marker.name === 'Star') {
+      console.log('Wrong marker clicked');
+    } else {
+      setDetail(marker);
 
-    if (detail === '' || showDetail === false) {
-      setShowDetail(true);
+      if (detail === '' || showDetail === false) {
+        setShowDetail(true);
+      }
     }
   };
 
   useEffect(() => {
+    globeEl.current.pointOfView({ lat: 0, lng: 180, altitude: alt });
+
     const fetchData = async () => {
       const meteorRequest = fetchMeteors(
         navigationState.source,
@@ -245,7 +251,7 @@ const MainSection = (props) => {
     };
 
     fetchData();
-  }, [navigationState.date, navigationState.source, updateMarkers]);
+  }, [navigationState.date, navigationState.source, updateMarkers, alt]);
 
   console.log(globeEl.current);
 
