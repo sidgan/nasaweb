@@ -181,16 +181,21 @@ const MainSection = (props) => {
   };
 
   const markerInfoTip = (marker) => {
-    setDetail(marker);
+    if (marker.name === 'Sun' || marker.name === 'Star') {
+      console.log('Wrong marker clicked');
+    } else {
+      setDetail(marker);
 
-    if (detail === '' || showDetail === false) {
-      setShowDetail(true);
+      if (detail === '' || showDetail === false) {
+        setShowDetail(true);
+      }
     }
   };
 
   useEffect(() => {
     updateMarkers(meteors, stars, constellations);
   }, [meteors, stars, constellations, updateMarkers]);
+
 
   console.log(globeEl.current);
 

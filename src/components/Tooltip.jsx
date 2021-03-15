@@ -65,7 +65,6 @@ const DataTooltip = withStyles(styles)((props) => {
   const [url] = useState(
     `https://www.meteorshowers.org/view/iau-${props.meteor.iau}`
   );
-
   const handleRedirect = () => {
     window.location.href = url;
   };
