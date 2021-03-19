@@ -12,13 +12,13 @@ class Footer extends Component {
         <div className="footer">
           <div className="col-md-12">
             <div className="row">
-              <div className="col-md-10 text-left">
+              <div className="col-md-8 text-left">
                 <p className="footer-tab">
                   Built by:
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="https://www.seti.org"
+                    href="http://spaceml.org/"
                   >
                     <img src={SpaceMl} alt={SpaceMl}></img>
                   </a>
@@ -38,14 +38,14 @@ class Footer extends Component {
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="mailto:petrus.m.jenniskens@nasa.gov"
+                    href="https://www.seti.org/our-scientists/peter-jenniskens"
                   >
                     Peter Jenniskens
                   </a>
                 </p>
               </div>
 
-              <div className="col-md-2 footer_nav text-right">
+              <div className="col-lg-4 footer_nav text-right">
                 <h5>About</h5>
                 <h5>Start a network</h5>
                 <h5>CAMS</h5>

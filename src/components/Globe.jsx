@@ -50,33 +50,18 @@ const colorScale = (colorCode) => {
   }
 };
 
-const starScale = (colorCode) => {
-  let code = parseFloat(colorCode);
-
-  if (code <= 0) {
-    return 'rgba(0, 0, 0, 0.4)';
-  } else if (code <= 1) {
-    return 'rgba(0, 0, 0, 0.6)';
-  } else {
-    return 'rgba(0, 0, 0, 0.8)';
-  }
-};
-
 const starSizeScale = (colorCode) => {
   let code = parseFloat(colorCode) * 10;
-  if (code <= -2.0 && code <= 0.9) return 0.46;
-  else if (code >= 1.0 && code <= 10) {
-    return 0.4;
-  } else if (code >= 11 && code <= 20) {
-    return 0.36;
+  if (code >= 11 && code <= 20) {
+    return 0.76;
   } else if (code >= 21 && code <= 30) {
-    return 0.3;
+    return 0.52;
   } else if (code >= 31 && code <= 40) {
     return 0.24;
   } else if (code >= 41 && code <= 50) {
-    return 0.19;
+    return 0.22;
   } else {
-    return 0.12;
+    return 0.21;
   }
 };
 
@@ -168,7 +153,7 @@ const MainSection = (props) => {
     stars.forEach((m) => {
       newMarkers.push({
         id: m.id,
-        color: starScale(m.color),
+        color: 'rgb(0, 0, 0)',
         name: 'Star',
         type: 'star',
         lat: m.location.coordinates[1],
@@ -229,8 +214,6 @@ const MainSection = (props) => {
   };
 
   useEffect(() => {
-    globeEl.current.pointOfView({ lat: 0, lng: 180, altitude: alt });
-
     const fetchData = async () => {
       const meteorRequest = fetchMeteors(
         navigationState.source,
@@ -273,7 +256,7 @@ const MainSection = (props) => {
               width={window.innerWidth - 50}
               height={window.innerHeight}
               altitude={alt}
-              backgroundColor="#1C00ff00"
+              backgroundColor="#070c26"
               backgroundImageUrl={null}
               showGraticules={true}
               globeImageUrl={globeTextureImage}

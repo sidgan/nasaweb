@@ -11,11 +11,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
+  { id: 'name', label: 'Meteor Name', minWidth: 170 },
   { id: 'iau', label: 'IAU Number', minWidth: 100 },
   {
     id: 'total',
-    label: 'Total Number',
+    label: 'TOTAL COUNT',
     minWidth: 170,
   },
 ];
@@ -95,7 +95,7 @@ export default function StickyHeadTable(props) {
     >
       <Grid item xs={12}>
         <TableContainer className={classes.container}>
-          <Table stickyHeader aria-label="sticky table">
+          <Table aria-label="sticky table">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (

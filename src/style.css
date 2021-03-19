@@ -162,7 +162,7 @@ h2 {
   font-size: 14px;
   line-height: 18.5px;
   margin-top: 1vh;
-  margin-left: 1.7vw;
+  margin-left: 1vw;
   letter-spacing: 0.1em;
 }
 
@@ -177,12 +177,13 @@ h2 {
 
 .footer_nav {
   display: flex;
+  float: right;
   margin-right: 0;
   text-align: right;
   flex-direction: row;
   align-items: right;
   padding: 0px;
-  border-left: 1px;
+  border-left: 1vw;
   justify-items: right;
   right: 2vw;
   width: auto;
@@ -190,6 +191,7 @@ h2 {
 }
 
 .footer_nav h5 {
+  float: right;
   font-size: 14px;
   line-height: 18.46px;
   letter-spacing: 0.1em;
