@@ -50,7 +50,6 @@ const colorScale = (colorCode) => {
 
 const starSizeScale = (colorCode) => {
   let code = parseFloat(colorCode) * 10;
-
   if (code >= 11 && code <= 20) {
     return 0.76;
   } else if (code >= 21 && code <= 30) {
