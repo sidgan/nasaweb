@@ -145,8 +145,6 @@ const MainSection = (props) => {
     updateMarkers(meteors, stars);
   }, [meteors, stars, updateMarkers]);
 
-  console.log(globeEl.current);
-
   return (
     <section>
       <div className="zoom-1">

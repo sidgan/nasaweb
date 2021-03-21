@@ -25,22 +25,15 @@ const Header = () => {
         </div>
       </div>
       <div className="search_box col-lg-3 text-right">
-        <Grid container spacing={2}>
-          <Grid item>
-            <DatePicker
-              date={navigationState.date}
-              changeDate={navigationState.changeDate}
-              showArrows={true}
-            />
-          </Grid>
-
-          <Grid item>
-            <StationSelect
-              source={navigationState.source}
-              changeSource={navigationState.changeSource}
-            />
-          </Grid>
-        </Grid>
+        <DatePicker
+          date={navigationState.date}
+          changeDate={navigationState.changeDate}
+          showArrows={true}
+        />
+        <StationSelect
+          source={navigationState.source}
+          changeSource={navigationState.changeSource}
+        />
       </div>
     </div>
   );

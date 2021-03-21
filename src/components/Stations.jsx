@@ -41,7 +41,6 @@ const StationSelect = ({ source, changeSource }) => {
   const classes = useStyles();
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     if (event.target.value === 'ALL LOCATIONS') {
       changeSource('ALL');
     } else {
