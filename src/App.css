@@ -7,25 +7,10 @@
   width: 100%;
 }
 
-.main-section {
-  height: 95vh;
-  width: 100vw;
-}
-
 .switch {
   position: inherit;
   background: transparent;
   justify-items: baseline;
-}
-
-.globe-container {
-  display: inline-flex;
-  fill-opacity: inherit;
-  height: 80%;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  border-bottom: 0;
 }
 
 .timeline-container {

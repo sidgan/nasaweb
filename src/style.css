@@ -2,6 +2,10 @@
   display: flex;
   justify-content: space-between;
   z-index: 999;
+  background: transparent;
+  padding: 24px 24px 0 24px;
+  position: absolute;
+  width: 100%;
 }
 
 /* HEADER STYLES */
@@ -17,18 +21,20 @@
   text-align-last: left;
   text-shadow: blue;
   color: #ffffff;
-  margin-top: 5vh;
-  margin-left: 1.7vw;
   flex: 0 0 auto;
 }
 
 .logo_item {
-  justify-content: center;
-  margin: 4px;
+  margin-right: 4px;
 }
 
 .search_box {
+  display: flex;
   flex: 0 0 auto;
+}
+
+.datepicker_container {
+  margin-right: 16px;
 }
 
 h2 {
@@ -70,13 +76,6 @@ h2 {
     margin: 1px;
   }
 }
-/* END HEADER */
-
-/* .content {
-  position: absolute;
-  justify-content: center;
-  align-content: center;
-} */
 
 .zoom-1 {
   position: fixed;
@@ -88,14 +87,14 @@ h2 {
 .guide-1 {
   position: fixed;
   bottom: 70px;
-  right: 70px;
+  right: 24px;
 }
 
 .overlay Button {
   position: absolute;
   bottom: 200px;
   right: 110px;
-  color: rgba(223, 223, 236, 0.863);
+  color: rgba(223, 223, 23AAAAA6, 0.863);
   background-color: rgba(0, 66, 128, 0.856);
 }
 
@@ -107,68 +106,72 @@ h2 {
   left: 150px;
 }
 
-/* .footer {
+.content {
+  height: 100%;
+}
 
-  border: 1px lightblue;
-  width: 100%;
-  height: 48px;
-  position: relative;
-  color: rgba(223, 223, 236, 0.863);
-  background-color: rgba(0, 66, 128, 0.856);
-  font-weight: bolder;
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  box-sizing: border-box;
-} */
+.globe-container {
+  display: block;
+  fill-opacity: inherit;
+  height: 100vh;
+  width: 100vw;
+}
+
+.globe-content {
+  height: 100%;
+}
 
 .footer {
-  position: relative;
-  flex-direction: row;
-  justify-content: center;
+  position: fixed;
+  bottom: -60px;
+  display: flex;
+  justify-content: space-between;
   width: 100%;
-  flex: 1;
   letter-spacing: 0.01em;
   font-family: Roboto Mono;
   font-style: normal;
   font-weight: 500;
-  justify-content: center;
   color: white;
   background: transparent;
-  height: 5vh;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  /* margin: 0 24px; */
 }
 
-.footer div div div p {
-  position: inherit;
-  float: left;
+.footer-credit {
+  display: flex;
+  margin-left: 24px;
+}
+
+.footer-credit-section {
   font-size: 12px;
   line-height: 16px;
-  margin-top: 1vh;
-  margin-left: 1.7vw;
   letter-spacing: 0.1em;
+}
+
+.footer-credit-section + .footer-credit-section {
+  margin-left: 16px;
 }
 
 .footer_nav {
   display: flex;
-  margin-right: 0;
-  text-align: right;
-  flex-direction: row;
-  align-items: right;
-  padding: 0px;
-  border-left: 1px;
-  justify-items: right;
-  right: 2vw;
-  width: auto;
+  flex: 0 0 auto;
+  margin-right: 24px;
 }
 
-.footer_nav h5 {
+.footer-nav-link {
   font-size: 14px;
   line-height: 18.46px;
   letter-spacing: 0.1em;
-  margin-right: 0;
-  margin-left: 20px;
-  text-align: right;
+}
+
+.footer-nav-link + .footer-nav-link {
+  margin-left: 16px;
+}
+
+.pre-loader {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* TABLE SECTION STYLES */

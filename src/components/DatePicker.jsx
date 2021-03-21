@@ -31,87 +31,89 @@ const DatePicker = ({ date, changeDate, showArrows }) => {
 
   if (showArrows) {
     return (
-      <Grid container spacing={1}>
-        <Grid item onClick={decrementDate}>
-          <Button
-            style={{
-              minHeight: '50px',
-              minWidth: '50px',
-              fontSize: '30px',
-            }}
-            variant="contained"
-            color="secondary"
-          >
-            <img src={leftIcon} alt={leftIcon}></img>
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            id="date"
-            color="secondary"
-            variant="contained"
-            style={{
-              maxWidth: '150px',
-              minHeight: '50px',
-              fontSize: '30px',
-            }}
-          >
-            <InputBase
-              id="date"
-              type="date"
-              variant="filled"
+      <div className="datepicker_container">
+        <Grid container spacing={1}>
+          <Grid item onClick={decrementDate}>
+            <Button
               style={{
-                backgroundColor: 'transparent',
-                paddingRight: '5px',
-                width: '180px',
+                minHeight: '50px',
+                minWidth: '50px',
+                fontSize: '30px',
               }}
-              size="medium"
-              value={date}
-              onChange={handleDateChange}
-            />
-          </Button>
+              variant="contained"
+              color="secondary"
+            >
+              <img src={leftIcon} alt={leftIcon}></img>
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              id="date"
+              color="secondary"
+              variant="contained"
+              style={{
+                maxWidth: '150px',
+                minHeight: '50px',
+                fontSize: '30px',
+              }}
+            >
+              <InputBase
+                id="date"
+                type="date"
+                variant="filled"
+                style={{
+                  backgroundColor: 'transparent',
+                }}
+                size="medium"
+                value={date}
+                onChange={handleDateChange}
+              />
+            </Button>
+          </Grid>
+          <Grid item onClick={incrementDate}>
+            <Button
+              style={{
+                minHeight: '50px',
+                minWidth: '50px',
+                fontSize: '30px',
+              }}
+              variant="contained"
+              color="secondary"
+            >
+              <img src={rightIcon} alt={rightIcon}></img>
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item onClick={incrementDate}>
-          <Button
-            style={{
-              minHeight: '50px',
-              minWidth: '50px',
-              fontSize: '30px',
-            }}
-            variant="contained"
-            color="secondary"
-          >
-            <img src={rightIcon} alt={rightIcon}></img>
-          </Button>
-        </Grid>
-      </Grid>
+      </div>
     );
   } else {
     return (
-      <Button
-        id="date"
-        color="secondary"
-        variant="contained"
-        style={{
-          maxWidth: '150px',
-          minHeight: '50px',
-          fontSize: '30px',
-        }}
-      >
-        <InputBase
+      <div className="datepicker_container">
+        <Button
           id="date"
-          type="date"
-          variant="filled"
+          color="secondary"
+          variant="contained"
           style={{
-            backgroundColor: 'transparent',
-            paddingRight: '5px',
-            width: '180px',
+            maxWidth: '150px',
+            minHeight: '50px',
+            fontSize: '30px',
           }}
-          size="medium"
-          value={date}
-          onChange={handleDateChange}
-        />
-      </Button>
+        >
+          <InputBase
+            id="date"
+            type="date"
+            variant="filled"
+            style={{
+              backgroundColor: 'transparent',
+              paddingRight: '5px',
+              width: '180px',
+            }}
+            size="medium"
+            value={date}
+            onChange={handleDateChange}
+          />
+        </Button>
+      </div>
     );
   }
 };

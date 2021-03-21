@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import { render } from '@testing-library/react';
-import Responsive from 'react-responsive-decorator';
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
 import DataTooltip from './Tooltip';
@@ -146,12 +145,12 @@ const MainSection = (props) => {
   }, [meteors, stars, updateMarkers]);
 
   return (
-    <section>
+    <div className="globe-container">
       <div className="zoom-1">
         <ZoomButton onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
       </div>
 
-      <div className="content">
+      <div className="globe-content">
         {props.showGlobe ? (
           <Suspense fallback={<Preloader />}>
             <ReactGlobe
@@ -181,8 +180,8 @@ const MainSection = (props) => {
           </Suspense>
         )}
       </div>
-    </section>
+    </div>
   );
 };
 
-export default React.memo(Responsive(MainSection));
+export default React.memo(MainSection);
