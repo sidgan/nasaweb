@@ -12,6 +12,11 @@ import { useNavigationState } from '../contexts/navigation';
 const ReactGlobe = React.lazy(() => import('react-globe.gl'));
 const StickyHeadTable = React.lazy(() => import('./Table'));
 
+const url = new URL(window.location);
+let urlParams = new URLSearchParams();
+urlParams.append('lat', -13);
+console.log(url + urlParams);
+
 const meridianData = require('../json/meridianLabels.json');
 const meridianLabels = [];
 
@@ -254,6 +259,17 @@ const MainSection = (props) => {
               labelIncludeDot={false}
               labelColor={(d) => 'rgba(255, 255, 255, 0.75)'}
               labelResolution={10}
+              onZoom={(pov) => {
+                console.log('moved');
+                console.log(
+                  'lat: ',
+                  pov.lat,
+                  ' lng: ',
+                  pov.lng,
+                  ' altitude: ',
+                  pov.altitude
+                );
+              }}
             />
           </Suspense>
         ) : (
