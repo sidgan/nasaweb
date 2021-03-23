@@ -195,7 +195,7 @@ const MainSection = (props) => {
 
   console.log(globeEl.current);
 
-  const elem = document.getElementById('Globe')
+  const elem = document.getElementById('Globe');
 
   return (
     <section>
