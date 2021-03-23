@@ -41,7 +41,6 @@ const StationSelect = ({ source, changeSource }) => {
   const classes = useStyles();
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     if (event.target.value === 'ALL LOCATIONS') {
       changeSource('ALL');
     } else {
@@ -50,37 +49,35 @@ const StationSelect = ({ source, changeSource }) => {
   };
 
   return (
-    <div>
-      <FormControl variant="outlined" className={classes.formControl}>
-        <Select
-          native
-          style={{
-            backgroundColor: 'rgba(71, 78, 116, 0.6)',
-            color: 'rgba(223, 223, 236)',
-            maxHeight: '50px',
-            minHeight: '50px',
-          }}
-          value={source}
-          onChange={handleChange}
-          inputProps={{
-            name: 'age',
-          }}
-        >
-          {options.map((option) => (
-            <option
-              style={{
-                backgroundColor: 'rgba(71, 78, 116, 0.4)',
-                borderRadius: '4px',
-              }}
-              value={option}
-              key={option}
-            >
-              {option}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
+    <FormControl variant="outlined" className={classes.formControl}>
+      <Select
+        native
+        style={{
+          backgroundColor: 'rgba(71, 78, 116, 0.4)',
+          color: 'rgba(223, 223, 236)',
+          height: '50px',
+          width: '200px',
+        }}
+        value={source}
+        onChange={handleChange}
+        inputProps={{
+          name: 'age',
+        }}
+      >
+        {options.map((option) => (
+          <option
+            style={{
+              backgroundColor: 'rgba(71, 78, 116, 0.4)',
+              borderRadius: '4px',
+            }}
+            value={option}
+            key={option}
+          >
+            {option}
+          </option>
+        ))}
+      </Select>
+    </FormControl>
   );
 };
 

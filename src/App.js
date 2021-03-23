@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from './components/Header';
-import MainSection from './components/Globe';
+import Globe from './components/Globe';
 import GroupedButton from './components/GroupedButton';
 import Timeline from './components/Timeline';
 import Footer from './components/Footer';

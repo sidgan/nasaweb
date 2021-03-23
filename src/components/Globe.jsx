@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
-import Responsive from 'react-responsive-decorator';
 import * as THREE from 'three';
+
+import { render } from '@testing-library/react';
 
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
@@ -198,12 +199,11 @@ const MainSection = (props) => {
   const elem = document.getElementById('Globe');
 
   return (
-    <section>
+    <div className="globe-container">
       <div className="zoom-1">
         <ZoomButton onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
       </div>
-
-      <div className="content" id="Globe">
+      <div className="globe-content" id="Globe">
         {props.showGlobe ? (
           <Suspense fallback={<Preloader />}>
             <ReactGlobe
@@ -272,8 +272,9 @@ const MainSection = (props) => {
           />
         ) : null}
       </React.Fragment>
-    </section>
+    </div>
+
   );
 };
 
-export default React.memo(Responsive(MainSection));
+export default React.memo(MainSection);
