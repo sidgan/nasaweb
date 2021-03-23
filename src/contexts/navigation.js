@@ -10,8 +10,7 @@ function getNewDate() {
   let date = new Date();
   date.setDate(date.getDate() - 1);
 
-  // return `${date.toISOString().slice(0, 10)}`;
-  return '2021-01-28';
+  return `${date.toISOString().slice(0, 10)}`;
 }
 
 const NavigationContext = React.createContext();

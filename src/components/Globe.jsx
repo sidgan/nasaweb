@@ -198,14 +198,23 @@ const MainSection = (props) => {
 
   console.log(globeEl.current);
 
+<<<<<<< HEAD
   const elem = document.getElementById('Globe');
+=======
+  const elem = document.getElementById('Globe')
+>>>>>>> more cosmetic upgrades
 
   return (
     <div className="globe-container">
       <div className="zoom-1">
         <ZoomButton onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
       </div>
+<<<<<<< HEAD
       <div className="globe-content" id="Globe">
+=======
+
+      <div className="content" id="Globe">
+>>>>>>> more cosmetic upgrades
         {props.showGlobe ? (
           <Suspense fallback={<Preloader />}>
             <ReactGlobe
@@ -233,6 +242,10 @@ const MainSection = (props) => {
                   new THREE.SphereBufferGeometry(d.size),
                   new THREE.MeshLambertMaterial({
                     color: d.color,
+<<<<<<< HEAD
+=======
+                    cursor: 'pointer',
+>>>>>>> more cosmetic upgrades
                   })
                 )
               }
