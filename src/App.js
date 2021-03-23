@@ -53,7 +53,7 @@ class App extends Component {
                 <Header />
                 <div className="globe-container">
                   <div className="col-lg-12 col-sm-12 main-section">
-                    <MainSection showGlobe={this.state.showGlobe} />
+                    <Globe showGlobe={this.state.showGlobe} />
                   </div>
                   {this.renderTimeline()}
                   <div className="m-6">

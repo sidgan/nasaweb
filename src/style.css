@@ -3,8 +3,8 @@
   justify-content: space-between;
   z-index: 999;
   background: transparent;
-  padding: 24px 24px 0 24px;
-  position: absolute;
+  padding: 20px 20px 0 24px;
+  position: fixed;
   width: 100%;
 }
 
@@ -22,19 +22,27 @@
   text-shadow: blue;
   color: #ffffff;
   flex: 0 0 auto;
+  margin-left: 2rem;
 }
 
 .logo_item {
   margin-right: 4px;
 }
 
-.search_box {
+.header-nav {
   display: flex;
+  float: right;
   flex: 0 0 auto;
+  margin: 1rem;
+  margin-right: 2.5rem
+}
+
+.header-nav-item {
+  margin-left: 0.5rem;
 }
 
 .datepicker_container {
-  margin-right: 16px;
+  margin-right: 1rem;
 }
 
 h2 {
@@ -76,7 +84,6 @@ h2 {
     margin: 1px;
   }
 }
-
 .zoom-1 {
   position: fixed;
   top: 40vh;
@@ -106,19 +113,16 @@ h2 {
   left: 150px;
 }
 
-.content {
+.globe-content {
   height: 100%;
+  width: 100%
 }
 
 .globe-container {
   display: block;
   fill-opacity: inherit;
-  height: 100vh;
-  width: 100vw;
-}
-
-.globe-content {
   height: 100%;
+  width: 100%;
 }
 
 .footer {
@@ -141,6 +145,26 @@ h2 {
   margin-left: 24px;
 }
 
+.footer div div div p {
+  position: inherit;
+  float: left;
+  font-size: 14px;
+  line-height: 18.5px;
+  margin-top: 1vh;
+  margin-left: 1vw;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+}
+
+.footer-credit-section a {
+  margin-left: 0.5vw;
+  font-style: bold;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18.46px;
+  color: #ffffff;
+}
+
 .footer-credit-section {
   font-size: 12px;
   line-height: 16px;
@@ -148,16 +172,16 @@ h2 {
 }
 
 .footer-credit-section + .footer-credit-section {
-  margin-left: 16px;
+  margin-left: 22px;
 }
 
 .footer_nav {
   display: flex;
-  flex: 0 0 auto;
-  margin-right: 24px;
+  margin-right: 20px;
 }
 
 .footer-nav-link {
+  float: right;
   font-size: 14px;
   line-height: 18.46px;
   letter-spacing: 0.1em;

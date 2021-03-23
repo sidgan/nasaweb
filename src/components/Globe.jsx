@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import * as THREE from 'three';
 
-import { render } from '@testing-library/react';
+// import { render } from '@testing-library/react';
 
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
@@ -273,7 +273,6 @@ const MainSection = (props) => {
         ) : null}
       </React.Fragment>
     </div>
-
   );
 };
 

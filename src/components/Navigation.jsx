@@ -55,11 +55,12 @@ const NavigationBar = (props) => {
         </Button>
       </Grid>
       <Grid item>
-        <FormControl variant="outlined">
+        <FormControl variant="filled">
           <KeyboardDatePicker
             disableToolbar
             variant="inline"
             format="yyyy-MM-dd"
+            color="secondary"
             style={{
               fontSize: '15px',
               color: 'black',
