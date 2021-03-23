@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 
-import NavigationContext from '../contexts/navigation';
+import { useNavigationState } from '../contexts/navigation';
 
 import leftIcon from '../images/left-icon.png';
 import rightIcon from '../images/right-icon.png';
 
 const NavigationBar = (props) => {
-  const [navigationState, setNavigationState] = useState(
-    React.useContext(NavigationContext)
-  );
+  const navigationState = useNavigationState();
 
   const incrementDate = () => {
     // Add One Day To Selected Date
@@ -20,7 +18,7 @@ const NavigationBar = (props) => {
 
     newDate.setDate(newDate.getDate() + 1);
     const newdf = `${newDate.toISOString().slice(0, 10)}`;
-    setNavigationState({ source: navigationState.source, date: newdf });
+    navigationState.changeDate(newdf);
     props.onChange(newdf);
   };
 
@@ -30,15 +28,12 @@ const NavigationBar = (props) => {
 
     newDate.setDate(newDate.getDate() - 1);
     const newdf = newDate.toISOString().slice(0, 10);
-    setNavigationState({ source: navigationState.source, date: newdf });
+    navigationState.changeDate(newdf);
     props.onChange(newdf);
   };
 
   const handleDateChange = (e) => {
-    setNavigationState({
-      source: navigationState.source,
-      date: e,
-    });
+    navigationState.changeDate(e);
 
     // Update Parent Component
     props.onChange(e);

@@ -37,25 +37,15 @@ const options = [
   'TK',
 ];
 
-const StationSelect = (props) => {
+const StationSelect = ({ source, changeSource }) => {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    age: '',
-    name: 'hai',
-  });
 
   const handleChange = (event) => {
-    const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
-
     console.log(event.target.value);
     if (event.target.value === 'ALL LOCATIONS') {
-      props.onChange('ALL');
+      changeSource('ALL');
     } else {
-      props.onChange(event.target.value);
+      changeSource(event.target.value);
     }
   };
 
@@ -70,7 +60,7 @@ const StationSelect = (props) => {
             maxHeight: '50px',
             minHeight: '50px',
           }}
-          value={state.age}
+          value={source}
           onChange={handleChange}
           inputProps={{
             name: 'age',
