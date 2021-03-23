@@ -9,6 +9,9 @@ class Footer extends Component {
   render() {
     return (
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fix bugs
       <div className="footer">
         <div className="footer-credit">
           <p className="footer-credit-section">
@@ -42,6 +45,7 @@ class Footer extends Component {
             </a>
           </p>
         </div>
+<<<<<<< HEAD
 
         <div className="footer_nav">
           <div className="footer-nav-link">About</div>
@@ -93,6 +97,13 @@ class Footer extends Component {
             </div>
           </div>
 >>>>>>> small fix
+=======
+
+        <div className="footer_nav">
+          <div className="footer-nav-link">About</div>
+          <div className="footer-nav-link">Start a network</div>
+          <div className="footer-nav-link">CAMS</div>
+>>>>>>> fix bugs
         </div>
       </div>
     );
