@@ -238,6 +238,8 @@ const MainSection = (props) => {
 
   console.log(globeEl.current);
 
+  const elem = document.getElementById('Globe')
+
   return (
     <section>
       <Header
@@ -248,7 +250,7 @@ const MainSection = (props) => {
         <ZoomButton onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
       </div>
 
-      <div className="content">
+      <div className="content" id="Globe">
         {props.showGlobe ? (
           <Suspense fallback={<Preloader />}>
             <ReactGlobe
@@ -274,7 +276,10 @@ const MainSection = (props) => {
               customThreeObject={(d) =>
                 new THREE.Mesh(
                   new THREE.SphereBufferGeometry(d.size),
-                  new THREE.MeshLambertMaterial({ color: d.color })
+                  new THREE.MeshLambertMaterial({
+                    color: d.color,
+                    cursor: 'pointer',
+                  })
                 )
               }
               customThreeObjectUpdate={(obj, d) => {
@@ -282,6 +287,10 @@ const MainSection = (props) => {
                   obj.position,
                   globeEl.current.getCoords(d.lat, d.lng, d.alt)
                 );
+              }}
+              onCustomLayerHover={(label) => {
+                console.log(label);
+                elem.style.cursor = label ? 'pointer' : null;
               }}
               onCustomLayerClick={markerInfoTip}
               customLayerLabel={markerTooltip}
