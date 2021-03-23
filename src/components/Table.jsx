@@ -69,8 +69,6 @@ export default function StickyHeadTable(props) {
           // Append to existing rows
           newRows.push(object);
         }
-      } else {
-        console.log('matched');
       }
     });
 

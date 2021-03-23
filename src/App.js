@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from './components/Header';
-import MainSection from './components/Globe';
+import Globe from './components/Globe';
 import GroupedButton from './components/GroupedButton';
 import Timeline from './components/Timeline';
 import Footer from './components/Footer';
@@ -49,18 +49,16 @@ class App extends Component {
             <NavigationProvider>
               <Header />
               <div className="globe-container">
-                <div className="col-lg-12 col-sm-12 main-section">
-                  <MainSection showGlobe={this.state.showGlobe} />
+                <div className="main-section">
+                  <Globe showGlobe={this.state.showGlobe} />
                 </div>
-                {this.renderTimeline()}
-                <div className="m-6">
-                  <div className="guide-1">
-                    <GroupedButton
-                      showGlobe={this.state.showGlobe}
-                      toggleDisplay={this.toggleDisplay}
-                    />
-                  </div>
-                </div>
+                {/* {this.renderTimeline()} */}
+              </div>
+              <div className="guide-1">
+                <GroupedButton
+                  showGlobe={this.state.showGlobe}
+                  toggleDisplay={this.toggleDisplay}
+                />
               </div>
             </NavigationProvider>
           </StorageProvider>
