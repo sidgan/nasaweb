@@ -195,11 +195,9 @@ const MainSection = (props) => {
     updateMarkers(meteors, stars, constellations);
   }, [meteors, stars, constellations, updateMarkers]);
 
-
   console.log(globeEl.current);
 
   const elem = document.getElementById('Globe');
-
 
   return (
     <div className="globe-container">

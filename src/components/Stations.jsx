@@ -53,7 +53,7 @@ const StationSelect = ({ source, changeSource }) => {
       <Select
         native
         style={{
-          backgroundColor: 'rgba(71, 78, 116, 0.4)',
+          backgroundColor: 'secondary',
           color: 'rgba(223, 223, 236)',
           height: '50px',
           width: '200px',
@@ -67,8 +67,9 @@ const StationSelect = ({ source, changeSource }) => {
         {options.map((option) => (
           <option
             style={{
-              backgroundColor: 'rgba(71, 78, 116, 0.4)',
+              backgroundColor: 'rgba(71, 78, 116, 0.8)',
               borderRadius: '4px',
+              opacity: '0.2',
             }}
             value={option}
             key={option}
