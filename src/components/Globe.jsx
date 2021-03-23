@@ -1,17 +1,13 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import Responsive from 'react-responsive-decorator';
 import * as THREE from 'three';
-import Header from './Header';
+
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
 import DataTooltip from './Tooltip';
 
 import globeTextureImage from '../images/background.jpg';
-import NavigationContext from '../contexts/navigation';
-
-import { fetchStars } from '../clients/star';
-import { fetchMeteors } from '../clients/meteor';
-import { fetchConstellations } from '../clients/constellation';
+import { useNavigationState } from '../contexts/navigation';
 
 // Lazy Loading React Component
 const ReactGlobe = React.lazy(() => import('react-globe.gl'));
@@ -69,9 +65,7 @@ const MainSection = (props) => {
   const globeEl = React.useRef();
   const [alt, setAlt] = useState(2);
 
-  const [navigationState, setNavigationState] = useState(
-    React.useContext(NavigationContext)
-  );
+  const { meteors, stars, constellations } = useNavigationState();
 
   // Markers State
   const [markers, setMarkers] = useState([]);
@@ -79,23 +73,6 @@ const MainSection = (props) => {
 
   const [showDetail, setShowDetail] = useState(false);
   const [detail, setDetail] = useState('');
-
-  const handleDateChange = (date) => {
-    if (date !== navigationState.date) {
-      setNavigationState({
-        date: date,
-        source: navigationState.source,
-      });
-    }
-  };
-  const handleSourceChange = (source) => {
-    if (source !== navigationState.source) {
-      setNavigationState({
-        date: navigationState.date,
-        source,
-      });
-    }
-  };
 
   const handleZoomIn = () => {
     if (parseFloat(alt) !== 0.5) {
@@ -118,7 +95,6 @@ const MainSection = (props) => {
     let newConstellations = [];
 
     setShowDetail(false);
-    const sunMarkers = [require('../json/sun.json')];
 
     meteors.forEach((m) => {
       newMarkers.push({
@@ -134,19 +110,6 @@ const MainSection = (props) => {
         sol: m.sol,
         size: 0.5,
         alt: 0.01,
-      });
-    });
-
-    sunMarkers.forEach((m) => {
-      newMarkers.push({
-        id: newMarkers.length,
-        color: '#FDB800',
-        name: 'Sun',
-        type: '',
-        lat: 0,
-        lng: 0,
-        size: 3,
-        alt: 0.05,
       });
     });
 
@@ -194,6 +157,19 @@ const MainSection = (props) => {
 
     console.log(newConstellations);
     setConstellationMarkers(newConstellations);
+
+    // this is the Sun coordinate
+    newMarkers.push({
+      id: newMarkers.length,
+      color: '#FDB800',
+      name: 'Sun',
+      type: '',
+      lat: 0,
+      lng: 0,
+      size: 3,
+      alt: 0.05,
+    });
+
     setMarkers(newMarkers);
   }, []);
 
@@ -214,27 +190,8 @@ const MainSection = (props) => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const meteorRequest = fetchMeteors(
-        navigationState.source,
-        navigationState.date
-      );
-      const starsRequest = fetchStars(navigationState.date);
-      const constellationRequest = fetchConstellations(navigationState.date);
-
-      await Promise.all([
-        meteorRequest,
-        starsRequest,
-        constellationRequest,
-      ]).then((results) => {
-        const [meteors, stars, constellations] = results;
-
-        updateMarkers(meteors, stars, constellations);
-      });
-    };
-
-    fetchData();
-  }, [navigationState.date, navigationState.source, updateMarkers, alt]);
+    updateMarkers(meteors, stars, constellations);
+  }, [meteors, stars, constellations, updateMarkers]);
 
   console.log(globeEl.current);
 
@@ -242,10 +199,6 @@ const MainSection = (props) => {
 
   return (
     <section>
-      <Header
-        onDateChange={handleDateChange}
-        onSourceChange={handleSourceChange}
-      />
       <div className="zoom-1">
         <ZoomButton onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
       </div>

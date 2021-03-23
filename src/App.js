@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+import Header from './components/Header';
 import MainSection from './components/Globe';
 import GroupedButton from './components/GroupedButton';
+import Timeline from './components/Timeline';
 import Footer from './components/Footer';
+
+import { StorageProvider } from './contexts/storage';
+import { NavigationProvider } from './contexts/navigation';
 
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -28,24 +33,40 @@ class App extends Component {
     });
   };
 
+  renderTimeline = () => {
+    if (this.state.showGlobe) {
+      return (
+        <div className="timeline-container">
+          <Timeline />
+        </div>
+      );
+    }
+  };
+
   render() {
     return (
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <MuiThemeProvider theme={theme}>
           <div className="App">
-            <div className="globe-container">
-              <div className="col-lg-12 col-sm-12 main-section">
-                <MainSection showGlobe={this.state.showGlobe} />
-              </div>
-              <div className="m-6">
-                <div className="guide-1">
-                  <GroupedButton
-                    showGlobe={this.state.showGlobe}
-                    toggleDisplay={this.toggleDisplay}
-                  />
+            <StorageProvider>
+              <NavigationProvider>
+                <Header />
+                <div className="globe-container">
+                  <div className="col-lg-12 col-sm-12 main-section">
+                    <MainSection showGlobe={this.state.showGlobe} />
+                  </div>
+                  {this.renderTimeline()}
+                  <div className="m-6">
+                    <div className="guide-1">
+                      <GroupedButton
+                        showGlobe={this.state.showGlobe}
+                        toggleDisplay={this.toggleDisplay}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </NavigationProvider>
+            </StorageProvider>
             <Footer />
           </div>
         </MuiThemeProvider>

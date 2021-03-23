@@ -28,6 +28,12 @@
   border-bottom: 0;
 }
 
+.timeline-container {
+  position: absolute;
+  top: 76vh;
+  width: 98vw;
+}
+
 .popup {
   position: absolute;
   z-index: 100;
