@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 // import Responsive from 'react-responsive-decorator';
 
+import SpaceMl from '../images/spaceml.png';
+
 class Footer extends Component {
   state = {};
 
@@ -8,6 +10,16 @@ class Footer extends Component {
     return (
       <div className="footer">
         <div className="footer-credit">
+          <p className="footer-credit-section">
+            Built by:
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="http://spaceml.org/"
+            >
+              <img src={SpaceMl} alt={SpaceMl}></img>
+            </a>
+          </p>
           <p className="footer-credit-section">
             Hosted by:
             <a
@@ -23,19 +35,9 @@ class Footer extends Component {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="mailto:petrus.m.jenniskens@nasa.gov"
+              href="https://www.seti.org/our-scientists/peter-jenniskens"
             >
               Peter Jenniskens
-            </a>
-          </p>
-          <p className="footer-credit-section">
-            Responsible NASA Official:
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="http://cams.seti.org"
-            >
-              Lindley Johnson
             </a>
           </p>
         </div>
