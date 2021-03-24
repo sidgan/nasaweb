@@ -171,6 +171,11 @@ const MainSection = (props) => {
               pointColor="color"
               pointAltitude="alt"
               pointsTransitionDuration={2000}
+              onGlobeReady={() => {
+                globeEl.current.pointOfView({
+                  lng: 180,
+                });
+              }}
               onPointClick={markerInfoTip}
             />
           </Suspense>
