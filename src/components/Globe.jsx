@@ -74,7 +74,6 @@ const MainSection = (props) => {
   const [constellationMarkers, setConstellationMarkers] = useState([]);
 
   const [showDetail, setShowDetail] = useState(false);
-
   const [detail, setDetail] = useState('');
 
   const handleZoomIn = () => {
@@ -231,7 +230,7 @@ const MainSection = (props) => {
                 new THREE.Mesh(
                   new THREE.SphereBufferGeometry(d.size),
                   new THREE.MeshLambertMaterial({
-                    color: d.color,
+                    color: d.color
                   })
                 )
               }
