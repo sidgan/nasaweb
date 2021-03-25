@@ -1,6 +1,6 @@
 import React from 'react';
 import StationSelect from './Stations';
-import DatePicker from './DatePicker';
+import NavigationBar from './Navigation';
 
 import { useNavigationState } from '../contexts/navigation';
 
@@ -17,20 +17,20 @@ const Header = () => {
           rel="noopener noreferrer"
           href="http://cams.seti.org"
         >
-          <img src={logo} alt="NASA" />
+          <img src={logo} alt="NASA" width="40px" height="40px" />
         </a>
         Meteor Shower Portal
       </div>
-      <div className="search_box">
-        <DatePicker
-          date={navigationState.date}
-          changeDate={navigationState.changeDate}
-          showArrows={true}
-        />
-        <StationSelect
-          source={navigationState.source}
-          changeSource={navigationState.changeSource}
-        />
+      <div className="header-nav">
+        <div className="header-nav-item">
+          <NavigationBar onChange={navigationState.changeDate} />
+        </div>
+        <div className="header-nav-item">
+          <StationSelect
+            source={navigationState.source}
+            changeSource={navigationState.changeSource}
+          />
+        </div>
       </div>
     </div>
   );

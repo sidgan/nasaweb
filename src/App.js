@@ -8,9 +8,11 @@ import Footer from './components/Footer';
 import { StorageProvider } from './contexts/storage';
 import { NavigationProvider } from './contexts/navigation';
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { theme } from './theme';
 
+import DateFnsUtils from '@date-io/date-fns';
 import Responsive from 'react-responsive-decorator';
 
 import './App.css';
@@ -43,28 +45,30 @@ class App extends Component {
 
   render() {
     return (
-      <MuiThemeProvider theme={theme}>
-        <div className="App">
-          <StorageProvider>
-            <NavigationProvider>
-              <Header />
-              <div className="globe-container">
-                <div className="main-section">
-                  <Globe showGlobe={this.state.showGlobe} />
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <MuiThemeProvider theme={theme}>
+          <div className="App">
+            <StorageProvider>
+              <NavigationProvider>
+                <Header />
+                <div className="globe-container">
+                  <div className="main-section">
+                    <Globe showGlobe={this.state.showGlobe} />
+                  </div>
+                  {/* {this.renderTimeline()} */}
                 </div>
-                {/* {this.renderTimeline()} */}
-              </div>
-              <div className="guide-1">
-                <GroupedButton
-                  showGlobe={this.state.showGlobe}
-                  toggleDisplay={this.toggleDisplay}
-                />
-              </div>
-            </NavigationProvider>
-          </StorageProvider>
-          <Footer />
-        </div>
-      </MuiThemeProvider>
+                <div className="guide-1">
+                  <GroupedButton
+                    showGlobe={this.state.showGlobe}
+                    toggleDisplay={this.toggleDisplay}
+                  />
+                </div>
+              </NavigationProvider>
+            </StorageProvider>
+            <Footer />
+          </div>
+        </MuiThemeProvider>
+      </MuiPickersUtilsProvider>
     );
   }
 }

@@ -1,10 +1,39 @@
 import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 
-const Helper = () => {
+const styles = (theme) => ({
+  root: {
+    position: 'fixed',
+    backgroundColor: 'rgba(71, 78, 116, 0.6)',
+    color: 'primary',
+    maxWidth: 448,
+    maxHeight: 480,
+    marginLeft: '10px',
+    border: '2px solid #474E74',
+    zIndex: 999,
+    bottom: '15vh',
+    right: '2vw',
+  },
+  closeButton: {
+    position: 'absolute',
+    right: -10,
+    top: -10,
+    borderRadius: '50%',
+    width: '24px',
+    height: '24px',
+    background: '#ffffff',
+    color: theme.palette.grey[500],
+  },
+});
+
+const Helper = withStyles(styles)((props) => {
+  const { classes } = props;
   return (
-    <React.Fragment>
+    <div className={classes.root}>
       <Grid container color="secondary" spacing={2}>
         <Grid item xs={12}>
           <div className="text-left">
@@ -39,9 +68,17 @@ const Helper = () => {
             </Typography>
           </div>
         </Grid>
+
+        <IconButton
+          aria-label="close"
+          className={classes.closeButton}
+          onClick={props.handleClose}
+        >
+          <CloseIcon />
+        </IconButton>
       </Grid>
-    </React.Fragment>
+    </div>
   );
-};
+});
 
 export default Helper;
