@@ -33,12 +33,12 @@
   display: flex;
   float: right;
   flex: 0 0 auto;
-  margin: 1rem;
+  margin-top: 2rem;
   margin-right: 2.5rem;
 }
 
 .header-nav-item {
-  margin-left: 0.5rem;
+  margin-left: 1rem;
 }
 
 .datepicker_container {
@@ -101,7 +101,7 @@ h2 {
   position: absolute;
   bottom: 200px;
   right: 110px;
-  color: rgba(223, 223, 23AAAAA6, 0.863);
+  color: rgba(223, 223, 23aaaaa6, 0.863);
   background-color: rgba(0, 66, 128, 0.856);
 }
 
@@ -115,7 +115,7 @@ h2 {
 
 .globe-content {
   height: 100%;
-  width: 100%
+  width: 100%;
 }
 
 .globe-container {
@@ -166,7 +166,7 @@ h2 {
 }
 
 .footer-credit-section {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 16px;
   letter-spacing: 0.1em;
 }

@@ -9,8 +9,15 @@ import { useNavigationState } from '../contexts/navigation';
 import leftIcon from '../images/left-icon.png';
 import rightIcon from '../images/right-icon.png';
 
+const getMaxDate = () => {
+  let date = new Date();
+  date.setDate(date.getDate());
+  return `${date.toISOString().slice(0, 10)}`;
+};
+
 const NavigationBar = (props) => {
   const navigationState = useNavigationState();
+  const [maxDate] = React.useState(`${getMaxDate()}`);
 
   const incrementDate = () => {
     // Add One Day To Selected Date
@@ -18,8 +25,11 @@ const NavigationBar = (props) => {
 
     newDate.setDate(newDate.getDate() + 1);
     const newdf = `${newDate.toISOString().slice(0, 10)}`;
-    navigationState.changeDate(newdf);
-    props.onChange(newdf);
+
+    if (newdf < maxDate && newdf > '2010-04-14') {
+      navigationState.changeDate(newdf);
+      props.onChange(newdf);
+    }
   };
 
   const decrementDate = () => {
@@ -28,14 +38,18 @@ const NavigationBar = (props) => {
 
     newDate.setDate(newDate.getDate() - 1);
     const newdf = newDate.toISOString().slice(0, 10);
-    navigationState.changeDate(newdf);
-    props.onChange(newdf);
+
+    if (newdf < maxDate && newdf > '2010-04-14') {
+      navigationState.changeDate(newdf);
+      props.onChange(newdf);
+    }
   };
 
-  const handleDateChange = (e) => {
-    navigationState.changeDate(e);
-    // Update Parent Component
-    props.onChange(e);
+  const handleDateChange = (newdf) => {
+    if (newdf < maxDate && newdf > '2010-04-14') {
+      navigationState.changeDate(newdf);
+      props.onChange(newdf);
+    }
   };
 
   return (
@@ -67,9 +81,9 @@ const NavigationBar = (props) => {
             }}
             value={navigationState.date}
             onChange={handleDateChange}
-            allowKeyboardControl={true}
+            allowKeyboardControl={false}
             minDate="2010-04-14"
-            maxDate={`${new Date()}`}
+            maxDate={maxDate}
           />
         </FormControl>
       </Grid>

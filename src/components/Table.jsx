@@ -27,12 +27,12 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     height: '70vh',
-    marginTop: '100px',
     marginBottom: '175px',
     marginLeft: '250px',
     top: '50px',
   },
   container: {
+    marginTop: '15vh',
     maxHeight: 600,
   },
 });

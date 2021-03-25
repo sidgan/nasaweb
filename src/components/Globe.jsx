@@ -230,7 +230,7 @@ const MainSection = (props) => {
                 new THREE.Mesh(
                   new THREE.SphereBufferGeometry(d.size),
                   new THREE.MeshLambertMaterial({
-                    color: d.color
+                    color: d.color,
                   })
                 )
               }
@@ -241,11 +241,15 @@ const MainSection = (props) => {
                 );
               }}
               onCustomLayerHover={(label) => {
-                console.log(label);
                 elem.style.cursor = label ? 'pointer' : null;
               }}
               onCustomLayerClick={markerInfoTip}
               customLayerLabel={markerTooltip}
+              onGlobeReady={() => {
+                globeEl.current.pointOfView({
+                  lng: 180,
+                });
+              }}
               labelsData={meridianLabels}
               labelLat={(d) => d.lat}
               labelAltitude={0.1}

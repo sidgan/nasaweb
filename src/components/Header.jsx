@@ -17,7 +17,7 @@ const Header = () => {
           rel="noopener noreferrer"
           href="http://cams.seti.org"
         >
-          <img src={logo} alt="NASA" />
+          <img src={logo} alt="NASA" width="40px" height="40px" />
         </a>
         Meteor Shower Portal
       </div>
