@@ -30,7 +30,7 @@ const styles = (theme) => ({
   },
 });
 
-const Helper = withStyles(styles)((props) => {
+const HelpTooltip = withStyles(styles)((props) => {
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -81,4 +81,4 @@ const Helper = withStyles(styles)((props) => {
   );
 });
 
-export default Helper;
+export default React.memo(HelpTooltip);

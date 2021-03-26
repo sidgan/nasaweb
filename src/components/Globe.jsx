@@ -5,7 +5,7 @@ import * as THREE from 'three';
 
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
-import DataTooltip from './Tooltip';
+import DataTooltip from './tooltips/DataTooltip';
 
 import globeTextureImage from '../images/background.jpg';
 
@@ -200,14 +200,21 @@ const MainSection = (props) => {
 
   return (
     <div className="globe-container">
-      <div className="zoom-1">
-        <ZoomButton onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
-      </div>
       <div className="globe-content" id="Globe">
         {props.showGlobe ? (
           <Suspense fallback={<Preloader />}>
+            <div className="zoom-1">
+              <ZoomButton onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
+            </div>
             <ReactGlobe
               ref={globeEl}
+              onGlobeReady={() => {
+                globeEl.current.pointOfView({
+                  lng: 180,
+                  lat: 0,
+                  alt: alt,
+                });
+              }}
               width={window.innerWidth - 50}
               height={window.innerHeight}
               altitude={alt}
@@ -245,11 +252,6 @@ const MainSection = (props) => {
               }}
               onCustomLayerClick={markerInfoTip}
               customLayerLabel={markerTooltip}
-              onGlobeReady={() => {
-                globeEl.current.pointOfView({
-                  lng: 180,
-                });
-              }}
               labelsData={meridianLabels}
               labelLat={(d) => d.lat}
               labelAltitude={0.1}

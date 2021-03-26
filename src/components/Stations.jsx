@@ -13,39 +13,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const options = [
-  'ALL LOCATIONS',
-  'ARCHIVE',
-  'AR',
-  'AUS',
-  'CAMS',
-  'EXOSS',
-  'GMN',
-  'MA',
-  'NCA',
-  'TEXAS',
-  'UAE',
-  'BENELUX',
-  'CHILE',
-  'EDMOND',
-  'FL',
-  'LOCAMS',
-  'NAMIBIA',
-  'NZ',
-  'SA',
-  'SONOTACO',
-  'TK',
-];
+const options = {
+  'ALL LOCATIONS': 'ALL',
+  Archive: 'ARCHIVE',
+  Arkansas: 'AR',
+  Australia: 'AUS',
+  California: 'CAMS',
+  Brazil: 'EXOSS',
+  'Global Meteor Network': 'GMN',
+  Maryland: 'MA',
+  'North California': 'NCA',
+  Texas: 'TEXAS',
+  'United Arad Emirates': 'UAE',
+  Netherlands: 'BENELUX',
+  Chile: 'CHILE',
+  Europe: 'EDMOND',
+  Florida: 'FL',
+  Arizona: 'LOCAMS',
+  Namibia: 'NAMIBIA',
+  'New Zealand': 'NZ',
+  'South Africa': 'SA',
+  Japan: 'SONOTACO',
+  Turkey: 'TK',
+};
 
 const StationSelect = ({ source, changeSource }) => {
   const classes = useStyles();
 
   const handleChange = (event) => {
-    if (event.target.value === 'ALL LOCATIONS') {
-      changeSource('ALL');
-    } else {
-      changeSource(event.target.value);
-    }
+    changeSource(event.target.value);
   };
 
   return (
@@ -64,17 +60,18 @@ const StationSelect = ({ source, changeSource }) => {
           name: 'age',
         }}
       >
-        {options.map((option) => (
+        {Object.entries(options).map(([key, value]) => (
           <option
             style={{
               backgroundColor: 'rgba(71, 78, 116, 0.8)',
               borderRadius: '4px',
               opacity: '0.2',
+              fontSize: '14px',
             }}
-            value={option}
-            key={option}
+            value={value}
+            key={key}
           >
-            {option}
+            {key}
           </option>
         ))}
       </Select>

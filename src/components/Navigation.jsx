@@ -45,10 +45,12 @@ const NavigationBar = (props) => {
     }
   };
 
-  const handleDateChange = (newdf) => {
-    if (newdf < maxDate && newdf > '2010-04-14') {
-      navigationState.changeDate(newdf);
-      props.onChange(newdf);
+  const handleDateChange = (d) => {
+    let newDate = d.toISOString().slice(0, 10);
+
+    if (newDate < maxDate && newDate > '2010-04-14') {
+      navigationState.changeDate(newDate);
+      props.onChange(newDate);
     }
   };
 

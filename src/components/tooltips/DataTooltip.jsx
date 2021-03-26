@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 
-import spaceButton from '../images/space.png';
+import spaceButton from '../../images/space.png';
 
 const styles = (theme) => ({
   root: {
@@ -65,9 +65,6 @@ const DataTooltip = withStyles(styles)((props) => {
   const [url] = useState(
     `https://www.meteorshowers.org/view/iau-${props.meteor.iau}`
   );
-  const handleRedirect = () => {
-    window.location.href = url;
-  };
 
   const { classes } = props;
   return (
@@ -115,12 +112,10 @@ const DataTooltip = withStyles(styles)((props) => {
             </div>
           </Grid>
           <Grid item xs={12}>
-            <IconButton
-              aria-label="close"
-              className={classes.spaceButton}
-              onClick={handleRedirect}
-            >
-              <img src={spaceButton} alt={spaceButton}></img>
+            <IconButton aria-label="close" className={classes.spaceButton}>
+              <a target="_blank" rel="noopener noreferrer" href={url}>
+                <img src={spaceButton} alt={spaceButton}></img>
+              </a>
             </IconButton>
           </Grid>
           {/* <p></p> */}
