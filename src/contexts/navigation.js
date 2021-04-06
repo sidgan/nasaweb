@@ -3,6 +3,7 @@ import { useCache, generateMeteorKey, generateStarKey } from './storage';
 
 import { fetchStars } from '../clients/star';
 import { fetchMeteors } from '../clients/meteor';
+import { fetchConstellations } from '../clients/constellation';
 
 function getNewDate() {
   // Get Yesterday's Date
@@ -21,6 +22,7 @@ export function NavigationProvider({ children }) {
 
   const [meteorsToRender, changeMeteors] = React.useState([]);
   const [starsToRender, changeStars] = React.useState([]);
+  const [constellationsToRender, changeConstellations] = React.useState([]);
 
   const retrieveMeteors = async (date, source) => {
     let meteors;
@@ -46,9 +48,17 @@ export function NavigationProvider({ children }) {
     changeStars(stars);
   };
 
+  const retrieveConstellations = async (date) => {
+    let constellations;
+
+    constellations = await fetchConstellations(date);
+    changeConstellations(constellations);
+  };
+
   useEffect(() => {
     retrieveMeteors(date, source);
     retrieveStars(date);
+    retrieveConstellations(date);
     // eslint-disable-next-line
   }, []);
 
@@ -59,6 +69,7 @@ export function NavigationProvider({ children }) {
         source: source,
         meteors: meteorsToRender,
         stars: starsToRender,
+        constellations: constellationsToRender,
         changeDate: (newDate) => {
           changeDate(newDate);
           retrieveMeteors(newDate, source);

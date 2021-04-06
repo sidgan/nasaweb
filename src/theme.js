@@ -35,15 +35,55 @@ export const theme = createMuiTheme({
       root: {
         width: '150px',
       },
-
-      padding: {
-        padding: '0px',
-      },
     },
 
     MuiSelect: {
       root: {
         color: '#ffffff',
+        maxHeight: '50px',
+        minHeight: '50px',
+      },
+    },
+
+    MuiPaper: {
+      root: {
+        color: 'primary',
+      },
+    },
+
+    MuiPickersDay: {
+      day: {
+        color: 'primary',
+      },
+    },
+
+    MuiIconButton: {
+      root: {
+        color: 'primary',
+      },
+    },
+
+    MuiInputBase: {
+      root: {
+        height: '50px',
+        textTransform: 'none',
+        backgroundColor: 'rgba(71, 78, 116, 0.6)',
+        opacity: 0.8,
+      },
+      input: {
+        fontSize: '13px',
+      },
+    },
+
+    MuiDatePicker: {
+      root: {
+        backgroundColor: 'rgba(71, 78, 116, 0.6)',
+        // color: "primary",
+        fontSize: '1.4rem',
+        alignContent: 'center',
+        maxWidth: '170px',
+        minHeight: '50px',
+        color: 'white',
       },
     },
 
@@ -51,15 +91,6 @@ export const theme = createMuiTheme({
       root: {
         backgroundColor: 'rgba(71, 78, 116, 0.6)',
         opacity: 0.8,
-      },
-    },
-
-    MuiInputBase: {
-      root: {
-        backgroundColor: 'rgba(71, 78, 116, 0.6)',
-        color: 'primary',
-        fontSize: '1.4rem',
-        alignContent: 'center',
       },
     },
 

@@ -3,8 +3,8 @@
   justify-content: space-between;
   z-index: 999;
   background: transparent;
-  padding: 24px 24px 0 24px;
-  position: absolute;
+  padding: 20px 20px 0 24px;
+  position: fixed;
   width: 100%;
 }
 
@@ -22,19 +22,27 @@
   text-shadow: blue;
   color: #ffffff;
   flex: 0 0 auto;
+  margin-left: 2rem;
 }
 
 .logo_item {
   margin-right: 4px;
 }
 
-.search_box {
+.header-nav {
   display: flex;
+  float: right;
   flex: 0 0 auto;
+  margin-top: 2rem;
+  margin-right: 2.5rem;
+}
+
+.header-nav-item {
+  margin-left: 1rem;
 }
 
 .datepicker_container {
-  margin-right: 16px;
+  margin-right: 1rem;
 }
 
 h2 {
@@ -51,7 +59,7 @@ h2 {
 .data-tooltip {
   position: absolute;
   color: #ffffff;
-  width: 18vw;
+  width: 20vw;
   height: 226px;
   left: 10vw;
   top: 40vh;
@@ -76,7 +84,6 @@ h2 {
     margin: 1px;
   }
 }
-
 .zoom-1 {
   position: fixed;
   top: 40vh;
@@ -94,7 +101,7 @@ h2 {
   position: absolute;
   bottom: 200px;
   right: 110px;
-  color: rgba(223, 223, 23AAAAA6, 0.863);
+  color: rgba(223, 223, 23aaaaa6, 0.863);
   background-color: rgba(0, 66, 128, 0.856);
 }
 
@@ -106,19 +113,16 @@ h2 {
   left: 150px;
 }
 
-.content {
+.globe-content {
   height: 100%;
+  width: 100%;
 }
 
 .globe-container {
   display: block;
   fill-opacity: inherit;
-  height: 100vh;
-  width: 100vw;
-}
-
-.globe-content {
   height: 100%;
+  width: 100%;
 }
 
 .footer {
@@ -141,23 +145,43 @@ h2 {
   margin-left: 24px;
 }
 
+.footer div div div p {
+  position: inherit;
+  float: left;
+  font-size: 14px;
+  line-height: 18.5px;
+  margin-top: 1vh;
+  margin-left: 1vw;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+}
+
+.footer-credit-section a {
+  margin-left: 0.5vw;
+  font-style: bold;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18.46px;
+  color: #ffffff;
+}
+
 .footer-credit-section {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 16px;
   letter-spacing: 0.1em;
 }
 
 .footer-credit-section + .footer-credit-section {
-  margin-left: 16px;
+  margin-left: 22px;
 }
 
 .footer_nav {
   display: flex;
-  flex: 0 0 auto;
-  margin-right: 24px;
+  margin-right: 20px;
 }
 
 .footer-nav-link {
+  float: right;
   font-size: 14px;
   line-height: 18.46px;
   letter-spacing: 0.1em;
