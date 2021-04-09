@@ -12,6 +12,7 @@ import re
 import argparse
 import glob
 import os
+from datetime import date
 
 
 def find_star(data):
@@ -117,7 +118,7 @@ def extract_date(latest_file_name):
     filename = filename.split('_')
     month, day = filename[1], filename[2]
     year = re.split('g', filename[0], 1)[1]
-    const_filename = 'const_{}_{}_{}.json'.format(month, day, year)
+    const_filename = 'const{}_{}_{}_00_00_00.json'.format(year, month, day)
     return const_filename
 
 
@@ -135,20 +136,27 @@ ref_hyg = load_json('var/www/FDL/json/ALL/hyg2010_01_31_00_00_00.json')
 prev_const = load_json('var/www/FDL/json/ALL/const_01_31_2010.json')
 
 if option == 'today':
-    iter_list = glob.glob('var/www/FDL/json/ALL/hyg*.json')
-    latest_file = max(iter_list, key=os.path.getctime) #most recently created file.
-    latest_hyg = load_json(latest_file)
+    #iter_list = glob.glob('var/www/FDL/json/ALL/hyg*.json')
+    #iter_list = glob.glob('/home/sahyadri/Desktop/CAMS-India/hyg*.json')
+    #latest_file = max(iter_list, key=os.path.getctime) #most recently created file.
+    today = str(date.today())
+    date_list = today.split('-')
+    year, month, day = date_list[0], date_list[1], date_list[2]
+    file_name = 'var/www/FDL/json/ALL/hyg{}_{}_{}_00_00_00.json'.format(year,month,day)
+    print(file_name)
+    latest_hyg = load_json(file_name)
     latest_long = find_star(latest_hyg)
     ref_long = find_star(ref_hyg)
     diff = calc_diff(latest_long, ref_long)
     new_const = compute_coords(prev_const, diff) #updated const json object!
-    new_filename = extract_date(latest_file)
+    new_filename = extract_date(file_name)
     #creating a new const.json file
     new_file = open(new_filename,'w+')
     json.dump(new_const, new_file)
     new_file.close()
     
 elif option == 'past':
+    #for hyg_file in glob.glob('var/www/FDL/json/ALL/hyg*.json'):
     for hyg_file in glob.glob('var/www/FDL/json/ALL/hyg*.json'):
         latest_hyg = load_json(hyg_file)
         latest_long = find_star(latest_hyg)
