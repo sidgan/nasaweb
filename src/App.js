@@ -18,11 +18,23 @@ import Responsive from 'react-responsive-decorator';
 import './App.css';
 import './style.css';
 
+const getTimelineCookie = () => {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    let pair = cookie.split('=');
+    if (pair[0].trim() === 'TIMELINE') {
+      return pair[1].trim() === 'true';
+    }
+  }
+  return false;
+};
+
 class App extends Component {
   constructor() {
     super();
     this.state = {
       showGlobe: true,
+      timelineTesting: getTimelineCookie(),
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
   }
@@ -34,7 +46,7 @@ class App extends Component {
   };
 
   renderTimeline = () => {
-    if (this.state.showGlobe) {
+    if (this.state.timelineTesting && this.state.showGlobe) {
       return (
         <div className="timeline-container">
           <Timeline />
@@ -55,7 +67,7 @@ class App extends Component {
                   <div className="main-section">
                     <Globe showGlobe={this.state.showGlobe} />
                   </div>
-                  {/* {this.renderTimeline()} */}
+                  {this.renderTimeline()}
                 </div>
                 <div className="guide-1">
                   <GroupedButton

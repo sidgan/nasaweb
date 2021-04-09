@@ -191,7 +191,7 @@ const MainSection = (props) => {
     updateMarkers(meteors, stars, constellations);
   }, [meteors, stars, constellations, updateMarkers]);
 
-  console.log(globeEl.current);
+  // console.log(globeEl.current);
 
   const elem = document.getElementById('Globe');
 
@@ -202,7 +202,7 @@ const MainSection = (props) => {
       </div>
       <div className="globe-content" id="Globe">
         {props.showGlobe ? (
-          <Suspense fallback={<Preloader />}>
+          <Suspense fallback={<Preloader size={200} />}>
             <ReactGlobe
               ref={globeEl}
               width={window.innerWidth - 50}
@@ -259,7 +259,7 @@ const MainSection = (props) => {
             />
           </Suspense>
         ) : (
-          <Suspense fallback={<Preloader />}>
+          <Suspense fallback={<Preloader size={200} />}>
             <StickyHeadTable markers={markers} />
           </Suspense>
         )}
