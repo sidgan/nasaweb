@@ -14,27 +14,17 @@ import { theme } from './theme';
 
 import DateFnsUtils from '@date-io/date-fns';
 import Responsive from 'react-responsive-decorator';
+import Cookies from 'js-cookie';
 
 import './App.css';
 import './style.css';
-
-const getTimelineCookie = () => {
-  const cookies = document.cookie.split(';');
-  for (const cookie of cookies) {
-    let pair = cookie.split('=');
-    if (pair[0].trim() === 'TIMELINE') {
-      return pair[1].trim() === 'true';
-    }
-  }
-  return false;
-};
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       showGlobe: true,
-      timelineTesting: getTimelineCookie(),
+      timelineTesting: Cookies.get('timeline_experiment'),
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
   }
