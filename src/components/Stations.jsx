@@ -8,13 +8,13 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Roboto Mono',
     fontStyle: 'normal',
     fontSize: '16px',
-    lineHeight: '16px',
+    lineHeight: '18.4px',
     fontWeight: '500',
   },
 }));
 
 const options = {
-  'ALL LOCATIONS': 'ALL',
+  'All Locations': 'ALL',
   Archive: 'ARCHIVE',
   Arkansas: 'AR',
   Australia: 'AUS',
@@ -45,20 +45,20 @@ const StationSelect = ({ source, changeSource }) => {
   };
 
   return (
-    <FormControl variant="outlined" className={classes.formControl}>
+    <FormControl className={classes.formControl}>
       <Select
+        autoWidth
         native
         style={{
+          paddingLeft: '0px',
           backgroundColor: 'secondary',
           color: 'rgba(223, 223, 236)',
           height: '50px',
-          width: '200px',
+          width: '170px',
+          padding: '7px',
         }}
         value={source}
         onChange={handleChange}
-        inputProps={{
-          name: 'age',
-        }}
       >
         {Object.entries(options).map(([key, value]) => (
           <option

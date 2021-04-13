@@ -37,11 +37,21 @@ export const theme = createMuiTheme({
       },
     },
 
+
     MuiSelect: {
       root: {
         color: '#ffffff',
         maxHeight: '50px',
         minHeight: '50px',
+        width: '80%',
+      },
+
+      icon: {
+        position: 'relative',
+        color: '#ffffff',
+        width: '30px',
+        height: '30px',
+        marginBottom: '10px',
       },
     },
 
@@ -69,6 +79,8 @@ export const theme = createMuiTheme({
         textTransform: 'none',
         backgroundColor: 'rgba(71, 78, 116, 0.6)',
         opacity: 0.8,
+        borderRadius: '4px',
+        padding: '12px',
       },
       input: {
         fontSize: '13px',
@@ -92,6 +104,12 @@ export const theme = createMuiTheme({
         backgroundColor: 'rgba(71, 78, 116, 0.6)',
         opacity: 0.8,
       },
+    },
+
+    MuiGridItem: {
+      root: {
+        padding: '2px',
+      }
     },
 
     MuiTypography: {

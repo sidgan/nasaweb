@@ -15,10 +15,19 @@ import { useNavigationState } from '../contexts/navigation';
 const ReactGlobe = React.lazy(() => import('react-globe.gl'));
 const StickyHeadTable = React.lazy(() => import('./Table'));
 
-const meridianData = require('../json/meridianLabels.json');
+const longtitudeData = require('../json/longtitudeLabels.json');
+const latitudeData = require('../json/latitudeLabels.json');
+
 const meridianLabels = [];
 
-meridianData.labels.forEach((m) => {
+longtitudeData.labels.forEach((m) => {
+  meridianLabels.push({
+    name: m.name,
+    lat: m.lat,
+    lng: m.lng,
+  });
+});
+latitudeData.labels.forEach((m) => {
   meridianLabels.push({
     name: m.name,
     lat: m.lat,
@@ -50,9 +59,15 @@ const colorScale = (colorCode) => {
 
 const starSizeScale = (colorCode) => {
   let code = parseFloat(colorCode) * 10;
-  if (code >= 11 && code <= 20) {
+  if (code >= -20.0 && code <= -10.0) {
+    return 0.85;
+  } else if (code >= -9.0 && code <= 10.0) {
+    return 0.8;
+  } else if (code >= 11 && code <= 15) {
     return 0.76;
-  } else if (code >= 21 && code <= 30) {
+  } else if (code >= 16 && code <= 25) {
+    return 0.65;
+  } else if (code >= 25 && code <= 30) {
     return 0.52;
   } else if (code >= 31 && code <= 40) {
     return 0.24;
@@ -103,6 +118,7 @@ const MainSection = (props) => {
         id: m.id,
         iau: m.iau,
         name: m.name,
+        abbrv: '',
         type: 'meteor',
         color: colorScale(m.color),
         lat: m.location.coordinates[1],
@@ -119,8 +135,9 @@ const MainSection = (props) => {
       newMarkers.push({
         id: m.id,
         color: 'rgb(0, 0, 0)',
-        name: 'Star',
+        name: m.name !== '' ? m.name : 'Star',
         type: 'star',
+        abbrv: '',
         lat: m.location.coordinates[1],
         lng: m.location.coordinates[0],
         size: starSizeScale(m.mag),
@@ -146,6 +163,7 @@ const MainSection = (props) => {
               points: p,
               id: newConstellations.length,
               name: name,
+              abbrv: m.abbreviation,
               startLng: p[i][0],
               startLat: p[i][1],
               endLng: p[j][0],
@@ -165,7 +183,7 @@ const MainSection = (props) => {
       id: newMarkers.length,
       color: '#FDB800',
       name: 'Sun',
-      type: '',
+      type: 'sun',
       lat: 0,
       lng: 0,
       size: 3,
@@ -175,11 +193,17 @@ const MainSection = (props) => {
   }, []);
 
   const markerTooltip = (marker) => {
-    return `<h2>${marker.name}</h2>`;
+    if (marker.name !== '') {
+      if (marker.abbrv === '' || !marker.abbrv) {
+        return `<h2>${marker.name}</h2>`;
+      } else {
+        return `<h2>${marker.name} (${marker.abbrv})</h2>`;
+      }
+    }
   };
 
   const markerInfoTip = (marker) => {
-    if (marker.name === 'Sun' || marker.name === 'Star') {
+    if (marker.type === 'sun' || marker.type === 'star') {
       console.log('Wrong marker clicked');
     } else {
       setDetail(marker);
@@ -231,7 +255,7 @@ const MainSection = (props) => {
               arcEndLng={(d) => d.endLng}
               arcColor={(d) => d.color}
               arcAltitude={0}
-              arcStroke={0.125}
+              arcStroke={0.25}
               customLayerData={markers}
               customThreeObject={(d) =>
                 new THREE.Mesh(

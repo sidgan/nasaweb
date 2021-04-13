@@ -3,7 +3,7 @@
   justify-content: space-between;
   z-index: 999;
   background: transparent;
-  padding: 20px 20px 0 24px;
+  padding: 24px;
   position: fixed;
   width: 100%;
 }
@@ -22,7 +22,6 @@
   text-shadow: blue;
   color: #ffffff;
   flex: 0 0 auto;
-  margin-left: 2rem;
 }
 
 .logo_item {
@@ -33,16 +32,16 @@
   display: flex;
   float: right;
   flex: 0 0 auto;
-  margin-top: 2rem;
-  margin-right: 2.5rem;
+  /* margin-top: 2rem;
+  margin-right: 2.5rem; */
 }
 
 .header-nav-item {
-  margin-left: 1rem;
+  margin-left: 16px;
 }
 
 .datepicker_container {
-  margin-right: 1rem;
+  padding: 2px;
 }
 
 h2 {
@@ -87,7 +86,7 @@ h2 {
 .zoom-1 {
   position: fixed;
   top: 40vh;
-  right: 70px;
+  right: 24px;
   z-index: 999;
 }
 
@@ -201,4 +200,8 @@ h2 {
 /* TABLE SECTION STYLES */
 .menu {
   padding: '0px';
+}
+
+.MuiSelect-select {
+  padding-right: 2px !important;
 }

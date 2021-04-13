@@ -4,7 +4,7 @@ import NavigationBar from './Navigation';
 
 import { useNavigationState } from '../contexts/navigation';
 
-import logo from '../images/icon.png';
+import logo from '../images/logo.svg';
 
 const Header = () => {
   const navigationState = useNavigationState();
@@ -17,7 +17,7 @@ const Header = () => {
           rel="noopener noreferrer"
           href="http://cams.seti.org"
         >
-          <img src={logo} alt={logo} width="40px" height="40px" />
+          <img src={logo} alt="NASA" width="40px" height="40px" />
         </a>
         Meteor Shower Portal
       </div>
