@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import * as THREE from 'three';
 
+import debounce from 'lodash.debounce';
 import Preloader from './Preloader';
 import ZoomButton from './ZoomButton';
 import DataTooltip from './Tooltip';
@@ -11,11 +12,6 @@ import { useNavigationState } from '../contexts/navigation';
 // Lazy Loading React Component
 const ReactGlobe = React.lazy(() => import('react-globe.gl'));
 const StickyHeadTable = React.lazy(() => import('./Table'));
-
-const url = new URL(window.location);
-let urlParams = new URLSearchParams();
-urlParams.append('lat', -13);
-console.log(url + urlParams);
 
 const meridianData = require('../json/meridianLabels.json');
 const meridianLabels = [];
@@ -70,6 +66,8 @@ const MainSection = (props) => {
   const [alt, setAlt] = useState(2);
 
   const { meteors, stars, constellations } = useNavigationState();
+
+  const [globeReady, setGlobeReady] = useState(false);
 
   // Markers State
   const [markers, setMarkers] = useState([]);
@@ -196,20 +194,37 @@ const MainSection = (props) => {
     updateMarkers(meteors, stars, constellations);
   }, [meteors, stars, constellations, updateMarkers]);
 
+  const setURL = useCallback(
+    debounce((pov) => {
+      const mappings = {
+        altitude: 'alt',
+        lat: 'lat',
+        lng: 'long',
+      };
+      let newParams = new URLSearchParams(window.location.search);
+      Object.entries(pov).forEach(([coord, value]) => {
+        newParams.set(mappings[coord], value.toFixed(3));
+      });
+      window.history.pushState({}, '', '?' + newParams.toString());
+    }, 500)
+  );
+
   const elem = document.getElementById('Globe');
 
   return (
     <div className="globe-container">
-      <div className="zoom-1">
-        <ZoomButton onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
-      </div>
+      {props.showZoom ? (
+        <div className="zoom-1">
+          <ZoomButton onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
+        </div>
+      ) : null}
       <div className="globe-content" id="Globe">
         {props.showGlobe ? (
           <Suspense fallback={<Preloader size={200} />}>
             <ReactGlobe
               ref={globeEl}
-              width={window.innerWidth - 50}
-              height={window.innerHeight}
+              width={props.width}
+              height={props.height}
               altitude={alt}
               backgroundColor="#070c26"
               backgroundImageUrl={null}
@@ -246,9 +261,27 @@ const MainSection = (props) => {
               onCustomLayerClick={markerInfoTip}
               customLayerLabel={markerTooltip}
               onGlobeReady={() => {
-                globeEl.current.pointOfView({
+                setGlobeReady(true);
+                console.log(window.location.search);
+                let pov = {
                   lng: 180,
-                });
+                };
+                const properties = ['alt', 'lat', 'long'];
+                const mappings = {
+                  alt: 'altitude',
+                  lat: 'lat',
+                  long: 'lng',
+                };
+                if (window.location.search) {
+                  const params = new URLSearchParams(window.location.search);
+                  properties.forEach((property) => {
+                    if (params.has(property) && Number(params.get(property))) {
+                      pov[mappings[property]] = Number(params.get(property));
+                    }
+                  });
+                }
+                globeEl.current.pointOfView(pov);
+                globeEl.current.controls().dampingFactor = 0.75;
               }}
               labelsData={meridianLabels}
               labelLat={(d) => d.lat}
@@ -260,15 +293,9 @@ const MainSection = (props) => {
               labelColor={(d) => 'rgba(255, 255, 255, 0.75)'}
               labelResolution={10}
               onZoom={(pov) => {
-                console.log('moved');
-                console.log(
-                  'lat: ',
-                  pov.lat,
-                  ' lng: ',
-                  pov.lng,
-                  ' altitude: ',
-                  pov.altitude
-                );
+                if (globeReady) {
+                  setURL(pov);
+                }
               }}
             />
           </Suspense>

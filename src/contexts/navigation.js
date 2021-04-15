@@ -1,10 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
+import throttle from 'lodash.throttle';
 import { useCache, generateMeteorKey, generateStarKey } from './storage';
-import { getYesterdaysDate, getDateRange } from '../utils/date';
+import { getDateString, getYesterdaysDate, getDateRange } from '../utils/date';
 
 import { fetchStars } from '../clients/star';
 import { fetchMeteors } from '../clients/meteor';
 import { fetchConstellations } from '../clients/constellation';
+
+const options = [
+  'ALL',
+  'ARCHIVE',
+  'AR',
+  'AUS',
+  'CAMS',
+  'EXOSS',
+  'GMN',
+  'MA',
+  'NCA',
+  'TEXAS',
+  'UAE',
+  'BENELUX',
+  'CHILE',
+  'EDMOND',
+  'FL',
+  'LOCAMS',
+  'NAMIBIA',
+  'NZ',
+  'SA',
+  'SONOTACO',
+  'TK',
+];
 
 const NavigationContext = React.createContext();
 
@@ -18,6 +43,36 @@ export function NavigationProvider({ children }) {
   const [constellationsToRender, setConstellations] = React.useState([]);
 
   const [isInTimelineView, toggleTimelineView] = React.useState(false);
+
+  const initializeDateLoc = () => {
+    let dateParam, sourceParam;
+    if (window.location.search) {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('date') && Date.parse(params.get('date'))) {
+        dateParam = getDateString(new Date(params.get('date')));
+        setDate(dateParam);
+      }
+      if (params.has('loc') && options.includes(params.get('loc'))) {
+        sourceParam = params.get('loc');
+        setSource(sourceParam);
+      }
+    }
+    return [dateParam, sourceParam];
+  };
+
+  const updateDateParams = (newDate) => {
+    let newParams = new URLSearchParams(window.location.search);
+    newParams.set('date', newDate);
+    console.log(newParams.toString());
+    window.history.pushState({}, '', '?' + newParams.toString());
+  };
+
+  const updateSourceParams = (newSource) => {
+    let newParams = new URLSearchParams(window.location.search);
+    newParams.set('loc', newSource);
+    console.log(newParams.toString());
+    window.history.pushState({}, '', '?' + newParams.toString());
+  };
 
   const retrieveMeteors = async (date, source) => {
     console.log('fetch meteors');
@@ -51,7 +106,7 @@ export function NavigationProvider({ children }) {
       constellations = cachedConstellations.get(key);
     } else {
       constellations = await fetchConstellations(date);
-      cachedStars.set(key, constellations);
+      cachedConstellations.set(key, constellations);
     }
     return constellations;
   };
@@ -76,9 +131,26 @@ export function NavigationProvider({ children }) {
   };
 
   useEffect(() => {
-    setDataAll(date, source);
+    const [dateParam, sourceParam] = initializeDateLoc();
+    let finalDate = dateParam ? dateParam : date;
+    let finalSource = sourceParam ? sourceParam : source;
+    setDataAll(finalDate, finalSource);
     // eslint-disable-next-line
   }, []);
+
+  const onDateChange = useCallback(
+    throttle((newDate) => {
+      console.log('throttled');
+      setDataAll(newDate, source);
+      updateDateParams(newDate);
+    }, 3000),
+    [source]
+  );
+
+  const onSourceChange = (newSource) => {
+    setDataAll(date, newSource);
+    updateSourceParams(newSource);
+  };
 
   return (
     <NavigationContext.Provider
@@ -91,11 +163,11 @@ export function NavigationProvider({ children }) {
         isInTimelineView: isInTimelineView,
         changeDate: (newDate) => {
           setDate(newDate);
-          setDataAll(newDate, source);
+          onDateChange(newDate);
         },
         changeSource: (newSource) => {
           setSource(newSource);
-          setDataAll(date, newSource);
+          onSourceChange(newSource);
         },
         toggleTimelineView: () => {
           toggleTimelineView(!isInTimelineView);
