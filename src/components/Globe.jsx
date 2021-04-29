@@ -278,7 +278,7 @@ const MainSection = (props) => {
               customLayerLabel={markerTooltip}
               labelsData={meridianLabels}
               labelLat={(d) => d.lat}
-              labelAltitude={0.1}
+              labelAltitude={0}
               labelLng={(d) => d.lng}
               labelText={(d) => d.name}
               labelSize={1}

@@ -15,7 +15,7 @@ const styles = (theme) => ({
     marginLeft: '10px',
     border: '2px solid #474E74',
     zIndex: 999,
-    bottom: '15vh',
+    bottom: '7vh',
     right: '2vw',
   },
   closeButton: {

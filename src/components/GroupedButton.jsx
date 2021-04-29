@@ -73,27 +73,6 @@ class GroupedButton extends Component {
             </ButtonGroup>
           )}
         </Grid>
-        <Grid item>
-          <React.Fragment>
-            {this.state.showHelper ? (
-              <HelpTooltip
-                handleClose={() => this.setState({ showHelper: false })}
-              />
-            ) : null}
-          </React.Fragment>
-          {/* <HtmlTooltip title={<Helper />}> */}
-          <Button
-            style={{ minHeight: '50px', minWidth: '50px', fontSize: '20px' }}
-            variant="contained"
-            color="secondary"
-            onClick={() =>
-              this.setState({ showHelper: !this.state.showHelper })
-            }
-          >
-            <b>?</b>
-          </Button>
-          {/* </HtmlTooltip> */}
-        </Grid>
       </Grid>
     );
   }

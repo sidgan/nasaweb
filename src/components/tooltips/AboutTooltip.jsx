@@ -15,8 +15,8 @@ const styles = (theme) => ({
     marginLeft: '10px',
     border: '2px solid #474E74',
     zIndex: 999,
-    bottom: '15vh',
-    right: '2vw',
+    bottom: '5vh',
+    right: '17vw',
   },
   closeButton: {
     position: 'absolute',

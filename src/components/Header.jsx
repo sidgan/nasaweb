@@ -1,13 +1,15 @@
 import React from 'react';
 import StationSelect from './Stations';
 import NavigationBar from './Navigation';
+import GroupedButton from './GroupedButton';
 
 import { useNavigationState } from '../contexts/navigation';
 
 import logo from '../images/logo.svg';
 
-const Header = () => {
+const Header = (props) => {
   const navigationState = useNavigationState();
+
   return (
     <div className="flexbox_container">
       <div className="title_item">
@@ -22,13 +24,19 @@ const Header = () => {
         Meteor Shower Portal
       </div>
       <div className="header-nav">
-        <div className="header-nav-item">
+        {/* <div className="header-nav-item">
           <NavigationBar onChange={navigationState.changeDate} />
-        </div>
+        </div> */}
         <div className="header-nav-item">
           <StationSelect
             source={navigationState.source}
             changeSource={navigationState.changeSource}
+          />
+        </div>
+        <div className="header-nav-item">
+          <GroupedButton
+            showGlobe={props.showGlobe}
+            toggleDisplay={props.toggleDisplay}
           />
         </div>
       </div>

@@ -50,19 +50,22 @@ class App extends Component {
           <div className="App">
             <StorageProvider>
               <NavigationProvider>
-                <Header />
+                <Header
+                  showGlobe={this.state.showGlobe}
+                  toggleDisplay={this.toggleDisplay}
+                />
                 <div className="globe-container">
                   <div className="main-section">
                     <Globe showGlobe={this.state.showGlobe} />
                   </div>
                   {/* {this.renderTimeline()} */}
                 </div>
-                <div className="guide-1">
+                {/* <div className="guide-1">
                   <GroupedButton
                     showGlobe={this.state.showGlobe}
                     toggleDisplay={this.toggleDisplay}
                   />
-                </div>
+                </div> */}
               </NavigationProvider>
             </StorageProvider>
             <Footer />

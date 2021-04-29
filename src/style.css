@@ -92,8 +92,8 @@ h2 {
 
 .guide-1 {
   position: fixed;
-  bottom: 70px;
-  right: 24px;
+  bottom: 20px;
+  right: 10px;
 }
 
 .overlay Button {
@@ -187,7 +187,7 @@ h2 {
 }
 
 .footer-nav-link + .footer-nav-link {
-  margin-left: 16px;
+  margin-left: 24px;
 }
 
 .pre-loader {
