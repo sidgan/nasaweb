@@ -3,6 +3,17 @@ export function getDateString(date) {
   return `${date.toISOString().slice(0, 10)}`;
 }
 
+function checkDateIsLessThan(date1, date2) {
+  return date1.getTime() < date2.getTime();
+}
+
+export function checkIfValidDate(date, maxDate) {
+  return (
+    checkDateIsLessThan(new Date(date), new Date(maxDate)) &&
+    checkDateIsLessThan(new Date('2010-04-14'), new Date(date))
+  );
+}
+
 export function getYesterdaysDate() {
   let date = new Date();
   date.setUTCDate(date.getUTCDate() - 1);

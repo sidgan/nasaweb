@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import DatePicker from './DatePicker';
 import Preloader from './Preloader';
 import {
   getYesterdaysDate,
@@ -412,11 +411,11 @@ const Timeline = () => {
           </div>
           <div className={classes.row2}>
             <div className={classes.start}>
-              <DatePicker
+              {/* <DatePicker
                 date={startDate}
                 changeDate={setStartDate}
                 showArrows={false}
-              />
+              /> */}
             </div>
             <div className={classes.loop}>
               <StyledLabel
@@ -444,11 +443,11 @@ const Timeline = () => {
               )}
             </div>
             <div className={classes.end}>
-              <DatePicker
+              {/* <DatePicker
                 date={endDate}
                 changeDate={setEndDate}
                 showArrows={false}
-              />
+              /> */}
             </div>
           </div>
         </>

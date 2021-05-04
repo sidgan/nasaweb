@@ -43,6 +43,8 @@ export function NavigationProvider({ children }) {
   const [constellationsToRender, setConstellations] = React.useState([]);
 
   const [isInTimelineView, toggleTimelineView] = React.useState(false);
+  const [startDate, setStartDate] = React.useState(date);
+  const [endDate, setEndDate] = React.useState('not set');
 
   const initializeDateLoc = () => {
     let dateParam, sourceParam;
@@ -161,6 +163,8 @@ export function NavigationProvider({ children }) {
         stars: starsToRender,
         constellations: constellationsToRender,
         isInTimelineView: isInTimelineView,
+        startDate: startDate,
+        endDate: endDate,
         changeDate: (newDate) => {
           setDate(newDate);
           onDateChange(newDate);
@@ -171,6 +175,12 @@ export function NavigationProvider({ children }) {
         },
         toggleTimelineView: () => {
           toggleTimelineView(!isInTimelineView);
+        },
+        changeStartDate: (newDate) => {
+          setStartDate(newDate);
+        },
+        changeEndDate: (newDate) => {
+          setEndDate(newDate);
         },
         loadRange: async (start, end) => {
           const dateRange = getDateRange(new Date(start), new Date(end));
