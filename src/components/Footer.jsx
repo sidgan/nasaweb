@@ -9,7 +9,7 @@ import SpaceMl from '../images/spaceml.png';
 class Footer extends Component {
   state = {
     showAbout: false,
-    showHelper: false
+    showHelper: false,
   };
 
   render() {

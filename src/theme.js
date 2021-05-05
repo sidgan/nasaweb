@@ -37,7 +37,6 @@ export const theme = createMuiTheme({
       },
     },
 
-
     MuiSelect: {
       root: {
         color: '#ffffff',
@@ -109,7 +108,7 @@ export const theme = createMuiTheme({
     MuiGridItem: {
       root: {
         padding: '2px',
-      }
+      },
     },
 
     MuiTypography: {

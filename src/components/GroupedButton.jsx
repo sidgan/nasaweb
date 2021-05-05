@@ -5,18 +5,6 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Typography from '@material-ui/core/Typography';
 // import Tooltip from '@material-ui/core/Tooltip';
-import HelpTooltip from './tooltips/HelpTooltip';
-
-// const HtmlTooltip = withStyles((theme) => ({
-//   tooltip: {
-//     backgroundColor: 'rgba(71, 78, 116, 0.6)',
-//     color: 'primary',
-//     maxWidth: 448,
-//     maxHeight: 480,
-//     marginLeft: '10px',
-//     border: '2px solid #474E74',
-//   },
-// }))(Tooltip);
 
 class GroupedButton extends Component {
   constructor() {

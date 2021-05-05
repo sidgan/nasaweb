@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Header from './components/Header';
 import Globe from './components/Globe';
-import GroupedButton from './components/GroupedButton';
 import Timeline from './components/Timeline';
 import Footer from './components/Footer';
 
@@ -60,12 +59,6 @@ class App extends Component {
                   </div>
                   {/* {this.renderTimeline()} */}
                 </div>
-                {/* <div className="guide-1">
-                  <GroupedButton
-                    showGlobe={this.state.showGlobe}
-                    toggleDisplay={this.toggleDisplay}
-                  />
-                </div> */}
               </NavigationProvider>
             </StorageProvider>
             <Footer />

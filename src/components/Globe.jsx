@@ -239,7 +239,7 @@ const MainSection = (props) => {
                   alt: alt,
                 });
               }}
-              width={window.innerWidth - 50}
+              width={window.innerWidth}
               height={window.innerHeight}
               altitude={alt}
               backgroundColor="#070c26"

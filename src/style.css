@@ -40,6 +40,13 @@
   margin-left: 16px;
 }
 
+.date-picker-nav {
+  position: fixed;
+  top: 10vh;
+  right: 24px;
+  z-index: 999;
+}
+
 .datepicker_container {
   padding: 2px;
 }
@@ -85,7 +92,7 @@ h2 {
 }
 .zoom-1 {
   position: fixed;
-  top: 40vh;
+  top: 50vh;
   right: 24px;
   z-index: 999;
 }
@@ -115,6 +122,7 @@ h2 {
 .globe-content {
   height: 100%;
   width: 100%;
+  margin: auto;
 }
 
 .globe-container {
