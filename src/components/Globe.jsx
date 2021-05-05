@@ -168,7 +168,7 @@ const MainSection = (props) => {
               startLat: p[i][1],
               endLng: p[j][0],
               endLat: p[j][1],
-              color: '#302f2f',
+              color: 'rgba(0, 0, 0, 0.55)',
             });
           }
         }
