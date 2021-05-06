@@ -41,7 +41,7 @@ const CustomDatePicker = ({ selectedDate, onChange, minDate, maxDate }) => {
         }}
         PopoverProps={{
           anchorOrigin: { horizontal: 'left', vertical: 'top' },
-          transformOrigin: { horizontal: 325 },
+          transformOrigin: { horizontal: 325, vertical: 0 },
         }}
         format="yyyy-MM-dd"
         value={getOffsetDate(selectedDate)}
