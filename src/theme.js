@@ -135,6 +135,20 @@ export const theme = createMuiTheme({
         padding: '10px',
         letterSpacing: '1.5px',
       },
+      h6: {
+        fontFamily: 'Roboto Mono',
+        fontSize: '14px',
+        fontWeight: 200,
+        letterSpacing: '1.5px',
+      },
+      h2: {
+        fontFamily: 'Roboto Mono',
+        fontSize: '32px',
+        fontWeight: 700,
+        lineHeight: '24px',
+        letterSpacing: '1.5px',
+        paddingLeft: '0px',
+      }
     },
 
     MuiTableBody: {
@@ -155,6 +169,16 @@ export const theme = createMuiTheme({
         color: 'textSecondary',
         backgroundColor: 'rgba(71, 78, 116)',
         opacity: 0.8,
+      },
+    },
+    MuiCheckbox: {
+      root: {
+        width: '16px',
+        height: '16px',
+        borderRadius: '2px',
+        backgroundColor: 'rgba(71, 78, 116, 0.6)',
+        marginLeft: '1rem',
+        marginRight: '1.5rem',
       },
     },
   },
