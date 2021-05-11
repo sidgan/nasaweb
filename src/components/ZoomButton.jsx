@@ -18,7 +18,13 @@ class ZoomButton extends Component {
             <Button
               variant="contained"
               color="secondary"
-              style={{ minWidth: '50px', minHeight: '50px', fontSize: '20px' }}
+              style={{
+                minWidth: '40px',
+                minHeight: '40px',
+                lineHeight: '30px',
+                fontSize: '20px',
+                marginBottom: '2px',
+              }}
               onClick={this.props.onZoomIn}
             >
               <b>+</b>
@@ -27,7 +33,13 @@ class ZoomButton extends Component {
             <Button
               variant="contained"
               color="secondary"
-              style={{ minWidth: '50px', minHeight: '50px', fontSize: '20px' }}
+              style={{
+                minWidth: '40px',
+                minHeight: '40px',
+                lineHeight: '30px',
+                fontSize: '20px',
+                marginTop: '2px',
+              }}
               onClick={this.props.onZoomOut}
             >
               <b>-</b>

@@ -135,6 +135,10 @@ export function NavigationProvider({ children }) {
     let finalDate = dateParam ? dateParam : date;
     let finalSource = sourceParam ? sourceParam : source;
     setDataAll(finalDate, finalSource);
+
+    retrieveMeteors(date, source);
+    retrieveStars(date);
+    retrieveConstellations(date);
     // eslint-disable-next-line
   }, []);
 

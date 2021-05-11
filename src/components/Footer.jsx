@@ -1,67 +1,15 @@
 import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+// import Responsive from 'react-responsive-decorator';
+import AboutHelper from './tooltips/AboutTooltip';
+import HelpTooltip from './tooltips/HelpTooltip';
+
 import SpaceMl from '../images/spaceml.png';
-
-const AboutTooltip = withStyles((theme) => ({
-  tooltip: {
-    backgroundColor: 'rgba(71, 78, 116, 0.6)',
-    color: 'primary',
-    maxWidth: 300,
-    maxHeight: 500,
-    marginLeft: '10px',
-    border: '2px solid #474E74',
-  },
-}))(Tooltip);
-
-const AboutCard = () => {
-  return (
-    <React.Fragment>
-      <Grid container color="secondary" spacing={2}>
-        <Grid item xs={12}>
-          <div className="text-left">
-            <p></p>
-            <Typography variant="h3" color="textPrimary">
-              <b>Website Created By;</b>
-            </Typography>
-            <Typography variant="h5" color="textPrimary">
-              Alfred Emmanuel
-            </Typography>
-            <Typography variant="h5" color="textPrimary">
-              Chad Roffey
-            </Typography>
-            <Typography variant="h5" color="textPrimary">
-              Chicheng Ren
-            </Typography>
-            <Typography variant="h5" color="textPrimary">
-              Deepesh Aggarwal
-            </Typography>
-            <Typography variant="h5" color="textPrimary">
-              Jesse Lash
-            </Typography>
-            <Typography variant="h5" color="textPrimary">
-              Julia Nguyen
-            </Typography>
-            <Typography variant="h5" color="textPrimary">
-              Meher Anand Kasam
-            </Typography>
-            <Typography variant="h5" color="textPrimary">
-              Sahyadri Krishna
-            </Typography>
-            <Typography variant="h5" color="textPrimary">
-              Siddha Ganju
-            </Typography>
-          </div>
-        </Grid>
-      </Grid>
-    </React.Fragment>
-  );
-};
-
 class Footer extends Component {
-  state = {};
+  state = {
+    showAbout: false,
+    showHelper: false,
+  };
 
   render() {
     return (
@@ -101,15 +49,48 @@ class Footer extends Component {
 
         <div className="footer_nav">
           <div className="footer-nav-link">
-            <AboutTooltip title={<AboutCard />}>
-              <p>About</p>
-            </AboutTooltip>
+            <p
+              onClick={() =>
+                this.setState({ showAbout: !this.state.showAbout })
+              }
+            >
+              About
+            </p>
+          </div>
+          <div className="footer-nav-link">Start a network</div>
+          <div className="footer-nav-link">CAMS</div>
+          <div className="footer-nav-link">
+            <React.Fragment>
+              {this.state.showHelper ? (
+                <HelpTooltip
+                  handleClose={() => this.setState({ showHelper: false })}
+                />
+              ) : null}
+            </React.Fragment>
+
+            <Button
+              className="guide-1"
+              style={{ minHeight: '40px', minWidth: '40px', fontSize: '20px' }}
+              variant="contained"
+              color="secondary"
+              onClick={() =>
+                this.setState({ showHelper: !this.state.showHelper })
+              }
+            >
+              <b>?</b>
+            </Button>
           </div>
         </div>
+        <React.Fragment>
+          {this.state.showAbout ? (
+            <AboutHelper
+              handleClose={() => this.setState({ showAbout: false })}
+            />
+          ) : null}
+        </React.Fragment>
       </div>
     );
   }
 }
 
-// export default Responsive(Footer);
 export default Footer;
