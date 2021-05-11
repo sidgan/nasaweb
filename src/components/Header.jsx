@@ -1,7 +1,7 @@
 import React from 'react';
 import StationSelect from './Stations';
 import GroupedButton from './GroupedButton';
-import NavigationBar from './Navigation';
+import NavigationCard from './NavigationCard';
 import { useNavigationState } from '../contexts/navigation';
 
 import logo from '../images/logo.svg';
@@ -39,7 +39,8 @@ const Header = (props) => {
         </div>
       </div>
       <div className="date-picker-nav">
-        <NavigationBar onChange={navigationState.changeDate} />
+        {/* <NavigationBar onChange={navigationState.changeDate} /> */}
+        <NavigationCard onChange={navigationState.changeDate} />
       </div>
     </div>
   );

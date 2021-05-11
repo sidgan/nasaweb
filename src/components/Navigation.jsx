@@ -6,8 +6,6 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 
 import { useNavigationState } from '../contexts/navigation';
 
-import leftIcon from '../images/left-icon.png';
-import rightIcon from '../images/right-icon.png';
 
 const getMaxDate = () => {
   let date = new Date();

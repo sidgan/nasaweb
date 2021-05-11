@@ -42,10 +42,17 @@
 
 .date-picker-nav {
   position: fixed;
-  top: 10vh;
-  right: 24px;
+  top: 12vh;
+  right: 8vw;
   z-index: 999;
+  justify-content: left;
+  align-items: left;
+  justify-content: left;
 }
+
+/* .timeline-box {
+  padding-left: '3px'
+} */
 
 .datepicker_container {
   padding: 2px;
