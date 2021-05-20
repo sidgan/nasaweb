@@ -2,12 +2,29 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+// import IconButton from '@material-ui/core/IconButton';
+import { DatePicker } from '@material-ui/pickers';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
 import { useNavigationState } from '../contexts/navigation';
 
 import leftIcon from '../images/left-icon.png';
 import rightIcon from '../images/right-icon.png';
+
+const monthNames = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'June',
+  'July',
+  'Aug',
+  'Sept',
+  'Oct',
+  'Nov',
+  'Dec',
+];
 
 const getMaxDate = () => {
   let date = new Date();
@@ -18,6 +35,14 @@ const getMaxDate = () => {
 const NavigationCard = (props) => {
   const navigationState = useNavigationState();
   const [maxDate] = React.useState(`${getMaxDate()}`);
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const getFormat = () => {
+    const date = new Date(navigationState.date);
+    let month = monthNames[date.getMonth()];
+    let result = `${month.toUpperCase()} ${date.getDate()}, ${date.getFullYear()}`;
+    return result;
+  };
 
   const incrementDate = () => {
     // Add One Day To Selected Date
@@ -55,12 +80,39 @@ const NavigationCard = (props) => {
   };
   return (
     <>
+      <div className="disappear">
+        <DatePicker
+          autoOk
+          clearable
+          disableFuture
+          disableToolbar
+          format="MMM d, yyyy"
+          variant="inline"
+          open={isOpen}
+          onOpen={() => setIsOpen(true)}
+          onClose={() => setIsOpen(false)}
+          inputVariant="standard"
+          value={navigationState.date}
+          onChange={(date) => handleDateChange(date)}
+        />
+      </div>
       <Typography variant="h6" color="textSecondary" className="text-left p-1">
         Current Date:
       </Typography>
       <Typography variant="h2" color="textSecondary" className="text-left p-1">
-        NOV 6, 2021
+        <div onClick={() => setIsOpen(true)}>{getFormat()}</div>
       </Typography>
+      {/* <Grid container>
+        <Grid item>
+          <DatePicker
+            autoOk
+            clearable
+            disableFuture
+            value={selectedDate}
+            onChange={(date) => handleDateChange(date)}
+          />
+        </Grid>
+      </Grid> */}
       <Grid container spacing={1} className="p-1">
         <Grid item onClick={decrementDate}>
           <Button

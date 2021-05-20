@@ -97,6 +97,13 @@ export const theme = createMuiTheme({
         color: 'white',
       },
     },
+    // MuiDatePicker: {
+    //   root: {
+    //     backgroundColor: '#070c26',
+    //     color: "white",
+    //     fontWeight: "700"
+    //   },
+    // },
 
     MuiMenuItem: {
       root: {
