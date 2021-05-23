@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-// import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Typography from '@material-ui/core/Typography';
-// import Tooltip from '@material-ui/core/Tooltip';
-
 class GroupedButton extends Component {
   constructor() {
     super();

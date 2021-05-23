@@ -102,7 +102,7 @@ export function NavigationProvider({ children }) {
   const retrieveConstellations = async (date) => {
     let constellations;
     const key = generateStarKey(date);
-    if (cachedConstellations.has(key) === undefined) {
+    if (cachedConstellations.has(key)) {
       constellations = cachedConstellations.get(key);
     } else {
       constellations = await fetchConstellations(date);

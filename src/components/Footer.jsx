@@ -5,7 +5,6 @@ import AboutHelper from './tooltips/AboutTooltip';
 import HelpTooltip from './tooltips/HelpTooltip';
 
 import SpaceMl from '../images/spaceml.png';
-
 class Footer extends Component {
   state = {
     showAbout: false,
@@ -50,9 +49,6 @@ class Footer extends Component {
 
         <div className="footer_nav">
           <div className="footer-nav-link">
-            {/* <AboutTooltip title={<AboutCard />}>
-              <p>About</p>
-            </AboutTooltip> */}
             <p
               onClick={() =>
                 this.setState({ showAbout: !this.state.showAbout })
@@ -93,5 +89,4 @@ class Footer extends Component {
   }
 }
 
-// export default Responsive(Footer);
 export default Footer;

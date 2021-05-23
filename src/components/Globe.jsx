@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import * as THREE from 'three';
-
+import debounce from 'lodash.debounce';
 // import { render } from '@testing-library/react';
 
 import Preloader from './Preloader';
@@ -83,6 +83,7 @@ const MainSection = (props) => {
   const [alt, setAlt] = useState(2);
 
   const { meteors, stars, constellations } = useNavigationState();
+  const [globeReady, setGlobeReady] = useState(false);
 
   // Markers State
   const [markers, setMarkers] = useState([]);
@@ -218,6 +219,21 @@ const MainSection = (props) => {
     updateMarkers(meteors, stars, constellations);
   }, [meteors, stars, constellations, updateMarkers]);
 
+  const setURL = useCallback(
+    debounce((pov) => {
+      const mappings = {
+        altitude: 'alt',
+        lat: 'lat',
+        lng: 'long',
+      };
+      let newParams = new URLSearchParams(window.location.search);
+      Object.entries(pov).forEach(([coord, value]) => {
+        newParams.set(mappings[coord], value.toFixed(3));
+      });
+      window.history.pushState({}, '', '?' + newParams.toString());
+    }, 500)
+  );
+
   console.log(globeEl.current);
 
   const elem = document.getElementById('Globe');
@@ -232,13 +248,6 @@ const MainSection = (props) => {
             </div>
             <ReactGlobe
               ref={globeEl}
-              onGlobeReady={() => {
-                globeEl.current.pointOfView({
-                  lng: 180,
-                  lat: 0,
-                  alt: alt,
-                });
-              }}
               width={window.innerWidth}
               height={window.innerHeight}
               altitude={alt}
@@ -276,6 +285,29 @@ const MainSection = (props) => {
               }}
               onCustomLayerClick={markerInfoTip}
               customLayerLabel={markerTooltip}
+              onGlobeReady={() => {
+                setGlobeReady(true);
+                console.log(window.location.search);
+                let pov = {
+                  lng: 180,
+                };
+                const properties = ['alt', 'lat', 'long'];
+                const mappings = {
+                  alt: 'altitude',
+                  lat: 'lat',
+                  long: 'lng',
+                };
+                if (window.location.search) {
+                  const params = new URLSearchParams(window.location.search);
+                  properties.forEach((property) => {
+                    if (params.has(property) && Number(params.get(property))) {
+                      pov[mappings[property]] = Number(params.get(property));
+                    }
+                  });
+                }
+                globeEl.current.pointOfView(pov);
+                globeEl.current.controls().dampingFactor = 0.75;
+              }}
               labelsData={meridianLabels}
               labelLat={(d) => d.lat}
               labelAltitude={0}
@@ -285,10 +317,15 @@ const MainSection = (props) => {
               labelIncludeDot={false}
               labelColor={(d) => 'rgba(255, 255, 255, 0.75)'}
               labelResolution={10}
+              onZoom={(pov) => {
+                if (globeReady) {
+                  setURL(pov);
+                }
+              }}
             />
           </Suspense>
         ) : (
-          <Suspense fallback={<Preloader />}>
+          <Suspense fallback={<Preloader size={200} />}>
             <StickyHeadTable markers={markers} />
           </Suspense>
         )}
