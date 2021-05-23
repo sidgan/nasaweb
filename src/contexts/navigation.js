@@ -1,30 +1,81 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
+import throttle from 'lodash.throttle';
 import { useCache, generateMeteorKey, generateStarKey } from './storage';
+import { getDateString, getYesterdaysDate, getDateRange } from '../utils/date';
 
 import { fetchStars } from '../clients/star';
 import { fetchMeteors } from '../clients/meteor';
 import { fetchConstellations } from '../clients/constellation';
 
-function getNewDate() {
-  // Get Yesterday's Date
-  let date = new Date();
-  date.setDate(date.getDate() - 1);
-
-  return `${date.toISOString().slice(0, 10)}`;
-}
+const options = [
+  'ALL',
+  'ARCHIVE',
+  'AR',
+  'AUS',
+  'CAMS',
+  'EXOSS',
+  'GMN',
+  'MA',
+  'NCA',
+  'TEXAS',
+  'UAE',
+  'BENELUX',
+  'CHILE',
+  'EDMOND',
+  'FL',
+  'LOCAMS',
+  'NAMIBIA',
+  'NZ',
+  'SA',
+  'SONOTACO',
+  'TK',
+];
 
 const NavigationContext = React.createContext();
 
 export function NavigationProvider({ children }) {
-  const { cachedMeteors, cachedStars } = useCache();
-  const [date, changeDate] = React.useState(getNewDate());
-  const [source, changeSource] = React.useState('ALL');
+  const { cachedMeteors, cachedStars, cachedConstellations } = useCache();
+  const [date, setDate] = React.useState(getYesterdaysDate());
+  const [source, setSource] = React.useState('ALL');
 
-  const [meteorsToRender, changeMeteors] = React.useState([]);
-  const [starsToRender, changeStars] = React.useState([]);
-  const [constellationsToRender, changeConstellations] = React.useState([]);
+  const [meteorsToRender, setMeteors] = React.useState([]);
+  const [starsToRender, setStars] = React.useState([]);
+  const [constellationsToRender, setConstellations] = React.useState([]);
+
+  const [isInTimelineView, toggleTimelineView] = React.useState(false);
+
+  const initializeDateLoc = () => {
+    let dateParam, sourceParam;
+    if (window.location.search) {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('date') && Date.parse(params.get('date'))) {
+        dateParam = getDateString(new Date(params.get('date')));
+        setDate(dateParam);
+      }
+      if (params.has('loc') && options.includes(params.get('loc'))) {
+        sourceParam = params.get('loc');
+        setSource(sourceParam);
+      }
+    }
+    return [dateParam, sourceParam];
+  };
+
+  const updateDateParams = (newDate) => {
+    let newParams = new URLSearchParams(window.location.search);
+    newParams.set('date', newDate);
+    console.log(newParams.toString());
+    window.history.pushState({}, '', '?' + newParams.toString());
+  };
+
+  const updateSourceParams = (newSource) => {
+    let newParams = new URLSearchParams(window.location.search);
+    newParams.set('loc', newSource);
+    console.log(newParams.toString());
+    window.history.pushState({}, '', '?' + newParams.toString());
+  };
 
   const retrieveMeteors = async (date, source) => {
+    console.log('fetch meteors');
     let meteors;
     const key = generateMeteorKey(date, source);
     if (cachedMeteors.has(key)) {
@@ -33,7 +84,7 @@ export function NavigationProvider({ children }) {
       meteors = await fetchMeteors(source, date);
       cachedMeteors.set(key, meteors);
     }
-    changeMeteors(meteors);
+    return meteors;
   };
 
   const retrieveStars = async (date) => {
@@ -45,22 +96,61 @@ export function NavigationProvider({ children }) {
       stars = await fetchStars(date);
       cachedStars.set(key, stars);
     }
-    changeStars(stars);
+    return stars;
   };
 
   const retrieveConstellations = async (date) => {
     let constellations;
+    const key = generateStarKey(date);
+    if (cachedConstellations.has(key) === undefined) {
+      constellations = cachedConstellations.get(key);
+    } else {
+      constellations = await fetchConstellations(date);
+      cachedConstellations.set(key, constellations);
+    }
+    return constellations;
+  };
 
-    constellations = await fetchConstellations(date);
-    changeConstellations(constellations);
+  const setDataAll = async (date, source) => {
+    const meteors = await retrieveMeteors(date, source);
+    const stars = await retrieveStars(date);
+    const constellations = await retrieveConstellations(date);
+    setMeteors(meteors);
+    setStars(stars);
+    setConstellations(constellations);
+  };
+
+  const fetchDataRange = async (dateRange) => {
+    await Promise.all(
+      dateRange.map(async (date) => {
+        await retrieveMeteors(date, source);
+        await retrieveStars(date);
+        await retrieveConstellations(date);
+      })
+    );
   };
 
   useEffect(() => {
-    retrieveMeteors(date, source);
-    retrieveStars(date);
-    retrieveConstellations(date);
+    const [dateParam, sourceParam] = initializeDateLoc();
+    let finalDate = dateParam ? dateParam : date;
+    let finalSource = sourceParam ? sourceParam : source;
+    setDataAll(finalDate, finalSource);
     // eslint-disable-next-line
   }, []);
+
+  const onDateChange = useCallback(
+    throttle((newDate) => {
+      console.log('throttled');
+      setDataAll(newDate, source);
+      updateDateParams(newDate);
+    }, 3000),
+    [source]
+  );
+
+  const onSourceChange = (newSource) => {
+    setDataAll(date, newSource);
+    updateSourceParams(newSource);
+  };
 
   return (
     <NavigationContext.Provider
@@ -70,14 +160,24 @@ export function NavigationProvider({ children }) {
         meteors: meteorsToRender,
         stars: starsToRender,
         constellations: constellationsToRender,
+        isInTimelineView: isInTimelineView,
         changeDate: (newDate) => {
-          changeDate(newDate);
-          retrieveMeteors(newDate, source);
-          retrieveStars(newDate);
+          setDate(newDate);
+          onDateChange(newDate);
         },
         changeSource: (newSource) => {
-          changeSource(newSource);
-          retrieveMeteors(date, newSource);
+          setSource(newSource);
+          onSourceChange(newSource);
+        },
+        toggleTimelineView: () => {
+          toggleTimelineView(!isInTimelineView);
+        },
+        loadRange: async (start, end) => {
+          const dateRange = getDateRange(new Date(start), new Date(end));
+          await fetchDataRange(dateRange);
+        },
+        setGlobeMarkers: (current) => {
+          setDataAll(current, source);
         },
       }}
     >

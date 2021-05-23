@@ -64,13 +64,11 @@ class Footer extends Component {
           <div className="footer-nav-link">Start a network</div>
           <div className="footer-nav-link">CAMS</div>
           <div className="footer-nav-link">
-            <React.Fragment>
-              {this.state.showHelper ? (
-                <HelpTooltip
-                  handleClose={() => this.setState({ showHelper: false })}
-                />
-              ) : null}
-            </React.Fragment>
+            {this.state.showHelper ? (
+              <HelpTooltip
+                handleClose={() => this.setState({ showHelper: false })}
+              />
+            ) : null}
             {/* <HtmlTooltip title={<Helper />}> */}
             <Button
               className="guide-1"
@@ -85,13 +83,11 @@ class Footer extends Component {
             </Button>
           </div>
         </div>
-        <React.Fragment>
-          {this.state.showAbout ? (
-            <AboutHelper
-              handleClose={() => this.setState({ showAbout: false })}
-            />
-          ) : null}
-        </React.Fragment>
+        {this.state.showAbout ? (
+          <AboutHelper
+            handleClose={() => this.setState({ showAbout: false })}
+          />
+        ) : null}
       </div>
     );
   }
