@@ -5,9 +5,15 @@ const StorageContext = React.createContext();
 export function StorageProvider({ children }) {
   const [cachedMeteors] = React.useState(new Map());
   const [cachedStars] = React.useState(new Map());
+  const [cachedConstellations] = React.useState(new Map());
+
   return (
     <StorageContext.Provider
-      value={{ cachedMeteors: cachedMeteors, cachedStars: cachedStars }}
+      value={{
+        cachedMeteors: cachedMeteors,
+        cachedStars: cachedStars,
+        cachedConstellations: cachedConstellations,
+      }}
     >
       {children}
     </StorageContext.Provider>

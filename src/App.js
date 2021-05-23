@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Globe from './components/Globe';
 import Timeline from './components/Timeline';
 import Footer from './components/Footer';
+import VideoView from './components/VideoView';
 
 import { StorageProvider } from './contexts/storage';
 import { NavigationProvider } from './contexts/navigation';
@@ -13,6 +15,7 @@ import { theme } from './theme';
 
 import DateFnsUtils from '@date-io/date-fns';
 import Responsive from 'react-responsive-decorator';
+import Cookies from 'js-cookie';
 
 import './App.css';
 import './style.css';
@@ -22,6 +25,7 @@ class App extends Component {
     super();
     this.state = {
       showGlobe: true,
+      timelineTesting: Cookies.get('timeline_experiment'),
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
   }
@@ -33,7 +37,7 @@ class App extends Component {
   };
 
   renderTimeline = () => {
-    if (this.state.showGlobe) {
+    if (this.state.timelineTesting && this.state.showGlobe) {
       return (
         <div className="timeline-container">
           <Timeline />
@@ -44,27 +48,40 @@ class App extends Component {
 
   render() {
     return (
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <MuiThemeProvider theme={theme}>
-          <div className="App">
+      <Router>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <MuiThemeProvider theme={theme}>
             <StorageProvider>
-              <NavigationProvider>
-                <Header
-                  showGlobe={this.state.showGlobe}
-                  toggleDisplay={this.toggleDisplay}
-                />
-                <div className="globe-container">
-                  <div className="main-section">
-                    <Globe showGlobe={this.state.showGlobe} />
+              <Switch>
+                <Route path="/video">
+                  <NavigationProvider>
+                    <VideoView />
+                  </NavigationProvider>
+                </Route>
+                <Route path="/">
+                  <div className="App">
+                    <NavigationProvider>
+                      <Header />
+                      <div className="globe-container">
+                        <div className="main-section">
+                          <Globe
+                            showGlobe={this.state.showGlobe}
+                            showZoom={true}
+                            width={window.innerWidth - 50}
+                            height={window.innerHeight}
+                          />
+                        </div>
+                        {this.renderTimeline()}
+                      </div>
+                    </NavigationProvider>
+                    <Footer />
                   </div>
-                  {/* {this.renderTimeline()} */}
-                </div>
-              </NavigationProvider>
+                </Route>
+              </Switch>
             </StorageProvider>
-            <Footer />
-          </div>
-        </MuiThemeProvider>
-      </MuiPickersUtilsProvider>
+          </MuiThemeProvider>
+        </MuiPickersUtilsProvider>
+      </Router>
     );
   }
 }

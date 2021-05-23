@@ -10,7 +10,7 @@ class Preloader extends React.Component {
     return (
       <div className="pre-loader">
         <MoonLoader
-          size={200}
+          size={this.props.size}
           color={'rgba(255, 255, 255)'}
           loading={this.state.loading}
         />
