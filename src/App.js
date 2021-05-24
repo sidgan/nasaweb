@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Globe from './components/Globe';
-import GroupedButton from './components/GroupedButton';
 import Timeline from './components/Timeline';
 import Footer from './components/Footer';
 import VideoView from './components/VideoView';
@@ -73,12 +72,6 @@ class App extends Component {
                           />
                         </div>
                         {this.renderTimeline()}
-                      </div>
-                      <div className="guide-1">
-                        <GroupedButton
-                          showGlobe={this.state.showGlobe}
-                          toggleDisplay={this.toggleDisplay}
-                        />
                       </div>
                     </NavigationProvider>
                     <Footer />

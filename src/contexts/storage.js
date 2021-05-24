@@ -6,7 +6,6 @@ export function StorageProvider({ children }) {
   const [cachedMeteors] = React.useState(new Map());
   const [cachedStars] = React.useState(new Map());
   const [cachedConstellations] = React.useState(new Map());
-
   return (
     <StorageContext.Provider
       value={{

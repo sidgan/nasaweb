@@ -42,6 +42,15 @@ export const theme = createMuiTheme({
         color: '#ffffff',
         maxHeight: '50px',
         minHeight: '50px',
+        width: '80%',
+      },
+
+      icon: {
+        position: 'relative',
+        color: '#ffffff',
+        width: '30px',
+        height: '30px',
+        marginBottom: '10px',
       },
     },
 
@@ -69,6 +78,8 @@ export const theme = createMuiTheme({
         textTransform: 'none',
         backgroundColor: 'rgba(71, 78, 116, 0.6)',
         opacity: 0.8,
+        borderRadius: '4px',
+        padding: '12px',
       },
       input: {
         fontSize: '13px',
@@ -86,11 +97,24 @@ export const theme = createMuiTheme({
         color: 'white',
       },
     },
+    // MuiDatePicker: {
+    //   root: {
+    //     backgroundColor: '#070c26',
+    //     color: "white",
+    //     fontWeight: "700"
+    //   },
+    // },
 
     MuiMenuItem: {
       root: {
         backgroundColor: 'rgba(71, 78, 116, 0.6)',
         opacity: 0.8,
+      },
+    },
+
+    MuiGridItem: {
+      root: {
+        padding: '2px',
       },
     },
 
@@ -118,6 +142,20 @@ export const theme = createMuiTheme({
         padding: '10px',
         letterSpacing: '1.5px',
       },
+      h6: {
+        fontFamily: 'Roboto Mono',
+        fontSize: '14px',
+        fontWeight: 200,
+        letterSpacing: '1.5px',
+      },
+      h2: {
+        fontFamily: 'Roboto Mono',
+        fontSize: '32px',
+        fontWeight: 700,
+        lineHeight: '24px',
+        letterSpacing: '1.5px',
+        paddingLeft: '0px',
+      }
     },
 
     MuiTableBody: {
@@ -138,6 +176,16 @@ export const theme = createMuiTheme({
         color: 'textSecondary',
         backgroundColor: 'rgba(71, 78, 116)',
         opacity: 0.8,
+      },
+    },
+    MuiCheckbox: {
+      root: {
+        width: '16px',
+        height: '16px',
+        borderRadius: '2px',
+        backgroundColor: 'rgba(71, 78, 116, 0.6)',
+        marginLeft: '1rem',
+        marginRight: '1.5rem',
       },
     },
   },

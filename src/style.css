@@ -3,7 +3,7 @@
   justify-content: space-between;
   z-index: 999;
   background: transparent;
-  padding: 20px 20px 0 24px;
+  padding: 24px;
   position: fixed;
   width: 100%;
 }
@@ -33,16 +33,30 @@
   display: flex;
   float: right;
   flex: 0 0 auto;
-  margin-top: 2rem;
-  margin-right: 2.5rem;
+  /* margin-top: 2rem;
+  margin-right: 2.5rem; */
 }
 
 .header-nav-item {
-  margin-left: 1rem;
+  margin-left: 16px;
 }
 
+.date-picker-nav {
+  position: fixed;
+  top: 12vh;
+  right: 8vw;
+  z-index: 999;
+  justify-content: left;
+  align-items: left;
+  justify-content: left;
+}
+
+/* .timeline-box {
+  padding-left: '3px'
+} */
+
 .datepicker_container {
-  margin-right: 1rem;
+  padding: 2px;
 }
 
 h2 {
@@ -86,15 +100,15 @@ h2 {
 }
 .zoom-1 {
   position: fixed;
-  top: 40vh;
-  right: 70px;
+  top: 50vh;
+  right: 24px;
   z-index: 999;
 }
 
 .guide-1 {
   position: fixed;
-  bottom: 70px;
-  right: 24px;
+  bottom: 20px;
+  right: 10px;
 }
 
 .overlay Button {
@@ -116,6 +130,7 @@ h2 {
 .globe-content {
   height: 100%;
   width: 100%;
+  margin: auto;
 }
 
 .globe-container {
@@ -188,7 +203,7 @@ h2 {
 }
 
 .footer-nav-link + .footer-nav-link {
-  margin-left: 16px;
+  margin-left: 24px;
 }
 
 .pre-loader {
@@ -201,4 +216,17 @@ h2 {
 /* TABLE SECTION STYLES */
 .menu {
   padding: '0px';
+}
+
+.MuiSelect-select {
+  padding-right: 2px !important;
+}
+
+
+.disappear {
+  position: fixed;
+  top: 10vh;
+  right: 27vw;
+  opacity: 0;
+  z-index: 9999
 }
