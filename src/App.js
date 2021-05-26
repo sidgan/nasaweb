@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Globe from './components/Globe';
+import GlobeOptimized from './components/GlobeOptimized';
 import GroupedButton from './components/GroupedButton';
 import Timeline from './components/Timeline';
 import Footer from './components/Footer';
@@ -65,12 +66,13 @@ class App extends Component {
                       <Header />
                       <div className="globe-container">
                         <div className="main-section">
-                          <Globe
+                          <GlobeOptimized />
+                          {/* <Globe
                             showGlobe={this.state.showGlobe}
                             showZoom={true}
                             width={window.innerWidth - 50}
                             height={window.innerHeight}
-                          />
+                          /> */}
                         </div>
                         {this.renderTimeline()}
                       </div>
