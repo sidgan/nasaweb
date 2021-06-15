@@ -1,12 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import * as d3 from 'd3';
-import { geoOrthographic, geoPath, geoGraticule, geoGraticule10 } from 'd3-geo';
+import { geoOrthographic, geoPath, geoGraticule10 } from 'd3-geo';
 import { scaleLinear } from 'd3-scale';
 import { drag } from 'd3-drag';
 import { select } from 'd3-selection';
-import { now, timer } from 'd3-timer';
 import { feature } from 'topojson';
-import versor from '../utils/versor';
 import { fetchLand } from '../clients/land';
 import { useNavigationState } from '../contexts/navigation';
 import { YearSelection } from '@material-ui/pickers/views/Year/YearView';
@@ -29,11 +26,10 @@ const colorScale = scaleLinear()
   ]);
 
 // scale of the globe (not the canvas element)
-const scaleFactor = 1.5;
+const scaleFactor = 0.8;
 // autorotation speed
 const degPerSec = 6;
-// start angles
-var angles = { x: -20, y: 40, z: 0 };
+// TODO: color matching
 // colors
 const colorWater = '#fff';
 const colorLand = '#111';
@@ -128,31 +124,16 @@ export default function GlobeOptimized(props) {
     }
 
     // draw meteors
-    // TODO: turn on bulk rendering!
     const points = {
       type: 'MultiPoint',
       coordinates: meteorCoordinates,
     };
 
+    // TODO: change color & size of the point
     fill(points, 'tomato');
-    // meteorCoordinates
-    //   // .filter((_, i) => i === 294)
-    //   .forEach((coordinate, i) => {
-    //     const point = {
-    //       type: 'Point',
-    //       coordinates: coordinate,
-    //     };
-
-    //     const debugTextCoordinate = projection(coordinate);
-
-    //     fill(point, 'tomato');
-    //     fillText(i, debugTextCoordinate);
-    //   });
 
     // draw meteor data
     if (meteorIndex) {
-      // console.log(meteorIndex);
-      // console.log(meteorProperties[meteorIndex]);
       const { iau, name } = meteorProperties[meteorIndex];
 
       fillText(meteorIndex, [100, 150]);
@@ -205,14 +186,6 @@ export default function GlobeOptimized(props) {
       return distance <= matchPrecision;
     });
 
-    // if (coordinate[0] < 0) {
-    //   console.log(coordinate[0] + 360, coordinate[1]);
-    // } else {
-    //   console.log(coordinate[0], coordinate[1]);
-    // }
-
-    // console.log(meteorCoordinates[294]);
-
     if (meteorPointIndex !== -1) {
       globeAttributes.current.meteorIndex = meteorPointIndex;
     } else {
@@ -236,13 +209,13 @@ export default function GlobeOptimized(props) {
       render();
     });
 
-    // load data
-    fetchLand().then((world) => {
-      const land = feature(world, world.objects.land);
+    // TODO: uncomment to load land data
+    // fetchLand().then((world) => {
+    //   const land = feature(world, world.objects.land);
 
-      globeAttributes.current.land = land;
-      render();
-    });
+    //   globeAttributes.current.land = land;
+    //   render();
+    // });
 
     // register drag callbacks
     const canvas = select('#globe');
@@ -277,6 +250,8 @@ export default function GlobeOptimized(props) {
 
     globeAttributes.current.meteorCoordinates = meteorCoordinates;
     globeAttributes.current.meteorProperties = meteorProperties;
+
+    // TODO: handle other data (stars and etc)
 
     render();
   }, [meteors]);
