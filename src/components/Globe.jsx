@@ -58,23 +58,31 @@ const colorScale = (colorCode) => {
 };
 
 const starSizeScale = (colorCode) => {
-  let code = parseFloat(colorCode) * 10;
-  if (code >= -20.0 && code <= -10.0) {
-    return 0.85;
-  } else if (code >= -9.0 && code <= 10.0) {
-    return 0.8;
-  } else if (code >= 11 && code <= 15) {
-    return 0.76;
-  } else if (code >= 16 && code <= 25) {
-    return 0.65;
-  } else if (code >= 25 && code <= 30) {
-    return 0.52;
-  } else if (code >= 31 && code <= 40) {
-    return 0.24;
-  } else if (code >= 41 && code <= 50) {
-    return 0.22;
+  let code = parseFloat(colorCode);
+  if (code >= -4.0 && code < -4.9) {
+    return 0.96;
+  } else if (code >= -3.0 && code < -3.9) {
+    return 0.91;
+  } else if (code >= -2.0 && code < -2.9) {
+    return 0.89;
+  } else if (code >= -1.0 && code < -1.9) {
+    return 0.83;
+  } else if (code <= 0 && code >= -0.9) {
+    return 0.79;
+  } else if (code > 0 && code <= 0.9) {
+    return 0.73;
+  } else if (code >= 1.0 && code <= 1.9) {
+    return 0.63;
+  } else if (code >= 2.0 && code <= 2.9) {
+    return 0.53;
+  } else if (code >= 3.0 && code <= 3.9) {
+    return 0.46;
+  } else if (code >= 4.0 && code <= 4.9) {
+    return 0.32;
+  } else if (code >= 5.0 && code <= 5.9) {
+    return 0.28;
   } else {
-    return 0.21;
+    return 0.19;
   }
 };
 
