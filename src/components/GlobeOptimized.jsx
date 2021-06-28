@@ -25,19 +25,53 @@ const colorScale = scaleLinear()
     'rgb(255,0,0)',
   ]);
 
+//  TODO: star scale
+const starSizeScale = scaleLinear()
+  .domain([-20, -10, 10, 15, 25, 30, 40, 50, 70])
+  .range([1.85, 1.8, 1.76, 1.65, 1.52, 1.24, 1.22, 1.21]);
+
+// const starSizeScale = (colorCode) => {
+//   let code = parseFloat(colorCode);
+//   if (code >= -4.0 && code < -4.9) {
+//     return 0.96;
+//   } else if (code >= -3.0 && code < -3.9) {
+//     return 0.91;
+//   } else if (code >= -2.0 && code < -2.9) {
+//     return 0.89;
+//   } else if (code >= -1.0 && code < -1.9) {
+//     return 0.83;
+//   } else if (code <= 0 && code >= -0.9) {
+//     return 0.79;
+//   } else if (code > 0 && code <= 0.9) {
+//     return 0.73;
+//   } else if (code >= 1.0 && code <= 1.9) {
+//     return 0.63;
+//   } else if (code >= 2.0 && code <= 2.9) {
+//     return 0.53;
+//   } else if (code >= 3.0 && code <= 3.9) {
+//     return 0.46;
+//   } else if (code >= 4.0 && code <= 4.9) {
+//     return 0.32;
+//   } else if (code >= 5.0 && code <= 5.9) {
+//     return 0.28;
+//   } else {
+//     return 0.19;
+//   }
+// };
+
 // scale of the globe (not the canvas element)
 const scaleFactor = 0.8;
 // autorotation speed
 const degPerSec = 6;
 // TODO: color matching
 // colors
-const colorWater = '#fff';
+const colorWater = '#474e74';
 const colorLand = '#111';
-const colorGraticule = '#ccc';
+const colorGraticule = '#070c26';
 const matchPrecision = 1.5;
 
 export default function GlobeOptimized(props) {
-  const { meteors } = useNavigationState();
+  const { meteors, stars } = useNavigationState();
 
   const globeAttributes = useRef({
     // geometrics
@@ -45,8 +79,10 @@ export default function GlobeOptimized(props) {
     height: window.innerHeight,
     // data
     land: null,
+    meteorCollection: new Map(),
     meteorCoordinates: [],
     meteorProperties: [],
+    starCollection: [],
     // projection
     projection: geoOrthographic().precision(0.1),
     // mouse hover properties
@@ -64,8 +100,10 @@ export default function GlobeOptimized(props) {
       height,
       land,
       projection,
+      meteorCollection,
       meteorCoordinates,
       meteorProperties,
+      starCollection,
       meteorIndex,
       clientX,
       clientY,
@@ -88,11 +126,12 @@ export default function GlobeOptimized(props) {
       .translate([width / 2, height / 2])
       .clipAngle(90);
 
-    const path = geoPath(projection, context).pointRadius(1);
+    const path = geoPath(projection, context).pointRadius(2);
 
-    function fill(obj, color) {
+    function fill(obj, color, size = 2) {
+      const currentPath = path.pointRadius(size);
       context.beginPath();
-      path(obj);
+      currentPath(obj);
       context.fillStyle = color;
       context.fill();
     }
@@ -111,9 +150,21 @@ export default function GlobeOptimized(props) {
       context.fillText(text, coordinate[0], coordinate[1]);
     }
 
+    const waterGradient = context.createRadialGradient(
+      width / 2,
+      height / 2,
+      200,
+      width / 2,
+      height / 2,
+      500
+    );
+
+    waterGradient.addColorStop(0, 'rgba(71, 78, 116, 1)');
+    waterGradient.addColorStop(1, 'rgba(31, 48, 110, 1)');
+
     // render all objects
     // water
-    fill(water, colorWater);
+    fill(water, waterGradient);
 
     // graticule
     stroke(graticule, colorGraticule);
@@ -123,14 +174,31 @@ export default function GlobeOptimized(props) {
       fill(land, colorLand);
     }
 
-    // draw meteors
-    const points = {
-      type: 'MultiPoint',
-      coordinates: meteorCoordinates,
-    };
+    // // draw meteors
+    // const points = {
+    //   type: 'MultiPoint',
+    //   coordinates: meteorCoordinates,
+    // };
 
-    // TODO: change color & size of the point
-    fill(points, 'tomato');
+    // // TODO: change color & size of the point
+    // fill(points, '#fff');
+
+    // draw meteors
+    for (const group of meteorCollection.values()) {
+      fill(group, group.color);
+    }
+
+    // draw stars
+    starCollection.forEach((star) => {
+      fill(star, 'rgb(0, 0, 0)', star.size);
+    });
+
+    // draw sun
+    const sun = {
+      type: 'Point',
+      coordinates: [0, 0],
+    };
+    fill(sun, '#FDB800', 10);
 
     // draw meteor data
     if (meteorIndex) {
@@ -232,6 +300,9 @@ export default function GlobeOptimized(props) {
   useEffect(() => {
     const meteorCoordinates = [];
     const meteorProperties = [];
+    const meteorCollection = new Map();
+
+    const starCollection = [];
 
     // segment meteor payload
     (meteors || []).forEach((meteor) => {
@@ -246,15 +317,46 @@ export default function GlobeOptimized(props) {
         sol,
         velocg,
       });
+
+      if (meteorCollection.has(name)) {
+        // add coord data to existing meteor group
+        const group = meteorCollection.get(name);
+        const coords = meteorCollection.get(name).coordinates;
+        coords.push(location.coordinates);
+        meteorCollection.set(name, {
+          ...group,
+          coordinates: coords,
+        });
+      } else {
+        // make new meteor group
+        const newGroup = {
+          type: 'MultiPoint',
+          coordinates: [location.coordinates],
+          color: colorScale(color),
+        };
+        meteorCollection.set(name, newGroup);
+      }
     });
 
+    // segment star payload
+    (stars || []).forEach((star) => {
+      const { location, mag } = star;
+      const adjustedMag = parseFloat(mag) * 10;
+      starCollection.push({
+        ...location,
+        size: starSizeScale(adjustedMag),
+      });
+    });
+
+    globeAttributes.current.meteorCollection = meteorCollection;
     globeAttributes.current.meteorCoordinates = meteorCoordinates;
     globeAttributes.current.meteorProperties = meteorProperties;
+    globeAttributes.current.starCollection = starCollection;
 
     // TODO: handle other data (stars and etc)
 
     render();
-  }, [meteors]);
+  }, [meteors, stars]);
 
   return (
     <div className="globe-container">
