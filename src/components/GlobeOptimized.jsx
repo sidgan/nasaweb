@@ -67,11 +67,12 @@ const degPerSec = 6;
 // colors
 const colorWater = '#474e74';
 const colorLand = '#111';
-const colorGraticule = '#070c26';
+// const colorGraticule = '#070c26';
+const colorGraticule = 'rgb(2, 12, 38, 0.2)';
 const matchPrecision = 1.5;
 
 export default function GlobeOptimized(props) {
-  const { meteors, stars } = useNavigationState();
+  const { meteors, stars, constellations } = useNavigationState();
 
   const globeAttributes = useRef({
     // geometrics
@@ -83,6 +84,7 @@ export default function GlobeOptimized(props) {
     meteorCoordinates: [],
     meteorProperties: [],
     starCollection: [],
+    constellationCollection: [],
     // projection
     projection: geoOrthographic().precision(0.1),
     // mouse hover properties
@@ -104,6 +106,7 @@ export default function GlobeOptimized(props) {
       meteorCoordinates,
       meteorProperties,
       starCollection,
+      constellationCollection,
       meteorIndex,
       clientX,
       clientY,
@@ -174,15 +177,6 @@ export default function GlobeOptimized(props) {
       fill(land, colorLand);
     }
 
-    // // draw meteors
-    // const points = {
-    //   type: 'MultiPoint',
-    //   coordinates: meteorCoordinates,
-    // };
-
-    // // TODO: change color & size of the point
-    // fill(points, '#fff');
-
     // draw meteors
     for (const group of meteorCollection.values()) {
       fill(group, group.color);
@@ -191,6 +185,11 @@ export default function GlobeOptimized(props) {
     // draw stars
     starCollection.forEach((star) => {
       fill(star, 'rgb(0, 0, 0)', star.size);
+    });
+
+    // draw constellations
+    constellationCollection.forEach((constellation) => {
+      stroke(constellation, 'rgb(0, 0, 0, 0.4)');
     });
 
     // draw sun
@@ -304,6 +303,8 @@ export default function GlobeOptimized(props) {
 
     const starCollection = [];
 
+    const constellationCollection = [];
+
     // segment meteor payload
     (meteors || []).forEach((meteor) => {
       const { location, color, iau, mag, name, sol, velocg } = meteor;
@@ -348,15 +349,28 @@ export default function GlobeOptimized(props) {
       });
     });
 
+    // segment constellation payload
+    (constellations || []).forEach((constellation) => {
+      let coords = [];
+      constellation.points.forEach((group) => {
+        for (let i = 1; i <= group.length - 1; i++) {
+          coords.push([group[i - 1], group[i]]);
+        }
+      });
+      constellationCollection.push({
+        type: 'MultiLineString',
+        coordinates: coords,
+        name: constellation.name,
+      });
+    });
+
     globeAttributes.current.meteorCollection = meteorCollection;
     globeAttributes.current.meteorCoordinates = meteorCoordinates;
     globeAttributes.current.meteorProperties = meteorProperties;
     globeAttributes.current.starCollection = starCollection;
-
-    // TODO: handle other data (stars and etc)
-
+    globeAttributes.current.constellationCollection = constellationCollection;
     render();
-  }, [meteors, stars]);
+  }, [meteors, stars, constellations]);
 
   return (
     <div className="globe-container">
