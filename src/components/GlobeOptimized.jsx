@@ -6,8 +6,6 @@ import { select } from 'd3-selection';
 import { feature } from 'topojson';
 import { fetchLand } from '../clients/land';
 import { useNavigationState } from '../contexts/navigation';
-import { YearSelection } from '@material-ui/pickers/views/Year/YearView';
-
 //
 // Configuration
 //
@@ -30,42 +28,11 @@ const starSizeScale = scaleLinear()
   .domain([-20, -10, 10, 15, 25, 30, 40, 50, 70])
   .range([1.85, 1.8, 1.76, 1.65, 1.52, 1.24, 1.22, 1.21]);
 
-// const starSizeScale = (colorCode) => {
-//   let code = parseFloat(colorCode);
-//   if (code >= -4.0 && code < -4.9) {
-//     return 0.96;
-//   } else if (code >= -3.0 && code < -3.9) {
-//     return 0.91;
-//   } else if (code >= -2.0 && code < -2.9) {
-//     return 0.89;
-//   } else if (code >= -1.0 && code < -1.9) {
-//     return 0.83;
-//   } else if (code <= 0 && code >= -0.9) {
-//     return 0.79;
-//   } else if (code > 0 && code <= 0.9) {
-//     return 0.73;
-//   } else if (code >= 1.0 && code <= 1.9) {
-//     return 0.63;
-//   } else if (code >= 2.0 && code <= 2.9) {
-//     return 0.53;
-//   } else if (code >= 3.0 && code <= 3.9) {
-//     return 0.46;
-//   } else if (code >= 4.0 && code <= 4.9) {
-//     return 0.32;
-//   } else if (code >= 5.0 && code <= 5.9) {
-//     return 0.28;
-//   } else {
-//     return 0.19;
-//   }
-// };
-
 // scale of the globe (not the canvas element)
 const scaleFactor = 0.8;
 // autorotation speed
 const degPerSec = 6;
-// TODO: color matching
 // colors
-const colorWater = '#474e74';
 const colorLand = '#111';
 // const colorGraticule = '#070c26';
 const colorGraticule = 'rgb(2, 12, 38, 0.2)';
@@ -76,7 +43,7 @@ export default function GlobeOptimized(props) {
 
   const globeAttributes = useRef({
     // geometrics
-    width: window.innerWidth,
+    width: window.innerHeight,
     height: window.innerHeight,
     // data
     land: null,
@@ -91,7 +58,6 @@ export default function GlobeOptimized(props) {
     clientX: null,
     clientY: null,
     // tracking object
-    // TODO handle star & other objects
     meteorIndex: null,
   });
 
@@ -416,9 +382,36 @@ export default function GlobeOptimized(props) {
 
   // component on mount
   useEffect(() => {
+    function setInitialPosition() {
+      const { projection } = globeAttributes.current;
+      const rotation = projection.rotate();
+      const properties = ['alt', 'lat', 'long'];
+
+      const params = new URLSearchParams(window.location.search);
+      properties.forEach((property) => {
+        switch (property) {
+          case 'lat':
+            rotation[1] +=
+              params.has(property) && !isNaN(params.get(property))
+                ? Number(params.get(property))
+                : 0;
+            break;
+          case 'long':
+            rotation[0] +=
+              params.has(property) && !isNaN(params.get(property))
+                ? Number(params.get(property))
+                : 180;
+            break;
+          default:
+        }
+      });
+      projection.rotate(rotation);
+
+      render();
+    }
     // register resize callback
     window.addEventListener('resize', function () {
-      globeAttributes.current.width = window.innerWidth;
+      globeAttributes.current.width = window.innerHeight;
       globeAttributes.current.height = window.innerHeight;
 
       render();
@@ -439,9 +432,9 @@ export default function GlobeOptimized(props) {
       // drag().on('start', dragstarted).on('drag', dragged).on('end', dragended)
       drag().on('drag', dragged)
     );
-
-    // canvas.on('mousemove', mousemove);
     canvas.on('click', clicked);
+
+    setInitialPosition();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

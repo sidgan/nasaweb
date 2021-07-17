@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import Globe from './Globe';
+import GlobeOptimized from './GlobeOptimized';
 import { useNavigationState } from '../contexts/navigation';
 
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -30,12 +30,7 @@ const VideoView = () => {
         </div>
         <StyledButton>{date}</StyledButton>
       </div>
-      <Globe
-        showGlobe={true}
-        showZoom={false}
-        width={window.innerHeight}
-        height={window.innerHeight}
-      />
+      <GlobeOptimized />
       <div className="footer">
         <div className="footer-credit">
           <p className="footer-credit-section">
