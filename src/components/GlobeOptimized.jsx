@@ -43,7 +43,7 @@ export default function GlobeOptimized(props) {
 
   const globeAttributes = useRef({
     // geometrics
-    width: window.innerHeight,
+    width: window.innerWidth,
     height: window.innerHeight,
     // data
     land: null,
@@ -411,7 +411,7 @@ export default function GlobeOptimized(props) {
     }
     // register resize callback
     window.addEventListener('resize', function () {
-      globeAttributes.current.width = window.innerHeight;
+      globeAttributes.current.width = window.innerWidth;
       globeAttributes.current.height = window.innerHeight;
 
       render();

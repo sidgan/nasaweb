@@ -57,7 +57,11 @@ class App extends Component {
               <Switch>
                 <Route path="/video">
                   <NavigationProvider>
-                    <VideoView />
+                    <div className="globe-container">
+                      <div className="main-section">
+                        <VideoView />
+                      </div>
+                    </div>
                   </NavigationProvider>
                 </Route>
                 <Route path="/">
