@@ -6,6 +6,12 @@ import { select } from 'd3-selection';
 import { feature } from 'topojson';
 import { fetchLand } from '../clients/land';
 import { useNavigationState } from '../contexts/navigation';
+
+function checkWithinBounds(x, y, rect) {
+  console.log(rect);
+  return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+}
+
 //
 // Configuration
 //
@@ -37,7 +43,7 @@ const colorLand = '#111';
 // const colorGraticule = '#070c26';
 const colorGraticule = 'rgb(2, 12, 38, 0.2)';
 const matchPrecision = 1.5;
-const matchPrecisionStar = 0.5
+const matchPrecisionStar = 0.5;
 
 export default function GlobeOptimized(props) {
   const { meteors, stars, constellations } = useNavigationState();
@@ -231,65 +237,74 @@ export default function GlobeOptimized(props) {
       context.moveTo(position.x + 189, position.y + 227);
       context.lineTo(position.x + 189, position.y + 223);
       context.stroke();
+      context.beginPath();
+      context.arc(position.x + 296, position.y - 2, 12, 0, 2 * Math.PI);
+      context.fill();
+      context.strokeStyle = 'rgba(31, 48, 110, 1)';
+      context.lineWidth = 2;
+      context.beginPath();
+      context.moveTo(position.x + 291, position.y - 7);
+      context.lineTo(position.x + 301, position.y + 3);
+      context.moveTo(position.x + 301, position.y - 7);
+      context.lineTo(position.x + 291, position.y + 3);
+      context.stroke();
     }
 
     // Display star information
     function drawStarTooltip(starProps) {
-
-      const {name} = starProps;
+      const { name } = starProps;
       const namelength = name.length;
-      if(namelength > 0)
-      {
+      if (namelength > 0) {
         roundedRect(
           context,
-          globeAttributes.current.current_x-(5*namelength),
-          globeAttributes.current.current_y-12,
-          10*namelength,
+          globeAttributes.current.current_x - 5 * namelength,
+          globeAttributes.current.current_y - 12,
+          10 * namelength,
           17,
           4,
           'rgba(7, 12, 38, 0.8)'
         );
 
-        
         context.fillStyle = 'white';
         context.textAlign = 'center';
         context.font = '500 12px Roboto Mono';
-        context.fillText(name, globeAttributes.current.current_x, globeAttributes.current.current_y);
+        context.fillText(
+          name,
+          globeAttributes.current.current_x,
+          globeAttributes.current.current_y
+        );
         context.stroke();
       }
     }
 
-
-
     function drawConstellationTooltip(constellatioProps) {
-
-      const {name} = constellatioProps;
+      const { name } = constellatioProps;
       const namelength = name.length;
 
       roundedRect(
         context,
-        globeAttributes.current.current_x-(5*namelength),
-        globeAttributes.current.current_y-12,
-        10*namelength,
+        globeAttributes.current.current_x - 5 * namelength,
+        globeAttributes.current.current_y - 12,
+        10 * namelength,
         17,
         4,
         'rgba(7, 12, 38, 0.8)'
       );
-    
 
-      stroke(constellationCollection[globeAttributes.current.constellationIndex], 'rgb(21, 244, 238, 1.8)');
+      stroke(
+        constellationCollection[globeAttributes.current.constellationIndex],
+        'rgb(21, 244, 238, 1.8)'
+      );
       context.fillStyle = 'white';
       context.textAlign = 'center';
       context.font = '500 12px Roboto Mono';
-      context.fillText(name, globeAttributes.current.current_x, globeAttributes.current.current_y);
+      context.fillText(
+        name,
+        globeAttributes.current.current_x,
+        globeAttributes.current.current_y
+      );
       context.stroke();
     }
-
-
-
-
-
-
 
     function roundedRect(ctx, x, y, width, height, radius, color) {
       ctx.beginPath();
@@ -377,14 +392,12 @@ export default function GlobeOptimized(props) {
 
     // drwa star data
     if (starIndex) {
-      drawStarTooltip(starCollection[starIndex])
+      drawStarTooltip(starCollection[starIndex]);
     }
 
-    if(constellationIndex){
-      drawConstellationTooltip(constellationCollection[constellationIndex])
+    if (constellationIndex) {
+      drawConstellationTooltip(constellationCollection[constellationIndex]);
     }
-
-
   }
 
   // rotate function
@@ -433,8 +446,7 @@ export default function GlobeOptimized(props) {
   // }
 
   function clicked(event) {
-
-    const { projection, meteorCoordinates} = globeAttributes.current;
+    const { projection, meteorCoordinates } = globeAttributes.current;
     const coordinate = projection.invert([event.clientX, event.clientY]);
 
     if (coordinate[0] < 0) {
@@ -453,20 +465,65 @@ export default function GlobeOptimized(props) {
 
     if (meteorPointIndex !== -1) {
       globeAttributes.current.meteorIndex = meteorPointIndex;
-    } else {
-      globeAttributes.current.meteorIndex = null;
+    } else if (globeAttributes.current.meteorIndex) {
+      const meteorPanelPosition = {
+        x:
+          globeAttributes.current.width -
+          globeAttributes.current.width / 2 -
+          (scaleFactor *
+            Math.min(
+              globeAttributes.current.width,
+              globeAttributes.current.height
+            )) /
+            2 -
+          278,
+        y:
+          globeAttributes.current.height -
+          globeAttributes.current.height / 2 -
+          113,
+      };
+      const seeSpaceRect = {};
+      seeSpaceRect.left = meteorPanelPosition.x + 93;
+      seeSpaceRect.right = seeSpaceRect.left + 112;
+      seeSpaceRect.top = meteorPanelPosition.y + 211;
+      seeSpaceRect.bottom = seeSpaceRect.top + 30;
+
+      const exitDetailRect = {};
+      exitDetailRect.left = meteorPanelPosition.x + 284;
+      exitDetailRect.right = seeSpaceRect.left + 220;
+      exitDetailRect.top = meteorPanelPosition.y - 14;
+      exitDetailRect.bottom = seeSpaceRect.top + 18;
+
+      if (checkWithinBounds(event.clientX, event.clientY, seeSpaceRect)) {
+        window
+          .open(
+            `https://www.meteorshowers.org/view/iau-${
+              globeAttributes.current.meteorProperties[
+                globeAttributes.current.meteorIndex
+              ].iau
+            }`,
+            '_blank'
+          )
+          .focus();
+      } else if (
+        checkWithinBounds(event.clientX, event.clientY, exitDetailRect)
+      ) {
+        globeAttributes.current.meteorIndex = null;
+      }
     }
     render();
   }
 
   // Havour and get star name
   function havoured(event) {
-    let { projection, starCollection, current_x, current_y} = globeAttributes.current;
-      const coordinate = projection.invert([event.clientX, event.clientY]);
-      const starPointIndex = starCollection.findIndex((m) => {
-
-
-
+    let {
+      projection,
+      starCollection,
+      current_x,
+      current_y,
+    } = globeAttributes.current;
+    const coordinate = projection.invert([event.clientX, event.clientY]);
+    const starPointIndex = starCollection.findIndex((m) => {
       const longtitudeDiff = Math.pow(m.coordinates[0] - coordinate[0], 2);
       const latitudeDiff = Math.pow(m.coordinates[1] - coordinate[1], 2);
       const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
@@ -475,39 +532,37 @@ export default function GlobeOptimized(props) {
 
     if (starPointIndex !== -1) {
       globeAttributes.current.starIndex = starPointIndex;
-      //getting current locations 
+      //getting current locations
       globeAttributes.current.current_x = event.clientX;
       globeAttributes.current.current_y = event.clientY;
     } else {
       globeAttributes.current.starIndex = null;
     }
-    
-    let {constellationCollection} = globeAttributes.current;
-      const constellationPointIndex = constellationCollection.findIndex((m) => {
-      
+
+    let { constellationCollection } = globeAttributes.current;
+    const constellationPointIndex = constellationCollection.findIndex((m) => {
       for (let i = 0; i <= m.coordinates.length - 1; i++) {
-          const midlongitude = (m.coordinates[i][0][0] + m.coordinates[i][1][0])/2
-          const midlatitude = (m.coordinates[i][0][1] + m.coordinates[i][1][1])/2
+        const midlongitude =
+          (m.coordinates[i][0][0] + m.coordinates[i][1][0]) / 2;
+        const midlatitude =
+          (m.coordinates[i][0][1] + m.coordinates[i][1][1]) / 2;
 
-          const longtitudeDiff = Math.pow(midlongitude - coordinate[0], 2);
-          const latitudeDiff = Math.pow(midlatitude - coordinate[1], 2);
-          const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
-          
+        const longtitudeDiff = Math.pow(midlongitude - coordinate[0], 2);
+        const latitudeDiff = Math.pow(midlatitude - coordinate[1], 2);
+        const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
 
-          if(distance <= 0.5){
-            return distance
-          }
-          
+        if (distance <= 0.5) {
+          return distance;
+        }
       }
-        
     });
 
     //console.log('m value -->', constellationPointIndex);
 
     if (constellationPointIndex !== -1) {
       globeAttributes.current.constellationIndex = constellationPointIndex;
-      //getting current locations 
-      
+      //getting current locations
+
       globeAttributes.current.current_x = event.clientX;
       globeAttributes.current.current_y = event.clientY;
     } else {
@@ -630,7 +685,7 @@ export default function GlobeOptimized(props) {
       starCollection.push({
         ...location,
         size: starSizeScale(adjustedMag),
-        name: name
+        name: name,
       });
     });
 
