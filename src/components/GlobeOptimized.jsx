@@ -54,6 +54,7 @@ export default function GlobeOptimized(props) {
     constellationCollection: [],
     // projection
     projection: geoOrthographic().precision(0.1),
+    rotation: null,
     // mouse hover properties
     clientX: null,
     clientY: null,
@@ -68,6 +69,7 @@ export default function GlobeOptimized(props) {
       height,
       land,
       projection,
+      rotation,
       meteorCollection,
       meteorCoordinates,
       meteorProperties,
@@ -115,7 +117,7 @@ export default function GlobeOptimized(props) {
     function fillText(text, coordinate) {
       context.beginPath();
       context.fillStyle = 'white';
-      context.font = '16px Arial';
+      context.font = '12px Arial';
       context.fillText(text, coordinate[0], coordinate[1]);
     }
 
@@ -289,6 +291,20 @@ export default function GlobeOptimized(props) {
     };
     fill(sun, '#FDB800', 10);
 
+    // We need to convert the points into projected coordinates
+    const centerLongitude = Math.floor(Math.abs(rotation[0] - 360) / 20) * 20;
+
+    for (let i = -3; i <= 3; i++) {
+      let longitude = centerLongitude + i * 20;
+
+      if (longitude >= 360) {
+        longitude = longitude % 360;
+      } else if (longitude < 0) {
+        longitude = longitude + 360;
+      }
+      fillText(`${Math.round(longitude - 180)}`, projection([longitude, 0]));
+    }
+
     // draw meteor data
     if (meteorIndex) {
       drawMeteorTooltip(meteorProperties[meteorIndex]);
@@ -303,6 +319,9 @@ export default function GlobeOptimized(props) {
     rotation[0] += 100 * degPerMs * dx;
     rotation[1] -= 100 * degPerMs * dy;
     projection.rotate(rotation);
+
+    globeAttributes.current.rotation = rotation;
+
     render();
   }
 
@@ -321,28 +340,13 @@ export default function GlobeOptimized(props) {
 
   // mouse move
   // function mousemove(event) {
-  //   const { projection, meteorCoordinates } = globeAttributes.current;
+  //   const { projection } = globeAttributes.current;
 
   //   const coordinate = projection.invert([event.clientX, event.clientY]);
 
   //   if (coordinate[0] < 0) {
   //     // convert to all positive degrees
   //     coordinate[0] = coordinate[0] + 360;
-  //   }
-
-  //   const meteorPointIndex = meteorCoordinates.findIndex((m) => {
-  //     const longtitudeDiff = Math.pow(m[0] - coordinate[0], 2);
-  //     const latitudeDiff = Math.pow(m[1] - coordinate[1], 2);
-
-  //     const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
-
-  //     return distance <= matchPrecision;
-  //   });
-
-  //   if (meteorPointIndex !== -1) {
-  //     globeAttributes.current.meteorIndex = meteorPointIndex;
-  //   } else {
-  //     globeAttributes.current.meteorIndex = null;
   //   }
 
   //   // store mouse position
@@ -406,6 +410,8 @@ export default function GlobeOptimized(props) {
         }
       });
       projection.rotate(rotation);
+
+      globeAttributes.current.rotation = rotation;
 
       render();
     }
