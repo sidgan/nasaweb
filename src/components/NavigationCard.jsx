@@ -2,7 +2,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-// import IconButton from '@material-ui/core/IconButton';
 import { DatePicker } from '@material-ui/pickers';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
@@ -10,6 +9,7 @@ import { useNavigationState } from '../contexts/navigation';
 
 import leftIcon from '../images/left-icon.png';
 import rightIcon from '../images/right-icon.png';
+import { useNotificationState } from '../contexts/notification';
 
 const monthNames = [
   'Jan',
@@ -36,6 +36,9 @@ const NavigationCard = (props) => {
   const navigationState = useNavigationState();
   const [maxDate] = React.useState(`${getMaxDate()}`);
   const [isOpen, setIsOpen] = React.useState(false);
+
+  // push notification test
+  const notificationState = useNotificationState();
 
   const getFormat = () => {
     const date = new Date(navigationState.date);
@@ -83,7 +86,7 @@ const NavigationCard = (props) => {
       <div className="disappear">
         <DatePicker
           autoOk
-          clearable
+          clearable="true"
           disableFuture
           disableToolbar
           format="MMM d, yyyy"
@@ -102,17 +105,6 @@ const NavigationCard = (props) => {
       <Typography variant="h2" color="textSecondary" className="text-left p-1">
         <div onClick={() => setIsOpen(true)}>{getFormat()}</div>
       </Typography>
-      {/* <Grid container>
-        <Grid item>
-          <DatePicker
-            autoOk
-            clearable
-            disableFuture
-            value={selectedDate}
-            onChange={(date) => handleDateChange(date)}
-          />
-        </Grid>
-      </Grid> */}
       <Grid container spacing={1} className="p-1">
         <Grid item onClick={decrementDate}>
           <Button
@@ -153,6 +145,14 @@ const NavigationCard = (props) => {
             }
           />
         </Grid>
+        <button onClick={() => {
+          notificationState.pushNotification({
+            title: 'Your download is ready',
+            body: 'Hello World',
+            icon: 'https://nationaltoday.com/wp-content/uploads/2021/06/National-Meteor-Watch-Day.jpg',
+            onClick: () => { alert('hello world') }
+          })
+        }}>Click Me</button>
       </Grid>
     </>
   );
