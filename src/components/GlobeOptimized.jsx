@@ -8,8 +8,31 @@ import { fetchLand } from '../clients/land';
 import { useNavigationState } from '../contexts/navigation';
 
 function checkWithinBounds(x, y, rect) {
-  console.log(rect);
   return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+}
+
+function getDistance(coords1, coords2) {
+  function toRad(x) {
+    return (x * Math.PI) / 180;
+  }
+
+  var lon1 = coords1[0];
+  var lat1 = coords1[1];
+
+  var lon2 = coords2[0];
+  var lat2 = coords2[1];
+
+  var x1 = lat2 - lat1;
+  var dLat = toRad(x1);
+  var x2 = lon2 - lon1;
+  var dLon = toRad(x2);
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * (180 / Math.PI);
 }
 
 //
@@ -127,10 +150,12 @@ export default function GlobeOptimized(props) {
       context.stroke();
     }
 
-    function fillText(text, coordinate) {
+    function drawLabel(text, coordinate) {
       context.beginPath();
+      context.shadowColor = '#070c26';
+      context.shadowBlur = 5;
       context.fillStyle = 'white';
-      context.font = '12px Arial';
+      context.font = '14px Arial';
       context.fillText(text, coordinate[0], coordinate[1]);
     }
 
@@ -371,18 +396,29 @@ export default function GlobeOptimized(props) {
     };
     fill(sun, '#FDB800', 10);
 
-    // We need to convert the points into projected coordinates
     const centerLongitude = Math.floor(Math.abs(rotation[0] - 360) / 20) * 20;
-
     for (let i = -3; i <= 3; i++) {
       let longitude = centerLongitude + i * 20;
-
       if (longitude >= 360) {
         longitude = longitude % 360;
       } else if (longitude < 0) {
         longitude = longitude + 360;
       }
-      fillText(`${Math.round(longitude - 180)}`, projection([longitude, 0]));
+      drawLabel(`${Math.round(longitude - 180)}`, projection([longitude, 0]));
+    }
+
+    const centerPoint = [0, 0];
+    centerPoint[0] = rotation[0] < 0 ? rotation[0] + 360 : rotation[0];
+    centerPoint[1] = -rotation[1];
+    const centerLatitude = 0;
+    for (let i = -4; i <= 4; i++) {
+      let latitude = centerLatitude + i * 20;
+      let label = latitude;
+      const dist = getDistance(centerPoint, [180, latitude]);
+
+      if (dist <= 90) {
+        drawLabel(`${Math.round(label)}`, projection([180, latitude]));
+      }
     }
 
     // draw meteor data
@@ -407,6 +443,11 @@ export default function GlobeOptimized(props) {
     const degPerMs = degPerSec / 1000;
     rotation[0] += 100 * degPerMs * dx;
     rotation[1] -= 100 * degPerMs * dy;
+    if (rotation[1] > 90) {
+      rotation[1] = 90;
+    } else if (rotation[1] < -90) {
+      rotation[1] = -90;
+    }
     projection.rotate(rotation);
 
     globeAttributes.current.rotation = rotation;
