@@ -20,24 +20,21 @@ export function NotificationProvider({ children }) {
     if (window.Notification && Notification.permission !== 'granted') {
       return;
     }
-  
-    const notification = new Notification(
-      title,
-      {
-        body,
-        icon
-      }
-    );
-  
+
+    const notification = new Notification(title, {
+      body,
+      icon,
+    });
+
     notification.onclick = onClick;
-  
+
     return notification;
   }
 
   return (
     <NotificationContext.Provider
       value={{
-        pushNotification
+        pushNotification,
       }}
     >
       {children}
@@ -49,7 +46,9 @@ export function useNotificationState() {
   const context = React.useContext(NotificationContext);
 
   if (!context) {
-    throw new Error('useNotficationState must be used within a NavigationProvider');
+    throw new Error(
+      'useNotficationState must be used within a NavigationProvider'
+    );
   }
 
   return context;

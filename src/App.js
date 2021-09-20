@@ -53,8 +53,8 @@ class App extends Component {
       <Router>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <MuiThemeProvider theme={theme}>
-            <WorkerProvider>
-              <NotificationProvider>
+            <NotificationProvider>
+              <WorkerProvider>
                 <StorageProvider>
                   <Switch>
                     <Route path="/video">
@@ -82,8 +82,8 @@ class App extends Component {
                     </Route>
                   </Switch>
                 </StorageProvider>
-              </NotificationProvider>
-            </WorkerProvider>
+              </WorkerProvider>
+            </NotificationProvider>
           </MuiThemeProvider>
         </MuiPickersUtilsProvider>
       </Router>

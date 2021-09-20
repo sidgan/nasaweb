@@ -10,6 +10,8 @@ import { useNavigationState } from '../contexts/navigation';
 import leftIcon from '../images/left-icon.png';
 import rightIcon from '../images/right-icon.png';
 import { useNotificationState } from '../contexts/notification';
+import { useWorkerState } from '../contexts/worker';
+import { createTimeline, getTimeline } from '../clients/timeline';
 
 const monthNames = [
   'Jan',
@@ -39,6 +41,9 @@ const NavigationCard = (props) => {
 
   // push notification test
   const notificationState = useNotificationState();
+
+  // worker test
+  const workerState = useWorkerState();
 
   const getFormat = () => {
     const date = new Date(navigationState.date);
@@ -145,14 +150,51 @@ const NavigationCard = (props) => {
             }
           />
         </Grid>
-        <button onClick={() => {
-          notificationState.pushNotification({
-            title: 'Your download is ready',
-            body: 'Hello World',
-            icon: 'https://nationaltoday.com/wp-content/uploads/2021/06/National-Meteor-Watch-Day.jpg',
-            onClick: () => { alert('hello world') }
-          })
-        }}>Click Me</button>
+        {/* <button
+          onClick={async () => {
+            const token = await createTimeline('2021-07-10', '2021-07-15');
+
+            const callbacks = {
+              onComplete: () => {
+                workerState.dequeueWork('TimelinePoll');
+
+                // notification
+                notificationState.pushNotification({
+                  title: 'Your timeline is ready',
+                  body:
+                    'Please download your timeline by clicking this notification',
+                  icon:
+                    'https://nationaltoday.com/wp-content/uploads/2021/06/National-Meteor-Watch-Day.jpg',
+                  onClick: () => {
+                    window
+                      .open(
+                        `https://meteorshowers.seti.org/api/timeline/download?token=${token}`,
+                        '_blank'
+                      )
+                      .focus();
+                  },
+                });
+              },
+              onInProgress: (data) => {
+                // can use data to update UI
+                console.log(data);
+              },
+            };
+
+            const fn = async () => {
+              const timeline = await getTimeline(token);
+
+              return {
+                complete: timeline.status === 'COMPLETE',
+                ...timeline,
+              };
+            };
+
+            workerState.enqueueWork('TimelinePoll', fn, 1000, callbacks);
+          }}
+        >
+          Click Me
+        </button> */}
       </Grid>
     </>
   );
