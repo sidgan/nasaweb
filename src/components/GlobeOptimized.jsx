@@ -37,6 +37,7 @@ const colorLand = '#111';
 // const colorGraticule = '#070c26';
 const colorGraticule = 'rgb(2, 12, 38, 0.2)';
 const matchPrecision = 1.5;
+const matchPrecisionStar = 0.5
 
 export default function GlobeOptimized(props) {
   const { meteors, stars, constellations } = useNavigationState();
@@ -49,6 +50,7 @@ export default function GlobeOptimized(props) {
     land: null,
     meteorCollection: new Map(),
     meteorCoordinates: [],
+    starCoordinates: [],
     meteorProperties: [],
     starCollection: [],
     constellationCollection: [],
@@ -60,6 +62,9 @@ export default function GlobeOptimized(props) {
     clientY: null,
     // tracking object
     meteorIndex: null,
+    starIndex: null,
+    current_x: null,
+    current_y: null,
   });
 
   // render function
@@ -72,10 +77,12 @@ export default function GlobeOptimized(props) {
       rotation,
       meteorCollection,
       meteorCoordinates,
+      starCoordinates,
       meteorProperties,
       starCollection,
       constellationCollection,
       meteorIndex,
+      starIndex,
       clientX,
       clientY,
     } = globeAttributes.current;
@@ -226,6 +233,35 @@ export default function GlobeOptimized(props) {
       context.stroke();
     }
 
+    // Display star information
+    function drawStarTooltip(starProps) {
+      const { color, coordinates, id, name, size, type } = starProps;
+      let { projection, starCoordinates, current_x, current_y} = globeAttributes.current;
+
+      const position = {
+        x:
+          globeAttributes.current.width -
+          globeAttributes.current.width / 2 -
+          (scaleFactor *
+            Math.min(
+              globeAttributes.current.width,
+              globeAttributes.current.height
+            )) /
+            2 -
+          278,
+        y:
+          globeAttributes.current.height -
+          globeAttributes.current.height / 2 -
+          113,
+      };
+    
+      context.fillStyle = 'white';
+      context.textAlign = 'center';
+      context.font = '500 12px Roboto Mono';
+      context.fillText(name, globeAttributes.current.current_x, globeAttributes.current.current_y);
+      context.stroke();
+    }
+
     function roundedRect(ctx, x, y, width, height, radius, color) {
       ctx.beginPath();
       ctx.moveTo(x, y + radius);
@@ -309,6 +345,11 @@ export default function GlobeOptimized(props) {
     if (meteorIndex) {
       drawMeteorTooltip(meteorProperties[meteorIndex]);
     }
+
+    // drwa star data
+    if (starIndex) {
+      drawStarTooltip(starCollection[starIndex])
+    }
   }
 
   // rotate function
@@ -357,8 +398,8 @@ export default function GlobeOptimized(props) {
   // }
 
   function clicked(event) {
-    const { projection, meteorCoordinates } = globeAttributes.current;
 
+    const { projection, meteorCoordinates, starCoordinates } = globeAttributes.current;
     const coordinate = projection.invert([event.clientX, event.clientY]);
 
     if (coordinate[0] < 0) {
@@ -375,10 +416,52 @@ export default function GlobeOptimized(props) {
       return distance <= matchPrecision;
     });
 
+    const starPointIndex = starCoordinates.findIndex((m) => {
+      const longtitudeDiff = Math.pow(m[0] - coordinate[0], 2);
+      const latitudeDiff = Math.pow(m[1] - coordinate[1], 2);
+
+      const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
+
+      return distance <= matchPrecision;
+    });
+
     if (meteorPointIndex !== -1) {
       globeAttributes.current.meteorIndex = meteorPointIndex;
     } else {
       globeAttributes.current.meteorIndex = null;
+    }
+
+    if (starPointIndex !== -1) {
+      globeAttributes.current.starIndex = starPointIndex;
+    } else {
+      globeAttributes.current.starIndex = null;
+    }
+
+    render();
+  }
+
+  // Havour and get star name
+  function havoured(event) {
+    let { projection, starCoordinates, current_x, current_y} = globeAttributes.current;
+      const coordinate = projection.invert([event.clientX, event.clientY]);
+      const starPointIndex = starCoordinates.findIndex((m) => {
+      const longtitudeDiff = Math.pow(m[0] - coordinate[0], 2);
+      const latitudeDiff = Math.pow(m[1] - coordinate[1], 2);
+      const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
+      return distance <= matchPrecisionStar;
+    });
+
+
+
+    if (starPointIndex !== -1) {
+      globeAttributes.current.starIndex = starPointIndex;
+      globeAttributes.current.current_x = event.clientX;
+      globeAttributes.current.current_y = event.clientY;
+      // Getting the current mouse position
+      current_x = coordinate[0]
+      current_y = coordinate[1]
+    } else {
+      globeAttributes.current.starIndex = null;
     }
 
     render();
@@ -440,6 +523,8 @@ export default function GlobeOptimized(props) {
     );
     canvas.on('click', clicked);
 
+    canvas.on('mousemove', havoured);
+
     setInitialPosition();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -451,6 +536,7 @@ export default function GlobeOptimized(props) {
     const meteorCollection = new Map();
 
     const starCollection = [];
+    const starCoordinates = [];
 
     const constellationCollection = [];
 
@@ -492,12 +578,16 @@ export default function GlobeOptimized(props) {
 
     // segment star payload
     (stars || []).forEach((star) => {
-      const { location, mag } = star;
-      const adjustedMag = parseFloat(mag) * 10;
+      const { location, mag, color, id, name } = star;
+      const adjustedMag = parseFloat(mag) * 100;
       starCollection.push({
         ...location,
         size: starSizeScale(adjustedMag),
+        name: name,
+        color: color,
+        id: id
       });
+      starCoordinates.push(location.coordinates);
     });
 
     // segment constellation payload
@@ -520,6 +610,7 @@ export default function GlobeOptimized(props) {
     globeAttributes.current.meteorProperties = meteorProperties;
     globeAttributes.current.starCollection = starCollection;
     globeAttributes.current.constellationCollection = constellationCollection;
+    globeAttributes.current.starCoordinates = starCoordinates;
     render();
   }, [meteors, stars, constellations]);
 
