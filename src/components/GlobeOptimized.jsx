@@ -50,7 +50,6 @@ export default function GlobeOptimized(props) {
     land: null,
     meteorCollection: new Map(),
     meteorCoordinates: [],
-    starCoordinates: [],
     meteorProperties: [],
     starCollection: [],
     constellationCollection: [],
@@ -77,7 +76,6 @@ export default function GlobeOptimized(props) {
       rotation,
       meteorCollection,
       meteorCoordinates,
-      starCoordinates,
       meteorProperties,
       starCollection,
       constellationCollection,
@@ -235,26 +233,7 @@ export default function GlobeOptimized(props) {
 
     // Display star information
     function drawStarTooltip(starProps) {
-      const { color, coordinates, id, name, size, type } = starProps;
-      let { projection, starCoordinates, current_x, current_y} = globeAttributes.current;
-
-      const position = {
-        x:
-          globeAttributes.current.width -
-          globeAttributes.current.width / 2 -
-          (scaleFactor *
-            Math.min(
-              globeAttributes.current.width,
-              globeAttributes.current.height
-            )) /
-            2 -
-          278,
-        y:
-          globeAttributes.current.height -
-          globeAttributes.current.height / 2 -
-          113,
-      };
-    
+      const {name} = starProps;
       context.fillStyle = 'white';
       context.textAlign = 'center';
       context.font = '500 12px Roboto Mono';
@@ -399,7 +378,7 @@ export default function GlobeOptimized(props) {
 
   function clicked(event) {
 
-    const { projection, meteorCoordinates, starCoordinates } = globeAttributes.current;
+    const { projection, meteorCoordinates} = globeAttributes.current;
     const coordinate = projection.invert([event.clientX, event.clientY]);
 
     if (coordinate[0] < 0) {
@@ -416,50 +395,30 @@ export default function GlobeOptimized(props) {
       return distance <= matchPrecision;
     });
 
-    const starPointIndex = starCoordinates.findIndex((m) => {
-      const longtitudeDiff = Math.pow(m[0] - coordinate[0], 2);
-      const latitudeDiff = Math.pow(m[1] - coordinate[1], 2);
-
-      const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
-
-      return distance <= matchPrecision;
-    });
-
     if (meteorPointIndex !== -1) {
       globeAttributes.current.meteorIndex = meteorPointIndex;
     } else {
       globeAttributes.current.meteorIndex = null;
     }
-
-    if (starPointIndex !== -1) {
-      globeAttributes.current.starIndex = starPointIndex;
-    } else {
-      globeAttributes.current.starIndex = null;
-    }
-
     render();
   }
 
   // Havour and get star name
   function havoured(event) {
-    let { projection, starCoordinates, current_x, current_y} = globeAttributes.current;
+    let { projection, starCollection, current_x, current_y} = globeAttributes.current;
       const coordinate = projection.invert([event.clientX, event.clientY]);
-      const starPointIndex = starCoordinates.findIndex((m) => {
-      const longtitudeDiff = Math.pow(m[0] - coordinate[0], 2);
-      const latitudeDiff = Math.pow(m[1] - coordinate[1], 2);
+      const starPointIndex = starCollection.findIndex((m) => {
+      const longtitudeDiff = Math.pow(m.coordinates[0] - coordinate[0], 2);
+      const latitudeDiff = Math.pow(m.coordinates[1] - coordinate[1], 2);
       const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
       return distance <= matchPrecisionStar;
     });
 
-
-
     if (starPointIndex !== -1) {
       globeAttributes.current.starIndex = starPointIndex;
+      //getting current locations 
       globeAttributes.current.current_x = event.clientX;
       globeAttributes.current.current_y = event.clientY;
-      // Getting the current mouse position
-      current_x = coordinate[0]
-      current_y = coordinate[1]
     } else {
       globeAttributes.current.starIndex = null;
     }
@@ -534,10 +493,7 @@ export default function GlobeOptimized(props) {
     const meteorCoordinates = [];
     const meteorProperties = [];
     const meteorCollection = new Map();
-
     const starCollection = [];
-    const starCoordinates = [];
-
     const constellationCollection = [];
 
     // segment meteor payload
@@ -583,11 +539,8 @@ export default function GlobeOptimized(props) {
       starCollection.push({
         ...location,
         size: starSizeScale(adjustedMag),
-        name: name,
-        color: color,
-        id: id
+        name: name
       });
-      starCoordinates.push(location.coordinates);
     });
 
     // segment constellation payload
@@ -610,7 +563,7 @@ export default function GlobeOptimized(props) {
     globeAttributes.current.meteorProperties = meteorProperties;
     globeAttributes.current.starCollection = starCollection;
     globeAttributes.current.constellationCollection = constellationCollection;
-    globeAttributes.current.starCoordinates = starCoordinates;
+    
     render();
   }, [meteors, stars, constellations]);
 
