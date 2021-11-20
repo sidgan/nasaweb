@@ -334,7 +334,10 @@ export default function GlobeOptimized(props) {
 
   function dragged(event) {
     const { dx, dy } = event;
-
+    let newParams = new URLSearchParams(window.location.search);
+    newParams.set('lat', globeAttributes.current.rotation[1].toFixed(3));
+    newParams.set('long', globeAttributes.current.rotation[0].toFixed(3));
+    window.history.pushState({}, '', '?' + newParams.toString());
     rotate(dx, dy);
   }
 
