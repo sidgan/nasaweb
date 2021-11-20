@@ -398,20 +398,44 @@ export default function GlobeOptimized(props) {
       properties.forEach((property) => {
         switch (property) {
           case 'lat':
+            console.log('Rotation -->');
+            console.log(rotation);
             rotation[1] +=
               params.has(property) && !isNaN(params.get(property))
                 ? Number(params.get(property))
                 : 0;
+            //if initial longitude and latitude not in the range rest it
+            if(rotation[1] <-360 || rotation[1] > 360){
+              rotation[1] = 0;
+              rotation[0] = 180;
+            }
             break;
           case 'long':
             rotation[0] +=
               params.has(property) && !isNaN(params.get(property))
                 ? Number(params.get(property))
                 : 180;
+            //if initial longitude and latitude not in the range rest it
+            if(rotation[0] <-360 || rotation[0] > 360){
+              rotation[1] = 0;
+              rotation[0] = 180;
+            }
             break;
           default:
+            
         }
       });
+
+      if((-360 > rotation[0] &&  rotation[0] > 360) ||(-360 > rotation[1] &&  rotation[1] > 360))
+      {
+        rotation[0] = 180;
+        rotation[1] = 0;
+        params.set('lat', rotation[1]);
+        params.set('long', rotation[0]);
+      }
+
+
+      console.log(rotation)
       projection.rotate(rotation);
 
       globeAttributes.current.rotation = rotation;
