@@ -6,6 +6,8 @@ import { select } from 'd3-selection';
 import { feature } from 'topojson';
 import { fetchLand } from '../clients/land';
 import { useNavigationState } from '../contexts/navigation';
+import debounce from 'lodash.debounce';
+
 //
 // Configuration
 //
@@ -334,6 +336,8 @@ export default function GlobeOptimized(props) {
 
   function dragged(event) {
     const { dx, dy } = event;
+    
+  
     let newParams = new URLSearchParams(window.location.search);
     newParams.set('lat', globeAttributes.current.rotation[1].toFixed(3));
     newParams.set('long', globeAttributes.current.rotation[0].toFixed(3));
@@ -398,8 +402,6 @@ export default function GlobeOptimized(props) {
       properties.forEach((property) => {
         switch (property) {
           case 'lat':
-            console.log('Rotation -->');
-            console.log(rotation);
             rotation[1] +=
               params.has(property) && !isNaN(params.get(property))
                 ? Number(params.get(property))
@@ -433,9 +435,6 @@ export default function GlobeOptimized(props) {
         params.set('lat', rotation[1]);
         params.set('long', rotation[0]);
       }
-
-
-      console.log(rotation)
       projection.rotate(rotation);
 
       globeAttributes.current.rotation = rotation;
@@ -463,8 +462,10 @@ export default function GlobeOptimized(props) {
 
     canvas.call(
       // drag().on('start', dragstarted).on('drag', dragged).on('end', dragended)
-      drag().on('drag', dragged)
+
+      drag().on('drag', debounce(dragged, 15))
     );
+
     canvas.on('click', clicked);
 
     setInitialPosition();
