@@ -402,39 +402,28 @@ export default function GlobeOptimized(props) {
       properties.forEach((property) => {
         switch (property) {
           case 'lat':
-            rotation[1] +=
-              params.has(property) && !isNaN(params.get(property))
-                ? Number(params.get(property))
-                : 0;
-            //if initial longitude and latitude not in the range rest it
-            if(rotation[1] <-360 || rotation[1] > 360){
-              rotation[1] = 0;
-              rotation[0] = 180;
-            }
+              // If the initial latitude and langitude are out of the limit setting them to 0 and 180
+              if(params.has(property) && !isNaN(params.get(property)) && ((-360 <= Number(params.get(property))) && (Number(params.get(property)) <= 360))){
+                rotation[1] += Number(params.get(property))
+              }
+              else{
+                rotation[1] = 0
+              }
             break;
           case 'long':
-            rotation[0] +=
-              params.has(property) && !isNaN(params.get(property))
-                ? Number(params.get(property))
-                : 180;
-            //if initial longitude and latitude not in the range rest it
-            if(rotation[0] <-360 || rotation[0] > 360){
-              rotation[1] = 0;
-              rotation[0] = 180;
+            if(params.has(property) && !isNaN(params.get(property)) && ((-360 <= Number(params.get(property))) && (Number(params.get(property)) <= 360))){
+              console.log('==');
+              console.log(Number(params.get(property)))
+              rotation[0] += Number(params.get(property))
+            }
+            else{
+              rotation[0] = 180
             }
             break;
           default:
             
         }
       });
-
-      if((-360 > rotation[0] &&  rotation[0] > 360) ||(-360 > rotation[1] &&  rotation[1] > 360))
-      {
-        rotation[0] = 180;
-        rotation[1] = 0;
-        params.set('lat', rotation[1]);
-        params.set('long', rotation[0]);
-      }
       projection.rotate(rotation);
 
       globeAttributes.current.rotation = rotation;
@@ -462,8 +451,7 @@ export default function GlobeOptimized(props) {
 
     canvas.call(
       // drag().on('start', dragstarted).on('drag', dragged).on('end', dragended)
-
-      drag().on('drag', debounce(dragged, 15))
+      drag().on('drag', debounce(dragged, 5))
     );
 
     canvas.on('click', clicked);
@@ -521,7 +509,7 @@ export default function GlobeOptimized(props) {
     // segment star payload
     (stars || []).forEach((star) => {
       const { location, mag } = star;
-      const adjustedMag = parseFloat(mag) * 10;
+      const adjustedMag = parseFloat(mag) * 15;
       starCollection.push({
         ...location,
         size: starSizeScale(adjustedMag),
