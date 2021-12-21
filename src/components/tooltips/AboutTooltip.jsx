@@ -55,6 +55,16 @@ const AboutTooltip = withStyles(styles)((props) => {
             <a
               target="_blank"
               rel="noopener noreferrer"
+              href="https://www.linkedin.com/in/amartyahatua/"
+            >
+              <Typography variant="h5" color="textPrimary">
+                Amartya Hatua
+              </Typography>
+            </a>
+
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
               href="https://www.linkedin.com/in/chadroffey/"
             >
               <Typography variant="h5" color="textPrimary">
