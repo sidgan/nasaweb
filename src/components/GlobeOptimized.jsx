@@ -62,6 +62,7 @@ export default function GlobeOptimized(props) {
     // tracking object
     meteorIndex: null,
     starIndex: null,
+    constellationIndex: null,
     current_x: null,
     current_y: null,
   });
@@ -81,6 +82,7 @@ export default function GlobeOptimized(props) {
       constellationCollection,
       meteorIndex,
       starIndex,
+      constellationIndex,
       clientX,
       clientY,
     } = globeAttributes.current;
@@ -233,13 +235,61 @@ export default function GlobeOptimized(props) {
 
     // Display star information
     function drawStarTooltip(starProps) {
+
       const {name} = starProps;
+      const namelength = name.length;
+      if(namelength > 0)
+      {
+        roundedRect(
+          context,
+          globeAttributes.current.current_x-(5*namelength),
+          globeAttributes.current.current_y-12,
+          10*namelength,
+          17,
+          4,
+          'rgba(7, 12, 38, 0.8)'
+        );
+
+        
+        context.fillStyle = 'white';
+        context.textAlign = 'center';
+        context.font = '500 12px Roboto Mono';
+        context.fillText(name, globeAttributes.current.current_x, globeAttributes.current.current_y);
+        context.stroke();
+      }
+    }
+
+
+
+    function drawConstellationTooltip(constellatioProps) {
+
+      const {name} = constellatioProps;
+      const namelength = name.length;
+
+      roundedRect(
+        context,
+        globeAttributes.current.current_x-(5*namelength),
+        globeAttributes.current.current_y-12,
+        10*namelength,
+        17,
+        4,
+        'rgba(7, 12, 38, 0.8)'
+      );
+    
+
+      stroke(constellationCollection[globeAttributes.current.constellationIndex], 'rgb(21, 244, 238, 1.8)');
       context.fillStyle = 'white';
       context.textAlign = 'center';
       context.font = '500 12px Roboto Mono';
       context.fillText(name, globeAttributes.current.current_x, globeAttributes.current.current_y);
       context.stroke();
     }
+
+
+
+
+
+
 
     function roundedRect(ctx, x, y, width, height, radius, color) {
       ctx.beginPath();
@@ -329,6 +379,12 @@ export default function GlobeOptimized(props) {
     if (starIndex) {
       drawStarTooltip(starCollection[starIndex])
     }
+
+    if(constellationIndex){
+      drawConstellationTooltip(constellationCollection[constellationIndex])
+    }
+
+
   }
 
   // rotate function
@@ -408,6 +464,9 @@ export default function GlobeOptimized(props) {
     let { projection, starCollection, current_x, current_y} = globeAttributes.current;
       const coordinate = projection.invert([event.clientX, event.clientY]);
       const starPointIndex = starCollection.findIndex((m) => {
+
+
+
       const longtitudeDiff = Math.pow(m.coordinates[0] - coordinate[0], 2);
       const latitudeDiff = Math.pow(m.coordinates[1] - coordinate[1], 2);
       const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
@@ -421,6 +480,38 @@ export default function GlobeOptimized(props) {
       globeAttributes.current.current_y = event.clientY;
     } else {
       globeAttributes.current.starIndex = null;
+    }
+    
+    let {constellationCollection} = globeAttributes.current;
+      const constellationPointIndex = constellationCollection.findIndex((m) => {
+      
+      for (let i = 0; i <= m.coordinates.length - 1; i++) {
+          const midlongitude = (m.coordinates[i][0][0] + m.coordinates[i][1][0])/2
+          const midlatitude = (m.coordinates[i][0][1] + m.coordinates[i][1][1])/2
+
+          const longtitudeDiff = Math.pow(midlongitude - coordinate[0], 2);
+          const latitudeDiff = Math.pow(midlatitude - coordinate[1], 2);
+          const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
+          
+
+          if(distance <= 0.5){
+            return distance
+          }
+          
+      }
+        
+    });
+
+    //console.log('m value -->', constellationPointIndex);
+
+    if (constellationPointIndex !== -1) {
+      globeAttributes.current.constellationIndex = constellationPointIndex;
+      //getting current locations 
+      
+      globeAttributes.current.current_x = event.clientX;
+      globeAttributes.current.current_y = event.clientY;
+    } else {
+      globeAttributes.current.constellationIndex = null;
     }
 
     render();
@@ -563,7 +654,7 @@ export default function GlobeOptimized(props) {
     globeAttributes.current.meteorProperties = meteorProperties;
     globeAttributes.current.starCollection = starCollection;
     globeAttributes.current.constellationCollection = constellationCollection;
-    
+    //console.log(globeAttributes.current.constellationCollection)
     render();
   }, [meteors, stars, constellations]);
 
