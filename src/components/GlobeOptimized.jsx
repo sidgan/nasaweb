@@ -412,8 +412,6 @@ export default function GlobeOptimized(props) {
             break;
           case 'long':
             if(params.has(property) && !isNaN(params.get(property)) && ((-360 <= Number(params.get(property))) && (Number(params.get(property)) <= 360))){
-              console.log('==');
-              console.log(Number(params.get(property)))
               rotation[0] += Number(params.get(property))
             }
             else{
