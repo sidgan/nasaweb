@@ -327,6 +327,22 @@ export default function GlobeOptimized(props) {
     render();
   }
 
+
+  function map_latitude(latitude_int)
+  {
+    latitude_int = latitude_int < -90 && latitude_int >= -180 ? latitude_int + 90 : latitude_int < -180 && latitude_int >= -270 ? latitude_int + 180 : latitude_int < -270 && latitude_int >= -360 ? (latitude_int + 270)*(-1) : latitude_int
+    latitude_int = latitude_int > 90 && latitude_int<= 180 ? 180-latitude_int : latitude_int> 180 && latitude_int <= 270 ? 180 - latitude_int : latitude_int> 270 && latitude_int <= 360 ? latitude_int - 360 : latitude_int
+    return latitude_int
+  }
+
+
+  function map_longitude(longitude_int)
+  {
+    longitude_int = longitude_int >=0 ? (180 - longitude_int) : ((180 + longitude_int)*-1)
+    return longitude_int
+  }
+
+
   // drag functions
   // function dragstarted(event) {
   // }
@@ -336,8 +352,15 @@ export default function GlobeOptimized(props) {
 
   function dragged(event) {
     const { dx, dy } = event;
+
+    //globeAttributes.current.rotation[0] = globeAttributes.current.rotation[0] >=0 ? (180 - globeAttributes.current.rotation[0]) : ((180 + globeAttributes.current.rotation[0])*-1)
+    //globeAttributes.current.rotation[1] = globeAttributes.current.rotation[1] < 0 ? globeAttributes.current.rotation[1]*(-1):globeAttributes.current.rotation[1]
+    //globeAttributes.current.rotation[1] = globeAttributes.current.rotation[1] >=0 && globeAttributes.current.rotation[1] < 180 ? (90 - globeAttributes.current.rotation[1]) : globeAttributes.current.rotation[1] - 270
     
-  
+
+    globeAttributes.current.rotation[1] = map_latitude(globeAttributes.current.rotation[1])
+    globeAttributes.current.rotation[0] = map_longitude(globeAttributes.current.rotation[0])
+
     let newParams = new URLSearchParams(window.location.search);
     newParams.set('lat', globeAttributes.current.rotation[1].toFixed(3));
     newParams.set('long', globeAttributes.current.rotation[0].toFixed(3));
@@ -404,7 +427,8 @@ export default function GlobeOptimized(props) {
           case 'lat':
               // If the initial latitude and langitude are out of the limit setting them to 0 and 180
               if(params.has(property) && !isNaN(params.get(property)) && ((-360 <= Number(params.get(property))) && (Number(params.get(property)) <= 360))){
-                rotation[1] += Number(params.get(property))
+                let temp_lati = map_latitude(Number(params.get(property)))
+                rotation[1] += temp_lati
               }
               else{
                 rotation[1] = 0
@@ -412,7 +436,8 @@ export default function GlobeOptimized(props) {
             break;
           case 'long':
             if(params.has(property) && !isNaN(params.get(property)) && ((-360 <= Number(params.get(property))) && (Number(params.get(property)) <= 360))){
-              rotation[0] += Number(params.get(property))
+              let temp_long = map_longitude(Number(params.get(property)))
+              rotation[0] += temp_long
             }
             else{
               rotation[0] = 180
