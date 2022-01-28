@@ -62,6 +62,8 @@ export default function GlobeOptimized(props) {
     clientY: null,
     // tracking object
     meteorIndex: null,
+
+    //scaleFactor: null
   });
 
   // render function
@@ -330,16 +332,43 @@ export default function GlobeOptimized(props) {
 
   function map_latitude(latitude_int)
   {
-    latitude_int = latitude_int < -90 && latitude_int >= -180 ? latitude_int + 90 : latitude_int < -180 && latitude_int >= -270 ? latitude_int + 180 : latitude_int < -270 && latitude_int >= -360 ? (latitude_int + 270)*(-1) : latitude_int
-    latitude_int = latitude_int > 90 && latitude_int<= 180 ? 180-latitude_int : latitude_int> 180 && latitude_int <= 270 ? 180 - latitude_int : latitude_int> 270 && latitude_int <= 360 ? latitude_int - 360 : latitude_int
+    //latitude_int = latitude_int < -90 && latitude_int >= -180 ? latitude_int + 90 : latitude_int < -180 && latitude_int >= -270 ? latitude_int + 180 : latitude_int < -270 && latitude_int >= -360 ? (latitude_int + 270)*(-1) : latitude_int
+    //latitude_int = latitude_int > 90 && latitude_int<= 180 ? 180-latitude_int : latitude_int> 180 && latitude_int <= 270 ? 180 - latitude_int : latitude_int> 270 && latitude_int <= 360 ? latitude_int - 360 : latitude_int
+    if(latitude_int < 0)
+    {
+      if(latitude_int < -90 && latitude_int >= -180)
+      {
+        latitude_int = latitude_int + 90;
+      }
+      else if(latitude_int < -180 && latitude_int >= -270)
+      {
+        latitude_int = latitude_int + 180;
+      }
+      else if(latitude_int < -270 && latitude_int >= -360)
+      {
+        latitude_int = (latitude_int + 270)*(-1);
+      }
+    }
+    else
+    {
+      if(latitude_int > 90 && latitude_int<= 270)
+      {
+        latitude_int = 180-latitude_int;
+      }
+      else if(latitude_int> 270 && latitude_int <= 360)
+      {
+        latitude_int = latitude_int - 360;  
+      }
+    }
+    
     return latitude_int
   }
 
 
   function map_longitude(longitude_int)
   {
-    longitude_int = longitude_int >=0 ? (180 - longitude_int) : ((180 + longitude_int)*-1)
-    return longitude_int
+    longitude_int = longitude_int >=0 ? (180 - longitude_int) : ((180 + longitude_int)*-1);
+    return longitude_int;
   }
 
 
@@ -353,19 +382,17 @@ export default function GlobeOptimized(props) {
   function dragged(event) {
     const { dx, dy } = event;
 
-    //globeAttributes.current.rotation[0] = globeAttributes.current.rotation[0] >=0 ? (180 - globeAttributes.current.rotation[0]) : ((180 + globeAttributes.current.rotation[0])*-1)
-    //globeAttributes.current.rotation[1] = globeAttributes.current.rotation[1] < 0 ? globeAttributes.current.rotation[1]*(-1):globeAttributes.current.rotation[1]
-    //globeAttributes.current.rotation[1] = globeAttributes.current.rotation[1] >=0 && globeAttributes.current.rotation[1] < 180 ? (90 - globeAttributes.current.rotation[1]) : globeAttributes.current.rotation[1] - 270
-    
-
     globeAttributes.current.rotation[1] = map_latitude(globeAttributes.current.rotation[1])
     globeAttributes.current.rotation[0] = map_longitude(globeAttributes.current.rotation[0])
 
     let newParams = new URLSearchParams(window.location.search);
-    newParams.set('lat', globeAttributes.current.rotation[1].toFixed(3));
-    newParams.set('long', globeAttributes.current.rotation[0].toFixed(3));
-    window.history.pushState({}, '', '?' + newParams.toString());
-    rotate(dx, dy);
+    const debouncedFilter = debounce(() => {
+      newParams.set('lat', map_latitude(globeAttributes.current.rotation[1]).toFixed(3));
+      newParams.set('long', map_longitude(globeAttributes.current.rotation[0]).toFixed(3));
+      window.history.pushState({}, '', '?' + newParams.toString());
+      }, 500)
+      debouncedFilter();
+      rotate(dx, dy);
   }
 
   // mouse move
@@ -426,21 +453,21 @@ export default function GlobeOptimized(props) {
         switch (property) {
           case 'lat':
               // If the initial latitude and langitude are out of the limit setting them to 0 and 180
-              if(params.has(property) && !isNaN(params.get(property)) && ((-360 <= Number(params.get(property))) && (Number(params.get(property)) <= 360))){
-                let temp_lati = map_latitude(Number(params.get(property)))
-                rotation[1] += temp_lati
+              if(params.has(property) && !isNaN(params.get(property)) && ((-90 <= Number(params.get(property))) && (Number(params.get(property)) <= 90))){
+                let temp_lati = map_latitude(Number(params.get(property)));
+                rotation[1] += temp_lati;
               }
               else{
-                rotation[1] = 0
+                rotation[1] = 0;
               }
             break;
           case 'long':
-            if(params.has(property) && !isNaN(params.get(property)) && ((-360 <= Number(params.get(property))) && (Number(params.get(property)) <= 360))){
-              let temp_long = map_longitude(Number(params.get(property)))
-              rotation[0] += temp_long
+            if(params.has(property) && !isNaN(params.get(property)) && ((-180 <= Number(params.get(property))) && (Number(params.get(property)) <= 180))){
+              let temp_long = map_longitude(Number(params.get(property)));
+              rotation[0] += temp_long;
             }
             else{
-              rotation[0] = 180
+              rotation[0] = 0;
             }
             break;
           default:
@@ -474,7 +501,7 @@ export default function GlobeOptimized(props) {
 
     canvas.call(
       // drag().on('start', dragstarted).on('drag', dragged).on('end', dragended)
-      drag().on('drag', debounce(dragged, 5))
+      drag().on('drag', dragged)
     );
 
     canvas.on('click', clicked);
@@ -532,7 +559,7 @@ export default function GlobeOptimized(props) {
     // segment star payload
     (stars || []).forEach((star) => {
       const { location, mag } = star;
-      const adjustedMag = parseFloat(mag) * 15;
+      const adjustedMag = parseFloat(mag) * 10;
       starCollection.push({
         ...location,
         size: starSizeScale(adjustedMag),
