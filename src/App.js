@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Globe from './components/Globe';
 import GlobeOptimized from './components/GlobeOptimized';
-import GroupedButton from './components/GroupedButton';
 import Timeline from './components/Timeline';
 import Footer from './components/Footer';
 import VideoView from './components/VideoView';
 
 import { StorageProvider } from './contexts/storage';
 import { NavigationProvider } from './contexts/navigation';
+import { NotificationProvider } from './contexts/notification';
+import { WorkerProvider } from './contexts/worker';
 
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -53,39 +53,37 @@ class App extends Component {
       <Router>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <MuiThemeProvider theme={theme}>
-            <StorageProvider>
-              <Switch>
-                <Route path="/video">
-                  <NavigationProvider>
-                    <div className="globe-container">
-                      <div className="main-section">
-                        <VideoView />
-                      </div>
-                    </div>
-                  </NavigationProvider>
-                </Route>
-                <Route path="/">
-                  <div className="App">
-                    <NavigationProvider>
-                      <Header />
-                      <div className="globe-container">
-                        <div className="main-section">
-                          <GlobeOptimized />
-                          {/* <Globe
-                            showGlobe={this.state.showGlobe}
-                            showZoom={true}
-                            width={window.innerWidth - 50}
-                            height={window.innerHeight}
-                          /> */}
+            <NotificationProvider>
+              <WorkerProvider>
+                <StorageProvider>
+                  <Switch>
+                    <Route path="/video">
+                      <NavigationProvider>
+                        <div className="globe-container">
+                          <div className="main-section">
+                            <VideoView />
+                          </div>
                         </div>
-                        {this.renderTimeline()}
+                      </NavigationProvider>
+                    </Route>
+                    <Route path="/">
+                      <div className="App">
+                        <NavigationProvider>
+                          <Header />
+                          <div className="globe-container">
+                            <div className="main-section">
+                              <GlobeOptimized />
+                            </div>
+                            {this.renderTimeline()}
+                          </div>
+                        </NavigationProvider>
+                        <Footer />
                       </div>
-                    </NavigationProvider>
-                    <Footer />
-                  </div>
-                </Route>
-              </Switch>
-            </StorageProvider>
+                    </Route>
+                  </Switch>
+                </StorageProvider>
+              </WorkerProvider>
+            </NotificationProvider>
           </MuiThemeProvider>
         </MuiPickersUtilsProvider>
       </Router>

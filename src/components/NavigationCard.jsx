@@ -2,7 +2,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-// import IconButton from '@material-ui/core/IconButton';
 import { DatePicker } from '@material-ui/pickers';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
@@ -10,6 +9,9 @@ import { useNavigationState } from '../contexts/navigation';
 
 import leftIcon from '../images/left-icon.png';
 import rightIcon from '../images/right-icon.png';
+import { useNotificationState } from '../contexts/notification';
+import { useWorkerState } from '../contexts/worker';
+import { createTimeline, getTimeline } from '../clients/timeline';
 
 const monthNames = [
   'Jan',
@@ -36,6 +38,12 @@ const NavigationCard = (props) => {
   const navigationState = useNavigationState();
   const [maxDate] = React.useState(`${getMaxDate()}`);
   const [isOpen, setIsOpen] = React.useState(false);
+
+  // push notification test
+  const notificationState = useNotificationState();
+
+  // worker test
+  const workerState = useWorkerState();
 
   const getFormat = () => {
     const date = new Date(navigationState.date);
@@ -83,7 +91,7 @@ const NavigationCard = (props) => {
       <div className="disappear">
         <DatePicker
           autoOk
-          clearable
+          clearable="true"
           disableFuture
           disableToolbar
           format="MMM d, yyyy"
@@ -102,17 +110,6 @@ const NavigationCard = (props) => {
       <Typography variant="h2" color="textSecondary" className="text-left p-1">
         <div onClick={() => setIsOpen(true)}>{getFormat()}</div>
       </Typography>
-      {/* <Grid container>
-        <Grid item>
-          <DatePicker
-            autoOk
-            clearable
-            disableFuture
-            value={selectedDate}
-            onChange={(date) => handleDateChange(date)}
-          />
-        </Grid>
-      </Grid> */}
       <Grid container spacing={1} className="p-1">
         <Grid item onClick={decrementDate}>
           <Button
@@ -153,6 +150,51 @@ const NavigationCard = (props) => {
             }
           />
         </Grid>
+        {/* <button
+          onClick={async () => {
+            const token = await createTimeline('2021-07-10', '2021-07-15');
+
+            const callbacks = {
+              onComplete: () => {
+                workerState.dequeueWork('TimelinePoll');
+
+                // notification
+                notificationState.pushNotification({
+                  title: 'Your timeline is ready',
+                  body:
+                    'Please download your timeline by clicking this notification',
+                  icon:
+                    'https://nationaltoday.com/wp-content/uploads/2021/06/National-Meteor-Watch-Day.jpg',
+                  onClick: () => {
+                    window
+                      .open(
+                        `https://meteorshowers.seti.org/api/timeline/download?token=${token}`,
+                        '_blank'
+                      )
+                      .focus();
+                  },
+                });
+              },
+              onInProgress: (data) => {
+                // can use data to update UI
+                console.log(data);
+              },
+            };
+
+            const fn = async () => {
+              const timeline = await getTimeline(token);
+
+              return {
+                complete: timeline.status === 'COMPLETE',
+                ...timeline,
+              };
+            };
+
+            workerState.enqueueWork('TimelinePoll', fn, 1000, callbacks);
+          }}
+        >
+          Click Me
+        </button> */}
       </Grid>
     </>
   );
