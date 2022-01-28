@@ -332,8 +332,6 @@ export default function GlobeOptimized(props) {
 
   function map_latitude(latitude_int)
   {
-    //latitude_int = latitude_int < -90 && latitude_int >= -180 ? latitude_int + 90 : latitude_int < -180 && latitude_int >= -270 ? latitude_int + 180 : latitude_int < -270 && latitude_int >= -360 ? (latitude_int + 270)*(-1) : latitude_int
-    //latitude_int = latitude_int > 90 && latitude_int<= 180 ? 180-latitude_int : latitude_int> 180 && latitude_int <= 270 ? 180 - latitude_int : latitude_int> 270 && latitude_int <= 360 ? latitude_int - 360 : latitude_int
     if(latitude_int < 0)
     {
       if(latitude_int < -90 && latitude_int >= -180)
