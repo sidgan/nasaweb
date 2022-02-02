@@ -45,6 +45,7 @@ export function NavigationProvider({ children }) {
   const [isInTimelineView, toggleTimelineView] = React.useState(false);
   const [startDate, setStartDate] = React.useState(date);
   const [endDate, setEndDate] = React.useState('not set');
+  const [timelineLoading, setLoading] = React.useState('not loaded');
 
   const initializeDateLoc = () => {
     let dateParam, sourceParam;
@@ -65,19 +66,16 @@ export function NavigationProvider({ children }) {
   const updateDateParams = (newDate) => {
     let newParams = new URLSearchParams(window.location.search);
     newParams.set('date', newDate);
-    console.log(newParams.toString());
     window.history.pushState({}, '', '?' + newParams.toString());
   };
 
   const updateSourceParams = (newSource) => {
     let newParams = new URLSearchParams(window.location.search);
     newParams.set('loc', newSource);
-    console.log(newParams.toString());
     window.history.pushState({}, '', '?' + newParams.toString());
   };
 
   const retrieveMeteors = async (date, source) => {
-    console.log('fetch meteors');
     let meteors;
     const key = generateMeteorKey(date, source);
     if (cachedMeteors.has(key)) {
@@ -142,7 +140,6 @@ export function NavigationProvider({ children }) {
 
   const onDateChange = useCallback(
     throttle((newDate) => {
-      console.log('throttled');
       setDataAll(newDate, source);
       updateDateParams(newDate);
     }, 3000),
@@ -165,6 +162,7 @@ export function NavigationProvider({ children }) {
         isInTimelineView: isInTimelineView,
         startDate: startDate,
         endDate: endDate,
+        timelineLoading: timelineLoading,
         changeDate: (newDate) => {
           setDate(newDate);
           onDateChange(newDate);
@@ -182,9 +180,12 @@ export function NavigationProvider({ children }) {
         changeEndDate: (newDate) => {
           setEndDate(newDate);
         },
+        setLoadState: (state) => {
+          setLoading(state);
+        },
         loadRange: async (start, end) => {
           const dateRange = getDateRange(new Date(start), new Date(end));
-          await fetchDataRange(dateRange);
+          fetchDataRange(dateRange).then(() => setLoading('finished'));
         },
         setGlobeMarkers: (current) => {
           setDataAll(current, source);

@@ -29,7 +29,10 @@ export function getNextDate(date) {
 export function calculateNewDate(start, daysPassed) {
   const newDate = new Date(start);
   newDate.setUTCDate(newDate.getUTCDate() + daysPassed);
-  return getDateString(newDate);
+  if (checkIfValidDate(getDateString(newDate), getMaxDate())) {
+    return getDateString(newDate);
+  }
+  return getMaxDate();
 }
 
 export function getDateRange(start, end) {
@@ -47,8 +50,8 @@ export function dateDiff(start, end) {
   return timeDiff / (1000 * 3600 * 24);
 }
 
-export function getStartDate() {
-  const newDate = new Date();
-  newDate.setUTCDate(newDate.getUTCDate() - 6);
-  return getDateString(newDate);
+export function getMaxDate() {
+  let date = new Date();
+  date.setDate(date.getDate());
+  return `${date.toISOString().slice(0, 10)}`;
 }

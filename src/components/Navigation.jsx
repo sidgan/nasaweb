@@ -8,44 +8,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import { useNavigationState } from '../contexts/navigation';
 import DatePicker from './DatePicker';
-import { calculateNewDate, checkIfValidDate } from '../utils/date';
+import { calculateNewDate, checkIfValidDate, getMaxDate } from '../utils/date';
 
 import leftIcon from '../images/left-icon.png';
 import rightIcon from '../images/right-icon.png';
 import Checkmark from '../images/Checkmark.png';
-
-const useStyles = makeStyles({
-  input: {
-    background: 'transparent',
-    width: 200,
-  },
-  picker: {
-    fontSize: '32px',
-  },
-  icon: {
-    width: 16,
-    height: 16,
-    background: 'rgba(71, 78, 116, 0.6)',
-    backdropFilter: 'blur(16px)',
-    borderRadius: '2px',
-  },
-  checked: {
-    backgroundImage: `url(${Checkmark})`,
-  },
-});
-
-const StyledLabel = withStyles({
-  label: {
-    fontSize: '16px',
-    color: 'rgba(255, 255, 255, 0.8)',
-  },
-})(FormControlLabel);
-
-const getMaxDate = () => {
-  let date = new Date();
-  date.setDate(date.getDate());
-  return `${date.toISOString().slice(0, 10)}`;
-};
 
 const NavigationBar = (props) => {
   const navigationState = useNavigationState();
@@ -78,6 +45,24 @@ const NavigationBar = (props) => {
     }
   };
 
+  const onStartDateChange = (date) => {
+    navigationState.changeStartDate(date);
+    navigationState.changeEndDate('not set');
+    setEndMax(calculateNewDate(date, 10));
+  };
+
+  const onEndDateChange = (date) => {
+    navigationState.changeEndDate(date);
+  };
+
+  const onEndPickerClose = () => {
+    navigationState.loadRange(
+      navigationState.startDate,
+      navigationState.endDate
+    );
+    navigationState.setLoadState('loading');
+  };
+
   const classes = useStyles();
 
   const CheckboxIcon = <div className={classes.icon}></div>;
@@ -102,33 +87,30 @@ const NavigationBar = (props) => {
     <div className="navigation-container">
       {navigationState.isInTimelineView ? (
         <>
-          <span style={{ opacity: '60%' }}>Start Date:</span>
-          <div style={{ marginTop: '-10px' }}>
+          <span className={classes.dateLabel}>Start Date:</span>
+          <div className={classes.pickerContainer}>
             <DatePicker
               selectedDate={navigationState.startDate}
-              onChange={(date) => {
-                navigationState.changeStartDate(date);
-                navigationState.changeEndDate('not set');
-                setEndMax(calculateNewDate(date, 10));
-              }}
+              onChange={onStartDateChange}
               minDate="2010-04-14"
               maxDate={maxDate}
             />
           </div>
-          <span style={{ opacity: '60%' }}>End Date:</span>
-          <div style={{ marginTop: '-10px' }}>
+          <span className={classes.dateLabel}>End Date:</span>
+          <div className={classes.pickerContainer}>
             <DatePicker
               selectedDate={navigationState.endDate}
-              onChange={navigationState.changeEndDate}
+              onChange={onEndDateChange}
               minDate={navigationState.startDate}
               maxDate={endMaxDate}
+              onClose={onEndPickerClose}
             />
           </div>
         </>
       ) : (
         <>
-          <span style={{ opacity: '60%' }}>Current Date:</span>
-          <div style={{ marginTop: '-10px' }}>
+          <span className={classes.dateLabel}>Current Date:</span>
+          <div className={classes.pickerContainer}>
             <DatePicker
               selectedDate={navigationState.date}
               onChange={navigationState.changeDate}
@@ -136,7 +118,7 @@ const NavigationBar = (props) => {
               maxDate={maxDate}
             />
           </div>
-          <Grid container spacing={1}>
+          <Grid container spacing={1} className={classes.controls}>
             <Grid item onClick={decrementDate}>
               <Button
                 style={{
@@ -182,3 +164,39 @@ const NavigationBar = (props) => {
 };
 
 export default React.memo(NavigationBar);
+
+const useStyles = makeStyles({
+  dateLabel: {
+    opacity: '60%',
+  },
+  pickerContainer: {
+    margin: '-10px 0 10px 0',
+  },
+  input: {
+    background: 'transparent',
+    width: 200,
+  },
+  picker: {
+    fontSize: '32px',
+  },
+  controls: {
+    marginBottom: '10px',
+  },
+  icon: {
+    width: 16,
+    height: 16,
+    background: 'rgba(71, 78, 116, 0.6)',
+    backdropFilter: 'blur(16px)',
+    borderRadius: '2px',
+  },
+  checked: {
+    backgroundImage: `url(${Checkmark})`,
+  },
+});
+
+const StyledLabel = withStyles({
+  label: {
+    fontSize: '14px',
+    color: 'rgba(255, 255, 255, 0.8)',
+  },
+})(FormControlLabel);
