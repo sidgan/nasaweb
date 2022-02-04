@@ -61,6 +61,7 @@ const useStyles = makeStyles({
   root: {
     background: 'transparent',
     width: 160,
+    padding: 0,
   },
   input: {
     fontSize: '26px',

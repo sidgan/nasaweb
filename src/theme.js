@@ -152,7 +152,7 @@ export const theme = createMuiTheme({
         lineHeight: '24px',
         letterSpacing: '1.5px',
         paddingLeft: '0px',
-      }
+      },
     },
 
     MuiTableBody: {
@@ -180,7 +180,8 @@ export const theme = createMuiTheme({
         width: '16px',
         height: '16px',
         borderRadius: '2px',
-        backgroundColor: 'rgba(71, 78, 116, 0.6)',
+        padding: 0,
+        boxSizing: 'content-box',
         marginLeft: '1rem',
         marginRight: '1.5rem',
       },

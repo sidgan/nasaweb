@@ -185,6 +185,7 @@ const useStyles = makeStyles({
   icon: {
     width: 16,
     height: 16,
+    boxSizing: 'content-box',
     background: 'rgba(71, 78, 116, 0.6)',
     backdropFilter: 'blur(16px)',
     borderRadius: '2px',
