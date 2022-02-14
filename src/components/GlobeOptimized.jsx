@@ -6,6 +6,8 @@ import { select } from 'd3-selection';
 import { feature } from 'topojson';
 import { fetchLand } from '../clients/land';
 import { useNavigationState } from '../contexts/navigation';
+import debounce from 'lodash.debounce';
+
 //
 // Configuration
 //
@@ -401,6 +403,47 @@ export default function GlobeOptimized(props) {
     render();
   }
 
+
+  function map_latitude(latitude_int)
+  {
+    if(latitude_int < 0)
+    {
+      if(latitude_int < -90 && latitude_int >= -180)
+      {
+        latitude_int = latitude_int + 90;
+      }
+      else if(latitude_int < -180 && latitude_int >= -270)
+      {
+        latitude_int = latitude_int + 180;
+      }
+      else if(latitude_int < -270 && latitude_int >= -360)
+      {
+        latitude_int = (latitude_int + 270)*(-1);
+      }
+    }
+    else
+    {
+      if(latitude_int > 90 && latitude_int<= 270)
+      {
+        latitude_int = 180-latitude_int;
+      }
+      else if(latitude_int> 270 && latitude_int <= 360)
+      {
+        latitude_int = latitude_int - 360;  
+      }
+    }
+    
+    return latitude_int
+  }
+
+
+  function map_longitude(longitude_int)
+  {
+    longitude_int = longitude_int >=0 ? (180 - longitude_int) : ((180 + longitude_int)*-1);
+    return longitude_int;
+  }
+
+
   // drag functions
   // function dragstarted(event) {
   // }
@@ -411,7 +454,17 @@ export default function GlobeOptimized(props) {
   function dragged(event) {
     const { dx, dy } = event;
 
-    rotate(dx, dy);
+    globeAttributes.current.rotation[1] = map_latitude(globeAttributes.current.rotation[1])
+    globeAttributes.current.rotation[0] = map_longitude(globeAttributes.current.rotation[0])
+
+    let newParams = new URLSearchParams(window.location.search);
+    const debouncedFilter = debounce(() => {
+      newParams.set('lat', map_latitude(globeAttributes.current.rotation[1]).toFixed(3));
+      newParams.set('long', map_longitude(globeAttributes.current.rotation[0]).toFixed(3));
+      window.history.pushState({}, '', '?' + newParams.toString());
+      }, 500)
+      debouncedFilter();
+      rotate(dx, dy);
   }
 
   // mouse move
@@ -528,18 +581,26 @@ export default function GlobeOptimized(props) {
       properties.forEach((property) => {
         switch (property) {
           case 'lat':
-            rotation[1] +=
-              params.has(property) && !isNaN(params.get(property))
-                ? Number(params.get(property))
-                : 0;
+              // If the initial latitude and langitude are out of the limit setting them to 0 and 180
+              if(params.has(property) && !isNaN(params.get(property)) && ((-90 <= Number(params.get(property))) && (Number(params.get(property)) <= 90))){
+                let temp_lati = map_latitude(Number(params.get(property)));
+                rotation[1] += temp_lati;
+              }
+              else{
+                rotation[1] = 0;
+              }
             break;
           case 'long':
-            rotation[0] +=
-              params.has(property) && !isNaN(params.get(property))
-                ? Number(params.get(property))
-                : 180;
+            if(params.has(property) && !isNaN(params.get(property)) && ((-180 <= Number(params.get(property))) && (Number(params.get(property)) <= 180))){
+              let temp_long = map_longitude(Number(params.get(property)));
+              rotation[0] += temp_long;
+            }
+            else{
+              rotation[0] = 0;
+            }
             break;
           default:
+            
         }
       });
       projection.rotate(rotation);
@@ -571,6 +632,7 @@ export default function GlobeOptimized(props) {
       // drag().on('start', dragstarted).on('drag', dragged).on('end', dragended)
       drag().on('drag', dragged)
     );
+
     canvas.on('click', clicked);
 
     canvas.on('mousemove', havoured);
