@@ -62,8 +62,10 @@ export default function GlobeOptimized(props) {
     clientY: null,
     // tracking object
     meteorIndex: null,
-
-    //scaleFactor: null
+    starIndex: null,
+    constellationIndex: null,
+    current_x: null,
+    current_y: null,
   });
 
   // render function
