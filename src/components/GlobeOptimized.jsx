@@ -547,7 +547,7 @@ export default function GlobeOptimized(props) {
           const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
           
 
-          if(distance <= 0.5){
+          if(distance <= 2){
             return distance
           }
           
