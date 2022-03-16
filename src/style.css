@@ -127,6 +127,15 @@ h2 {
   left: 150px;
 }
 
+.navigation-container {
+  position: absolute;
+  right: 0;
+  padding-right: 24px;
+  top: 130%;
+  color: white;
+  text-align: left;
+}
+
 .globe-content {
   height: 100%;
   width: 100%;

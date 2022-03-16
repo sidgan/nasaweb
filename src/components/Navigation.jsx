@@ -1,21 +1,23 @@
 import React from 'react';
+import classnames from 'classnames';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import { KeyboardDatePicker } from '@material-ui/pickers';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import { useNavigationState } from '../contexts/navigation';
+import DatePicker from './DatePicker';
+import { calculateNewDate, checkIfValidDate, getMaxDate } from '../utils/date';
 
-
-const getMaxDate = () => {
-  let date = new Date();
-  date.setDate(date.getDate());
-  return `${date.toISOString().slice(0, 10)}`;
-};
+import leftIcon from '../images/left-icon.png';
+import rightIcon from '../images/right-icon.png';
+import Checkmark from '../images/Checkmark.png';
 
 const NavigationBar = (props) => {
   const navigationState = useNavigationState();
   const [maxDate] = React.useState(`${getMaxDate()}`);
+  const [endMaxDate, setEndMax] = React.useState(`${getMaxDate()}`);
 
   const incrementDate = () => {
     // Add One Day To Selected Date
@@ -43,65 +45,159 @@ const NavigationBar = (props) => {
     }
   };
 
-  const handleDateChange = (d) => {
-    let newDate = d.toISOString().slice(0, 10);
+  const onStartDateChange = (date) => {
+    navigationState.changeStartDate(date);
+    navigationState.changeEndDate('not set');
+    setEndMax(calculateNewDate(date, 10));
+  };
 
-    if (newDate < maxDate && newDate > '2010-04-14') {
-      navigationState.changeDate(newDate);
-      props.onChange(newDate);
+  const onEndDateChange = (date) => {
+    navigationState.changeEndDate(date);
+  };
+
+  const onEndPickerClose = () => {
+    navigationState.loadRange(
+      navigationState.startDate,
+      navigationState.endDate
+    );
+    navigationState.setLoadState('loading');
+  };
+
+  const classes = useStyles();
+
+  const CheckboxIcon = <div className={classes.icon}></div>;
+
+  const CheckboxIconChecked = (
+    <div className={classnames(classes.icon, classes.checked)}></div>
+  );
+
+  const handleToggle = () => {
+    if (!navigationState.isInTimelineView) {
+      navigationState.changeStartDate(navigationState.date);
+      navigationState.changeEndDate('not set');
+      const newMax = calculateNewDate(navigationState.date, 10);
+      if (checkIfValidDate(newMax, maxDate)) {
+        setEndMax(calculateNewDate(navigationState.date, 10));
+      }
     }
+    navigationState.toggleTimelineView();
   };
 
   return (
-    <Grid container spacing={1}>
-      <Grid item onClick={decrementDate}>
-        <Button
-          style={{
-            minHeight: '50px',
-            minWidth: '50px',
-            fontSize: '30px',
-          }}
-          variant="contained"
-          color="secondary"
-        >
-          <img src={leftIcon} alt={leftIcon}></img>
-        </Button>
-      </Grid>
-      <Grid item>
-        <FormControl variant="filled">
-          <KeyboardDatePicker
-            disableToolbar
-            variant="inline"
-            format="yyyy-MM-dd"
-            color="secondary"
-            style={{
-              fontSize: '15px',
-              color: 'black',
-              width: '150px',
-            }}
-            value={navigationState.date}
-            onChange={handleDateChange}
-            allowKeyboardControl={false}
-            minDate="2010-04-14"
-            maxDate={maxDate}
+    <div className="navigation-container">
+      {navigationState.isInTimelineView ? (
+        <>
+          <span className={classes.dateLabel}>Start Date:</span>
+          <div className={classes.pickerContainer}>
+            <DatePicker
+              selectedDate={navigationState.startDate}
+              onChange={onStartDateChange}
+              minDate="2010-04-14"
+              maxDate={maxDate}
+            />
+          </div>
+          <span className={classes.dateLabel}>End Date:</span>
+          <div className={classes.pickerContainer}>
+            <DatePicker
+              selectedDate={navigationState.endDate}
+              onChange={onEndDateChange}
+              minDate={navigationState.startDate}
+              maxDate={endMaxDate}
+              onClose={onEndPickerClose}
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <span className={classes.dateLabel}>Current Date:</span>
+          <div className={classes.pickerContainer}>
+            <DatePicker
+              selectedDate={navigationState.date}
+              onChange={navigationState.changeDate}
+              minDate="2010-04-14"
+              maxDate={maxDate}
+            />
+          </div>
+          <Grid container spacing={1} className={classes.controls}>
+            <Grid item onClick={decrementDate}>
+              <Button
+                style={{
+                  minHeight: '32px',
+                  minWidth: '32px',
+                  padding: '0',
+                }}
+                variant="contained"
+                color="secondary"
+              >
+                <img src={leftIcon} alt={leftIcon}></img>
+              </Button>
+            </Grid>
+            <Grid item onClick={incrementDate}>
+              <Button
+                style={{
+                  minHeight: '32px',
+                  minWidth: '32px',
+                  padding: '0',
+                }}
+                variant="contained"
+                color="secondary"
+              >
+                <img src={rightIcon} alt={rightIcon}></img>
+              </Button>
+            </Grid>
+          </Grid>
+        </>
+      )}
+      <StyledLabel
+        control={
+          <Checkbox
+            icon={CheckboxIcon}
+            checkedIcon={CheckboxIconChecked}
+            name="loop"
+            onChange={handleToggle}
           />
-        </FormControl>
-      </Grid>
-      <Grid item onClick={incrementDate}>
-        <Button
-          style={{
-            minHeight: '50px',
-            minWidth: '50px',
-            fontSize: '30px',
-          }}
-          variant="contained"
-          color="secondary"
-        >
-          <img src={rightIcon} alt={rightIcon}></img>
-        </Button>
-      </Grid>
-    </Grid>
+        }
+        label="Video Timeline"
+      />
+    </div>
   );
 };
 
 export default React.memo(NavigationBar);
+
+const useStyles = makeStyles({
+  dateLabel: {
+    opacity: '60%',
+  },
+  pickerContainer: {
+    margin: '-10px 0 10px 0',
+  },
+  input: {
+    background: 'transparent',
+    width: 200,
+  },
+  picker: {
+    fontSize: '32px',
+  },
+  controls: {
+    marginBottom: '10px',
+  },
+  icon: {
+    width: 16,
+    height: 16,
+    boxSizing: 'content-box',
+    background: 'rgba(71, 78, 116, 0.6)',
+    backdropFilter: 'blur(16px)',
+    borderRadius: '2px',
+  },
+  checked: {
+    backgroundImage: `url(${Checkmark})`,
+  },
+});
+
+const StyledLabel = withStyles({
+  label: {
+    fontSize: '14px',
+    color: 'rgba(255, 255, 255, 0.8)',
+  },
+})(FormControlLabel);

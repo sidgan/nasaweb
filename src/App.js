@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Globe from './components/Globe';
 import GlobeOptimized from './components/GlobeOptimized';
-import GroupedButton from './components/GroupedButton';
 import Timeline from './components/Timeline';
 import Footer from './components/Footer';
 import VideoView from './components/VideoView';
@@ -67,7 +66,10 @@ class App extends Component {
                 <Route path="/">
                   <div className="App">
                     <NavigationProvider>
-                      <Header />
+                      <Header
+                        showGlobe={this.state.showGlobe}
+                        toggleDisplay={this.toggleDisplay}
+                      />
                       <div className="globe-container">
                         <div className="main-section">
                           <GlobeOptimized />
