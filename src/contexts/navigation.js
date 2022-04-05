@@ -162,6 +162,9 @@ export function NavigationProvider({ children }) {
         constellations: constellationsToRender,
         isInTimelineView: isInTimelineView,
         scaleFactor: scaleFactorToRender,
+        startDate: startDate,
+        endDate: endDate,
+        timelineLoading: timelineLoading,
         changeDate: (newDate) => {
           setDate(newDate);
           onDateChange(newDate);
