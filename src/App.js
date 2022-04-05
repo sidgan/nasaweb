@@ -16,7 +16,6 @@ import { theme } from './theme';
 
 import DateFnsUtils from '@date-io/date-fns';
 import Responsive from 'react-responsive-decorator';
-import Cookies from 'js-cookie';
 
 import './App.css';
 import './style.css';
@@ -26,7 +25,6 @@ class App extends Component {
     super();
     this.state = {
       showGlobe: true,
-      timelineTesting: Cookies.get('timeline_experiment'),
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
   }
@@ -38,7 +36,7 @@ class App extends Component {
   };
 
   renderTimeline = () => {
-    if (this.state.timelineTesting && this.state.showGlobe) {
+    if (this.state.showGlobe) {
       return (
         <div className="timeline-container">
           <Timeline />
