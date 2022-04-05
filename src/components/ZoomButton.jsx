@@ -1,11 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import {useNavigationState} from './../contexts/navigation'
 
-class ZoomButton extends Component {
-  state = {};
-  render() {
+
+
+ function ZoomButton(){
+
+    const {scaleFactor,setScaleFactor} = useNavigationState();
+
+
+   const handleZoomIn = (e) => { 
+    console.log("zoom in", scaleFactor);
+    setScaleFactor(scaleFactor+0.1);
+  };
+
+   const handleZoomOut = (e) => {
+    console.log("zoom out", scaleFactor);
+    setScaleFactor(scaleFactor - 0.1)
+  }
     return (
       <Grid container>
         <Grid item>
@@ -25,7 +39,8 @@ class ZoomButton extends Component {
                 fontSize: '20px',
                 marginBottom: '2px',
               }}
-              onClick={this.props.onZoomIn}
+              id= "in"
+              onClick={handleZoomIn}
             >
               <b>+</b>
             </Button>
@@ -40,7 +55,8 @@ class ZoomButton extends Component {
                 fontSize: '20px',
                 marginTop: '2px',
               }}
-              onClick={this.props.onZoomOut}
+              id="out"
+              onClick={handleZoomOut}
             >
               <b>-</b>
             </Button>
@@ -48,7 +64,7 @@ class ZoomButton extends Component {
         </Grid>
       </Grid>
     );
-  }
+   
 }
 
 export default ZoomButton;

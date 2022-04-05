@@ -37,7 +37,7 @@ export function NavigationProvider({ children }) {
   const { cachedMeteors, cachedStars, cachedConstellations } = useCache();
   const [date, setDate] = React.useState(getYesterdaysDate());
   const [source, setSource] = React.useState('ALL');
-
+  const [scaleFactorToRender,setScaleFactorToRender] = React.useState(0.8);
   const [meteorsToRender, setMeteors] = React.useState([]);
   const [starsToRender, setStars] = React.useState([]);
   const [constellationsToRender, setConstellations] = React.useState([]);
@@ -161,6 +161,7 @@ export function NavigationProvider({ children }) {
         stars: starsToRender,
         constellations: constellationsToRender,
         isInTimelineView: isInTimelineView,
+        scaleFactor: scaleFactorToRender,
         changeDate: (newDate) => {
           setDate(newDate);
           onDateChange(newDate);
@@ -179,6 +180,10 @@ export function NavigationProvider({ children }) {
         setGlobeMarkers: (current) => {
           setDataAll(current, source);
         },
+        setScaleFactor : (scaleFactor) => {
+          console.log("onChange in navigation", scaleFactor)
+          setScaleFactorToRender(scaleFactor);
+        }
       }}
     >
       {children}

@@ -42,7 +42,7 @@ const matchPrecision = 1.5;
 const matchPrecisionStar = 0.5
 
 export default function GlobeOptimized(props) {
-  const { meteors, stars, constellations } = useNavigationState();
+  const { meteors, stars, constellations,scaleFactor } = useNavigationState();
 
   const globeAttributes = useRef({
     // geometrics
@@ -100,7 +100,8 @@ export default function GlobeOptimized(props) {
     // canvas attrs
     canvas.attr('width', width).attr('height', height);
 
-    // scale
+    // 
+    console.log("globe optimized scale factor", scaleFactor)
     projection
       .scale((scaleFactor * Math.min(width, height)) / 2)
       .translate([width / 2, height / 2])
@@ -547,7 +548,7 @@ export default function GlobeOptimized(props) {
           const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
           
 
-          if(distance <= 0.5){
+          if(distance <= 2){
             return distance
           }
           
@@ -581,26 +582,18 @@ export default function GlobeOptimized(props) {
       properties.forEach((property) => {
         switch (property) {
           case 'lat':
-              // If the initial latitude and langitude are out of the limit setting them to 0 and 180
-              if(params.has(property) && !isNaN(params.get(property)) && ((-90 <= Number(params.get(property))) && (Number(params.get(property)) <= 90))){
-                let temp_lati = map_latitude(Number(params.get(property)));
-                rotation[1] += temp_lati;
-              }
-              else{
-                rotation[1] = 0;
-              }
+            rotation[1] +=
+              params.has(property) && !isNaN(params.get(property))
+                ? Number(params.get(property))
+                : 0;
             break;
           case 'long':
-            if(params.has(property) && !isNaN(params.get(property)) && ((-180 <= Number(params.get(property))) && (Number(params.get(property)) <= 180))){
-              let temp_long = map_longitude(Number(params.get(property)));
-              rotation[0] += temp_long;
-            }
-            else{
-              rotation[0] = 0;
-            }
+            rotation[0] +=
+              params.has(property) && !isNaN(params.get(property))
+                ? Number(params.get(property))
+                : 180;
             break;
           default:
-            
         }
       });
       projection.rotate(rotation);
@@ -718,7 +711,7 @@ export default function GlobeOptimized(props) {
     globeAttributes.current.constellationCollection = constellationCollection;
     //console.log(globeAttributes.current.constellationCollection)
     render();
-  }, [meteors, stars, constellations]);
+  }, [meteors, stars, constellations,scaleFactor]);
 
   return (
     <div className="globe-container">

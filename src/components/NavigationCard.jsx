@@ -10,7 +10,7 @@ import { useNavigationState } from '../contexts/navigation';
 
 import leftIcon from '../images/left-icon.png';
 import rightIcon from '../images/right-icon.png';
-
+import ZoomButton from './ZoomButton';
 const monthNames = [
   'Jan',
   'Feb',
@@ -141,6 +141,11 @@ const NavigationCard = (props) => {
           </Button>
         </Grid>
       </Grid>
+      <Grid  container spacing={1} className="p-1">
+        <Grid>
+        <ZoomButton/>
+        </Grid>
+        </Grid>
       <Grid container spacing={1} className="p-1">
         <Grid item>
           <FormControlLabel
