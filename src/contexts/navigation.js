@@ -41,7 +41,7 @@ export function NavigationProvider({ children }) {
   const [meteorsToRender, setMeteors] = React.useState([]);
   const [starsToRender, setStars] = React.useState([]);
   const [constellationsToRender, setConstellations] = React.useState([]);
-
+  const [scaleFactorToRender,setScaleFactorToRender] = React.useState(0.8);
   const [isInTimelineView, toggleTimelineView] = React.useState(false);
   const [startDate, setStartDate] = React.useState(date);
   const [endDate, setEndDate] = React.useState('not set');
@@ -163,6 +163,7 @@ export function NavigationProvider({ children }) {
         startDate: startDate,
         endDate: endDate,
         timelineLoading: timelineLoading,
+        scaleFactor: scaleFactorToRender,
         changeDate: (newDate) => {
           setDate(newDate);
           onDateChange(newDate);
@@ -190,6 +191,10 @@ export function NavigationProvider({ children }) {
         setGlobeMarkers: (current) => {
           setDataAll(current, source);
         },
+        setScaleFactor : (scaleFactor) => {
+          console.log("onChange in navigation", scaleFactor)
+          setScaleFactorToRender(scaleFactor);
+        }
       }}
     >
       {children}

@@ -31,7 +31,7 @@ const starSizeScale = scaleLinear()
   .range([1.85, 1.8, 1.76, 1.65, 1.52, 1.24, 1.22, 1.21]);
 
 // scale of the globe (not the canvas element)
-const scaleFactor = 0.8;
+//const scaleFactor = 0.8;
 // autorotation speed
 const degPerSec = 6;
 // colors
@@ -42,7 +42,7 @@ const matchPrecision = 1.5;
 const matchPrecisionStar = 0.5
 
 export default function GlobeOptimized(props) {
-  const { meteors, stars, constellations } = useNavigationState();
+  const { meteors, stars, constellations, scaleFactor } = useNavigationState();
 
   const globeAttributes = useRef({
     // geometrics
@@ -718,7 +718,7 @@ export default function GlobeOptimized(props) {
     globeAttributes.current.constellationCollection = constellationCollection;
     //console.log(globeAttributes.current.constellationCollection)
     render();
-  }, [meteors, stars, constellations]);
+  }, [meteors, stars, constellations, scaleFactor]);
 
   return (
     <div className="globe-container">

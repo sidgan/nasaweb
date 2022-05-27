@@ -13,6 +13,7 @@ import { calculateNewDate, checkIfValidDate, getMaxDate } from '../utils/date';
 import leftIcon from '../images/left-icon.png';
 import rightIcon from '../images/right-icon.png';
 import Checkmark from '../images/Checkmark.png';
+import ZoomButton from './ZoomButton';
 
 const NavigationBar = (props) => {
   const navigationState = useNavigationState();
@@ -159,6 +160,11 @@ const NavigationBar = (props) => {
         }
         label="Video Timeline"
       />
+       <Grid  container spacing={1} className="p-1">
+        <Grid>
+        <ZoomButton/>
+        </Grid>
+        </Grid>
     </div>
   );
 };
