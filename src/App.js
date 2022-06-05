@@ -51,19 +51,17 @@ class App extends Component {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <MuiThemeProvider theme={theme}>
             <StorageProvider>
-              <Switch>
-                <Route path="/video">
-                  <NavigationProvider>
+              <NavigationProvider>
+                <Switch>
+                  <Route path="/video">
                     <div className="globe-container">
                       <div className="main-section">
                         <VideoView />
                       </div>
                     </div>
-                  </NavigationProvider>
-                </Route>
-                <Route path="/">
-                  <div className="App">
-                    <NavigationProvider>
+                  </Route>
+                  <Route path="/">
+                    <div className="App">
                       <Header
                         showGlobe={this.state.showGlobe}
                         toggleDisplay={this.toggleDisplay}
@@ -71,20 +69,14 @@ class App extends Component {
                       <div className="globe-container">
                         <div className="main-section">
                           <GlobeOptimized />
-                          {/* <Globe
-                            showGlobe={this.state.showGlobe}
-                            showZoom={true}
-                            width={window.innerWidth - 50}
-                            height={window.innerHeight}
-                          /> */}
                         </div>
                         {this.renderTimeline()}
                       </div>
-                    </NavigationProvider>
-                    <Footer />
-                  </div>
-                </Route>
-              </Switch>
+                      <Footer />
+                    </div>
+                  </Route>
+                </Switch>
+              </NavigationProvider>
             </StorageProvider>
           </MuiThemeProvider>
         </MuiPickersUtilsProvider>

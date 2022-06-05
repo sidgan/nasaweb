@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { Fragment, useCallback, useEffect, useRef } from 'react';
 import { geoOrthographic, geoPath, geoGraticule10 } from 'd3-geo';
 import { scaleLinear } from 'd3-scale';
 import { drag } from 'd3-drag';
@@ -7,6 +7,321 @@ import { feature } from 'topojson';
 import { fetchLand } from '../clients/land';
 import { useNavigationState } from '../contexts/navigation';
 import debounce from 'lodash.debounce';
+
+function renderFunc(globeAttributes, scaleFactor) {
+  const {
+    width,
+    height,
+    land,
+    projection,
+    rotation,
+    meteorCollection,
+    meteorCoordinates,
+    meteorProperties,
+    starCollection,
+    constellationCollection,
+    meteorIndex,
+    starIndex,
+    constellationIndex,
+    clientX,
+    clientY,
+  } = globeAttributes.current;
+  //
+  // Variables
+  //
+  const canvas = select('#globe');
+  const context = canvas.node().getContext('2d');
+
+  const water = { type: 'Sphere' };
+  const graticule = geoGraticule10();
+
+  // canvas attrs
+  canvas.attr('width', width).attr('height', height);
+
+  // scale
+  projection
+    .scale((scaleFactor * Math.min(width, height)) / 2)
+    .translate([width / 2, height / 2])
+    .clipAngle(90);
+
+  const path = geoPath(projection, context).pointRadius(2);
+
+  function fill(obj, color, size = 2) {
+    const currentPath = path.pointRadius(size);
+    context.beginPath();
+    currentPath(obj);
+    context.fillStyle = color;
+    context.fill();
+  }
+
+  function stroke(obj, color) {
+    context.beginPath();
+    path(obj);
+    context.strokeStyle = color;
+    context.stroke();
+  }
+
+  function fillText(text, coordinate) {
+    context.beginPath();
+    context.fillStyle = 'white';
+    context.font = '12px Arial';
+    context.fillText(text, coordinate[0], coordinate[1]);
+  }
+
+  function drawMeteorTooltip(meteorProps) {
+    const { iau, name, velocg, sol, lat, lng } = meteorProps;
+    const position = {
+      x:
+        globeAttributes.current.width -
+        globeAttributes.current.width / 2 -
+        (scaleFactor *
+          Math.min(
+            globeAttributes.current.width,
+            globeAttributes.current.height
+          )) /
+          2 -
+        278,
+      y:
+        globeAttributes.current.height -
+        globeAttributes.current.height / 2 -
+        113,
+    };
+    roundedRect(
+      context,
+      position.x,
+      position.y,
+      298,
+      226,
+      4,
+      'rgba(7, 12, 38, 0.8)'
+    );
+    context.fillStyle = 'white';
+    context.font = '20px Roboto Mono';
+    context.textBaseline = 'top';
+    context.fillText(name, position.x + 16, position.y + 24);
+    context.font = '12px Roboto Condensed';
+    context.fillText(`[${iau}]`, position.x + 16, position.y + 54);
+    roundedRect(
+      context,
+      position.x + 16,
+      position.y + 80,
+      129,
+      55,
+      4,
+      'rgba(71, 78, 116, 0.3)'
+    );
+    roundedRect(
+      context,
+      position.x + 153,
+      position.y + 80,
+      129,
+      55,
+      4,
+      'rgba(71, 78, 116, 0.3)'
+    );
+    roundedRect(
+      context,
+      position.x + 16,
+      position.y + 143,
+      129,
+      55,
+      4,
+      'rgba(71, 78, 116, 0.3)'
+    );
+    roundedRect(
+      context,
+      position.x + 153,
+      position.y + 143,
+      129,
+      55,
+      4,
+      'rgba(71, 78, 116, 0.3)'
+    );
+    context.fillStyle = 'white';
+    context.textAlign = 'center';
+    context.fillText('VELOCITY', position.x + 80, position.y + 90);
+    context.fillText('SOLAR LONGITUDE', position.x + 217, position.y + 90);
+    context.fillText('ECLIPTIC LONGITUDE', position.x + 80, position.y + 153);
+    context.fillText('ECLIPTIC LATITUDE', position.x + 217, position.y + 153);
+    context.font = '500 16px Roboto Mono';
+    context.fillText(velocg.toFixed(2), position.x + 80, position.y + 111);
+    context.fillText(sol.toFixed(2), position.x + 217, position.y + 111);
+    context.fillText(lng.toFixed(2), position.x + 80, position.y + 174);
+    context.fillText(lat.toFixed(2), position.x + 217, position.y + 174);
+    roundedRect(
+      context,
+      position.x + 93,
+      position.y + 211,
+      112,
+      30,
+      4,
+      'rgba(67, 97, 238, 1)'
+    );
+    context.fillStyle = 'white';
+    context.font = '700 12px Roboto Condensed';
+    context.textAlign = 'start';
+    context.fillText('SEE IN SPACE', position.x + 104, position.y + 221);
+    context.strokeStyle = 'white';
+    context.strokeRect(position.x + 180, position.y + 220, 12, 12);
+    context.beginPath();
+    context.moveTo(position.x + 183, position.y + 229);
+    context.lineTo(position.x + 189, position.y + 223);
+    context.moveTo(position.x + 185, position.y + 223);
+    context.lineTo(position.x + 189, position.y + 223);
+    context.moveTo(position.x + 189, position.y + 227);
+    context.lineTo(position.x + 189, position.y + 223);
+    context.stroke();
+  }
+
+  // Display star information
+  function drawStarTooltip(starProps) {
+    const { name } = starProps;
+    const namelength = name.length;
+    if (namelength > 0) {
+      roundedRect(
+        context,
+        globeAttributes.current.current_x - 5 * namelength,
+        globeAttributes.current.current_y - 12,
+        10 * namelength,
+        17,
+        4,
+        'rgba(7, 12, 38, 0.8)'
+      );
+
+      context.fillStyle = 'white';
+      context.textAlign = 'center';
+      context.font = '500 12px Roboto Mono';
+      context.fillText(
+        name,
+        globeAttributes.current.current_x,
+        globeAttributes.current.current_y
+      );
+      context.stroke();
+    }
+  }
+
+  function drawConstellationTooltip(constellatioProps) {
+    const { name } = constellatioProps;
+    const namelength = name.length;
+
+    roundedRect(
+      context,
+      globeAttributes.current.current_x - 5 * namelength,
+      globeAttributes.current.current_y - 12,
+      10 * namelength,
+      17,
+      4,
+      'rgba(7, 12, 38, 0.8)'
+    );
+
+    stroke(
+      constellationCollection[globeAttributes.current.constellationIndex],
+      'rgb(21, 244, 238, 1.8)'
+    );
+    context.fillStyle = 'white';
+    context.textAlign = 'center';
+    context.font = '500 12px Roboto Mono';
+    context.fillText(
+      name,
+      globeAttributes.current.current_x,
+      globeAttributes.current.current_y
+    );
+    context.stroke();
+  }
+
+  function roundedRect(ctx, x, y, width, height, radius, color) {
+    ctx.beginPath();
+    ctx.moveTo(x, y + radius);
+    ctx.lineTo(x, y + height - radius);
+    ctx.arcTo(x, y + height, x + radius, y + height, radius);
+    ctx.lineTo(x + width - radius, y + height);
+    ctx.arcTo(x + width, y + height, x + width, y + height - radius, radius);
+    ctx.lineTo(x + width, y + radius);
+    ctx.arcTo(x + width, y, x + width - radius, y, radius);
+    ctx.lineTo(x + radius, y);
+    ctx.arcTo(x, y, x, y + radius, radius);
+    context.fillStyle = color;
+    ctx.fill();
+  }
+
+  const waterGradient = context.createRadialGradient(
+    width / 2,
+    height / 2,
+    200,
+    width / 2,
+    height / 2,
+    500
+  );
+
+  waterGradient.addColorStop(0, 'rgba(71, 78, 116, 1)');
+  waterGradient.addColorStop(1, 'rgba(31, 48, 110, 1)');
+
+  // render all objects
+  // water
+  context.shadowColor = 'rgba(71, 78, 116, 0.8)';
+  context.shadowBlur = 100;
+  fill(water, waterGradient);
+  context.shadowBlur = 0;
+  stroke(water, colorGraticule);
+
+  // graticule
+  stroke(graticule, colorGraticule);
+
+  // land
+  if (land) {
+    fill(land, colorLand);
+  }
+
+  // draw meteors
+  for (const group of meteorCollection.values()) {
+    fill(group, group.color);
+  }
+
+  // draw stars
+  starCollection.forEach((star) => {
+    fill(star, 'rgb(0, 0, 0)', star.size);
+  });
+
+  // draw constellations
+  constellationCollection.forEach((constellation) => {
+    stroke(constellation, 'rgb(0, 0, 0, 0.4)');
+  });
+
+  // draw sun
+  const sun = {
+    type: 'Point',
+    coordinates: [0, 0],
+  };
+  fill(sun, '#FDB800', 10);
+
+  // We need to convert the points into projected coordinates
+  const centerLongitude = Math.floor(Math.abs(rotation[0] - 360) / 20) * 20;
+
+  for (let i = -3; i <= 3; i++) {
+    let longitude = centerLongitude + i * 20;
+
+    if (longitude >= 360) {
+      longitude = longitude % 360;
+    } else if (longitude < 0) {
+      longitude = longitude + 360;
+    }
+    fillText(`${Math.round(longitude - 180)}`, projection([longitude, 0]));
+  }
+
+  // draw meteor data
+  if (meteorIndex) {
+    drawMeteorTooltip(meteorProperties[meteorIndex]);
+  }
+
+  // drwa star data
+  if (starIndex) {
+    drawStarTooltip(starCollection[starIndex]);
+  }
+
+  if (constellationIndex) {
+    drawConstellationTooltip(constellationCollection[constellationIndex]);
+  }
+}
 
 //
 // Configuration
@@ -39,10 +354,12 @@ const colorLand = '#111';
 // const colorGraticule = '#070c26';
 const colorGraticule = 'rgb(2, 12, 38, 0.2)';
 const matchPrecision = 1.5;
-const matchPrecisionStar = 0.5
+const matchPrecisionStar = 0.5;
 
 export default function GlobeOptimized(props) {
-  const { meteors, stars, constellations, scaleFactor } = useNavigationState();
+  // const { meteors, stars, constellations, scaleFactor } = useNavigationState();
+  const context = useNavigationState();
+  const { meteors, stars, constellations, scaleFactor } = context;
 
   const globeAttributes = useRef({
     // geometrics
@@ -58,6 +375,8 @@ export default function GlobeOptimized(props) {
     // projection
     projection: geoOrthographic().precision(0.1),
     rotation: null,
+    // scale
+    scaleFactor: 0.8,
     // mouse hover properties
     clientX: null,
     clientY: null,
@@ -70,504 +389,34 @@ export default function GlobeOptimized(props) {
   });
 
   // render function
-  function render() {
-    const {
-      width,
-      height,
-      land,
-      projection,
-      rotation,
-      meteorCollection,
-      meteorCoordinates,
-      meteorProperties,
-      starCollection,
-      constellationCollection,
-      meteorIndex,
-      starIndex,
-      constellationIndex,
-      clientX,
-      clientY,
-    } = globeAttributes.current;
-    //
-    // Variables
-    //
-    const canvas = select('#globe');
-    const context = canvas.node().getContext('2d');
+  const render = useCallback(() => {
+    renderFunc(globeAttributes, scaleFactor);
+  }, [scaleFactor]);
 
-    const water = { type: 'Sphere' };
-    const graticule = geoGraticule10();
-
-    // canvas attrs
-    canvas.attr('width', width).attr('height', height);
-
-    // scale
-    projection
-      .scale((scaleFactor * Math.min(width, height)) / 2)
-      .translate([width / 2, height / 2])
-      .clipAngle(90);
-
-    const path = geoPath(projection, context).pointRadius(2);
-
-    function fill(obj, color, size = 2) {
-      const currentPath = path.pointRadius(size);
-      context.beginPath();
-      currentPath(obj);
-      context.fillStyle = color;
-      context.fill();
-    }
-
-    function stroke(obj, color) {
-      context.beginPath();
-      path(obj);
-      context.strokeStyle = color;
-      context.stroke();
-    }
-
-    function fillText(text, coordinate) {
-      context.beginPath();
-      context.fillStyle = 'white';
-      context.font = '12px Arial';
-      context.fillText(text, coordinate[0], coordinate[1]);
-    }
-
-    function drawMeteorTooltip(meteorProps) {
-      const { iau, name, velocg, sol, lat, lng } = meteorProps;
-      const position = {
-        x:
-          globeAttributes.current.width -
-          globeAttributes.current.width / 2 -
-          (scaleFactor *
-            Math.min(
-              globeAttributes.current.width,
-              globeAttributes.current.height
-            )) /
-            2 -
-          278,
-        y:
-          globeAttributes.current.height -
-          globeAttributes.current.height / 2 -
-          113,
-      };
-      roundedRect(
-        context,
-        position.x,
-        position.y,
-        298,
-        226,
-        4,
-        'rgba(7, 12, 38, 0.8)'
-      );
-      context.fillStyle = 'white';
-      context.font = '20px Roboto Mono';
-      context.textBaseline = 'top';
-      context.fillText(name, position.x + 16, position.y + 24);
-      context.font = '12px Roboto Condensed';
-      context.fillText(`[${iau}]`, position.x + 16, position.y + 54);
-      roundedRect(
-        context,
-        position.x + 16,
-        position.y + 80,
-        129,
-        55,
-        4,
-        'rgba(71, 78, 116, 0.3)'
-      );
-      roundedRect(
-        context,
-        position.x + 153,
-        position.y + 80,
-        129,
-        55,
-        4,
-        'rgba(71, 78, 116, 0.3)'
-      );
-      roundedRect(
-        context,
-        position.x + 16,
-        position.y + 143,
-        129,
-        55,
-        4,
-        'rgba(71, 78, 116, 0.3)'
-      );
-      roundedRect(
-        context,
-        position.x + 153,
-        position.y + 143,
-        129,
-        55,
-        4,
-        'rgba(71, 78, 116, 0.3)'
-      );
-      context.fillStyle = 'white';
-      context.textAlign = 'center';
-      context.fillText('VELOCITY', position.x + 80, position.y + 90);
-      context.fillText('SOLAR LONGITUDE', position.x + 217, position.y + 90);
-      context.fillText('ECLIPTIC LONGITUDE', position.x + 80, position.y + 153);
-      context.fillText('ECLIPTIC LATITUDE', position.x + 217, position.y + 153);
-      context.font = '500 16px Roboto Mono';
-      context.fillText(velocg.toFixed(2), position.x + 80, position.y + 111);
-      context.fillText(sol.toFixed(2), position.x + 217, position.y + 111);
-      context.fillText(lng.toFixed(2), position.x + 80, position.y + 174);
-      context.fillText(lat.toFixed(2), position.x + 217, position.y + 174);
-      roundedRect(
-        context,
-        position.x + 93,
-        position.y + 211,
-        112,
-        30,
-        4,
-        'rgba(67, 97, 238, 1)'
-      );
-      context.fillStyle = 'white';
-      context.font = '700 12px Roboto Condensed';
-      context.textAlign = 'start';
-      context.fillText('SEE IN SPACE', position.x + 104, position.y + 221);
-      context.strokeStyle = 'white';
-      context.strokeRect(position.x + 180, position.y + 220, 12, 12);
-      context.beginPath();
-      context.moveTo(position.x + 183, position.y + 229);
-      context.lineTo(position.x + 189, position.y + 223);
-      context.moveTo(position.x + 185, position.y + 223);
-      context.lineTo(position.x + 189, position.y + 223);
-      context.moveTo(position.x + 189, position.y + 227);
-      context.lineTo(position.x + 189, position.y + 223);
-      context.stroke();
-    }
-
-    // Display star information
-    function drawStarTooltip(starProps) {
-
-      const {name} = starProps;
-      const namelength = name.length;
-      if(namelength > 0)
-      {
-        roundedRect(
-          context,
-          globeAttributes.current.current_x-(5*namelength),
-          globeAttributes.current.current_y-12,
-          10*namelength,
-          17,
-          4,
-          'rgba(7, 12, 38, 0.8)'
-        );
-
-        
-        context.fillStyle = 'white';
-        context.textAlign = 'center';
-        context.font = '500 12px Roboto Mono';
-        context.fillText(name, globeAttributes.current.current_x, globeAttributes.current.current_y);
-        context.stroke();
-      }
-    }
-
-
-
-    function drawConstellationTooltip(constellatioProps) {
-
-      const {name} = constellatioProps;
-      const namelength = name.length;
-
-      roundedRect(
-        context,
-        globeAttributes.current.current_x-(5*namelength),
-        globeAttributes.current.current_y-12,
-        10*namelength,
-        17,
-        4,
-        'rgba(7, 12, 38, 0.8)'
-      );
-    
-
-      stroke(constellationCollection[globeAttributes.current.constellationIndex], 'rgb(21, 244, 238, 1.8)');
-      context.fillStyle = 'white';
-      context.textAlign = 'center';
-      context.font = '500 12px Roboto Mono';
-      context.fillText(name, globeAttributes.current.current_x, globeAttributes.current.current_y);
-      context.stroke();
-    }
-
-
-
-
-
-
-
-    function roundedRect(ctx, x, y, width, height, radius, color) {
-      ctx.beginPath();
-      ctx.moveTo(x, y + radius);
-      ctx.lineTo(x, y + height - radius);
-      ctx.arcTo(x, y + height, x + radius, y + height, radius);
-      ctx.lineTo(x + width - radius, y + height);
-      ctx.arcTo(x + width, y + height, x + width, y + height - radius, radius);
-      ctx.lineTo(x + width, y + radius);
-      ctx.arcTo(x + width, y, x + width - radius, y, radius);
-      ctx.lineTo(x + radius, y);
-      ctx.arcTo(x, y, x, y + radius, radius);
-      context.fillStyle = color;
-      ctx.fill();
-    }
-
-    const waterGradient = context.createRadialGradient(
-      width / 2,
-      height / 2,
-      200,
-      width / 2,
-      height / 2,
-      500
-    );
-
-    waterGradient.addColorStop(0, 'rgba(71, 78, 116, 1)');
-    waterGradient.addColorStop(1, 'rgba(31, 48, 110, 1)');
-
-    // render all objects
-    // water
-    context.shadowColor = 'rgba(71, 78, 116, 0.8)';
-    context.shadowBlur = 100;
-    fill(water, waterGradient);
-    context.shadowBlur = 0;
-    stroke(water, colorGraticule);
-
-    // graticule
-    stroke(graticule, colorGraticule);
-
-    // land
-    if (land) {
-      fill(land, colorLand);
-    }
-
-    // draw meteors
-    for (const group of meteorCollection.values()) {
-      fill(group, group.color);
-    }
-
-    // draw stars
-    starCollection.forEach((star) => {
-      fill(star, 'rgb(0, 0, 0)', star.size);
-    });
-
-    // draw constellations
-    constellationCollection.forEach((constellation) => {
-      stroke(constellation, 'rgb(0, 0, 0, 0.4)');
-    });
-
-    // draw sun
-    const sun = {
-      type: 'Point',
-      coordinates: [0, 0],
-    };
-    fill(sun, '#FDB800', 10);
-
-    // We need to convert the points into projected coordinates
-    const centerLongitude = Math.floor(Math.abs(rotation[0] - 360) / 20) * 20;
-
-    for (let i = -3; i <= 3; i++) {
-      let longitude = centerLongitude + i * 20;
-
-      if (longitude >= 360) {
-        longitude = longitude % 360;
-      } else if (longitude < 0) {
-        longitude = longitude + 360;
-      }
-      fillText(`${Math.round(longitude - 180)}`, projection([longitude, 0]));
-    }
-
-    // draw meteor data
-    if (meteorIndex) {
-      drawMeteorTooltip(meteorProperties[meteorIndex]);
-    }
-
-    // drwa star data
-    if (starIndex) {
-      drawStarTooltip(starCollection[starIndex])
-    }
-
-    if(constellationIndex){
-      drawConstellationTooltip(constellationCollection[constellationIndex])
-    }
-
-
-  }
-
-  // rotate function
-  function rotate(dx, dy) {
-    const { projection } = globeAttributes.current;
-    const rotation = projection.rotate();
-    const degPerMs = degPerSec / 1000;
-    rotation[0] += 100 * degPerMs * dx;
-    rotation[1] -= 100 * degPerMs * dy;
-    projection.rotate(rotation);
-
-    globeAttributes.current.rotation = rotation;
-
-    render();
-  }
-
-
-  function map_latitude(latitude_int)
-  {
-    if(latitude_int < 0)
-    {
-      if(latitude_int < -90 && latitude_int >= -180)
-      {
+  function map_latitude(latitude_int) {
+    if (latitude_int < 0) {
+      if (latitude_int < -90 && latitude_int >= -180) {
         latitude_int = latitude_int + 90;
-      }
-      else if(latitude_int < -180 && latitude_int >= -270)
-      {
+      } else if (latitude_int < -180 && latitude_int >= -270) {
         latitude_int = latitude_int + 180;
+      } else if (latitude_int < -270 && latitude_int >= -360) {
+        latitude_int = (latitude_int + 270) * -1;
       }
-      else if(latitude_int < -270 && latitude_int >= -360)
-      {
-        latitude_int = (latitude_int + 270)*(-1);
-      }
-    }
-    else
-    {
-      if(latitude_int > 90 && latitude_int<= 270)
-      {
-        latitude_int = 180-latitude_int;
-      }
-      else if(latitude_int> 270 && latitude_int <= 360)
-      {
-        latitude_int = latitude_int - 360;  
+    } else {
+      if (latitude_int > 90 && latitude_int <= 270) {
+        latitude_int = 180 - latitude_int;
+      } else if (latitude_int > 270 && latitude_int <= 360) {
+        latitude_int = latitude_int - 360;
       }
     }
-    
-    return latitude_int
+
+    return latitude_int;
   }
 
-
-  function map_longitude(longitude_int)
-  {
-    longitude_int = longitude_int >=0 ? (180 - longitude_int) : ((180 + longitude_int)*-1);
+  function map_longitude(longitude_int) {
+    longitude_int =
+      longitude_int >= 0 ? 180 - longitude_int : (180 + longitude_int) * -1;
     return longitude_int;
-  }
-
-
-  // drag functions
-  // function dragstarted(event) {
-  // }
-
-  // function dragended(event) {
-  // }
-
-  function dragged(event) {
-    const { dx, dy } = event;
-
-    globeAttributes.current.rotation[1] = map_latitude(globeAttributes.current.rotation[1])
-    globeAttributes.current.rotation[0] = map_longitude(globeAttributes.current.rotation[0])
-
-    let newParams = new URLSearchParams(window.location.search);
-    const debouncedFilter = debounce(() => {
-      newParams.set('lat', map_latitude(globeAttributes.current.rotation[1]).toFixed(3));
-      newParams.set('long', map_longitude(globeAttributes.current.rotation[0]).toFixed(3));
-      window.history.pushState({}, '', '?' + newParams.toString());
-      }, 500)
-      debouncedFilter();
-      rotate(dx, dy);
-  }
-
-  // mouse move
-  // function mousemove(event) {
-  //   const { projection } = globeAttributes.current;
-
-  //   const coordinate = projection.invert([event.clientX, event.clientY]);
-
-  //   if (coordinate[0] < 0) {
-  //     // convert to all positive degrees
-  //     coordinate[0] = coordinate[0] + 360;
-  //   }
-
-  //   // store mouse position
-  //   globeAttributes.current.clientX = event.clientX;
-  //   globeAttributes.current.clientY = event.clientY;
-
-  //   render();
-  // }
-
-  function clicked(event) {
-
-    const { projection, meteorCoordinates} = globeAttributes.current;
-    const coordinate = projection.invert([event.clientX, event.clientY]);
-
-    if (coordinate[0] < 0) {
-      // convert to all positive degrees
-      coordinate[0] = coordinate[0] + 360;
-    }
-
-    const meteorPointIndex = meteorCoordinates.findIndex((m) => {
-      const longtitudeDiff = Math.pow(m[0] - coordinate[0], 2);
-      const latitudeDiff = Math.pow(m[1] - coordinate[1], 2);
-
-      const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
-
-      return distance <= matchPrecision;
-    });
-
-    if (meteorPointIndex !== -1) {
-      globeAttributes.current.meteorIndex = meteorPointIndex;
-    } else {
-      globeAttributes.current.meteorIndex = null;
-    }
-    render();
-  }
-
-  // Havour and get star name
-  function havoured(event) {
-    let { projection, starCollection, current_x, current_y} = globeAttributes.current;
-      const coordinate = projection.invert([event.clientX, event.clientY]);
-      const starPointIndex = starCollection.findIndex((m) => {
-
-
-
-      const longtitudeDiff = Math.pow(m.coordinates[0] - coordinate[0], 2);
-      const latitudeDiff = Math.pow(m.coordinates[1] - coordinate[1], 2);
-      const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
-      return distance <= matchPrecisionStar;
-    });
-
-    if (starPointIndex !== -1) {
-      globeAttributes.current.starIndex = starPointIndex;
-      //getting current locations 
-      globeAttributes.current.current_x = event.clientX;
-      globeAttributes.current.current_y = event.clientY;
-    } else {
-      globeAttributes.current.starIndex = null;
-    }
-    
-    let {constellationCollection} = globeAttributes.current;
-      const constellationPointIndex = constellationCollection.findIndex((m) => {
-      
-      for (let i = 0; i <= m.coordinates.length - 1; i++) {
-          const midlongitude = (m.coordinates[i][0][0] + m.coordinates[i][1][0])/2
-          const midlatitude = (m.coordinates[i][0][1] + m.coordinates[i][1][1])/2
-
-          const longtitudeDiff = Math.pow(midlongitude - coordinate[0], 2);
-          const latitudeDiff = Math.pow(midlatitude - coordinate[1], 2);
-          const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
-          
-
-          if(distance <= 2){
-            return distance
-          }
-          
-      }
-        
-    });
-
-    //console.log('m value -->', constellationPointIndex);
-
-    if (constellationPointIndex !== -1) {
-      globeAttributes.current.constellationIndex = constellationPointIndex;
-      //getting current locations 
-      
-      globeAttributes.current.current_x = event.clientX;
-      globeAttributes.current.current_y = event.clientY;
-    } else {
-      globeAttributes.current.constellationIndex = null;
-    }
-
-    render();
   }
 
   // component on mount
@@ -581,26 +430,33 @@ export default function GlobeOptimized(props) {
       properties.forEach((property) => {
         switch (property) {
           case 'lat':
-              // If the initial latitude and langitude are out of the limit setting them to 0 and 180
-              if(params.has(property) && !isNaN(params.get(property)) && ((-90 <= Number(params.get(property))) && (Number(params.get(property)) <= 90))){
-                let temp_lati = map_latitude(Number(params.get(property)));
-                rotation[1] += temp_lati;
-              }
-              else{
-                rotation[1] = 0;
-              }
+            // If the initial latitude and langitude are out of the limit setting them to 0 and 180
+            if (
+              params.has(property) &&
+              !isNaN(params.get(property)) &&
+              -90 <= Number(params.get(property)) &&
+              Number(params.get(property)) <= 90
+            ) {
+              let temp_lati = map_latitude(Number(params.get(property)));
+              rotation[1] += temp_lati;
+            } else {
+              rotation[1] = 0;
+            }
             break;
           case 'long':
-            if(params.has(property) && !isNaN(params.get(property)) && ((-180 <= Number(params.get(property))) && (Number(params.get(property)) <= 180))){
+            if (
+              params.has(property) &&
+              !isNaN(params.get(property)) &&
+              -180 <= Number(params.get(property)) &&
+              Number(params.get(property)) <= 180
+            ) {
               let temp_long = map_longitude(Number(params.get(property)));
               rotation[0] += temp_long;
-            }
-            else{
+            } else {
               rotation[0] = 0;
             }
             break;
           default:
-            
         }
       });
       projection.rotate(rotation);
@@ -609,6 +465,7 @@ export default function GlobeOptimized(props) {
 
       render();
     }
+
     // register resize callback
     window.addEventListener('resize', function () {
       globeAttributes.current.width = window.innerWidth;
@@ -624,18 +481,6 @@ export default function GlobeOptimized(props) {
     //   globeAttributes.current.land = land;
     //   render();
     // });
-
-    // register drag callbacks
-    const canvas = select('#globe');
-
-    canvas.call(
-      // drag().on('start', dragstarted).on('drag', dragged).on('end', dragended)
-      drag().on('drag', dragged)
-    );
-
-    canvas.on('click', clicked);
-
-    canvas.on('mousemove', havoured);
 
     setInitialPosition();
 
@@ -692,7 +537,7 @@ export default function GlobeOptimized(props) {
       starCollection.push({
         ...location,
         size: starSizeScale(adjustedMag),
-        name: name
+        name: name,
       });
     });
 
@@ -716,13 +561,169 @@ export default function GlobeOptimized(props) {
     globeAttributes.current.meteorProperties = meteorProperties;
     globeAttributes.current.starCollection = starCollection;
     globeAttributes.current.constellationCollection = constellationCollection;
-    //console.log(globeAttributes.current.constellationCollection)
-    render();
-  }, [meteors, stars, constellations, scaleFactor]);
+
+    // re-register all callbacks
+    // drag functions
+    // function dragstarted(event) {
+    // }
+
+    // function dragended(event) {
+    // }
+
+    // rotate function
+    function rotate(dx, dy) {
+      const { projection } = globeAttributes.current;
+      const rotation = projection.rotate();
+      const degPerMs = degPerSec / 1000;
+      rotation[0] += 100 * degPerMs * dx;
+      rotation[1] -= 100 * degPerMs * dy;
+      projection.rotate(rotation);
+
+      globeAttributes.current.rotation = rotation;
+
+      render();
+    }
+
+    function dragged(event) {
+      const { dx, dy } = event;
+
+      globeAttributes.current.rotation[1] = map_latitude(
+        globeAttributes.current.rotation[1]
+      );
+      globeAttributes.current.rotation[0] = map_longitude(
+        globeAttributes.current.rotation[0]
+      );
+
+      let newParams = new URLSearchParams(window.location.search);
+      const debouncedFilter = debounce(() => {
+        newParams.set(
+          'lat',
+          map_latitude(globeAttributes.current.rotation[1]).toFixed(3)
+        );
+        newParams.set(
+          'long',
+          map_longitude(globeAttributes.current.rotation[0]).toFixed(3)
+        );
+        window.history.pushState({}, '', '?' + newParams.toString());
+      }, 500);
+      debouncedFilter();
+      rotate(dx, dy);
+    }
+
+    // mouse move
+    // function mousemove(event) {
+    //   const { projection } = globeAttributes.current;
+
+    //   const coordinate = projection.invert([event.clientX, event.clientY]);
+
+    //   if (coordinate[0] < 0) {
+    //     // convert to all positive degrees
+    //     coordinate[0] = coordinate[0] + 360;
+    //   }
+
+    //   // store mouse position
+    //   globeAttributes.current.clientX = event.clientX;
+    //   globeAttributes.current.clientY = event.clientY;
+
+    //   render();
+    // }
+
+    function clicked(event) {
+      const { projection, meteorCoordinates } = globeAttributes.current;
+      const coordinate = projection.invert([event.clientX, event.clientY]);
+
+      if (coordinate[0] < 0) {
+        // convert to all positive degrees
+        coordinate[0] = coordinate[0] + 360;
+      }
+
+      const meteorPointIndex = meteorCoordinates.findIndex((m) => {
+        const longtitudeDiff = Math.pow(m[0] - coordinate[0], 2);
+        const latitudeDiff = Math.pow(m[1] - coordinate[1], 2);
+
+        const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
+
+        return distance <= matchPrecision;
+      });
+
+      if (meteorPointIndex !== -1) {
+        globeAttributes.current.meteorIndex = meteorPointIndex;
+      } else {
+        globeAttributes.current.meteorIndex = null;
+      }
+      render();
+    }
+
+    // hover and get star name
+    function hovered(event) {
+      let { projection, starCollection } = globeAttributes.current;
+      const coordinate = projection.invert([event.clientX, event.clientY]);
+      const starPointIndex = starCollection.findIndex((m) => {
+        const longtitudeDiff = Math.pow(m.coordinates[0] - coordinate[0], 2);
+        const latitudeDiff = Math.pow(m.coordinates[1] - coordinate[1], 2);
+        const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
+        return distance <= matchPrecisionStar;
+      });
+
+      if (starPointIndex !== -1) {
+        globeAttributes.current.starIndex = starPointIndex;
+        //getting current locations
+        globeAttributes.current.current_x = event.clientX;
+        globeAttributes.current.current_y = event.clientY;
+      } else {
+        globeAttributes.current.starIndex = null;
+      }
+
+      let { constellationCollection } = globeAttributes.current;
+      const constellationPointIndex = constellationCollection.findIndex((m) => {
+        for (let i = 0; i <= m.coordinates.length - 1; i++) {
+          const midlongitude =
+            (m.coordinates[i][0][0] + m.coordinates[i][1][0]) / 2;
+          const midlatitude =
+            (m.coordinates[i][0][1] + m.coordinates[i][1][1]) / 2;
+
+          const longtitudeDiff = Math.pow(midlongitude - coordinate[0], 2);
+          const latitudeDiff = Math.pow(midlatitude - coordinate[1], 2);
+          const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
+
+          if (distance <= 2) {
+            return distance;
+          }
+        }
+      });
+
+      if (constellationPointIndex !== -1) {
+        globeAttributes.current.constellationIndex = constellationPointIndex;
+        //getting current locations
+
+        globeAttributes.current.current_x = event.clientX;
+        globeAttributes.current.current_y = event.clientY;
+      } else {
+        globeAttributes.current.constellationIndex = null;
+      }
+
+      renderFunc(globeAttributes, scaleFactor);
+    }
+
+    const canvas = select('#globe');
+
+    canvas.call(
+      // drag().on('start', dragstarted).on('drag', dragged).on('end', dragended)
+      drag().on('drag', dragged)
+    );
+
+    canvas.on('click', clicked);
+
+    canvas.on('mousemove', hovered);
+
+    renderFunc(globeAttributes, scaleFactor);
+  }, [meteors, stars, constellations, scaleFactor, render]);
 
   return (
-    <div className="globe-container">
-      <canvas id="globe"></canvas>
-    </div>
+    <Fragment>
+      <div className="globe-container">
+        <canvas id="globe"></canvas>
+      </div>
+    </Fragment>
   );
 }

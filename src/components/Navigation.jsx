@@ -160,11 +160,11 @@ const NavigationBar = (props) => {
         }
         label="Video Timeline"
       />
-       <Grid  container spacing={1} className="p-1">
+      <Grid container spacing={1} className="p-1">
         <Grid>
-        <ZoomButton/>
+          <ZoomButton />
         </Grid>
-        </Grid>
+      </Grid>
     </div>
   );
 };
