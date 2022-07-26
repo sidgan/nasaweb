@@ -67,6 +67,7 @@ export default function GlobeOptimized(props) {
     constellationIndex: null,
     current_x: null,
     current_y: null,
+    is_clicked: 0,
   });
 
   // render function
@@ -87,6 +88,7 @@ export default function GlobeOptimized(props) {
       constellationIndex,
       clientX,
       clientY,
+      is_clicked,
     } = globeAttributes.current;
     //
     // Variables
@@ -96,7 +98,7 @@ export default function GlobeOptimized(props) {
 
     const water = { type: 'Sphere' };
     const graticule = geoGraticule10();
-
+    //globeAttributes.current.is_clicked = 0;
     // canvas attrs
     canvas.attr('width', width).attr('height', height);
 
@@ -267,6 +269,7 @@ export default function GlobeOptimized(props) {
 
       const {name} = constellatioProps;
       const namelength = name.length;
+      let padding_y = 0
 
       roundedRect(
         context,
@@ -283,7 +286,13 @@ export default function GlobeOptimized(props) {
       context.fillStyle = 'white';
       context.textAlign = 'center';
       context.font = '500 12px Roboto Mono';
-      context.fillText(name, globeAttributes.current.current_x, globeAttributes.current.current_y);
+
+      if(globeAttributes.current.is_clicked == 1)
+        padding_y = 10
+      else
+        padding_y = 0
+
+      context.fillText(name, globeAttributes.current.current_x, globeAttributes.current.current_y-padding_y);
       context.stroke();
     }
 
@@ -505,8 +514,10 @@ export default function GlobeOptimized(props) {
     });
 
     if (meteorPointIndex !== -1) {
+      globeAttributes.current.is_clicked = 1;
       globeAttributes.current.meteorIndex = meteorPointIndex;
     } else {
+      globeAttributes.current.is_clicked = 0;
       globeAttributes.current.meteorIndex = null;
     }
     render();
@@ -515,59 +526,71 @@ export default function GlobeOptimized(props) {
   // Havour and get star name
   function havoured(event) {
     let { projection, starCollection, current_x, current_y} = globeAttributes.current;
-      const coordinate = projection.invert([event.clientX, event.clientY]);
-      const starPointIndex = starCollection.findIndex((m) => {
+
+      //Selecting an area around the globe, where the constellation name will be displayed
+      let buffer = 30;
+      let radius_new = globeAttributes.current.height/2-buffer;
+      let width_min = globeAttributes.current.width/2 - radius_new;
+      let width_max = globeAttributes.current.width/2 + radius_new;
+      let height_min = globeAttributes.current.height/2 - radius_new;
+      let height_max = globeAttributes.current.height/2 + radius_new;
+
+      if((event.clientX >= width_min && event.clientX <=width_max) && (event.clientY >= height_min && event.clientY <= height_max))
+      {
+        const coordinate = projection.invert([event.clientX, event.clientY]);
+        const starPointIndex = starCollection.findIndex((m) => {
 
 
 
-      const longtitudeDiff = Math.pow(m.coordinates[0] - coordinate[0], 2);
-      const latitudeDiff = Math.pow(m.coordinates[1] - coordinate[1], 2);
-      const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
-      return distance <= matchPrecisionStar;
-    });
+        const longtitudeDiff = Math.pow(m.coordinates[0] - coordinate[0], 2);
+        const latitudeDiff = Math.pow(m.coordinates[1] - coordinate[1], 2);
+        const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
+        return distance <= matchPrecisionStar;
+      });
 
-    if (starPointIndex !== -1) {
-      globeAttributes.current.starIndex = starPointIndex;
-      //getting current locations 
-      globeAttributes.current.current_x = event.clientX;
-      globeAttributes.current.current_y = event.clientY;
-    } else {
-      globeAttributes.current.starIndex = null;
-    }
-    
-    let {constellationCollection} = globeAttributes.current;
-      const constellationPointIndex = constellationCollection.findIndex((m) => {
-      
-      for (let i = 0; i <= m.coordinates.length - 1; i++) {
-          const midlongitude = (m.coordinates[i][0][0] + m.coordinates[i][1][0])/2
-          const midlatitude = (m.coordinates[i][0][1] + m.coordinates[i][1][1])/2
-
-          const longtitudeDiff = Math.pow(midlongitude - coordinate[0], 2);
-          const latitudeDiff = Math.pow(midlatitude - coordinate[1], 2);
-          const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
-          
-
-          if(distance <= 2){
-            return distance
-          }
-          
+      if (starPointIndex !== -1) {
+        globeAttributes.current.starIndex = starPointIndex;
+        //getting current locations 
+        globeAttributes.current.current_x = event.clientX;
+        globeAttributes.current.current_y = event.clientY;
+      } else {
+        globeAttributes.current.starIndex = null;
       }
-        
-    });
-
-    //console.log('m value -->', constellationPointIndex);
-
-    if (constellationPointIndex !== -1) {
-      globeAttributes.current.constellationIndex = constellationPointIndex;
-      //getting current locations 
       
-      globeAttributes.current.current_x = event.clientX;
-      globeAttributes.current.current_y = event.clientY;
-    } else {
-      globeAttributes.current.constellationIndex = null;
-    }
+      let {constellationCollection} = globeAttributes.current;
+        const constellationPointIndex = constellationCollection.findIndex((m) => {
+        
+        for (let i = 0; i <= m.coordinates.length - 1; i++) {
+            const midlongitude = (m.coordinates[i][0][0] + m.coordinates[i][1][0])/2
+            const midlatitude = (m.coordinates[i][0][1] + m.coordinates[i][1][1])/2
 
-    render();
+            const longtitudeDiff = Math.pow(midlongitude - coordinate[0], 2);
+            const latitudeDiff = Math.pow(midlatitude - coordinate[1], 2);
+            const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
+            
+
+            if(distance <= 2){
+              return distance
+            }
+            
+        }
+          
+      });
+
+      //console.log('m value -->', constellationPointIndex);
+
+      if (constellationPointIndex !== -1) {
+        globeAttributes.current.constellationIndex = constellationPointIndex;
+        //getting current locations 
+        
+        globeAttributes.current.current_x = event.clientX;
+        globeAttributes.current.current_y = event.clientY;
+      } else {
+        globeAttributes.current.constellationIndex = null;
+      }
+
+      render();
+    }
   }
 
   // component on mount
@@ -632,6 +655,7 @@ export default function GlobeOptimized(props) {
       // drag().on('start', dragstarted).on('drag', dragged).on('end', dragended)
       drag().on('drag', dragged)
     );
+    
 
     canvas.on('click', clicked);
 
