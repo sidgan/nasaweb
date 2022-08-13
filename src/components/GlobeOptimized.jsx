@@ -412,7 +412,6 @@ export default function GlobeOptimized(props) {
     render();
   }
 
-
   function map_latitude(latitude_int)
   {
     if(latitude_int < 0)
@@ -445,7 +444,6 @@ export default function GlobeOptimized(props) {
     return latitude_int
   }
 
-
   function map_longitude(longitude_int)
   {
     longitude_int = longitude_int >=0 ? (180 - longitude_int) : ((180 + longitude_int)*-1);
@@ -463,7 +461,6 @@ export default function GlobeOptimized(props) {
   function dragged(event) {
     const { dx, dy } = event;
 
-    globeAttributes.current.rotation[1] = map_latitude(globeAttributes.current.rotation[1])
     globeAttributes.current.rotation[0] = map_longitude(globeAttributes.current.rotation[0])
 
     let newParams = new URLSearchParams(window.location.search);
@@ -473,7 +470,19 @@ export default function GlobeOptimized(props) {
       window.history.pushState({}, '', '?' + newParams.toString());
       }, 500)
       debouncedFilter();
-      rotate(dx, dy);
+      if(globeAttributes.current.rotation[1]<=90 && globeAttributes.current.rotation[1] >= -90){
+        console.log('dy', dy)
+        rotate(dx, dy);
+      }
+      else{
+        if(globeAttributes.current.rotation[1] > 90 && dy >0){
+          rotate(dx, dy);
+        }
+        if(globeAttributes.current.rotation[1] < -90 && dy < 0){
+          rotate(dx, dy);
+        }
+
+      }
   }
 
   // mouse move
