@@ -664,13 +664,10 @@ export default function GlobeOptimized(props) {
     
     canvas.on('click', clicked);
     canvas.on('mousemove', havoured);
-
-    const user_seti_len = Cookies.get('user');
     setInitialPosition();
-    if(user_seti_len === undefined){
+    if(Cookies.get('seti_cams_user_2022') === undefined){
       enableRotation();
-      var inOneMinutes = new Date(new Date().getTime() + 1 * 60);
-      Cookies.set('user', 'nasa_cams');
+      Cookies.set('seti_cams_user_2022', 'nasa_cams');
     }
   }, []);
 
