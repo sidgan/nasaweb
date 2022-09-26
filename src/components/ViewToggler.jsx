@@ -18,16 +18,6 @@ const ViewToggler = (props) => {
                 Sphere
               </Typography>
             </Button>
-
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={props.toggleDisplay}
-            >
-              <Typography variant="h4" color="textSecondary">
-                Table
-              </Typography>
-            </Button>
           </ButtonGroup>
         ) : (
           <ButtonGroup
@@ -41,12 +31,6 @@ const ViewToggler = (props) => {
             >
               <Typography variant="h4" color="textSecondary">
                 Sphere
-              </Typography>
-            </Button>
-
-            <Button variant="contained" color="primary">
-              <Typography variant="h4" color="textPrimary">
-                Table
               </Typography>
             </Button>
           </ButtonGroup>

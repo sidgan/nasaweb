@@ -3,10 +3,13 @@ import { geoOrthographic, geoPath, geoGraticule10 } from 'd3-geo';
 import { scaleLinear } from 'd3-scale';
 import { drag } from 'd3-drag';
 import { select } from 'd3-selection';
+import {timer} from 'd3-timer';
 import { feature } from 'topojson';
 import { fetchLand } from '../clients/land';
 import { useNavigationState } from '../contexts/navigation';
 import debounce from 'lodash.debounce';
+import Cookies from 'js-cookie';
+
 
 //
 // Configuration
@@ -43,7 +46,6 @@ const matchPrecisionStar = 0.5
 
 export default function GlobeOptimized(props) {
   const { meteors, stars, constellations } = useNavigationState();
-
   const globeAttributes = useRef({
     // geometrics
     width: window.innerWidth,
@@ -68,6 +70,7 @@ export default function GlobeOptimized(props) {
     current_x: null,
     current_y: null,
     is_clicked: 0,
+    rotation_speed: 0.0001,
   });
 
   // render function
@@ -89,6 +92,7 @@ export default function GlobeOptimized(props) {
       clientX,
       clientY,
       is_clicked,
+      rotation_speed,
     } = globeAttributes.current;
     //
     // Variables
@@ -254,7 +258,6 @@ export default function GlobeOptimized(props) {
           'rgba(7, 12, 38, 0.8)'
         );
 
-        
         context.fillStyle = 'white';
         context.textAlign = 'center';
         context.font = '500 12px Roboto Mono';
@@ -262,8 +265,6 @@ export default function GlobeOptimized(props) {
         context.stroke();
       }
     }
-
-
 
     function drawConstellationTooltip(constellatioProps) {
 
@@ -281,7 +282,6 @@ export default function GlobeOptimized(props) {
         'rgba(7, 12, 38, 0.8)'
       );
     
-
       stroke(constellationCollection[globeAttributes.current.constellationIndex], 'rgb(21, 244, 238, 1.8)');
       context.fillStyle = 'white';
       context.textAlign = 'center';
@@ -295,12 +295,6 @@ export default function GlobeOptimized(props) {
       context.fillText(name, globeAttributes.current.current_x, globeAttributes.current.current_y-padding_y);
       context.stroke();
     }
-
-
-
-
-
-
 
     function roundedRect(ctx, x, y, width, height, radius, color) {
       ctx.beginPath();
@@ -394,8 +388,6 @@ export default function GlobeOptimized(props) {
     if(constellationIndex){
       drawConstellationTooltip(constellationCollection[constellationIndex])
     }
-
-
   }
 
   // rotate function
@@ -412,7 +404,7 @@ export default function GlobeOptimized(props) {
     render();
   }
 
-  function map_latitude(latitude_int)
+    function map_latitude(latitude_int)
   {
     if(latitude_int < 0)
     {
@@ -471,7 +463,6 @@ export default function GlobeOptimized(props) {
       }, 500)
       debouncedFilter();
       if(globeAttributes.current.rotation[1]<=90 && globeAttributes.current.rotation[1] >= -90){
-        console.log('dy', dy)
         rotate(dx, dy);
       }
       else{
@@ -535,7 +526,6 @@ export default function GlobeOptimized(props) {
   // Havour and get star name
   function havoured(event) {
     let { projection, starCollection, current_x, current_y} = globeAttributes.current;
-
       //Selecting an area around the globe, where the constellation name will be displayed
       let buffer = 30;
       let radius_new = globeAttributes.current.height/2-buffer;
@@ -548,8 +538,6 @@ export default function GlobeOptimized(props) {
       {
         const coordinate = projection.invert([event.clientX, event.clientY]);
         const starPointIndex = starCollection.findIndex((m) => {
-
-
 
         const longtitudeDiff = Math.pow(m.coordinates[0] - coordinate[0], 2);
         const latitudeDiff = Math.pow(m.coordinates[1] - coordinate[1], 2);
@@ -577,16 +565,11 @@ export default function GlobeOptimized(props) {
             const latitudeDiff = Math.pow(midlatitude - coordinate[1], 2);
             const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
             
-
             if(distance <= 2){
               return distance
             }
-            
         }
-          
       });
-
-      //console.log('m value -->', constellationPointIndex);
 
       if (constellationPointIndex !== -1) {
         globeAttributes.current.constellationIndex = constellationPointIndex;
@@ -602,13 +585,28 @@ export default function GlobeOptimized(props) {
     }
   }
 
+  function enableRotation(){
+    setTimeout(() => {
+      timer(function (elapsed) {
+        const { projection } = globeAttributes.current;
+        const rotation = projection.rotate();
+        const degPerMs = globeAttributes.current.rotation_speed;
+        rotation[0] -= 100 * degPerMs * 60;
+        rotation[1] -= 100 * degPerMs * 0;
+        projection.rotate(rotation);
+        globeAttributes.current.rotation = rotation;
+        render();
+      }); }, 2);
+      setTimeout(function(){
+        globeAttributes.current.rotation_speed = 0;
+     }, 5700);
+  }
   // component on mount
   useEffect(() => {
     function setInitialPosition() {
       const { projection } = globeAttributes.current;
       const rotation = projection.rotate();
       const properties = ['alt', 'lat', 'long'];
-
       const params = new URLSearchParams(window.location.search);
       properties.forEach((property) => {
         switch (property) {
@@ -635,17 +633,19 @@ export default function GlobeOptimized(props) {
             
         }
       });
-      projection.rotate(rotation);
-
       globeAttributes.current.rotation = rotation;
-
       render();
     }
     // register resize callback
     window.addEventListener('resize', function () {
       globeAttributes.current.width = window.innerWidth;
       globeAttributes.current.height = window.innerHeight;
-
+      const { projection } = globeAttributes.current;
+      const config = {
+        speed: 0.005,
+        verticalTilt: 0,
+        horizontalTilt: 0
+      }
       render();
     });
 
@@ -656,23 +656,19 @@ export default function GlobeOptimized(props) {
     //   globeAttributes.current.land = land;
     //   render();
     // });
-
     // register drag callbacks
     const canvas = select('#globe');
-
     canvas.call(
-      // drag().on('start', dragstarted).on('drag', dragged).on('end', dragended)
       drag().on('drag', dragged)
     );
     
-
     canvas.on('click', clicked);
-
     canvas.on('mousemove', havoured);
-
     setInitialPosition();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if(Cookies.get('seti_cams_user_2022') === undefined){
+      enableRotation();
+      Cookies.set('seti_cams_user_2022', 'nasa_cams');
+    }
   }, []);
 
   useEffect(() => {
@@ -749,10 +745,8 @@ export default function GlobeOptimized(props) {
     globeAttributes.current.meteorProperties = meteorProperties;
     globeAttributes.current.starCollection = starCollection;
     globeAttributes.current.constellationCollection = constellationCollection;
-    //console.log(globeAttributes.current.constellationCollection)
     render();
   }, [meteors, stars, constellations]);
-
   return (
     <div className="globe-container">
       <canvas id="globe"></canvas>
