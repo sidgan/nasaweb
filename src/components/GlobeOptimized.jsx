@@ -601,11 +601,10 @@ export default function GlobeOptimized(props) {
         projection.rotate(rotation);
         globeAttributes.current.rotation = rotation;
         render();
-      });
-    }, 2);
-    setTimeout(function () {
-      globeAttributes.current.rotation_speed = 0;
-    }, 5700);
+      }); }, 2);
+      setTimeout(function(){
+        globeAttributes.current.rotation_speed = 0;
+     }, 3000);
   }
   // component on mount
   useEffect(() => {
@@ -670,9 +669,12 @@ export default function GlobeOptimized(props) {
     canvas.on('click', clicked);
     canvas.on('mousemove', havoured);
     setInitialPosition();
+
     if (Cookies.get('seti_cams_user_2022') === undefined) {
       enableRotation();
-      Cookies.set('seti_cams_user_2022', 'nasa_cams');
+      Cookies.set('seti_cams_user_2022_', 'nasa_cams', {
+        expires: 0
+    });
     }
   }, []);
 
