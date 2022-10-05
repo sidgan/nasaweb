@@ -1,6 +1,5 @@
 import React from 'react';
 import StationSelect from './Stations';
-import ViewToggler from './ViewToggler';
 import NavigationBar from './Navigation';
 
 import { useNavigationState } from '../contexts/navigation';
@@ -28,12 +27,6 @@ const Header = (props) => {
           <StationSelect
             source={navigationState.source}
             changeSource={navigationState.changeSource}
-          />
-        </div>
-        <div className="header-nav-item">
-          <ViewToggler
-            showGlobe={props.showGlobe}
-            toggleDisplay={props.toggleDisplay}
           />
         </div>
       </div>
