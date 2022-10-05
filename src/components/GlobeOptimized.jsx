@@ -672,7 +672,7 @@ export default function GlobeOptimized(props) {
 
     if (Cookies.get('seti_cams_user_2022') === undefined) {
       enableRotation();
-      Cookies.set('seti_cams_user_2022_', 'nasa_cams', {
+      Cookies.set('seti_cams_user_2022', 'nasa_cams', {
         expires: 0
     });
     }
