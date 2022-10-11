@@ -9,7 +9,6 @@ import Preloader from './Preloader';
 
 import PlayIcon from '../images/play.png';
 import PauseIcon from '../images/Pause.png';
-import DownloadIcon from '../images/Download.png';
 
 const getPercentage = (current, max) => (100 * current) / max;
 
@@ -247,7 +246,6 @@ const Timeline = () => {
             currentPosition={sliderPosition}
           />
           <div className={classes.currentDate}>{current.date}</div>
-          <div className={classes.downloadIcon}></div>
         </div>
       );
     }
@@ -295,11 +293,6 @@ const useStyles = makeStyles({
     color: '#fff',
     fontSize: 12,
     margin: '0 16px',
-  },
-  downloadIcon: {
-    width: '16px',
-    height: '16px',
-    backgroundImage: `url(${DownloadIcon})`,
   },
   slider: {
     position: 'relative',
