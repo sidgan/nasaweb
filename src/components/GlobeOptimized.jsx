@@ -3,13 +3,13 @@ import { geoOrthographic, geoPath, geoGraticule10 } from 'd3-geo';
 import { scaleLinear } from 'd3-scale';
 import { drag } from 'd3-drag';
 import { select } from 'd3-selection';
-import {timer} from 'd3-timer';
+import { timer } from 'd3-timer';
 import { feature } from 'topojson';
 import { fetchLand } from '../clients/land';
 import { useNavigationState } from '../contexts/navigation';
+import ZoomButton from './ZoomButton';
 import debounce from 'lodash.debounce';
 import Cookies from 'js-cookie';
-
 
 //
 // Configuration
@@ -35,6 +35,9 @@ const starSizeScale = scaleLinear()
 
 // scale of the globe (not the canvas element)
 const scaleFactor = 0.8;
+const MaxScaleFactor = 1.2;
+const MinScaleFactor = 0.4;
+const ScaleStep = 0.1;
 // autorotation speed
 const degPerSec = 6;
 // colors
@@ -42,7 +45,7 @@ const colorLand = '#111';
 // const colorGraticule = '#070c26';
 const colorGraticule = 'rgb(2, 12, 38, 0.2)';
 const matchPrecision = 1.5;
-const matchPrecisionStar = 0.5
+const matchPrecisionStar = 0.5;
 
 export default function GlobeOptimized(props) {
   const { meteors, stars, constellations } = useNavigationState();
@@ -59,6 +62,7 @@ export default function GlobeOptimized(props) {
     constellationCollection: [],
     // projection
     projection: geoOrthographic().precision(0.1),
+    zoomScale: 0.8,
     rotation: null,
     // mouse hover properties
     clientX: null,
@@ -81,18 +85,14 @@ export default function GlobeOptimized(props) {
       land,
       projection,
       rotation,
+      zoomScale,
       meteorCollection,
-      meteorCoordinates,
       meteorProperties,
       starCollection,
       constellationCollection,
       meteorIndex,
       starIndex,
       constellationIndex,
-      clientX,
-      clientY,
-      is_clicked,
-      rotation_speed,
     } = globeAttributes.current;
     //
     // Variables
@@ -108,7 +108,7 @@ export default function GlobeOptimized(props) {
 
     // scale
     projection
-      .scale((scaleFactor * Math.min(width, height)) / 2)
+      .scale((zoomScale * Math.min(width, height)) / 2)
       .translate([width / 2, height / 2])
       .clipAngle(90);
 
@@ -243,16 +243,14 @@ export default function GlobeOptimized(props) {
 
     // Display star information
     function drawStarTooltip(starProps) {
-
-      const {name} = starProps;
+      const { name } = starProps;
       const namelength = name.length;
-      if(namelength > 0)
-      {
+      if (namelength > 0) {
         roundedRect(
           context,
-          globeAttributes.current.current_x-(5*namelength),
-          globeAttributes.current.current_y-12,
-          10*namelength,
+          globeAttributes.current.current_x - 5 * namelength,
+          globeAttributes.current.current_y - 12,
+          10 * namelength,
           17,
           4,
           'rgba(7, 12, 38, 0.8)'
@@ -261,38 +259,46 @@ export default function GlobeOptimized(props) {
         context.fillStyle = 'white';
         context.textAlign = 'center';
         context.font = '500 12px Roboto Mono';
-        context.fillText(name, globeAttributes.current.current_x, globeAttributes.current.current_y);
+        context.fillText(
+          name,
+          globeAttributes.current.current_x,
+          globeAttributes.current.current_y
+        );
         context.stroke();
       }
     }
 
     function drawConstellationTooltip(constellatioProps) {
-
-      const {name} = constellatioProps;
+      const { name } = constellatioProps;
       const namelength = name.length;
-      let padding_y = 0
+      let padding_y = 0;
 
       roundedRect(
         context,
-        globeAttributes.current.current_x-(5*namelength),
-        globeAttributes.current.current_y-12,
-        10*namelength,
+        globeAttributes.current.current_x - 5 * namelength,
+        globeAttributes.current.current_y - 12,
+        10 * namelength,
         17,
         4,
         'rgba(7, 12, 38, 0.8)'
       );
-    
-      stroke(constellationCollection[globeAttributes.current.constellationIndex], 'rgb(21, 244, 238, 1.8)');
+
+      stroke(
+        constellationCollection[globeAttributes.current.constellationIndex],
+        'rgb(21, 244, 238, 1.8)'
+      );
       context.fillStyle = 'white';
       context.textAlign = 'center';
       context.font = '500 12px Roboto Mono';
 
-      if(globeAttributes.current.is_clicked == 1)
-        padding_y = 10
-      else
-        padding_y = 0
+      if (globeAttributes.current.is_clicked == 1) padding_y = 10;
+      else padding_y = 0;
 
-      context.fillText(name, globeAttributes.current.current_x, globeAttributes.current.current_y-padding_y);
+      context.fillText(
+        name,
+        globeAttributes.current.current_x,
+        globeAttributes.current.current_y - padding_y
+      );
       context.stroke();
     }
 
@@ -382,11 +388,11 @@ export default function GlobeOptimized(props) {
 
     // drwa star data
     if (starIndex) {
-      drawStarTooltip(starCollection[starIndex])
+      drawStarTooltip(starCollection[starIndex]);
     }
 
-    if(constellationIndex){
-      drawConstellationTooltip(constellationCollection[constellationIndex])
+    if (constellationIndex) {
+      drawConstellationTooltip(constellationCollection[constellationIndex]);
     }
   }
 
@@ -404,44 +410,31 @@ export default function GlobeOptimized(props) {
     render();
   }
 
-    function map_latitude(latitude_int)
-  {
-    if(latitude_int < 0)
-    {
-      if(latitude_int < -90 && latitude_int >= -180)
-      {
+  function map_latitude(latitude_int) {
+    if (latitude_int < 0) {
+      if (latitude_int < -90 && latitude_int >= -180) {
         latitude_int = latitude_int + 90;
-      }
-      else if(latitude_int < -180 && latitude_int >= -270)
-      {
+      } else if (latitude_int < -180 && latitude_int >= -270) {
         latitude_int = latitude_int + 180;
+      } else if (latitude_int < -270 && latitude_int >= -360) {
+        latitude_int = (latitude_int + 270) * -1;
       }
-      else if(latitude_int < -270 && latitude_int >= -360)
-      {
-        latitude_int = (latitude_int + 270)*(-1);
-      }
-    }
-    else
-    {
-      if(latitude_int > 90 && latitude_int<= 270)
-      {
-        latitude_int = 180-latitude_int;
-      }
-      else if(latitude_int> 270 && latitude_int <= 360)
-      {
-        latitude_int = latitude_int - 360;  
+    } else {
+      if (latitude_int > 90 && latitude_int <= 270) {
+        latitude_int = 180 - latitude_int;
+      } else if (latitude_int > 270 && latitude_int <= 360) {
+        latitude_int = latitude_int - 360;
       }
     }
-    
-    return latitude_int
+
+    return latitude_int;
   }
 
-  function map_longitude(longitude_int)
-  {
-    longitude_int = longitude_int >=0 ? (180 - longitude_int) : ((180 + longitude_int)*-1);
+  function map_longitude(longitude_int) {
+    longitude_int =
+      longitude_int >= 0 ? 180 - longitude_int : (180 + longitude_int) * -1;
     return longitude_int;
   }
-
 
   // drag functions
   // function dragstarted(event) {
@@ -453,27 +446,36 @@ export default function GlobeOptimized(props) {
   function dragged(event) {
     const { dx, dy } = event;
 
-    globeAttributes.current.rotation[0] = map_longitude(globeAttributes.current.rotation[0])
+    globeAttributes.current.rotation[0] = map_longitude(
+      globeAttributes.current.rotation[0]
+    );
 
     let newParams = new URLSearchParams(window.location.search);
     const debouncedFilter = debounce(() => {
-      newParams.set('lat', map_latitude(globeAttributes.current.rotation[1]).toFixed(3));
-      newParams.set('long', map_longitude(globeAttributes.current.rotation[0]).toFixed(3));
+      newParams.set(
+        'lat',
+        map_latitude(globeAttributes.current.rotation[1]).toFixed(3)
+      );
+      newParams.set(
+        'long',
+        map_longitude(globeAttributes.current.rotation[0]).toFixed(3)
+      );
       window.history.pushState({}, '', '?' + newParams.toString());
-      }, 500)
-      debouncedFilter();
-      if(globeAttributes.current.rotation[1]<=90 && globeAttributes.current.rotation[1] >= -90){
+    }, 500);
+    debouncedFilter();
+    if (
+      globeAttributes.current.rotation[1] <= 90 &&
+      globeAttributes.current.rotation[1] >= -90
+    ) {
+      rotate(dx, dy);
+    } else {
+      if (globeAttributes.current.rotation[1] > 90 && dy > 0) {
         rotate(dx, dy);
       }
-      else{
-        if(globeAttributes.current.rotation[1] > 90 && dy >0){
-          rotate(dx, dy);
-        }
-        if(globeAttributes.current.rotation[1] < -90 && dy < 0){
-          rotate(dx, dy);
-        }
-
+      if (globeAttributes.current.rotation[1] < -90 && dy < 0) {
+        rotate(dx, dy);
       }
+    }
   }
 
   // mouse move
@@ -495,8 +497,7 @@ export default function GlobeOptimized(props) {
   // }
 
   function clicked(event) {
-
-    const { projection, meteorCoordinates} = globeAttributes.current;
+    const { projection, meteorCoordinates } = globeAttributes.current;
     const coordinate = projection.invert([event.clientX, event.clientY]);
 
     if (coordinate[0] < 0) {
@@ -525,20 +526,23 @@ export default function GlobeOptimized(props) {
 
   // Havour and get star name
   function havoured(event) {
-    let { projection, starCollection, current_x, current_y} = globeAttributes.current;
-      //Selecting an area around the globe, where the constellation name will be displayed
-      let buffer = 30;
-      let radius_new = globeAttributes.current.height/2-buffer;
-      let width_min = globeAttributes.current.width/2 - radius_new;
-      let width_max = globeAttributes.current.width/2 + radius_new;
-      let height_min = globeAttributes.current.height/2 - radius_new;
-      let height_max = globeAttributes.current.height/2 + radius_new;
+    let { projection, starCollection } = globeAttributes.current;
+    //Selecting an area around the globe, where the constellation name will be displayed
+    let buffer = 30;
+    let radius_new = globeAttributes.current.height / 2 - buffer;
+    let width_min = globeAttributes.current.width / 2 - radius_new;
+    let width_max = globeAttributes.current.width / 2 + radius_new;
+    let height_min = globeAttributes.current.height / 2 - radius_new;
+    let height_max = globeAttributes.current.height / 2 + radius_new;
 
-      if((event.clientX >= width_min && event.clientX <=width_max) && (event.clientY >= height_min && event.clientY <= height_max))
-      {
-        const coordinate = projection.invert([event.clientX, event.clientY]);
-        const starPointIndex = starCollection.findIndex((m) => {
-
+    if (
+      event.clientX >= width_min &&
+      event.clientX <= width_max &&
+      event.clientY >= height_min &&
+      event.clientY <= height_max
+    ) {
+      const coordinate = projection.invert([event.clientX, event.clientY]);
+      const starPointIndex = starCollection.findIndex((m) => {
         const longtitudeDiff = Math.pow(m.coordinates[0] - coordinate[0], 2);
         const latitudeDiff = Math.pow(m.coordinates[1] - coordinate[1], 2);
         const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
@@ -547,34 +551,35 @@ export default function GlobeOptimized(props) {
 
       if (starPointIndex !== -1) {
         globeAttributes.current.starIndex = starPointIndex;
-        //getting current locations 
+        //getting current locations
         globeAttributes.current.current_x = event.clientX;
         globeAttributes.current.current_y = event.clientY;
       } else {
         globeAttributes.current.starIndex = null;
       }
-      
-      let {constellationCollection} = globeAttributes.current;
-        const constellationPointIndex = constellationCollection.findIndex((m) => {
-        
-        for (let i = 0; i <= m.coordinates.length - 1; i++) {
-            const midlongitude = (m.coordinates[i][0][0] + m.coordinates[i][1][0])/2
-            const midlatitude = (m.coordinates[i][0][1] + m.coordinates[i][1][1])/2
 
-            const longtitudeDiff = Math.pow(midlongitude - coordinate[0], 2);
-            const latitudeDiff = Math.pow(midlatitude - coordinate[1], 2);
-            const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
-            
-            if(distance <= 2){
-              return distance
-            }
+      let { constellationCollection } = globeAttributes.current;
+      const constellationPointIndex = constellationCollection.findIndex((m) => {
+        for (let i = 0; i <= m.coordinates.length - 1; i++) {
+          const midlongitude =
+            (m.coordinates[i][0][0] + m.coordinates[i][1][0]) / 2;
+          const midlatitude =
+            (m.coordinates[i][0][1] + m.coordinates[i][1][1]) / 2;
+
+          const longtitudeDiff = Math.pow(midlongitude - coordinate[0], 2);
+          const latitudeDiff = Math.pow(midlatitude - coordinate[1], 2);
+          const distance = Math.sqrt(longtitudeDiff + latitudeDiff);
+
+          if (distance <= 2) {
+            return distance;
+          }
         }
       });
 
       if (constellationPointIndex !== -1) {
         globeAttributes.current.constellationIndex = constellationPointIndex;
-        //getting current locations 
-        
+        //getting current locations
+
         globeAttributes.current.current_x = event.clientX;
         globeAttributes.current.current_y = event.clientY;
       } else {
@@ -585,7 +590,7 @@ export default function GlobeOptimized(props) {
     }
   }
 
-  function enableRotation(){
+  function enableRotation() {
     setTimeout(() => {
       timer(function (elapsed) {
         const { projection } = globeAttributes.current;
@@ -596,10 +601,11 @@ export default function GlobeOptimized(props) {
         projection.rotate(rotation);
         globeAttributes.current.rotation = rotation;
         render();
-      }); }, 2);
-      setTimeout(function(){
-        globeAttributes.current.rotation_speed = 0;
-     }, 5700);
+      });
+    }, 2);
+    setTimeout(function () {
+      globeAttributes.current.rotation_speed = 0;
+    }, 5700);
   }
   // component on mount
   useEffect(() => {
@@ -611,26 +617,33 @@ export default function GlobeOptimized(props) {
       properties.forEach((property) => {
         switch (property) {
           case 'lat':
-              // If the initial latitude and langitude are out of the limit setting them to 0 and 180
-              if(params.has(property) && !isNaN(params.get(property)) && ((-90 <= Number(params.get(property))) && (Number(params.get(property)) <= 90))){
-                let temp_lati = map_latitude(Number(params.get(property)));
-                rotation[1] += temp_lati;
-              }
-              else{
-                rotation[1] = 0;
-              }
+            // If the initial latitude and langitude are out of the limit setting them to 0 and 180
+            if (
+              params.has(property) &&
+              !isNaN(params.get(property)) &&
+              -90 <= Number(params.get(property)) &&
+              Number(params.get(property)) <= 90
+            ) {
+              let temp_lati = map_latitude(Number(params.get(property)));
+              rotation[1] += temp_lati;
+            } else {
+              rotation[1] = 0;
+            }
             break;
           case 'long':
-            if(params.has(property) && !isNaN(params.get(property)) && ((-180 <= Number(params.get(property))) && (Number(params.get(property)) <= 180))){
+            if (
+              params.has(property) &&
+              !isNaN(params.get(property)) &&
+              -180 <= Number(params.get(property)) &&
+              Number(params.get(property)) <= 180
+            ) {
               let temp_long = map_longitude(Number(params.get(property)));
               rotation[0] += temp_long;
-            }
-            else{
+            } else {
               rotation[0] = 0;
             }
             break;
           default:
-            
         }
       });
       globeAttributes.current.rotation = rotation;
@@ -640,12 +653,6 @@ export default function GlobeOptimized(props) {
     window.addEventListener('resize', function () {
       globeAttributes.current.width = window.innerWidth;
       globeAttributes.current.height = window.innerHeight;
-      const { projection } = globeAttributes.current;
-      const config = {
-        speed: 0.005,
-        verticalTilt: 0,
-        horizontalTilt: 0
-      }
       render();
     });
 
@@ -658,14 +665,12 @@ export default function GlobeOptimized(props) {
     // });
     // register drag callbacks
     const canvas = select('#globe');
-    canvas.call(
-      drag().on('drag', dragged)
-    );
-    
+    canvas.call(drag().on('drag', dragged));
+
     canvas.on('click', clicked);
     canvas.on('mousemove', havoured);
     setInitialPosition();
-    if(Cookies.get('seti_cams_user_2022') === undefined){
+    if (Cookies.get('seti_cams_user_2022') === undefined) {
       enableRotation();
       Cookies.set('seti_cams_user_2022', 'nasa_cams');
     }
@@ -721,7 +726,7 @@ export default function GlobeOptimized(props) {
       starCollection.push({
         ...location,
         size: starSizeScale(adjustedMag),
-        name: name
+        name: name,
       });
     });
 
@@ -749,6 +754,26 @@ export default function GlobeOptimized(props) {
   }, [meteors, stars, constellations]);
   return (
     <div className="globe-container">
+      <div className="zoom-1">
+        <ZoomButton
+          onZoomIn={() => {
+            const { zoomScale } = globeAttributes.current;
+            globeAttributes.current.zoomScale = Math.min(
+              MaxScaleFactor,
+              zoomScale + ScaleStep
+            );
+            render();
+          }}
+          onZoomOut={() => {
+            const { zoomScale } = globeAttributes.current;
+            globeAttributes.current.zoomScale = Math.max(
+              MinScaleFactor,
+              zoomScale - ScaleStep
+            );
+            render();
+          }}
+        />
+      </div>
       <canvas id="globe"></canvas>
     </div>
   );

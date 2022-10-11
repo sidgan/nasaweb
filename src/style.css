@@ -231,11 +231,10 @@ h2 {
   padding-right: 2px !important;
 }
 
-
 .disappear {
   position: fixed;
   top: 10vh;
   right: 27vw;
   opacity: 0;
-  z-index: 9999
+  z-index: 9999;
 }
