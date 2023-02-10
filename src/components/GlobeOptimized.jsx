@@ -209,8 +209,8 @@ export default function GlobeOptimized(props) {
       context.textAlign = 'center';
       context.fillText('VELOCITY', position.x + 80, position.y + 90);
       context.fillText('SOLAR LONGITUDE', position.x + 217, position.y + 90);
-      context.fillText('ECLIPTIC LONGITUDE', position.x + 80, position.y + 153);
-      context.fillText('ECLIPTIC LATITUDE', position.x + 217, position.y + 153);
+      context.fillText('ECLIPTIC LATITUDE', position.x + 80, position.y + 153);
+      context.fillText('ECLIPTIC LONGITUDE', position.x + 217, position.y + 153);
       context.font = '500 16px Roboto Mono';
       context.fillText(velocg.toFixed(2), position.x + 80, position.y + 111);
       context.fillText(sol.toFixed(2), position.x + 217, position.y + 111);
@@ -378,7 +378,7 @@ export default function GlobeOptimized(props) {
       } else if (longitude < 0) {
         longitude = longitude + 360;
       }
-      fillText(`${Math.round(longitude - 180)}`, projection([longitude, 0]));
+      fillText(`${Math.round(longitude)}`, projection([longitude, 0]));
     }
 
     // draw meteor data
@@ -431,9 +431,9 @@ export default function GlobeOptimized(props) {
   }
 
   function map_longitude(longitude_int) {
-    longitude_int =
-      longitude_int >= 0 ? 180 - longitude_int : (180 + longitude_int) * -1;
-    return longitude_int;
+    // longitude_int =
+    //   longitude_int >= 0 ? 180 - longitude_int : (180 + longitude_int) * -1;
+    return longitude_int*(-1);
   }
 
   // drag functions
