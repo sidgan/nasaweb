@@ -378,7 +378,7 @@ export default function GlobeOptimized(props) {
       } else if (longitude < 0) {
         longitude = longitude + 360;
       }
-      fillText(`${Math.round(longitude)}`, projection([longitude, 0]));
+      fillText(`${Math.round(360-longitude)}`, projection([longitude, 0]));
     }
 
     // draw meteor data
