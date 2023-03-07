@@ -14,7 +14,7 @@ This repository only contains the code for the new **Celestial Globe Web Portal*
 
 ## Development Team
 
-  - [Alfred Emmanuel](http://codefred.me)
+  - Please see Contributors list 
 
 ## Todo
 
