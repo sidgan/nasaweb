@@ -75,6 +75,7 @@ export default function GlobeOptimized(props) {
     current_y: null,
     is_clicked: 0,
     rotation_speed: 0.0001,
+    current_iau: null,
   });
 
   // render function
@@ -164,11 +165,12 @@ export default function GlobeOptimized(props) {
         'rgba(7, 12, 38, 0.8)'
       );
       context.fillStyle = 'white';
-      context.font = '20px Roboto Mono';
+      context.font = '14px Roboto Mono';
       context.textBaseline = 'top';
       context.fillText(name, position.x + 16, position.y + 24);
       context.font = '12px Roboto Condensed';
       context.fillText(`[${iau}]`, position.x + 16, position.y + 54);
+      globeAttributes.current.iau = iau;
       roundedRect(
         context,
         position.x + 16,
@@ -518,8 +520,33 @@ export default function GlobeOptimized(props) {
       globeAttributes.current.is_clicked = 1;
       globeAttributes.current.meteorIndex = meteorPointIndex;
     } else {
+      const position = {
+        x:
+          globeAttributes.current.width -
+          globeAttributes.current.width / 2 -
+          (scaleFactor *
+            Math.min(
+              globeAttributes.current.width,
+              globeAttributes.current.height
+            )) /
+            2 -
+          278,
+        y:
+          globeAttributes.current.height -
+          globeAttributes.current.height / 2 -
+          113,
+      };
+      if(globeAttributes.current.is_clicked == 1)
+      {
+        if((position.x + 180 <= event.clientX && position.x + 192 >= event.clientX) && 
+          (position.y + 220 <= event.clientY && position.y + 232 >= event.clientY))
+        {
+          const view_url = 'https://www.meteorshowers.org/view/iau-'+globeAttributes.current.iau;
+          window.open(view_url, '_blank', "noreferrer");
+        }
+      }
       globeAttributes.current.is_clicked = 0;
-      globeAttributes.current.meteorIndex = null;
+      globeAttributes.current.meteorIndex = null;      
     }
     render();
   }
