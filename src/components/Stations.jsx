@@ -24,7 +24,7 @@ const options = {
   Maryland: 'MA',
   'North California': 'NCA',
   Texas: 'TEXAS',
-  'United Arad Emirates': 'UAE',
+  'United Arab Emirates': 'UAE',
   Netherlands: 'BENELUX',
   Chile: 'CHILE',
   Europe: 'EDMOND',
